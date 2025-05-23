@@ -1,0 +1,186 @@
+/* Glass Card Styles - Consolidated May 2025 */
+
+/* Import the original glass card styles to ensure compatibility */
+@import url('../../../src/styles_new/glass-cards.css');
+
+/* === Base Glass Card === */
+
+.glass-card-base {
+  @apply backdrop-blur-md rounded-xl p-6 relative;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 3px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* === Glass Card Variants === */
+
+/* Standard glass card (light) */
+.glass-card {
+  @apply glass-card-base bg-white/80 border border-white/30;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 3px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+/* Navy blue glass card */
+.glass-card-navy {
+  @apply glass-card-base bg-blue-900/80 border border-blue-800/50;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15), 0 3px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.2) inset;
+}
+
+/* Blue glass card */
+.glass-card-blue {
+  @apply glass-card-base bg-blue-700/80 border border-blue-600/50;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15), 0 3px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.2) inset;
+}
+
+/* Dark glass card */
+.glass-card-dark {
+  @apply glass-card-base bg-gray-900/80 border border-gray-800/50;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15), 0 3px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(75, 85, 99, 0.2) inset;
+}
+
+/* Gold glass card */
+.glass-card-gold {
+  @apply glass-card-base bg-amber-400/90 border border-amber-300/50;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 3px 15px -3px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(251, 191, 36, 0.4) inset;
+}
+
+/* White glass card (high opacity) */
+.glass-card-white {
+  @apply glass-card-base bg-white/95 border border-white/50;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 3px 15px -3px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+}
+
+/* Frost glass card */
+.glass-card-frost {
+  @apply glass-card-base bg-blue-50/95 border border-blue-100/50;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 3px 15px -3px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(219, 234, 254, 0.5) inset;
+}
+
+/* Light glass card */
+.glass-card-light {
+  @apply glass-card-base bg-gray-800/80 border border-gray-700/50;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15), 0 3px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(75, 85, 99, 0.2) inset;
+}
+
+/* === Glass Card Hover Effects === */
+
+.glass-card:hover,
+.glass-card-navy:hover,
+.glass-card-blue:hover,
+.glass-card-dark:hover,
+.glass-card-gold:hover,
+.glass-card-white:hover,
+.glass-card-frost:hover,
+.glass-card-light:hover {
+  @apply transform -translate-y-1;
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15), 0 5px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* === Card Content Styling === */
+
+/* Text styling - Light cards */
+.glass-card .card-title,
+.glass-card-white .card-title,
+.glass-card-frost .card-title,
+.glass-card-gold .card-title {
+  @apply text-gray-900 font-bold text-xl mb-3;
+}
+
+.glass-card p,
+.glass-card-white p,
+.glass-card-frost p,
+.glass-card-gold p,
+.glass-card .card-content,
+.glass-card-white .card-content,
+.glass-card-frost .card-content,
+.glass-card-gold .card-content {
+  @apply text-gray-700;
+}
+
+/* Text styling - Dark cards */
+.glass-card-navy .card-title,
+.glass-card-blue .card-title,
+.glass-card-dark .card-title,
+.glass-card-light .card-title {
+  @apply text-white font-bold text-xl mb-3;
+}
+
+.glass-card-navy p,
+.glass-card-blue p,
+.glass-card-dark p,
+.glass-card-light p,
+.glass-card-navy .card-content,
+.glass-card-blue .card-content,
+.glass-card-dark .card-content,
+.glass-card-light .card-content {
+  @apply text-white;
+}
+
+/* Fix for services cards (add important to override legacy styles) */
+.glass-card-dark p,
+.glass-card-blue p,
+.glass-card-navy p,
+.glass-card-light p {
+  color: white !important;
+}
+
+.service-card p,
+.service-card .card-content,
+.services-section .glass-card p {
+  color: white !important;
+}
+
+/* === Card Links === */
+
+/* Links in light cards */
+.glass-card a:not(.btn),
+.glass-card-white a:not(.btn),
+.glass-card-frost a:not(.btn) {
+  @apply text-blue-700 hover:text-blue-900;
+}
+
+/* Links in dark cards */
+.glass-card-navy a:not(.btn),
+.glass-card-blue a:not(.btn),
+.glass-card-dark a:not(.btn),
+.glass-card-light a:not(.btn) {
+  @apply text-blue-200 hover:text-white;
+}
+
+/* Links in gold cards */
+.glass-card-gold a:not(.btn) {
+  @apply text-blue-900 hover:text-gray-900;
+}
+
+/* === Card Form Elements Fix === */
+
+/* Form elements within cards */
+.glass-card input:not([type="radio"]),
+.glass-card-navy input:not([type="radio"]),
+.glass-card-blue input:not([type="radio"]),
+.glass-card-dark input:not([type="radio"]),
+.glass-card-gold input:not([type="radio"]),
+.glass-card-white input:not([type="radio"]),
+.glass-card-frost input:not([type="radio"]),
+.glass-card-light input:not([type="radio"]),
+.glass-card select,
+.glass-card-navy select,
+.glass-card-blue select,
+.glass-card-dark select,
+.glass-card-gold select,
+.glass-card-white select,
+.glass-card-frost select,
+.glass-card-light select,
+.glass-card textarea,
+.glass-card-navy textarea,
+.glass-card-blue textarea,
+.glass-card-dark textarea,
+.glass-card-gold textarea,
+.glass-card-white textarea,
+.glass-card-frost textarea,
+.glass-card-light textarea {
+  background-color: white !important;
+  color: #111827 !important; /* text-gray-900 */
+  border: 1px solid #D1D5DB !important; /* border border-gray-300 */
+}

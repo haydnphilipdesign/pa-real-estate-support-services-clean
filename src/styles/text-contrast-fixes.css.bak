@@ -1,0 +1,438 @@
+/**
+ * Text Contrast Fixes
+ * This file contains comprehensive fixes for text contrast issues across the site
+ * to meet WCAG AA standards (minimum 4.5:1 contrast ratio for normal text)
+ */
+
+/* ===== GENERAL TEXT CONTRAST FIXES ===== */
+
+/* Fix dark text on light backgrounds */
+.bg-white,
+.bg-gray-50,
+.bg-gray-100,
+.bg-gray-200,
+.bg-blue-50,
+.bg-blue-100 {
+  color: #1E293B !important; /* Dark slate text for high contrast */
+}
+
+.bg-white h1,
+.bg-white h2,
+.bg-white h3,
+.bg-white h4,
+.bg-white h5,
+.bg-white h6,
+.bg-gray-50 h1,
+.bg-gray-50 h2,
+.bg-gray-50 h3,
+.bg-gray-50 h4,
+.bg-gray-50 h5,
+.bg-gray-50 h6,
+.bg-gray-100 h1,
+.bg-gray-100 h2,
+.bg-gray-100 h3,
+.bg-gray-100 h4,
+.bg-gray-100 h5,
+.bg-gray-100 h6,
+.bg-gray-200 h1,
+.bg-gray-200 h2,
+.bg-gray-200 h3,
+.bg-gray-200 h4,
+.bg-gray-200 h5,
+.bg-gray-200 h6,
+.bg-blue-50 h1,
+.bg-blue-50 h2,
+.bg-blue-50 h3,
+.bg-blue-50 h4,
+.bg-blue-50 h5,
+.bg-blue-50 h6,
+.bg-blue-100 h1,
+.bg-blue-100 h2,
+.bg-blue-100 h3,
+.bg-blue-100 h4,
+.bg-blue-100 h5,
+.bg-blue-100 h6 {
+  color: #0F1C2E !important; /* Brand navy */
+}
+
+.bg-white p,
+.bg-gray-50 p,
+.bg-gray-100 p,
+.bg-gray-200 p,
+.bg-blue-50 p,
+.bg-blue-100 p {
+  color: #374151 !important; /* Gray-700 - good contrast on white ~10:1 */
+}
+
+/* Fix light text on dark backgrounds */
+.bg-brand-blue,
+.bg-brand-navy,
+.bg-blue-600,
+.bg-blue-700,
+.bg-blue-800,
+.bg-blue-900,
+.bg-gray-600,
+.bg-gray-700,
+.bg-gray-800,
+.bg-gray-900,
+.bg-black {
+  color: #FFFFFF !important; /* White text */
+}
+
+.bg-brand-blue h1,
+.bg-brand-blue h2,
+.bg-brand-blue h3,
+.bg-brand-blue h4,
+.bg-brand-blue h5,
+.bg-brand-blue h6,
+.bg-brand-navy h1,
+.bg-brand-navy h2,
+.bg-brand-navy h3,
+.bg-brand-navy h4,
+.bg-brand-navy h5,
+.bg-brand-navy h6,
+.bg-blue-600 h1,
+.bg-blue-600 h2,
+.bg-blue-600 h3,
+.bg-blue-600 h4,
+.bg-blue-600 h5,
+.bg-blue-600 h6,
+.bg-blue-700 h1,
+.bg-blue-700 h2,
+.bg-blue-700 h3,
+.bg-blue-700 h4,
+.bg-blue-700 h5,
+.bg-blue-700 h6,
+.bg-blue-800 h1,
+.bg-blue-800 h2,
+.bg-blue-800 h3,
+.bg-blue-800 h4,
+.bg-blue-800 h5,
+.bg-blue-800 h6,
+.bg-blue-900 h1,
+.bg-blue-900 h2,
+.bg-blue-900 h3,
+.bg-blue-900 h4,
+.bg-blue-900 h5,
+.bg-blue-900 h6,
+.bg-gray-600 h1,
+.bg-gray-600 h2,
+.bg-gray-600 h3,
+.bg-gray-600 h4,
+.bg-gray-600 h5,
+.bg-gray-600 h6,
+.bg-gray-700 h1,
+.bg-gray-700 h2,
+.bg-gray-700 h3,
+.bg-gray-700 h4,
+.bg-gray-700 h5,
+.bg-gray-700 h6,
+.bg-gray-800 h1,
+.bg-gray-800 h2,
+.bg-gray-800 h3,
+.bg-gray-800 h4,
+.bg-gray-800 h5,
+.bg-gray-800 h6,
+.bg-gray-900 h1,
+.bg-gray-900 h2,
+.bg-gray-900 h3,
+.bg-gray-900 h4,
+.bg-gray-900 h5,
+.bg-gray-900 h6,
+.bg-black h1,
+.bg-black h2,
+.bg-black h3,
+.bg-black h4,
+.bg-black h5,
+.bg-black h6 {
+  color: #FFFFFF !important; /* White for headings on dark backgrounds */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.bg-brand-blue p,
+.bg-brand-navy p,
+.bg-blue-600 p,
+.bg-blue-700 p,
+.bg-blue-800 p,
+.bg-blue-900 p,
+.bg-gray-600 p,
+.bg-gray-700 p,
+.bg-gray-800 p,
+.bg-gray-900 p,
+.bg-black p {
+  color: #EFF6FF !important; /* Very light blue - slightly better than pure white */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Fix text on gold backgrounds (must use dark text) */
+.bg-brand-gold,
+.bg-amber-400,
+.bg-amber-500,
+.bg-yellow-400,
+.bg-yellow-500 {
+  color: #0F1C2E !important; /* Brand navy - excellent contrast on gold ~9:1 */
+}
+
+.bg-brand-gold h1,
+.bg-brand-gold h2,
+.bg-brand-gold h3,
+.bg-brand-gold h4,
+.bg-brand-gold h5,
+.bg-brand-gold h6,
+.bg-amber-400 h1,
+.bg-amber-400 h2,
+.bg-amber-400 h3,
+.bg-amber-400 h4,
+.bg-amber-400 h5,
+.bg-amber-400 h6,
+.bg-amber-500 h1,
+.bg-amber-500 h2,
+.bg-amber-500 h3,
+.bg-amber-500 h4,
+.bg-amber-500 h5,
+.bg-amber-500 h6,
+.bg-yellow-400 h1,
+.bg-yellow-400 h2,
+.bg-yellow-400 h3,
+.bg-yellow-400 h4,
+.bg-yellow-400 h5,
+.bg-yellow-400 h6,
+.bg-yellow-500 h1,
+.bg-yellow-500 h2,
+.bg-yellow-500 h3,
+.bg-yellow-500 h4,
+.bg-yellow-500 h5,
+.bg-yellow-500 h6 {
+  color: #0F1C2E !important; /* Brand navy */
+}
+
+.bg-brand-gold p,
+.bg-amber-400 p,
+.bg-amber-500 p,
+.bg-yellow-400 p,
+.bg-yellow-500 p {
+  color: #1E293B !important; /* Slightly lighter than navy but still high contrast */
+}
+
+/* ===== SPECIFIC SECTION FIXES ===== */
+
+/* Feature cards text contrast */
+.feature-card h3 {
+  color: #0066CC !important; /* Brand blue - good contrast on white/light backgrounds */
+}
+
+.feature-card p {
+  color: #374151 !important; /* Gray-700 */
+}
+
+/* Statistics section text contrast */
+.statistics-section h3,
+.statistics-number,
+.stat-number {
+  color: #0066CC !important; /* Brand blue */
+  font-weight: 700;
+}
+
+.statistics-section p,
+.statistics-label,
+.stat-label {
+  color: #4B5563 !important; /* Gray-600 */
+}
+
+/* Footer text contrast - ensure good readability */
+footer h3,
+footer h4 {
+  color: #F9FAFB !important; /* Gray-50 - very light to contrast with dark footer */
+}
+
+footer p,
+footer a:not(.btn) {
+  color: #9CA3AF !important; /* Gray-400 - good contrast on dark backgrounds */
+}
+
+footer a:not(.btn):hover {
+  color: #F3F4F6 !important; /* Gray-100 - much lighter on hover */
+  text-decoration: underline;
+}
+
+/* Fix for footer bottom text */
+footer .text-xs {
+  color: #6B7280 !important; /* Gray-500 - still readable on very dark backgrounds */
+}
+
+/* ===== GLASS CARD TEXT CONTRAST FIXES ===== */
+
+/* White glass cards */
+.glass-card-white h3,
+.glass-card-frost h3 {
+  color: #0066CC !important; /* Brand blue */
+}
+
+.glass-card-white p,
+.glass-card-frost p {
+  color: #374151 !important; /* Gray-700 */
+}
+
+/* Navy glass cards */
+.glass-card-navy h3,
+.glass-card-navy h2 {
+  color: #FFFFFF !important; /* White */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.glass-card-navy p {
+  color: #EFF6FF !important; /* Very light blue/white */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Blue glass cards */
+.glass-card-blue h3 {
+  color: #FFFFFF !important; /* White */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.glass-card-blue p {
+  color: #EFF6FF !important; /* Very light blue */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Gold glass cards - must use dark text */
+.glass-card-gold h3 {
+  color: #0F1C2E !important; /* Brand navy */
+}
+
+.glass-card-gold p {
+  color: #1E293B !important; /* Slightly lighter navy but still very good contrast */
+}
+
+/* ===== TAG/BADGE TEXT CONTRAST FIXES ===== */
+
+/* Light badges should use dark text */
+.badge-light,
+.bg-gray-100.badge,
+.bg-blue-100.badge,
+.bg-amber-100.badge,
+.bg-yellow-100.badge {
+  color: #1E293B !important; /* Dark slate text */
+}
+
+/* Dark badges should use light text */
+.badge-dark,
+.bg-gray-800.badge,
+.bg-blue-800.badge,
+.bg-brand-blue.badge,
+.bg-brand-navy.badge {
+  color: #FFFFFF !important; /* White text */
+}
+
+/* Gold badges should use dark text */
+.badge-gold,
+.bg-brand-gold.badge,
+.bg-amber-400.badge,
+.bg-yellow-400.badge {
+  color: #0F1C2E !important; /* Brand navy - dark text */
+}
+
+/* ===== LINK TEXT CONTRAST ===== */
+
+/* Default links on light backgrounds */
+a:not(.btn) {
+  color: #0066CC !important; /* Brand blue - good contrast on white/light backgrounds */
+}
+
+a:not(.btn):hover {
+  color: #0F1C2E !important; /* Brand navy - darker on hover for better differentiation */
+  text-decoration: underline;
+}
+
+/* Links on dark backgrounds */
+.bg-brand-blue a:not(.btn),
+.bg-brand-navy a:not(.btn),
+.bg-blue-600 a:not(.btn),
+.bg-blue-700 a:not(.btn),
+.bg-blue-800 a:not(.btn),
+.bg-blue-900 a:not(.btn),
+.bg-gray-700 a:not(.btn),
+.bg-gray-800 a:not(.btn),
+.bg-gray-900 a:not(.btn),
+.bg-black a:not(.btn) {
+  color: #90CAF9 !important; /* Light blue for links on dark backgrounds */
+}
+
+.bg-brand-blue a:not(.btn):hover,
+.bg-brand-navy a:not(.btn):hover,
+.bg-blue-600 a:not(.btn):hover,
+.bg-blue-700 a:not(.btn):hover,
+.bg-blue-800 a:not(.btn):hover,
+.bg-blue-900 a:not(.btn):hover,
+.bg-gray-700 a:not(.btn):hover,
+.bg-gray-800 a:not(.btn):hover,
+.bg-gray-900 a:not(.btn):hover,
+.bg-black a:not(.btn):hover {
+  color: #FFFFFF !important; /* White on hover for differentiation */
+  text-decoration: underline;
+}
+
+/* Fix for contact information links and text */
+.contact-info a,
+.contact-info p {
+  color: #FFFFFF !important; /* White text for contact info on dark backgrounds */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.contact-form label {
+  color: #374151 !important; /* Gray-700 for form labels */
+}
+
+/* ===== BUTTON TEXT CONTRAST FIXES ===== */
+
+/* Primary button (blue with white text) */
+.btn-primary {
+  background-color: #0066CC !important; /* Brand blue */
+  color: #FFFFFF !important; /* White text */
+}
+
+.btn-primary:hover {
+  background-color: #004C99 !important; /* Darker blue */
+  color: #FFFFFF !important; /* White text */
+}
+
+/* Secondary button (gold with navy text) */
+.btn-secondary {
+  background-color: #FFB81C !important; /* Brand gold */
+  color: #0F1C2E !important; /* Brand navy - dark text on gold for better contrast */
+}
+
+.btn-secondary:hover {
+  background-color: #F0D28C !important; /* Lighter gold */
+  color: #0F1C2E !important; /* Navy text */
+}
+
+/* ===== SPECIAL CASE FIXES ===== */
+
+/* Fix for any remaining gold text on light backgrounds (which would be low contrast) */
+.text-brand-gold,
+.text-amber-400,
+.text-yellow-400 {
+  color: #0F1C2E !important; /* Override with dark navy instead of gold on light backgrounds */
+}
+
+/* Only use gold text on dark backgrounds where it has good contrast */
+.bg-brand-navy .text-brand-gold,
+.bg-brand-blue .text-brand-gold,
+.bg-blue-900 .text-brand-gold,
+.bg-blue-800 .text-brand-gold,
+.bg-gray-900 .text-brand-gold,
+.bg-gray-800 .text-brand-gold,
+.bg-black .text-brand-gold {
+  color: #FFB81C !important; /* Gold text is OK here on dark backgrounds */
+}
+
+/* Fix for taglines and special text elements */
+.tagline,
+.header-tagline,
+.brand-blue-bg-text {
+  color: #FFFFFF !important; /* White text */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+  font-weight: 500 !important;
+}

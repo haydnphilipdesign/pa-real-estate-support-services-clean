@@ -1,0 +1,49 @@
+/* Layout fixes for the Transaction Portal - May 2025 */
+
+/* Fix background for the entire page to maintain left and right column separation */
+body {
+  background-color: transparent !important;
+}
+
+/* Ensure the hero section is transparent to allow the default two-column layout */
+section[data-hero-component="true"] {
+  background-color: transparent !important;
+}
+
+/* Fix the blue glass card on the right to fit properly within the viewport */
+.glass-card-navy {
+  background-color: rgb(30, 58, 138) !important;
+  max-height: calc(100vh - 80px) !important; /* Account for nav + margins */
+  overflow-y: auto !important; /* Allow scrolling within the card */
+  margin-bottom: 1rem !important;
+}
+
+/* Fix for the left section to keep its dark appearance */
+.lg\:col-span-3 .glass-card-navy {
+  background-color: rgb(23, 37, 84) !important; /* Darker blue for left side */
+}
+
+/* Make main content fill available space */
+.lg\:col-span-9 {
+  min-height: calc(100vh - 80px) !important;
+}
+
+/* Fix grid container to ensure proper layout */
+.grid.grid-cols-1.lg\:grid-cols-12 {
+  min-height: calc(100vh - 80px) !important;
+}
+
+/* Fix specific padding and margins */
+.container.mx-auto.px-2.sm\:px-4.py-2.sm\:py-4 {
+  padding-bottom: 0 !important;
+}
+
+/* Ensure proper padding for the content */
+.modern-form-container {
+  padding: 1.5rem !important;
+}
+
+/* Remove any unwanted background colors from parent containers */
+.dark-bg-text {
+  background-color: transparent !important;
+}

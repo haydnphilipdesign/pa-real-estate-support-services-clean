@@ -1,0 +1,272 @@
+/**
+ * Enhanced Glass Card System
+ * A comprehensive system for beautiful glass cards with proper text contrast
+ */
+
+/* ===== BASE GLASS CARD STYLES ===== */
+
+/* Common properties for all glass cards */
+.glass-card,
+.glass-card-blue,
+.glass-card-navy,
+.glass-card-white,
+.glass-card-dark,
+.glass-card-frost,
+.glass-card-light,
+.glass-card-gold {
+  position: relative;
+  border-radius: 1rem;
+  padding: 1.75rem;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Improved backdrop filter for better glass effect */
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+
+  /* Better shadow for depth */
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+
+  /* Ensure hardware acceleration */
+  transform: translateZ(0);
+
+  /* Prevent text overflow */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Enhanced hover effect for all glass cards */
+.glass-card:hover,
+.glass-card-blue:hover,
+.glass-card-navy:hover,
+.glass-card-white:hover,
+.glass-card-dark:hover,
+.glass-card-frost:hover,
+.glass-card-light:hover,
+.glass-card-gold:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 20px 30px -10px rgba(0, 0, 0, 0.2),
+    0 10px 15px -5px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 7px 10px -3px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* ===== GLASS CARD VARIANTS ===== */
+
+/* 1. Standard Glass Card - for light backgrounds */
+.glass-card {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #1A1A1A !important;
+}
+
+.glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4 {
+  color: #0066CC !important;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.glass-card p, .glass-card li, .glass-card span:not(.icon) {
+  color: #374151 !important;
+  line-height: 1.6;
+}
+
+/* 2. Blue Glass Card - for light backgrounds */
+.glass-card-blue {
+  background-color: rgba(37, 99, 235, 0.85) !important;
+  border: 1px solid rgba(37, 99, 235, 0.3) !important;
+  color: white !important;
+}
+
+.glass-card-blue h1, .glass-card-blue h2, .glass-card-blue h3, .glass-card-blue h4 {
+  color: white !important;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card-blue p, .glass-card-blue li, .glass-card-blue span:not(.icon) {
+  color: rgba(255, 255, 255, 0.95) !important;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 3. Navy Glass Card - for dark sections */
+.glass-card-navy {
+  background-color: rgba(30, 58, 138, 0.9) !important;
+  border: 1px solid rgba(30, 58, 138, 0.3) !important;
+  color: white !important;
+}
+
+.glass-card-navy h1, .glass-card-navy h2, .glass-card-navy h3, .glass-card-navy h4 {
+  color: white !important;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card-navy p, .glass-card-navy li, .glass-card-navy span:not(.icon) {
+  color: rgba(255, 255, 255, 0.95) !important;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 4. White Glass Card - for dark backgrounds */
+.glass-card-white {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #1A1A1A !important;
+}
+
+.glass-card-white h1, .glass-card-white h2, .glass-card-white h3, .glass-card-white h4 {
+  color: #1E3A8A !important;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.glass-card-white p, .glass-card-white li, .glass-card-white span:not(.icon) {
+  color: #374151 !important;
+  line-height: 1.6;
+}
+
+/* 5. Dark Glass Card - for light backgrounds */
+.glass-card-dark {
+  background-color: rgba(17, 24, 39, 0.95) !important;
+  border: 1px solid rgba(17, 24, 39, 0.3) !important;
+  color: white !important;
+}
+
+.glass-card-dark h1, .glass-card-dark h2, .glass-card-dark h3, .glass-card-dark h4 {
+  color: white !important;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card-dark p, .glass-card-dark li, .glass-card-dark span:not(.icon) {
+  color: rgba(255, 255, 255, 0.9) !important;
+  line-height: 1.6;
+}
+
+/* 6. Frost Glass Card - for forms on any background */
+.glass-card-frost {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  color: #1A1A1A !important;
+}
+
+.glass-card-frost h1, .glass-card-frost h2, .glass-card-frost h3, .glass-card-frost h4 {
+  color: #0066CC !important;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.glass-card-frost p, .glass-card-frost li, .glass-card-frost span:not(.icon), .glass-card-frost label {
+  color: #374151 !important;
+  line-height: 1.6;
+}
+
+/* 7. Light Glass Card - for dark backgrounds */
+.glass-card-light {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+.glass-card-light h1, .glass-card-light h2, .glass-card-light h3, .glass-card-light h4 {
+  color: white !important;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card-light p, .glass-card-light li, .glass-card-light span:not(.icon) {
+  color: rgba(255, 255, 255, 0.95) !important;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 8. Gold Glass Card - for accent areas */
+.glass-card-gold {
+  background: linear-gradient(135deg, rgba(255, 184, 28, 0.85), rgba(212, 175, 55, 0.85)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #0F1C2E !important;
+}
+
+.glass-card-gold h1, .glass-card-gold h2, .glass-card-gold h3, .glass-card-gold h4 {
+  color: #0F1C2E !important;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.glass-card-gold p, .glass-card-gold li, .glass-card-gold span:not(.icon) {
+  color: #0F1C2E !important;
+  line-height: 1.6;
+}
+
+/* ===== CARD CONTENT STYLING ===== */
+
+.glass-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.glass-card-subtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+.glass-card-content {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* Apply for specific elements */
+.glass-card-content ul,
+.glass-card-content ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.glass-card-content ul li,
+.glass-card-content ol li {
+  margin-bottom: 0.5rem;
+}
+
+.glass-card-content a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Fix for any remaining text contrast issues */
+.dark-bg p,
+.dark-section p,
+.dark-container p,
+[class*="bg-blue-700"] p,
+[class*="bg-blue-800"] p,
+[class*="bg-blue-900"] p,
+[class*="bg-gray-800"] p,
+[class*="bg-gray-900"] p {
+  color: white !important;
+}
+
+.light-bg p,
+.light-section p,
+.light-container p,
+[class*="bg-white"] p,
+[class*="bg-gray-50"] p,
+[class*="bg-gray-100"] p,
+[class*="bg-blue-50"] p,
+[class*="bg-blue-100"] p {
+  color: #374151 !important;
+}

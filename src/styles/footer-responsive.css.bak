@@ -1,0 +1,76 @@
+/**
+ * Footer Responsive Styling
+ * 
+ * Additional styles to ensure proper text wrapping and responsiveness
+ * in the footer across various screen sizes.
+ */
+
+/* Improve contact section wrapping */
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.footer-contact-item-icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  margin-right: 0.75rem;
+}
+
+.footer-contact-item-text {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  display: inline-block; /* Better for text wrapping */
+}
+
+/* Email link specific styles */
+.footer-contact-email {
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* Adjust column spacing at different breakpoints */
+@media (max-width: 767px) {
+  .footer-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .footer-contact-column {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .footer-contact-column {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+  }
+}
+
+/* Ensure proper spacing in footer columns */
+.footer-column {
+  margin-bottom: 1.5rem;
+}
+
+.footer-column:last-child {
+  margin-bottom: 0;
+}

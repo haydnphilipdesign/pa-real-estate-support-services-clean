@@ -1,0 +1,95 @@
+/* Fix for the form fields and dropdown menus - May 2025 */
+
+/* Ensure ALL form fields have solid backgrounds */
+input:not([type="radio"]):not([type="checkbox"]),
+select,
+textarea,
+[role="combobox"],
+[data-radix-select-trigger] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Fix form fields when focused */
+input:focus,
+select:focus,
+textarea:focus,
+[role="combobox"]:focus,
+[data-radix-select-trigger]:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+  outline: none !important;
+}
+
+/* Override any form field styling */
+.transaction-form-container input,
+.transaction-form-container select,
+.transaction-form-container textarea {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Enhance style of the role selection buttons */
+[role="radiogroup"] > div {
+  background-color: white !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+  transition: all 0.2s ease-in-out !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Role options hover state */
+[role="radiogroup"] > div:hover {
+  border-color: rgba(59, 130, 246, 0.5) !important;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Selected role styling */
+[role="radiogroup"] [data-state="checked"] {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  border-color: #3b82f6 !important;
+}
+
+/* Fix dropdown menus specifically */
+[role="listbox"],
+[data-radix-popper-content-wrapper] {
+  background-color: white !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  z-index: 9999 !important;
+}
+
+/* Fix dropdown options */
+[role="option"] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+}
+
+/* Fix hover styles for dropdown options */
+[role="option"]:hover,
+[role="option"][data-highlighted="true"] {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Form input placeholder text */
+::placeholder {
+  color: rgba(30, 58, 138, 0.5) !important;
+  opacity: 1 !important;
+}
+
+/* Fix select arrows */
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%231e3a8a' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+  background-position: right 0.5rem center !important;
+  background-repeat: no-repeat !important;
+  background-size: 1.5em 1.5em !important;
+}

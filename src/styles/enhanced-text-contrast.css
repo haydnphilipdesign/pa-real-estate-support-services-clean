@@ -1,0 +1,192 @@
+/**
+ * Enhanced Text Contrast Styles - 2025 Update
+ * This file contains improved text contrast for better readability and accessibility
+ */
+
+/* ======================================
+   1. BASE TEXT CONTRAST IMPROVEMENTS
+   ====================================== */
+
+/* Default text contrast */
+body {
+  color: #1f2937 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111827 !important;
+}
+
+/* Targeted text selectors instead of overly broad rules */
+.text-content p, .text-content li, .text-content span,
+.content-section p, .content-section li, .content-section span,
+.card p, .card li, .card span {
+  color: #374151 !important;
+}
+
+/* ======================================
+   2. LINKS AND BUTTONS
+   ====================================== */
+
+/* Link contrast */
+a {
+  color: #2563eb !important;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: #1d4ed8 !important;
+  text-decoration: underline;
+}
+
+/* Button text contrast */
+.button, .btn, button {
+  font-weight: 500 !important;
+}
+
+.button-primary, .btn-primary {
+  color: white !important;
+}
+
+/* ======================================
+   3. FORM ELEMENTS
+   ====================================== */
+
+/* Form element contrast */
+input, textarea, select {
+  color: #1f2937 !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(209, 213, 219, 0.8) !important;
+}
+
+/* Placeholder text */
+::placeholder {
+  color: #9ca3af !important;
+  opacity: 1 !important;
+}
+
+/* Error text contrast */
+.error, .text-error, .text-danger {
+  color: #dc2626 !important;
+}
+
+/* ======================================
+   4. GLASS CARDS - LIGHT BACKGROUNDS
+   ====================================== */
+
+/* Text in light background glass cards */
+.glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4, .glass-card h5, .glass-card h6,
+.glass-card-white h1, .glass-card-white h2, .glass-card-white h3, .glass-card-white h4, .glass-card-white h5, .glass-card-white h6,
+.glass-card-frost h1, .glass-card-frost h2, .glass-card-frost h3, .glass-card-frost h4, .glass-card-frost h5, .glass-card-frost h6 {
+  color: #111827 !important;
+}
+
+.glass-card p, .glass-card li, .glass-card span,
+.glass-card-white p, .glass-card-white li, .glass-card-white span,
+.glass-card-frost p, .glass-card-frost li, .glass-card-frost span {
+  color: #374151 !important;
+}
+
+/* ======================================
+   5. GLASS CARDS - DARK BACKGROUNDS
+   ====================================== */
+
+/* Text in dark background glass cards - HEADERS */
+.glass-card-navy h1, .glass-card-navy h2, .glass-card-navy h3, .glass-card-navy h4, .glass-card-navy h5, .glass-card-navy h6,
+.glass-card-blue h1, .glass-card-blue h2, .glass-card-blue h3, .glass-card-blue h4, .glass-card-blue h5, .glass-card-blue h6,
+.glass-card-dark h1, .glass-card-dark h2, .glass-card-dark h3, .glass-card-dark h4, .glass-card-dark h5, .glass-card-dark h6,
+.glass-card-gold h1, .glass-card-gold h2, .glass-card-gold h3, .glass-card-gold h4, .glass-card-gold h5, .glass-card-gold h6,
+.glass-card-light h1, .glass-card-light h2, .glass-card-light h3, .glass-card-light h4, .glass-card-light h5, .glass-card-light h6,
+.service-card h1, .service-card h2, .service-card h3, .service-card h4, .service-card h5, .service-card h6,
+.statistics-card h1, .statistics-card h2, .statistics-card h3, .statistics-card h4, .statistics-card h5, .statistics-card h6 {
+  color: rgba(255, 255, 255, 0.95) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Text in dark background glass cards - CONTENT */
+.glass-card-navy p, .glass-card-navy li, .glass-card-navy span,
+.glass-card-blue p, .glass-card-blue li, .glass-card-blue span,
+.glass-card-dark p, .glass-card-dark li, .glass-card-dark span,
+.glass-card-gold p, .glass-card-gold li, .glass-card-gold span,
+.glass-card-light p, .glass-card-light li, .glass-card-light span,
+.service-card p, .service-card li, .service-card span,
+.statistics-card p, .statistics-card li, .statistics-card span {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Links in dark glass cards */
+.glass-card-navy a, .glass-card-blue a, .glass-card-dark a, .glass-card-gold a,
+.service-card a, .statistics-card a {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-decoration: underline;
+}
+
+.glass-card-navy a:hover, .glass-card-blue a:hover, .glass-card-dark a:hover, .glass-card-gold a:hover,
+.service-card a:hover, .statistics-card a:hover {
+  color: white !important;
+  text-decoration: underline;
+}
+
+/* ======================================
+   6. SPECIAL COMPONENTS
+   ====================================== */
+
+/* Statistics components */
+.statistics-section .rounded-full,
+.statistics-section .px-4.py-2 {
+  color: #f0d080 !important; /* Brighter amber color */
+}
+
+.statistics-section h2 {
+  color: #f0d080 !important; /* Brighter amber color */
+}
+
+/* Special statistics values */
+.statistics-value, .statistic-value, .stat-value, .stat-number {
+  font-weight: 700 !important;
+  color: white !important;
+  font-size: 2rem !important;
+  line-height: 1.1 !important;
+}
+
+/* Buttons on dark backgrounds */
+.glass-card-navy .button, .glass-card-blue .button, .glass-card-dark .button,
+.glass-card-navy .btn, .glass-card-blue .btn, .glass-card-dark .btn,
+.service-card .button, .service-card .btn,
+.statistics-card .button, .statistics-card .btn {
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.glass-card-navy .button:hover, .glass-card-blue .button:hover, .glass-card-dark .button:hover,
+.glass-card-navy .btn:hover, .glass-card-blue .btn:hover, .glass-card-dark .btn:hover,
+.service-card .button:hover, .service-card .btn:hover,
+.statistics-card .button:hover, .statistics-card .btn:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ======================================
+   7. OVERRIDES AND EXCEPTIONS
+   ====================================== */
+
+/* Restore text colors in components that need to override global styles */
+[data-override-contrast="true"] * {
+  color: inherit !important;
+}
+
+/* Specific override for the Acknowledgements heading */
+#acknowledgements-heading,
+.acknowledgements-heading,
+h5.acknowledgements-heading,
+.p-4.bg-\[\#102042\]\/70 h5 {
+  color: white !important;
+}
+
+/* Specific override for the signature label texts */
+label.signature-label,
+label[for="termsAccepted"],
+label[for="infoConfirmed"],
+#signature-checkbox-container label {
+  color: white !important;
+  text-shadow: none !important;
+}

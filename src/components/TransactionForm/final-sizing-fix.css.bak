@@ -1,0 +1,60 @@
+/* Final fix for blue glass and sizing - May 2025 */
+
+/* Restore blue glass appearance */
+.glass-card-navy {
+  background-color: rgba(30, 58, 138, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Fix the size of the form to eliminate scrollbars */
+.modern-form-container {
+  padding: 1rem !important;
+  margin-bottom: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Fix form actions bar to be less tall */
+.flex.flex-wrap.justify-between.items-center.mt-4 {
+  margin-top: 0.5rem !important;
+  padding-top: 0.5rem !important;
+}
+
+/* Fix footer quote to take less space */
+.hidden.md\:block.text-center.mt-6 {
+  margin-top: 0.5rem !important;
+  padding-top: 0.5rem !important;
+  font-size: 0.75rem !important;
+}
+
+/* Remove all background colors from parent containers */
+section[data-hero-component="true"],
+.dark-bg-text,
+.transaction-form-container,
+.container.mx-auto {
+  background-color: transparent !important;
+}
+
+/* Ensure body has no background color */
+body {
+  background-color: transparent !important;
+}
+
+/* Fix container sizing */
+.glass-card-navy {
+  padding: 1rem !important;
+}
+
+/* Remove bottom margin from form container */
+.mb-16, .mb-20 {
+  margin-bottom: 0 !important;
+}
+
+/* Fix container heights */
+.container.mx-auto.px-2.sm\:px-4.py-2.sm\:py-4 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

@@ -1,0 +1,98 @@
+/* Emergency Header Navigation Fix CSS */
+/* Apply this if the diagnostic tool shows header links are still blocked */
+
+/* Force header to be above everything */
+header, .main-navigation-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 99999 !important; /* Increased z-index */
+  pointer-events: auto !important;
+  background: rgba(26, 32, 44, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  display: block !important; /* Force display */
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Make all header links clearly visible and clickable */
+header a, .main-navigation-header a,
+header button, .main-navigation-header button,
+header .flex a, .main-navigation-header .flex a {
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  color: white !important;
+  text-decoration: none !important;
+  padding: 8px 16px !important;
+  margin: 2px !important;
+  border-radius: 6px !important;
+  transition: background 0.2s ease !important;
+}
+
+/* Visible hover effects */
+header a:hover, .main-navigation-header a:hover,
+header button:hover, .main-navigation-header button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+/* Ensure navigation container is clickable */
+header .flex, .main-navigation-header .flex,
+header .container, .main-navigation-header .container {
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+  position: relative !important;
+}
+
+/* Clear any overlays that might block header */
+body::before, 
+.background-slideshow::before,
+[data-is-transitioning]::before,
+.page-transition-container::before {
+  top: 80px !important; /* Start below header */
+  height: calc(100vh - 80px) !important;
+  clip-path: inset(80px 0 0 0) !important;
+}
+
+/* Ensure background slideshow doesn't interfere */
+.background-slideshow {
+  top: 80px !important;
+  height: calc(100vh - 80px) !important;
+  z-index: -10 !important;
+}
+
+/* Force clear area for header */
+.header-clear-zone {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 80px !important;
+  z-index: 8000 !important;
+  pointer-events: none !important;
+  background: transparent !important;
+}
+
+/* Mobile menu fixes */
+header button[aria-expanded], .main-navigation-header button[aria-expanded],
+header .mobile-menu, .main-navigation-header .mobile-menu {
+  z-index: 10001 !important;
+  pointer-events: auto !important;
+}
+
+/* Logo clickable */
+header img, .main-navigation-header img {
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Debug: Make links temporarily visible */
+header a, .main-navigation-header a {
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}

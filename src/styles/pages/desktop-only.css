@@ -1,0 +1,56 @@
+/* Mobile overrides to ensure desktop-only experience */
+
+/* Hide mobile navigation */
+.mobile-navigation,
+.mobile-nav-bar,
+.mobile-menu,
+.mobile-menu-overlay {
+  display: none !important;
+}
+
+/* Remove responsive adjustments for mobile */
+@media (max-width: 640px) {
+  .transaction-form-container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0.5rem !important;
+  }
+
+  /* Force desktop layout even on small screens */
+  .md\:flex,
+  .md\:hidden,
+  .md\:block,
+  .md\:grid,
+  .sm\:block,
+  .sm\:flex,
+  .sm\:hidden {
+    /* Override responsive display properties */
+    display: inherit !important;
+  }
+
+  .md\:flex-row,
+  .md\:flex-col,
+  .sm\:flex-row,
+  .sm\:flex-col {
+    /* Override responsive flex direction */
+    flex-direction: inherit !important;
+  }
+
+  /* Force standard padding/margin on small screens */
+  .sm\:p-0,
+  .sm\:px-0,
+  .sm\:py-0,
+  .sm\:m-0,
+  .sm\:mx-0,
+  .sm\:my-0 {
+    padding: inherit !important;
+    margin: inherit !important;
+  }
+}
+
+/* Make sure the form is always scrollable horizontally if needed */
+.transaction-form-container {
+  overflow-x: auto !important;
+  min-width: 768px !important; /* Ensure minimum width for readability */
+}

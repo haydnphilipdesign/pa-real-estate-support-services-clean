@@ -1,0 +1,67 @@
+/**
+ * Animation Consistency CSS
+ *
+ * This file ensures consistent animations across the site,
+ * especially for page transitions and hero elements.
+ */
+
+/* Prevent Framer Motion and CSS transitions from conflicting */
+[data-page-transitioning-content="true"],
+[data-hero-content="container"],
+[data-hero-content="title"],
+[data-hero-content="subtitle"],
+[data-hero-content="cta"] {
+  transition: none !important; /* Let Framer Motion handle the animations */
+}
+
+/* Ensure elements using standard animations have consistent timing */
+.use-standard-animations {
+  /* This class is used along with framer-motion for consistency */
+  will-change: transform, opacity;
+}
+
+/* Override any conflicting animation rules with this class */
+.framer-entrance-override {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Ensure elements maintain visibility during transitions */
+body[data-animating-hero="true"] [data-hero-component="true"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Fix for potential flickering during transitions */
+.page-transitioning [data-hero-component="true"],
+.page-transitioning [data-hero-container="true"],
+.page-transitioning [data-hero-content="title"],
+.page-transitioning [data-hero-content="subtitle"],
+.page-transitioning [data-hero-content="cta"] {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Ensure transform doesn't break fixed positioning */
+[data-hero-container="true"] {
+  transform: translateZ(0);
+}
+
+/* Prevent background content from disappearing prematurely */
+[data-exclude-from-transition="true"] {
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Eliminate any transitioning content from being clickable during animations */
+body[data-animating-hero="true"] a,
+.page-transitioning a {
+  pointer-events: none;
+}
+
+/* Re-enable pointer events after transition completes */
+body:not([data-animating-hero="true"]) a,
+:not(.page-transitioning) a {
+  pointer-events: auto;
+}

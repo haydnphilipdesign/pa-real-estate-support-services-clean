@@ -1,0 +1,83 @@
+/* CSS Variables */
+
+:root {
+  /* Brand Colors */
+  --brand-blue: #0F1C2E;
+  --brand-blue-light: #3388DD;
+  --brand-blue-dark: #071525;
+
+  --brand-gold: #FFB81C;
+  --brand-gold-light: #FFCF5C;
+  --brand-gold-dark: #D4960C;
+
+  --brand-navy: #0A192F;
+  --brand-navy-light: #1E3A5C;
+  --brand-navy-dark: #050E1A;
+
+  /* Text Colors */
+  --text-white: #FFFFFF;
+  --text-light: #E6F0FF;  /* Light blue for dark backgrounds */
+  --text-dark: #1A1A1A;   /* Almost black for light backgrounds */
+  --text-gray: #4B5563;   /* Mid gray for less emphasis */
+
+  /* Background Colors */
+  --bg-dark: #1A202C;
+  --bg-light: #F3F4F6;
+  --bg-blue-light: #EFF6FF;
+
+  /* Accessible color combinations validated for WCAG AA (4.5:1 for normal text) */
+  --accessible-gold-on-blue: var(--brand-gold-light);  /* Lighter gold on blue */
+  --accessible-blue-on-light: var(--brand-blue);  /* Navy blue on light backgrounds */
+
+  /* Button specific colors */
+  --btn-primary-bg: var(--brand-blue);
+  --btn-primary-text: var(--text-white);
+  --btn-primary-hover: var(--brand-blue-dark);
+
+  --btn-secondary-bg: var(--brand-gold);
+  --btn-secondary-text: var(--text-dark);
+  --btn-secondary-hover: var(--brand-gold-dark);
+
+  /* Link colors */
+  --link-color: var(--brand-blue);
+  --link-hover: #8C7647; /* Darker gold for better contrast on hover */
+  --link-visited: var(--brand-blue-dark);
+
+  /* Overlay colors */
+  --card-overlay-dark: rgba(15, 28, 46, 0.85);  /* Navy with opacity */
+  --card-overlay-light: rgba(255, 255, 255, 0.9);
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+
+  /* Border radius */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms;
+  --transition-normal: 300ms;
+  --transition-slow: 500ms;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark theme variables - can be activated with a .dark-mode class */
+.dark-mode {
+  --text-dark: #F3F4F6;
+  --text-light: #1A1A1A;
+  --bg-dark: #F3F4F6;
+  --bg-light: #1A202C;
+}

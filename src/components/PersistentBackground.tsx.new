@@ -1,0 +1,87 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { uniqueBackgroundImages, useSlideshow, SLIDESHOW_CONFIG } from '../context/GlobalSlideshowContext';
+
+/**
+ * PersistentBackground
+ *
+ * A simple Ken Burns slideshow component that transitions between background images
+ */
+
+const PersistentBackground: React.FC = () => {
+  const { currentIndex, setCurrentIndex, setIsTransitioning } = useSlideshow();
+  const [transitioning, setTransitioning] = useState(false);
+
+  // Preload images for smoother transitions
+  useEffect(() => {
+    uniqueBackgroundImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+    
+    console.log('Background images to preload:', uniqueBackgroundImages);
+  }, []);
+
+  // Advance to next slide after interval
+  useEffect(() => {
+    if (!transitioning) {
+      const timer = setTimeout(() => {
+        setTransitioning(true);
+        setIsTransitioning(true);
+        
+        // Advance to next slide after a short delay
+        setTimeout(() => {
+          setCurrentIndex((prev) => (prev + 1) % uniqueBackgroundImages.length);
+          
+          // Reset transition state after animation completes
+          setTimeout(() => {
+            setTransitioning(false);
+            setIsTransitioning(false);
+          }, 1000);
+        }, 500);
+      }, SLIDESHOW_CONFIG.interval - 1500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [transitioning, setCurrentIndex, setIsTransitioning]);
+
+  return (
+    <div className="background-slideshow fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentIndex}
+          className="w-full h-full"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: 1,
+            scale: [1, 1.05],
+            transition: {
+              scale: {
+                duration: SLIDESHOW_CONFIG.effectDuration / 1000,
+                ease: "linear"
+              }
+            }
+          }}
+          exit={{ opacity: 0 }}
+          transition={{
+            opacity: { duration: 1 },
+          }}
+        >
+          <img
+            src={uniqueBackgroundImages[currentIndex]}
+            alt="" 
+            className="w-full h-full object-cover"
+            style={{ 
+              filter: 'brightness(1.0)',
+              backfaceVisibility: 'hidden',
+            }}
+            onError={(e) => console.error('Image load error:', e)}
+            onLoad={() => console.log('Image loaded:', uniqueBackgroundImages[currentIndex])}
+          />
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default PersistentBackground;

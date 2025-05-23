@@ -1,0 +1,134 @@
+/**
+ * Unified CSS Fix for Transaction Form
+ * This fix addresses the missing backgrounds in form fields and navigation buttons
+ */
+
+/* Emergency fix for white backgrounds */
+.transaction-form-container button,
+.transaction-portal-container button {
+  opacity: 1 !important;
+}
+
+/* Standard navigation buttons */
+.transaction-form-container button[variant="outline"],
+.transaction-portal-container button[variant="outline"] {
+  background-color: white !important;
+  color: #1e40af !important;
+  border-color: #93c5fd !important;
+  opacity: 1 !important;
+}
+
+/* Primary buttons */
+.transaction-form-container button.bg-blue-600,
+.transaction-portal-container button.bg-blue-600,
+.transaction-form-container button.hover\:bg-blue-700,
+.transaction-portal-container button.hover\:bg-blue-700 {
+  background-color: #2563eb !important;
+  color: white !important;
+  opacity: 1 !important;
+}
+
+/* Success buttons */
+.transaction-form-container button.bg-green-600,
+.transaction-portal-container button.bg-green-600,
+.transaction-form-container button.hover\:bg-green-700,
+.transaction-portal-container button.hover\:bg-green-700 {
+  background-color: #16a34a !important;
+  color: white !important;
+  opacity: 1 !important;
+}
+
+/* All form inputs */
+.transaction-form-container input,
+.transaction-portal-container input,
+.transaction-form-container select,
+.transaction-portal-container select,
+.transaction-form-container textarea,
+.transaction-portal-container textarea {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+  border: 1px solid rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Fix for select dropdowns and options */
+.transaction-form-container select,
+.transaction-portal-container select,
+.transaction-form-container select option,
+.transaction-portal-container select option {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+  -webkit-appearance: menulist !important;
+  appearance: menulist !important;
+}
+
+/* Fix for form containers and glass cards */
+.transaction-form-container .glass-effect,
+.transaction-portal-container .glass-effect {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Fix for any shadcn UI select components */
+.transaction-form-container [data-radix-select-trigger],
+.transaction-portal-container [data-radix-select-trigger],
+.transaction-form-container [role="combobox"],
+.transaction-portal-container [role="combobox"] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Fix for radio buttons and checkboxes */
+.transaction-form-container [type="radio"],
+.transaction-portal-container [type="radio"],
+.transaction-form-container [type="checkbox"],
+.transaction-portal-container [type="checkbox"] {
+  background-color: white !important;
+  opacity: 1 !important;
+}
+
+/* Additional fixes for specific elements seen in the screenshot */
+.transaction-form-container .form-navigation-buttons button,
+.transaction-portal-container .form-navigation-buttons button {
+  background-color: white !important;
+  color: #1e40af !important;
+  opacity: 1 !important;
+  border-color: #93c5fd !important;
+}
+
+/* Fix for field backgrounds in all sections */
+#section-title ~ div input,
+#section-title ~ div select,
+#section-title ~ div textarea,
+#section-title ~ div [role="combobox"],
+#section-title ~ div [data-radix-select-trigger] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Fix for marital status buttons seen in screenshot */
+button[id^="maritalStatus"],
+select[name^="maritalStatus"] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Fix for role selection and other list items */
+.transaction-form-container li,
+.transaction-portal-container li {
+  color: #1e3a8a !important;
+}
+
+.transaction-form-container ul,
+.transaction-portal-container ul {
+  color: #1e3a8a !important;
+}
+
+.transaction-form-container .role-card li,
+.transaction-form-container .role-card ul {
+  color: #1e3a8a !important;
+}

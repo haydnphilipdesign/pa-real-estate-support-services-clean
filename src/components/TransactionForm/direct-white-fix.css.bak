@@ -1,0 +1,53 @@
+/* Direct fix for the white background - May 2025 */
+
+/* This specifically targets any white background in the form */
+.container.mx-auto.px-2.sm\:px-4.py-2.sm\:py-4 > div,
+.container.mx-auto.px-2.sm\:px-4.py-2.sm\:py-4 > div > div,
+.container.mx-auto.px-2.sm\:px-4.py-2.sm\:py-4 > div > div > div,
+.container.mx-auto.px-2.sm\:px-4.py-2.sm\:py-4 > div > div > div > div {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Fix any rounded corners with white background */
+.rounded-lg, .rounded-xl {
+  background-color: transparent !important;
+}
+
+/* Fix modern form container explicitly */
+.modern-form-container {
+  box-shadow: none !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+/* Fix the step wizard directly */
+.wizard-container {
+  border-top-right-radius: 0.5rem !important;
+  border-top-left-radius: 0.5rem !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Background fix for white divs */
+div {
+  background-color: transparent;
+}
+
+/* Need to directly style the glass-card-navy to override other styles */
+.lg\:col-span-9 .glass-card-navy {
+  background-color: rgba(30, 58, 138, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* Override any remaining white background */
+.section-fade-in, .space-y-6 {
+  background-color: transparent !important;
+}
+
+/* Fix padding and margins */
+.py-2, .py-4, .py-6, .p-2, .p-4, .p-6 {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}

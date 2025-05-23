@@ -1,0 +1,64 @@
+/* Global styles for the entire application */
+
+/* Fix the light background behind the navigation */
+body, html {
+  background-color: #1a202c !important;
+}
+
+/* Styling for the app root */
+.app-root,
+#root,
+#__next,
+main,
+.relative.min-h-screen {
+  background-color: #1a202c !important;
+}
+
+/* Fix header background */
+header,
+.fixed.w-full.z-50,
+.fixed.top-0.w-full.z-50,
+nav {
+  background-color: #1a202c !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Force all forms to have proper styling */
+input, textarea, select, button {
+  opacity: 1 !important;
+}
+
+/* Scope input field styling to forms only */
+form input:not([type="radio"]):not([type="checkbox"]),
+form select,
+form textarea,
+.transaction-form-container input:not([type="radio"]):not([type="checkbox"]),
+.transaction-form-container select,
+.transaction-form-container textarea {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Fix form fields placeholder text */
+::placeholder {
+  color: rgba(59, 130, 246, 0.5) !important;
+  opacity: 1 !important;
+}
+
+/* Fix role selection options */
+.role-selection-button,
+[role="radiogroup"] > div {
+  background-color: white !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  color: #1e3a8a !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Make sure the glass card has proper background */
+.glass-card-navy {
+  background-color: rgba(30, 58, 138, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}

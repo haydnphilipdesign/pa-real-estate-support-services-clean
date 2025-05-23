@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            font-family: Arial, sans-serif;
+        }
+        
+        .background-test {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background: linear-gradient(45deg, red, blue, green, yellow);
+            animation: colorChange 5s infinite;
+        }
+        
+        @keyframes colorChange {
+            0% { background: linear-gradient(45deg, red, blue, green, yellow); }
+            25% { background: linear-gradient(45deg, blue, green, yellow, red); }
+            50% { background: linear-gradient(45deg, green, yellow, red, blue); }
+            75% { background: linear-gradient(45deg, yellow, red, blue, green); }
+            100% { background: linear-gradient(45deg, red, blue, green, yellow); }
+        }
+        
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: rgba(26, 32, 44, 0.9);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .nav-link:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .content {
+            margin-top: 80px;
+            padding: 50px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-test"></div>
+    
+    <header class="header">
+        <a href="#" class="nav-link" onclick="alert('Home clicked!')">Home</a>
+        <a href="#" class="nav-link" onclick="alert('About clicked!')">About</a>
+        <a href="#" class="nav-link" onclick="alert('Services clicked!')">Services</a>
+        <a href="#" class="nav-link" onclick="alert('Contact clicked!')">Contact</a>
+    </header>
+    
+    <div class="content">
+        <h1>Debug Test Page</h1>
+        <p>This is a test to verify:</p>
+        <ul>
+            <li>Can you see the animated background? (It should be changing colors)</li>
+            <li>Are the navigation links clickable? (They should show alerts)</li>
+        </ul>
+        <p>If both work here, the issue is in the React application's CSS or component setup.</p>
+    </div>
+</body>
+</html>

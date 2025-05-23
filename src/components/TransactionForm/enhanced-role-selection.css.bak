@@ -1,0 +1,94 @@
+/* Enhanced styling for role selection options - May 2025 */
+
+/* Role selection container */
+[role="radiogroup"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Role selection buttons */
+[role="radiogroup"] > div,
+.role-selection-button {
+  background-color: white !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  border-radius: 0.75rem !important;
+  padding: 1rem !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.2s ease-in-out !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Hover effect for role options */
+[role="radiogroup"] > div:hover,
+.role-selection-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Selected state for role options */
+[role="radiogroup"] > div:has([data-state="checked"]),
+.role-selection-button:has([data-state="checked"]) {
+  background-color: rgba(219, 234, 254, 0.5) !important; /* Light blue background */
+  border-color: rgba(59, 130, 246, 0.8) !important;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* Radio button styling */
+[role="radio"] {
+  background-color: white !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Radio button checked state */
+[role="radio"][data-state="checked"] {
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+/* Text styling in role options */
+[role="radiogroup"] label,
+.role-selection-button label {
+  color: #1e3a8a !important;
+  font-weight: 600 !important;
+}
+
+[role="radiogroup"] p,
+.role-selection-button p {
+  color: #4b5563 !important;
+  margin-top: 0.25rem !important;
+}
+
+/* Icon styling in role options */
+[role="radiogroup"] svg,
+.role-selection-button svg {
+  color: #3b82f6 !important;
+}
+
+/* Add subtle background effect */
+[role="radiogroup"] > div::before,
+.role-selection-button::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(255, 255, 255, 0) 100%) !important;
+  pointer-events: none !important;
+}
+
+/* Enhanced selected state */
+[role="radiogroup"] > div:has([data-state="checked"])::after,
+.role-selection-button:has([data-state="checked"])::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 4px !important;
+  height: 100% !important;
+  background-color: #3b82f6 !important;
+  pointer-events: none !important;
+}

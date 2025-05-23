@@ -1,0 +1,58 @@
+/**
+ * Animation Reset CSS
+ *
+ * This file contains aggressive reset styles that ensure no animations
+ * persist between page navigations.
+ */
+
+/* When navigation is happening, temporarily disable ALL animations */
+body[data-navigating="true"] *,
+.navigation-in-progress * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  will-change: auto !important;
+  animation-delay: 0s !important;
+  transition-delay: 0s !important;
+}
+
+/* Agent portal specific fixes */
+.agent-portal-login * {
+  animation-duration: 0.3s !important;
+  transition-duration: 0.3s !important;
+}
+
+/* Ensure framer-motion animations don't conflict or persist */
+body[data-navigating="true"] [data-framer-component],
+.navigation-in-progress [data-framer-component] {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+/* Prevent layout shift during navigation */
+body[data-navigating="true"] [data-layout-stable="true"],
+.navigation-in-progress [data-layout-stable="true"] {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+/* Apply hardware acceleration for smoother transitions */
+.page-transition-container,
+.agent-portal-login,
+[data-hero-content] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+}
+
+/* Ensure smooth opacity transitions */
+.use-standard-animations {
+  transition-property: opacity, transform !important;
+  will-change: opacity, transform !important;
+}

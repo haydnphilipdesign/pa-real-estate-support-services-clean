@@ -1,0 +1,102 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { uniqueBackgroundImages, useSlideshow, SLIDESHOW_CONFIG } from '../context/GlobalSlideshowContext';
+
+/**
+ * PersistentBackground
+ *
+ * A simple Ken Burns effect slideshow that transitions between background images
+ * with smooth fade transitions and a subtle zoom effect.
+ */
+const PersistentBackground: React.FC = () => {
+  const { currentIndex, setCurrentIndex, setIsTransitioning } = useSlideshow();
+  const [transitioning, setTransitioning] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [variants, setVariants] = useState(() => getKenBurnsVariants());
+
+  // Preload images for smoother transitions
+  useEffect(() => {
+    uniqueBackgroundImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+  
+  // Generate random Ken Burns parameters for variety
+  function getKenBurnsVariants() {
+    const scale = 1.05 + Math.random() * 0.1; // Random scale between 1.05 and 1.15
+    const x = Math.random() * 2 - 1; // Random value between -1 and 1
+    const y = Math.random() * 2 - 1; // Random value between -1 and 1
+    
+    return {
+      initial: { scale: 1, x: '0%', y: '0%', opacity: 0 },
+      animate: { 
+        scale, 
+        x: `${x * 2}%`,
+        y: `${y * 2}%`,
+        opacity: 1,
+        transition: { 
+          duration: SLIDESHOW_CONFIG.effectDuration / 1000,
+          ease: 'linear',
+          opacity: { duration: 1 }
+        }
+      },
+      exit: { opacity: 0, transition: { duration: 0.8 } }
+    };
+  }
+  
+  // Update variants when slide changes
+  useEffect(() => {
+    setVariants(getKenBurnsVariants());
+  }, [currentIndex]);
+
+  // Advance to next slide after interval
+  useEffect(() => {
+    if (!transitioning) {
+      timerRef.current = setTimeout(() => {
+        setTransitioning(true);
+        setIsTransitioning(true);
+        
+        // Advance to next slide after a short delay
+        setTimeout(() => {
+          setCurrentIndex((prevIndex: number) => (prevIndex + 1) % uniqueBackgroundImages.length);
+          
+          // Reset transition state after animation completes
+          setTimeout(() => {
+            setTransitioning(false);
+            setIsTransitioning(false);
+          }, SLIDESHOW_CONFIG.transitionDuration);
+        }, 500);
+      }, SLIDESHOW_CONFIG.interval - SLIDESHOW_CONFIG.transitionDuration);
+      
+      return () => {
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+        }
+      };
+    }
+  }, [transitioning, setCurrentIndex, setIsTransitioning, uniqueBackgroundImages.length]);
+  
+  return (
+    <div className="fixed inset-0 w-full h-full overflow-hidden z-0">
+      <AnimatePresence>
+        <motion.div
+          key={currentIndex}
+          className="absolute inset-0 w-full h-full z-0"
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={variants}
+        >
+          <div 
+            className="absolute inset-0 w-full h-full bg-center bg-cover filter brightness-[0.75] saturate-[1.2]"
+            style={{ backgroundImage: `url(${uniqueBackgroundImages[currentIndex]})` }}
+          />
+        </motion.div>
+      </AnimatePresence>
+      <div className="absolute inset-0 bg-black/40 z-10" />
+    </div>
+  );
+};
+
+export default PersistentBackground;

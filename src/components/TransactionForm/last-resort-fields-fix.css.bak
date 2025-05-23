@@ -1,0 +1,109 @@
+/* Last resort fix for form fields - May 2025 */
+
+/* Form Field Ultimate Override - Force white backgrounds and visible text */
+input:not([type="radio"]):not([type="checkbox"]),
+select,
+textarea,
+[role="combobox"],
+[type="text"],
+[type="email"],
+[type="tel"],
+[type="password"],
+[type="number"],
+[type="date"],
+[type="search"],
+[type="url"],
+.form-input,
+.form-select,
+.form-textarea,
+[id="agent-name"],
+[id*="name"],
+[id*="email"],
+[id*="phone"],
+[placeholder*="name"],
+[placeholder*="email"],
+[placeholder*="phone"],
+[placeholder*="Enter"],
+[data-radix-select-trigger] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Enhanced role selection styling */
+.role-selection-button {
+  background-color: white !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+  padding: 1rem !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.role-selection-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Fix header background */
+header,
+.fixed.top-0.w-full.z-50,
+.fixed.w-full.z-50 {
+  background-color: #1a202c !important;
+}
+
+/* Fix body/html background */
+body,
+html,
+#root {
+  background-color: #1a202c !important;
+}
+
+/* Ensure all buttons have proper backgrounds */
+button[type="button"],
+button[type="submit"],
+button[type="reset"],
+[role="button"] {
+  opacity: 1 !important;
+}
+
+/* Blue buttons */
+button.bg-blue-600,
+button.bg-blue-700,
+[class*="bg-blue-"] {
+  background-color: #2563eb !important;
+  color: white !important;
+}
+
+/* Button hover states */
+button.bg-blue-600:hover,
+button.bg-blue-700:hover {
+  background-color: #1d4ed8 !important;
+}
+
+/* Previous/Back buttons */
+button[class*="previous"],
+button:has(svg[data-lucide="arrow-left"]) {
+  background-color: white !important;
+  color: #2563eb !important;
+  border-color: #2563eb !important;
+}
+
+/* Next buttons */
+button[class*="next"],
+button:has(svg[data-lucide="arrow-right"]) {
+  background-color: #2563eb !important;
+  color: white !important;
+}
+
+/* Fix form placeholders */
+::placeholder {
+  color: rgba(59, 130, 246, 0.5) !important;
+  opacity: 1 !important;
+}

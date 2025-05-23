@@ -1,0 +1,174 @@
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { TransactionForm } from "./TransactionForm";
+import TransactionHero from "../TransactionHero";
+import { FileText, Shield, Clock } from 'lucide-react';
+// Import the centralized CSS helper
+import { ensureCssImported } from "../FixedCssImport";
+
+// Ensure CSS is imported
+ensureCssImported();
+
+// Import new transaction form portal styles
+import '../../styles/pages/transaction-form-portal.css';
+
+interface PortalTransactionFormProps {
+}
+
+export const PortalTransactionForm: React.FC<PortalTransactionFormProps> = () => {
+  // State to track current step for the vertical wizard
+  const [currentStep, setCurrentStep] = useState(1);
+
+  // Listen for step changes from the TransactionForm component
+  useEffect(() => {
+    const handleStepChange = (event: CustomEvent) => {
+      if (event.detail && event.detail.step) {
+        setCurrentStep(event.detail.step);
+      }
+    };
+
+    // Add event listener
+    window.addEventListener('stepChange' as any, handleStepChange);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('stepChange' as any, handleStepChange);
+    };
+  }, []);
+
+  // Function to handle clicking on a step in the vertical wizard
+  const handleStepClick = (stepId: number) => {
+    // Only allow clicking on completed steps (steps before the current step)
+    if (stepId < currentStep) {
+      // Dispatch an event to notify the TransactionForm component
+      const event = new CustomEvent('verticalStepClick', {
+        detail: { step: stepId }
+      });
+      window.dispatchEvent(event);
+
+      // Update local state as well
+      setCurrentStep(stepId);
+    }
+  };
+
+  // Features displayed on the sidebar
+  const features = [
+    {
+      icon: FileText,
+      title: "Fast Transaction Submission",
+      description: "Submit details through our user-friendly form designed for real estate professionals."
+    },
+    {
+      icon: Shield,
+      title: "Secure Handling",
+      description: "Your transaction information is securely processed and stored."
+    },
+    {
+      icon: Clock,
+      title: "Time-Saving",
+      description: "Save hours on paperwork with our efficient coordination service."
+    }
+  ];
+
+  return (
+    <TransactionHero className="py-0 px-0">
+      <div className="transaction-portal-container">
+        {/* Left side - Title and features */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="lg:w-1/3 p-6 lg:p-8 flex flex-col"
+        >
+          <div className="transaction-portal-title mb-6">
+            <h1>Welcome to the</h1>
+            <h2>Transaction Portal</h2>
+          </div>
+
+          <p className="transaction-portal-subtitle">
+            Submit new transactions quickly and easily with our streamlined intake form.
+          </p>
+
+          {/* Features */}
+          <div className="mt-8">
+            {features.map((feature, index) => (
+              <div key={index} className="transaction-portal-feature">
+                <div className="transaction-portal-feature-icon">
+                  <feature.icon size={20} />
+                </div>
+                <div>
+                  <h3 className="text-blue-200 font-semibold">{feature.title}</h3>
+                  <p className="text-white/70 text-sm">{feature.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Step indicators */}
+          <div className="transaction-portal-steps mt-8">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(step => (
+              <div
+                key={step}
+                className={`transaction-portal-step ${step === currentStep ? 'transaction-portal-step-active' : ''}`}
+                onClick={() => handleStepClick(step)}
+              />
+            ))}
+          </div>
+
+          {/* Footer */}
+          <div className="transaction-portal-footer mt-auto">
+            Every transaction is a work of art, carefully crafted with expertise and precision
+            <div className="mt-2">Powered by PA Real Estate Support Services</div>
+          </div>
+        </motion.div>
+
+        {/* Right side - Transaction Form */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="lg:w-2/3"
+        >
+          <div className="transaction-portal-card h-full">
+            <div className="top-wizard-container z-20 sticky top-0 bg-blue-900/95 backdrop-blur-xl px-4 py-2 rounded-t-xl border-b border-blue-700/30">
+              <div className="flex justify-between overflow-x-auto space-x-2 py-1">
+                {[
+                  { id: 1, title: "Agent Role" },
+                  { id: 2, title: "Property" },
+                  { id: 3, title: "Clients" },
+                  { id: 4, title: "Commission" },
+                  { id: 5, title: "Details" },
+                  { id: 6, title: "Documents" },
+                  { id: 7, title: "Additional" },
+                  { id: 8, title: "Review" },
+                  { id: 9, title: "Sign" }
+                ].map(step => (
+                  <button
+                    key={step.id}
+                    className={`flex items-center justify-center rounded-full w-8 h-8 text-xs font-medium transition-all
+                      ${step.id === currentStep
+                        ? 'bg-blue-500 text-white shadow-md'
+                        : step.id < currentStep
+                          ? 'bg-blue-200 text-blue-800 hover:bg-blue-300'
+                          : 'bg-blue-800/50 text-blue-200/50'}`}
+                    aria-current={step.id === currentStep ? "step" : undefined}
+                    data-step-name={step.title}
+                    data-completed={step.id < currentStep ? "true" : "false"}
+                    onClick={() => handleStepClick(step.id)}
+                  >
+                    {step.id}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Main form content with TransactionForm component */}
+            <div className="transaction-portal-form-container">
+              <TransactionForm />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </TransactionHero>
+  );
+};

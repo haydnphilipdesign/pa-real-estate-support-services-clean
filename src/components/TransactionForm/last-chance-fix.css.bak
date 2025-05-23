@@ -1,0 +1,57 @@
+/* Last chance fix for blue glass card and white backgrounds - May 2025 */
+
+/* Force the glass card to have the blue background */
+.glass-card-navy, 
+div.glass-card-navy {
+  background-color: rgba(30, 58, 138, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Force every div inside to have transparent background */
+.glass-card-navy div,
+.glass-card-navy > div,
+.glass-card-navy > div > div,
+.glass-card-navy > div > div > div,
+.glass-card-navy > * {
+  background-color: transparent !important;
+}
+
+/* Force the form container to be transparent */
+.modern-form-container,
+.modern-form-container div,
+.modern-form-container > *,
+.modern-form-container > * > * {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Force everything to have transparent background */
+.container div, 
+.container > *, 
+.container > * > *,
+.space-y-6,
+.section-fade-in,
+.space-y-6 > *,
+.section-fade-in > * {
+  background-color: transparent !important;
+}
+
+/* Adjust wizard positioning */
+.wizard-container {
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Direct styling to the root container */
+.transaction-form-container {
+  background-color: transparent !important;
+}
+
+/* Final override for all divs */
+div {
+  background-color: transparent;
+}

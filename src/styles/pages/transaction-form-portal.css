@@ -1,0 +1,1492 @@
+/**
+ * Transaction Form Portal Styling
+ *
+ * This file contains specific styling for the transaction form portal to match the agent login page.
+ * These styles are isolated to prevent affecting other components.
+ */
+
+/* Homepage-style title styling to match home page */
+.homepage-style-title h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.homepage-style-title h1 span {
+  color: rgb(147, 197, 253);
+  display: inline;
+}
+
+.homepage-style-title h2 {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  line-height: 1.1;
+}
+
+.homepage-style-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  max-width: 36rem;
+}
+
+/* Legacy title styling - keeping for reference */
+.transaction-portal-title h1 {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.transaction-portal-title h2 {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: bold;
+  color: rgb(147, 197, 253);
+  margin-top: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.transaction-portal-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  margin-top: 1rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Feature glass cards */
+.feature-glass-card {
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 0.75rem;
+}
+
+.feature-glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4), 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+  border-color: rgba(147, 197, 253, 0.4);
+}
+
+.transaction-portal-feature-icon {
+  padding: 0.5rem;
+  background-color: rgba(37, 99, 235, 0.4);
+  border-radius: 0.5rem;
+  color: #93c5fd;
+  transition: all 0.2s ease;
+}
+
+.feature-glass-card:hover .transaction-portal-feature-icon {
+  background-color: rgba(59, 130, 246, 0.5);
+  color: rgb(219, 234, 254);
+}
+
+/* Glass card styling specifically for transaction form portal */
+.transaction-portal-card,
+.transaction-form-card {
+  background-color: rgba(30, 58, 138, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  height: auto; /* Changed from fixed height to auto */
+  min-height: 600px; /* Increased minimum height */
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Ensure full width */
+  overflow: hidden; /* Prevent content from overflowing the card */
+}
+
+/* Form container */
+.transaction-portal-container,
+.transaction-form-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.75rem;
+  height: auto; /* Changed from fixed height to auto */
+  min-height: 600px; /* Increased minimum height */
+}
+
+@media (min-width: 1280px) {
+  .transaction-portal-container,
+  .transaction-form-container {
+    flex-direction: row;
+    align-items: stretch;
+    max-width: 100%; /* Ensure full width */
+  }
+}
+
+/* Add body style for scrollable page */
+body[data-transaction-page="true"] {
+  overflow: auto;
+  background-color: #0f172a; /* Ensure background color extends for scrolling */
+}
+
+/* Features section */
+.transaction-portal-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.transaction-portal-feature-text {
+  color: white;
+  font-weight: 500;
+}
+
+/* Custom step indicators to match login styling */
+.transaction-portal-steps {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.transaction-portal-step {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 50%;
+  background-color: rgba(191, 219, 254, 0.5);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.transaction-portal-step:hover {
+  background-color: rgba(147, 197, 253, 0.8);
+  transform: scale(1.1);
+}
+
+.transaction-portal-step-active {
+  background-color: rgb(96, 165, 250);
+}
+
+/* Responsive step numbers with tooltips */
+.tooltip-container {
+  position: relative;
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(15, 23, 42, 0.95);
+  color: white;
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.7rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(15, 23, 42, 0.95) transparent transparent transparent;
+}
+
+.tooltip-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Hide scrollbars but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Additional optimizations to handle overflow and dynamic content */
+.transaction-portal-form-container,
+.transaction-form-container {
+  width: 100%;
+  overflow-y: auto;
+  padding: 0 0.5rem 0.25rem 0.5rem; /* Further reduced padding */
+  flex: 1;
+  transform-origin: top center;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 400px;
+}
+
+/* Modern form container */
+.modern-form-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Important for nested flex containers */
+  height: 100%;
+  flex: 1; /* Make it take up available space */
+  overflow-y: visible; /* Allow content to expand naturally */
+  width: 100%; /* Ensure full width */
+}
+
+/* Form content area */
+.section-fade-in {
+  overflow-y: visible; /* Allow content to expand naturally */
+  padding-right: 0.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Ensure full width */
+}
+
+/* Form actions bar styling */
+.form-actions-bar {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0; /* Prevent the bar from shrinking */
+  margin-top: 1rem; /* Reduced margin */
+  border-top: 1px solid rgba(59, 130, 246, 0.2); /* Slightly more visible border */
+}
+
+/* Make the footer match the style of the login page */
+.transaction-portal-footer {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* Make form elements more compact */
+.transaction-portal-form-container input,
+.transaction-portal-form-container select,
+.transaction-portal-form-container .select-trigger {
+  height: 2rem; /* h-8 equivalent */
+  min-height: 2rem;
+  padding-top: 0.25rem; /* py-1 equivalent */
+  padding-bottom: 0.25rem;
+  font-size: 0.875rem; /* text-sm equivalent */
+}
+
+/* Make section headers more compact */
+.transaction-portal-form-container h3,
+.transaction-portal-form-container h4,
+.transaction-portal-form-container .section-title {
+  font-size: 1rem; /* text-base equivalent */
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Make section icons smaller */
+.transaction-portal-form-container h3 svg,
+.transaction-portal-form-container h4 svg,
+.transaction-portal-form-container .section-title svg {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.375rem;
+}
+
+/* Reduce spacing in grid layouts */
+.transaction-portal-form-container .grid {
+  gap: 0.5rem !important; /* gap-2 equivalent */
+}
+
+/* Reduce spacing between form sections */
+.transaction-portal-form-container .space-y-4,
+.transaction-portal-form-container .space-y-6 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Add styling to make form inputs more compact */
+.transaction-portal-form-container input::placeholder {
+  color: rgba(30, 58, 138, 0.6) !important; /* Darker placeholder text */
+}
+
+/* Emergency fix for transparent dropdowns on blue backgrounds */
+.transaction-form-container select,
+.transaction-portal-form-container select,
+[data-transaction-page="true"] select,
+body[data-transaction-page="true"] select,
+select[data-status],
+select[name="propertyStatus"],
+select[name="updateMls"],
+select[name="isBuiltBefore1978"],
+select[name="propertyAccessType"] {
+  background-color: white !important;
+  background: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+  -webkit-appearance: menulist !important;
+  appearance: menulist !important;
+  border: 1px solid rgba(59, 130, 246, 0.5) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Target the specific fields shown in the screenshot */
+.transaction-portal-form-container [aria-label="Property Status"] select,
+.transaction-portal-form-container [aria-label="Update MLS Status"] select,
+.transaction-portal-form-container [aria-label="Built Before 1978"] select,
+.transaction-portal-form-container [aria-label="Property Access Type"] select {
+  background-color: white !important;
+  background: white !important;
+}
+
+/* Fix dropdown styling - STRONGER RULES */
+.transaction-portal-form-container select,
+.transaction-portal-container select,
+.transaction-portal-card select,
+select,
+.transaction-form-container select {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+  -webkit-appearance: menulist !important;
+  appearance: menulist !important;
+  background-image: none !important;
+  background: white !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Target the select element specifically */
+select[data-status], /* Property Status dropdown */
+select[name], /* Any named select */
+.form-select,
+.transaction-form-container select,
+.transaction-portal-form-container select {
+  background-color: white !important;
+  background: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Force white background on all form controls */
+.form-control,
+input,
+select,
+textarea {
+  background-color: white !important;
+  background: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Ensure all form inputs in transaction form have white backgrounds */
+.transaction-portal-form-container input,
+.transaction-portal-form-container select,
+.transaction-portal-form-container textarea,
+.transaction-portal-form-container .select-trigger,
+.transaction-form-container input,
+.transaction-form-container select,
+.transaction-form-container textarea,
+.transaction-form-container .select-trigger,
+[data-transaction-page="true"] input,
+[data-transaction-page="true"] select,
+[data-transaction-page="true"] textarea,
+[data-transaction-page="true"] .select-trigger {
+  background-color: white !important;
+  background: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Ensure dropdown options are visible */
+.transaction-portal-form-container select option,
+.transaction-portal-container select option,
+.transaction-portal-card select option,
+select option,
+.transaction-form-container select option {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Style for dropdown when open */
+.transaction-portal-form-container select:focus,
+.transaction-portal-container select:focus,
+.transaction-portal-card select:focus,
+.transaction-form-container select:focus {
+  background-color: white !important;
+  border-color: #3b82f6 !important;
+}
+
+/* Fix any custom dropdowns */
+.transaction-portal-form-container .dropdown-menu,
+.transaction-portal-form-container .dropdown-content,
+.transaction-portal-form-container [role="listbox"],
+.transaction-portal-container .dropdown-menu,
+.transaction-portal-container .dropdown-content,
+.transaction-portal-container [role="listbox"],
+.transaction-form-container .dropdown-menu,
+.transaction-form-container .dropdown-content,
+.transaction-form-container [role="listbox"] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  border: 1px solid rgba(59, 130, 246, 0.5) !important;
+  opacity: 1 !important;
+}
+
+.transaction-portal-form-container .dropdown-item,
+.transaction-portal-form-container [role="option"],
+.transaction-portal-container .dropdown-item,
+.transaction-portal-container [role="option"],
+.transaction-form-container .dropdown-item,
+.transaction-form-container [role="option"] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+.transaction-portal-form-container .dropdown-item:hover,
+.transaction-portal-form-container [role="option"]:hover,
+.transaction-portal-container .dropdown-item:hover,
+.transaction-portal-container [role="option"]:hover,
+.transaction-form-container .dropdown-item:hover,
+.transaction-form-container [role="option"]:hover {
+  background-color: #f0f9ff !important; /* Light blue hover */
+}
+
+/* Fix for React-based custom dropdowns */
+[data-radix-popper-content-wrapper],
+[data-popper-placement],
+.react-select__menu,
+.select__menu,
+.css-26l3qy-menu {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  border: 1px solid rgba(59, 130, 246, 0.5) !important;
+  opacity: 1 !important;
+  z-index: 9999 !important;
+}
+
+[data-radix-popper-content-wrapper] *,
+[data-popper-placement] *,
+.react-select__option,
+.select__option,
+.css-1n7v3ny-option,
+.css-9gakcf-option {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Override any global styles that might be causing transparency */
+body .transaction-portal-card select,
+html .transaction-portal-card select,
+body .transaction-form-container select,
+html .transaction-form-container select,
+body [data-transaction-page="true"] select,
+html [data-transaction-page="true"] select {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Fix React Select components specifically */
+.css-1s2u09g-control,
+.css-1pahdxg-control,
+.css-26l3qy-menu,
+.css-4ljt47-MenuList,
+.css-1n7v3ny-option,
+.css-9gakcf-option {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+.css-1n7v3ny-option:hover,
+.css-9gakcf-option:hover {
+  background-color: #f0f9ff !important;
+}
+
+/* Fix for select elements in specific form sections */
+.form-section select,
+#property-section select,
+#client-section select,
+#commission-section select,
+#property-details-section select,
+#additional-info-section select {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+  -webkit-appearance: menulist !important;
+  appearance: menulist !important;
+}
+
+.transaction-portal-form-container .input-group {
+  margin-bottom: 0.75rem;
+}
+
+/* Optimize form section spacing */
+.transaction-portal-form-container .form-section {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Fix any error messages */
+.transaction-portal-form-container .error-message {
+  color: rgb(252, 165, 165);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Ensure buttons have proper styling */
+.transaction-portal-form-container button {
+  transition-property: all;
+  transition-duration: 200ms;
+}
+
+/* Fix any custom component styling that might be affected */
+.transaction-portal-form-container .custom-select,
+.transaction-portal-form-container .custom-dropdown {
+  background-color: white !important;
+}
+
+/* Fix for any specific component libraries used */
+.transaction-portal-form-container .MuiSelect-select,
+.transaction-portal-form-container .MuiMenuItem-root,
+.transaction-portal-form-container .MuiPopover-paper {
+  background-color: white !important;
+  color: #1e3a8a !important;
+}
+
+/* Fix for any tailwind UI components */
+.transaction-portal-form-container [data-headlessui-state],
+.transaction-portal-form-container [data-headlessui-state="open"] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+}
+
+/* Fix for any shadcn components */
+.transaction-portal-form-container [data-radix-select-content],
+.transaction-portal-form-container [data-radix-menu-content] {
+  background-color: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Fix for shadcn/ui Select components */
+[data-transaction-page="true"] [data-radix-select-trigger],
+[data-transaction-page="true"] [role="combobox"],
+[data-transaction-page="true"] button[id^="status"],
+[data-transaction-page="true"] button[id^="updateMls"],
+[data-transaction-page="true"] button[id^="builtBefore1978"],
+[data-transaction-page="true"] button[id^="propertyAccessType"],
+[data-transaction-page="true"] button[id^="isWinterized"] {
+  background-color: white !important;
+  background: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+  border: 1px solid rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Ensure the select trigger has a white background */
+[data-radix-select-trigger],
+.select-trigger,
+[id="status"],
+[id="updateMls"],
+[id="builtBefore1978"],
+[id="propertyAccessType"],
+[id="isWinterized"] {
+  background-color: white !important;
+  background: white !important;
+  color: #1e3a8a !important;
+  opacity: 1 !important;
+}
+
+/* Add styling for white card sections in the form */
+.transaction-form-card,
+.form-section-card,
+.client-card,
+.document-section,
+.commission-section,
+.additional-info-section {
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Ensure all form sections have consistent styling */
+.form-section,
+.client-section,
+.property-section,
+.document-section,
+.commission-section,
+.additional-info-section {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Override any white backgrounds in form sections */
+.transaction-portal-form-container .card,
+.transaction-portal-form-container .section-card,
+.transaction-portal-form-container .form-card,
+.transaction-portal-form-container [class*="-card"],
+.transaction-portal-form-container [class*="section"] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Specific styling for client information section */
+.client-information-section,
+.commission-details-section,
+.required-documents-section,
+.additional-information-section,
+.transaction-summary-section {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Target the white background containers shown in the screenshots */
+.client-tab-content,
+.commission-details-container,
+.document-checklist-container,
+.additional-info-container {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Ensure seller/buyer tabs have transparent backgrounds */
+.client-type-tab,
+.client-tab,
+.seller-tab,
+.buyer-tab {
+  background-color: transparent !important;
+}
+
+/* Make sure the active tab has proper styling */
+.client-type-tab.active,
+.client-tab.active {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  border-bottom: 2px solid #3b82f6 !important;
+}
+
+/* Enhanced review section styling to fit within card */
+.transaction-portal-form-container .review-section {
+  max-height: 100%;
+  overflow-y: auto;
+  transform: scale(0.95); /* Scale down slightly to fit better */
+  transform-origin: top center;
+  padding-right: 0.5rem; /* Add padding for scrollbar */
+}
+
+/* Make the review section more compact */
+.transaction-portal-form-container .review-section .card,
+.transaction-portal-form-container .review-section [class*="card"] {
+  padding: 0.5rem !important;
+  margin-bottom: 0.5rem;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Significantly reduce spacing between review sections */
+.transaction-portal-form-container .review-section .space-y-6 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.transaction-portal-form-container .review-section .space-y-4 {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Make section headers much more compact */
+.transaction-portal-form-container .review-section .border-b,
+.transaction-portal-form-container .review-section [class*="section-header"] {
+  padding-bottom: 0.25rem !important;
+  margin-bottom: 0.5rem !important;
+  border-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Tighten grid layouts in review section */
+.transaction-portal-form-container .review-section .grid {
+  gap: 0.25rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Make text much smaller in review section */
+.transaction-portal-form-container .review-section p {
+  font-size: 0.7rem !important; /* Smaller than text-xs */
+  margin-bottom: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.transaction-portal-form-container .review-section h3,
+.transaction-portal-form-container .review-section h4,
+.transaction-portal-form-container .review-section .text-lg {
+  font-size: 0.8rem !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.2 !important;
+}
+
+/* Make icons much smaller */
+.transaction-portal-form-container .review-section svg {
+  width: 0.75rem !important;
+  height: 0.75rem !important;
+}
+
+/* Make rounded elements smaller */
+.transaction-portal-form-container .review-section .rounded-full {
+  padding: 0.25rem !important;
+}
+
+/* Condense client cards significantly */
+.transaction-portal-form-container .review-section [class*="client-card"],
+.transaction-portal-form-container .review-section .bg-gray-50,
+.transaction-portal-form-container .review-section .bg-amber-50 {
+  padding: 0.25rem !important;
+  border-radius: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Reduce padding in property sections */
+.transaction-portal-form-container .review-section [class*="property-section"],
+.transaction-portal-form-container .review-section [class*="commission-section"],
+.transaction-portal-form-container .review-section [class*="document-section"] {
+  padding: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Fix buttons in review section */
+.transaction-portal-form-container .review-section button {
+  padding: 0.125rem 0.25rem !important;
+  font-size: 0.7rem !important;
+  height: auto !important;
+  min-height: 1.5rem !important;
+}
+
+/* Ensure proper overflow handling */
+.transaction-portal-form-container .review-section {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.transaction-portal-form-container .review-section::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.transaction-portal-form-container .review-section::-webkit-scrollbar-thumb {
+  background-color: rgba(59, 130, 246, 0.3);
+  border-radius: 9999px;
+}
+
+/* Ensure all form sections have transparent backgrounds */
+.transaction-portal-form-container .form-section,
+.transaction-portal-form-container .client-section,
+.transaction-portal-form-container .property-section,
+.transaction-portal-form-container .commission-section,
+.transaction-portal-form-container .documents-section,
+.transaction-portal-form-container .additional-info-section,
+.transaction-portal-form-container .review-section,
+.transaction-portal-form-container .signature-section,
+.transaction-portal-form-container [class*="-section"] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Remove backgrounds from all cards */
+.transaction-portal-form-container .card,
+.transaction-portal-form-container [class*="-card"],
+.transaction-portal-form-container [data-card],
+.transaction-portal-form-container [class*="Card"] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Specific styling for client information section */
+.client-information-section,
+.transaction-portal-form-container .client-information,
+.transaction-portal-form-container [id*="client-information"] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Specific styling for commission details section */
+.commission-details-section,
+.transaction-portal-form-container .commission-details,
+.transaction-portal-form-container [id*="commission-details"] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Specific styling for documents section */
+.documents-section,
+.transaction-portal-form-container .documents,
+.transaction-portal-form-container [id*="documents"] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Specific styling for additional info section */
+.additional-info-section,
+.transaction-portal-form-container .additional-info,
+.transaction-portal-form-container [id*="additional-info"] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Missing Information Dialog Styling */
+.transaction-portal-form-container .fixed.inset-0.z-50,
+.transaction-form-container .fixed.inset-0.z-50,
+[data-transaction-page="true"] .fixed.inset-0.z-50 {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Style for the dialog overlay */
+.transaction-portal-form-container .fixed.inset-0.bg-black\/50,
+.transaction-form-container .fixed.inset-0.bg-black\/50,
+[data-transaction-page="true"] .fixed.inset-0.bg-black\/50 {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Style for the dialog container */
+.transaction-portal-form-container .bg-white.rounded-xl,
+.transaction-portal-form-container .bg-white.rounded-lg,
+.transaction-form-container .bg-white.rounded-xl,
+.transaction-form-container .bg-white.rounded-lg,
+[data-transaction-page="true"] .bg-white.rounded-xl,
+[data-transaction-page="true"] .bg-white.rounded-lg {
+  background-color: rgba(30, 58, 138, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+  color: white;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.transaction-portal-form-container .bg-white.rounded-xl::before,
+.transaction-portal-form-container .bg-white.rounded-lg::before,
+.transaction-form-container .bg-white.rounded-xl::before,
+.transaction-form-container .bg-white.rounded-lg::before,
+[data-transaction-page="true"] .bg-white.rounded-xl::before,
+[data-transaction-page="true"] .bg-white.rounded-lg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.7), rgba(245, 158, 11, 0.7));
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  z-index: 1;
+  animation: pulse-gradient 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-gradient {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Toast title */
+[data-transaction-page="true"] [data-radix-toast-title],
+.transaction-portal-form-container [data-radix-toast-title],
+.transaction-form-container [data-radix-toast-title] {
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Toast description */
+[data-transaction-page="true"] [data-radix-toast-description],
+.transaction-portal-form-container [data-radix-toast-description],
+.transaction-form-container [data-radix-toast-description] {
+  color: rgba(219, 234, 254, 0.9);
+}
+
+/* Toast close button */
+[data-transaction-page="true"] [data-radix-toast-close],
+.transaction-portal-form-container [data-radix-toast-close],
+.transaction-form-container [data-radix-toast-close] {
+  color: rgba(147, 197, 253, 0.7);
+}
+[data-transaction-page="true"] [data-radix-toast-close]:hover,
+.transaction-portal-form-container [data-radix-toast-close]:hover,
+.transaction-form-container [data-radix-toast-close]:hover {
+  color: rgb(219, 234, 254);
+}
+
+/* Style for toast title and description */
+.transaction-portal-form-container [role="status"] h3,
+.transaction-portal-form-container [role="status"] div,
+.transaction-form-container [role="status"] h3,
+.transaction-form-container [role="status"] div,
+[data-transaction-page="true"] [role="status"] h3,
+[data-transaction-page="true"] [role="status"] div {
+  color: white;
+}
+
+.transaction-portal-form-container [role="status"] p,
+.transaction-form-container [role="status"] p,
+[data-transaction-page="true"] [role="status"] p {
+  color: rgba(219, 234, 254, 0.9);
+}
+
+/* Fix for Sonner toasts */
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast] {
+  background-color: rgba(30, 58, 138, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+  color: white;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.7), rgba(245, 158, 11, 0.7));
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  z-index: 1;
+}
+
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast] [data-title] {
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast] [data-description] {
+  color: rgba(219, 234, 254, 0.9);
+}
+
+/* Fix for ValidationBypassButtons and ResetFormDialog buttons */
+.transaction-portal-form-container .button-group button,
+.transaction-form-container .button-group button,
+[data-transaction-page="true"] .button-group button,
+.transaction-portal-form-container .dialog-actions button,
+.transaction-form-container .dialog-actions button,
+[data-transaction-page="true"] .dialog-actions button {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific styling for the missing information popup buttons */
+.transaction-portal-form-container .button-group button:first-child,
+.transaction-form-container .button-group button:first-child,
+[data-transaction-page="true"] .button-group button:first-child {
+  background-color: rgba(245, 158, 11, 0.9);
+  color: white;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  color: #1e293b; /* Darker text color for better contrast on amber */
+}
+
+.transaction-portal-form-container .button-group button:last-child,
+.transaction-form-container .button-group button:last-child,
+[data-transaction-page="true"] .button-group button:last-child {
+  background-color: rgba(59, 130, 246, 0.9);
+  color: white;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Specific styling for the reset form dialog buttons */
+.transaction-portal-form-container .dialog-actions button:first-child,
+.transaction-form-container .dialog-actions button:first-child,
+[data-transaction-page="true"] .dialog-actions button:first-child {
+  background-color: transparent;
+  color: rgba(219, 234, 254, 0.9);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+.transaction-portal-form-container .dialog-actions button:first-child:hover,
+.transaction-form-container .dialog-actions button:first-child:hover,
+[data-transaction-page="true"] .dialog-actions button:first-child:hover {
+  background-color: rgba(59, 130, 246, 0.3);
+}
+
+.transaction-portal-form-container .dialog-actions button:last-child,
+.transaction-form-container .dialog-actions button:last-child,
+[data-transaction-page="true"] .dialog-actions button:last-child {
+  background-color: rgba(239, 68, 68, 0.9);
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.transaction-portal-form-container .dialog-actions button:last-child:hover,
+.transaction-form-container .dialog-actions button:last-child:hover,
+[data-transaction-page="true"] .dialog-actions button:last-child:hover {
+  background-color: rgb(239, 68, 68);
+}
+
+/* Add hover effects to the missing information list items */
+.transaction-portal-form-container .bg-amber-50 li,
+.transaction-form-container .bg-amber-50 li,
+[data-transaction-page="true"] .bg-amber-50 li {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+.transaction-portal-form-container .bg-amber-50 li:hover,
+.transaction-form-container .bg-amber-50 li:hover,
+[data-transaction-page="true"] .bg-amber-50 li:hover {
+  color: rgb(254, 243, 199);
+  transform: translateX(2px);
+}
+
+/* Style for dialog headers */
+.transaction-portal-form-container [class*="text-2xl"][class*="font-bold"][class*="text-gray-800"],
+.transaction-portal-form-container [class*="text-xl"][class*="font-bold"][class*="text-gray-800"],
+.transaction-form-container [class*="text-2xl"][class*="font-bold"][class*="text-gray-800"],
+.transaction-form-container [class*="text-xl"][class*="font-bold"][class*="text-gray-800"],
+[data-transaction-page="true"] [class*="text-2xl"][class*="font-bold"][class*="text-gray-800"],
+[data-transaction-page="true"] [class*="text-xl"][class*="font-bold"][class*="text-gray-800"] {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Style for dialog text */
+.transaction-portal-form-container [class*="text-lg"][class*="text-gray-700"],
+.transaction-portal-form-container [class*="text-base"][class*="text-gray-600"],
+.transaction-portal-form-container [class*="text-gray-600"],
+.transaction-form-container [class*="text-lg"][class*="text-gray-700"],
+.transaction-form-container [class*="text-base"][class*="text-gray-600"],
+.transaction-form-container [class*="text-gray-600"],
+[data-transaction-page="true"] [class*="text-lg"][class*="text-gray-700"],
+[data-transaction-page="true"] [class*="text-base"][class*="text-gray-600"],
+[data-transaction-page="true"] [class*="text-gray-600"] {
+  color: rgba(219, 234, 254, 0.9) !important;
+}
+
+/* Style for missing information box */
+.transaction-portal-form-container [class*="bg-amber-50"][class*="border"][class*="border-amber-200"],
+.transaction-form-container [class*="bg-amber-50"][class*="border"][class*="border-amber-200"],
+[data-transaction-page="true"] [class*="bg-amber-50"][class*="border"][class*="border-amber-200"] {
+  background-color: rgba(245, 158, 11, 0.2) !important;
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* Style for missing information title */
+.transaction-portal-form-container [class*="text-lg"][class*="font-medium"][class*="text-amber-800"],
+.transaction-form-container [class*="text-lg"][class*="font-medium"][class*="text-amber-800"],
+[data-transaction-page="true"] [class*="text-lg"][class*="font-medium"][class*="text-amber-800"] {
+  color: rgb(252, 211, 77) !important;
+}
+
+/* Style for missing information list */
+.transaction-portal-form-container [class*="text-amber-700"],
+.transaction-form-container [class*="text-amber-700"],
+[data-transaction-page="true"] [class*="text-amber-700"] {
+  color: rgb(253, 230, 138) !important;
+}
+
+/* Style for dialog buttons */
+.transaction-portal-form-container [class*="bg-amber-500"],
+.transaction-form-container [class*="bg-amber-500"],
+[data-transaction-page="true"] [class*="bg-amber-500"] {
+  background-color: rgba(245, 158, 11, 0.9) !important;
+  color: white !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+.transaction-portal-form-container [class*="bg-amber-500"]:hover,
+.transaction-form-container [class*="bg-amber-500"]:hover,
+[data-transaction-page="true"] [class*="bg-amber-500"]:hover {
+  background-color: rgb(245, 158, 11) !important;
+}
+
+.transaction-portal-form-container [class*="bg-blue-500"],
+.transaction-form-container [class*="bg-blue-500"],
+[data-transaction-page="true"] [class*="bg-blue-500"] {
+  background-color: rgba(59, 130, 246, 0.9) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+.transaction-portal-form-container [class*="bg-blue-500"]:hover,
+.transaction-form-container [class*="bg-blue-500"]:hover,
+[data-transaction-page="true"] [class*="bg-blue-500"]:hover {
+  background-color: rgb(59, 130, 246) !important;
+}
+
+.transaction-portal-form-container [class*="bg-red-600"],
+.transaction-form-container [class*="bg-red-600"],
+[data-transaction-page="true"] [class*="bg-red-600"] {
+  background-color: rgba(239, 68, 68, 0.9) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+.transaction-portal-form-container [class*="bg-red-600"]:hover,
+.transaction-form-container [class*="bg-red-600"]:hover,
+[data-transaction-page="true"] [class*="bg-red-600"]:hover {
+  background-color: rgb(239, 68, 68) !important;
+}
+
+/* Style for close button */
+.transaction-portal-form-container [class*="text-gray-400"][class*="hover\:text-gray-600"],
+.transaction-form-container [class*="text-gray-400"][class*="hover\:text-gray-600"],
+[data-transaction-page="true"] [class*="text-gray-400"][class*="hover\:text-gray-600"] {
+  color: rgba(147, 197, 253, 0.7) !important;
+}
+.transaction-portal-form-container [class*="text-gray-400"][class*="hover\:text-gray-600"]:hover,
+.transaction-form-container [class*="text-gray-400"][class*="hover\:text-gray-600"]:hover,
+[data-transaction-page="true"] [class*="text-gray-400"][class*="hover\:text-gray-600"]:hover {
+  color: rgb(219, 234, 254) !important;
+}
+
+/* Toast styling to match transaction form */
+[data-transaction-page="true"] [data-sonner-toast],
+[data-transaction-page="true"] [data-radix-toast-root],
+.transaction-portal-form-container [data-sonner-toast],
+.transaction-portal-form-container [data-radix-toast-root],
+.transaction-form-container [data-sonner-toast],
+.transaction-form-container [data-radix-toast-root] {
+  background-color: rgba(30, 58, 138, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+  color: white;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  animation: toast-slide-in 0.3s ease-out forwards;
+}
+
+@keyframes toast-slide-in {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Draft loaded toast specific styling */
+[data-transaction-page="true"] [data-toast-title="Draft Loaded"],
+.transaction-portal-form-container [data-toast-title="Draft Loaded"],
+.transaction-form-container [data-toast-title="Draft Loaded"] {
+  border-left: 4px solid rgba(59, 130, 246, 0.7);
+}
+
+/* Form reset toast specific styling */
+[data-transaction-page="true"] [data-toast-title="Form Reset"],
+.transaction-portal-form-container [data-toast-title="Form Reset"],
+.transaction-form-container [data-toast-title="Form Reset"] {
+  border-left: 4px solid rgba(239, 68, 68, 0.7);
+}
+
+/* Draft cleared toast specific styling */
+[data-transaction-page="true"] [data-toast-title="Draft Cleared"],
+.transaction-portal-form-container [data-toast-title="Draft Cleared"],
+.transaction-form-container [data-toast-title="Draft Cleared"] {
+  border-left: 4px solid rgba(245, 158, 11, 0.7);
+}
+
+/* Additional toast styling */
+.transaction-portal-form-container [role="status"],
+.transaction-form-container [role="status"],
+[data-transaction-page="true"] [role="status"] {
+  background-color: rgba(30, 58, 138, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+  color: white;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.transaction-portal-form-container [role="status"]::before,
+.transaction-form-container [role="status"]::before,
+[data-transaction-page="true"] [role="status"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.7), rgba(245, 158, 11, 0.7));
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  z-index: 1;
+}
+
+/* Fix for missing information dialog buttons */
+.transaction-portal-form-container [class*="bg-amber-500"][class*="hover\:bg-amber-600"],
+.transaction-form-container [class*="bg-amber-500"][class*="hover\:bg-amber-600"],
+[data-transaction-page="true"] [class*="bg-amber-500"][class*="hover\:bg-amber-600"] {
+  background-color: rgba(245, 158, 11, 0.9) !important;
+  color: white !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+.transaction-portal-form-container [class*="bg-amber-500"][class*="hover\:bg-amber-600"]:hover,
+.transaction-form-container [class*="bg-amber-500"][class*="hover\:bg-amber-600"]:hover,
+[data-transaction-page="true"] [class*="bg-amber-500"][class*="hover\:bg-amber-600"]:hover {
+  background-color: rgb(245, 158, 11) !important;
+}
+
+.transaction-portal-form-container [class*="bg-blue-500"][class*="hover\:bg-blue-600"],
+.transaction-form-container [class*="bg-blue-500"][class*="hover\:bg-blue-600"],
+[data-transaction-page="true"] [class*="bg-blue-500"][class*="hover\:bg-blue-600"] {
+  background-color: rgba(59, 130, 246, 0.9) !important;
+  color: white !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+.transaction-portal-form-container [class*="bg-blue-500"][class*="hover\:bg-blue-600"]:hover,
+.transaction-form-container [class*="bg-blue-500"][class*="hover\:bg-blue-600"]:hover,
+[data-transaction-page="true"] [class*="bg-blue-500"][class*="hover\:bg-blue-600"]:hover {
+  background-color: rgb(59, 130, 246) !important;
+}
+
+/* Override any white backgrounds in dialogs */
+.transaction-portal-form-container [class*="bg-white"],
+.transaction-form-container [class*="bg-white"],
+[data-transaction-page="true"] [class*="bg-white"] {
+  background-color: transparent !important;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 1023px) {
+  .transaction-portal-container {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
+
+  .transaction-portal-card {
+    margin-top: 1rem;
+  }
+
+  .transaction-portal-form-container {
+    max-height: none; /* Let it grow naturally on mobile */
+  }
+
+  /* Make feature cards more compact on mobile */
+  .feature-glass-card {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Adjust step indicators for mobile */
+  .top-wizard-container {
+    padding: 0.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .top-wizard-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Make buttons slimmer on mobile */
+  .top-wizard-container button {
+    min-width: 24px;
+    height: 24px;
+    font-size: 0.65rem;
+    flex-shrink: 0;
+  }
+
+  /* Make title smaller on mobile */
+  .homepage-style-title h1 {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    width: 100% !important;
+    word-break: break-word !important;
+  }
+
+  .homepage-style-title h1 span {
+    display: inline !important;
+    white-space: normal !important;
+  }
+
+  .homepage-style-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Fix the step indicators on mobile */
+  .transaction-portal-steps {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin: 1rem auto !important;
+    padding: 0.5rem 0.75rem !important;
+    background-color: rgba(30, 58, 138, 0.3) !important;
+    border-radius: 9999px !important;
+    width: fit-content !important;
+    max-width: 90% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .transaction-portal-steps::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .transaction-portal-step {
+    width: 0.75rem !important;
+    height: 0.75rem !important;
+    flex-shrink: 0 !important;
+    margin: 0 0.125rem !important;
+  }
+}
+
+/* Tablet responsiveness improvements */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .transaction-portal-container {
+    padding: 0.75rem;
+  }
+
+  /* Make the feature cards horizontal on tablets */
+  .lg\:w-1\/3 .space-y-3 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .feature-glass-card {
+    width: calc(50% - 0.5rem);
+    margin-bottom: 0;
+  }
+
+  /* Improve title and subtitle on tablets */
+  .homepage-style-title h1 {
+    font-size: 2.25rem !important;
+    text-align: center !important;
+  }
+
+  .homepage-style-subtitle {
+    font-size: 1.125rem !important;
+    max-width: 90% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  /* Improve step indicators on tablets */
+  .transaction-portal-steps {
+    margin: 1.25rem auto !important;
+  }
+}
+
+/* Specific form field adjustments for mobile */
+@media (max-width: 640px) {
+  .transaction-portal-form-container input,
+  .transaction-portal-form-container select,
+  .transaction-portal-form-container .select-trigger {
+    font-size: 16px; /* Prevent iOS zoom on focus */
+    height: 2.5rem; /* Slightly taller for touch targets */
+  }
+
+  /* Make buttons easier to tap */
+  .transaction-portal-form-container button,
+  .form-actions-bar button {
+    min-height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Adjust step indicators for very small screens */
+  .top-wizard-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Make section and form spacing more compact */
+  .transaction-portal-form-container .space-y-4,
+  .transaction-portal-form-container .space-y-6 {
+    margin-top: 0.25rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .transaction-portal-form-container .form-section {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  /* Fix title and subtitle on small mobile */
+  .homepage-style-title h1 {
+    font-size: 1.5rem !important;
+    padding: 0 0.5rem !important;
+  }
+
+  .homepage-style-subtitle {
+    font-size: 0.875rem !important;
+    padding: 0 0.75rem !important;
+  }
+
+  /* Ensure step indicators are properly visible */
+  .transaction-portal-steps {
+    max-width: 95% !important;
+    padding: 0.375rem 0.5rem !important;
+  }
+
+  .transaction-portal-step {
+    width: 0.625rem !important;
+    height: 0.625rem !important;
+  }
+}

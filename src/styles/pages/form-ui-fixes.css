@@ -1,0 +1,323 @@
+/**
+ * Transaction Form UI Fixes - May 2025
+ *
+ * This file contains specific fixes for:
+ * 1. Making "Access Type*" text white in the property information section
+ * 2. Styling reset form and missing info popups to match the form's color scheme
+ * 3. Making dropdown fields the same height as text entry fields
+ * 4. Enhancing mobile usability with larger touch targets and improved contrast
+ * 5. Optimizing form elements for various screen sizes
+ */
+
+/* Fix 1: Make Access Type label text white */
+.transaction-portal-form-container [htmlFor="propertyAccessType"],
+.transaction-form-container [htmlFor="propertyAccessType"],
+[data-transaction-page="true"] [htmlFor="propertyAccessType"] {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Target all Property Information section labels that need to be white */
+.transaction-portal-form-container .property-information-section label,
+.transaction-form-container .property-information-section label,
+[data-transaction-page="true"] .property-information-section label {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Fix 2: Style reset form and missing info popups */
+/* Common dialog styling for both reset form and missing info popups */
+.transaction-portal-form-container .fixed.inset-0.z-50,
+.transaction-form-container .fixed.inset-0.z-50,
+[data-transaction-page="true"] .fixed.inset-0.z-50 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Reset form dialog styling */
+.transaction-portal-form-container .bg-white.rounded-lg,
+.transaction-form-container .bg-white.rounded-lg,
+[data-transaction-page="true"] .bg-white.rounded-lg,
+.reset-form-dialog {
+  background: rgba(30, 58, 138, 0.95) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.2) !important;
+  position: relative !important;
+  z-index: 100 !important;
+  max-width: 500px !important;
+  width: 90% !important;
+  margin: 0 auto !important;
+}
+
+/* Reset form dialog text styling */
+.transaction-portal-form-container .bg-white.rounded-lg h2,
+.transaction-form-container .bg-white.rounded-lg h2,
+[data-transaction-page="true"] .bg-white.rounded-lg h2,
+.reset-form-dialog h2 {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.transaction-portal-form-container .bg-white.rounded-lg p,
+.transaction-form-container .bg-white.rounded-lg p,
+[data-transaction-page="true"] .bg-white.rounded-lg p,
+.reset-form-dialog p {
+  color: rgba(219, 234, 254, 0.9) !important;
+}
+
+/* Style close buttons in dialogs */
+.transaction-portal-form-container .text-gray-400.hover\:text-gray-600,
+.transaction-form-container .text-gray-400.hover\:text-gray-600,
+[data-transaction-page="true"] .text-gray-400.hover\:text-gray-600,
+.reset-form-dialog .text-gray-400.hover\:text-gray-600 {
+  color: rgba(219, 234, 254, 0.7) !important;
+}
+
+.transaction-portal-form-container .text-gray-400.hover\:text-gray-600:hover,
+.transaction-form-container .text-gray-400.hover\:text-gray-600:hover,
+[data-transaction-page="true"] .text-gray-400.hover\:text-gray-600:hover,
+.reset-form-dialog .text-gray-400.hover\:text-gray-600:hover {
+  color: white !important;
+}
+
+/* Missing info popup styling */
+.transaction-portal-form-container .bg-amber-50,
+.transaction-form-container .bg-amber-50,
+[data-transaction-page="true"] .bg-amber-50,
+.missing-fields-list {
+  background-color: rgba(30, 58, 138, 0.95) !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.2) !important;
+  position: relative !important;
+  z-index: 100 !important;
+  max-width: 500px !important;
+  width: 90% !important;
+  margin: 0 auto !important;
+}
+
+/* Specific styling for the missing info dialog */
+.missing-info-dialog {
+  background: rgba(30, 58, 138, 0.95) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3), 0 10px 20px -5px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Style text elements in the missing info dialog */
+.missing-info-dialog h2 {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  font-family: 'Playfair Display', serif !important;
+}
+
+.missing-info-dialog p {
+  color: rgba(219, 234, 254, 0.9) !important;
+}
+
+.missing-info-dialog .missing-fields-list {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  border-radius: 0.5rem !important;
+}
+
+.missing-info-dialog .missing-fields-list p {
+  color: rgb(252, 211, 77) !important;
+  font-weight: 500 !important;
+}
+
+.missing-info-dialog .missing-fields-list ul li {
+  color: rgba(219, 234, 254, 0.9) !important;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.3) !important;
+  padding-bottom: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.missing-info-dialog .missing-fields-list ul li:last-child {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+}
+
+/* Button styling for the missing info dialog */
+.missing-info-dialog .button-group button {
+  transition: all 0.3s ease !important;
+  font-weight: 700 !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+.missing-info-dialog .button-group button:hover {
+  transform: translateY(-2px) !important;
+}
+
+.missing-info-dialog .button-group button:first-child {
+  background-color: rgba(245, 158, 11, 0.9) !important;
+  color: #1e293b !important;
+}
+
+.missing-info-dialog .button-group button:first-child:hover {
+  background-color: rgb(245, 158, 11) !important;
+  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.2), 0 4px 6px -2px rgba(245, 158, 11, 0.1) !important;
+}
+
+.missing-info-dialog .button-group button:last-child {
+  background-color: rgba(59, 130, 246, 0.9) !important;
+  color: white !important;
+}
+
+.missing-info-dialog .button-group button:last-child:hover {
+  background-color: rgb(59, 130, 246) !important;
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -2px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Decorative elements for the missing info dialog */
+.missing-info-dialog::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.missing-info-dialog::after {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Ensure close button is properly styled */
+.missing-info-dialog button[aria-label="Close"] {
+  color: rgba(255, 255, 255, 0.7) !important;
+  transition: color 0.2s ease !important;
+}
+
+.missing-info-dialog button[aria-label="Close"]:hover {
+  color: white !important;
+}
+
+/* Missing info popup title styling */
+.transaction-portal-form-container .bg-amber-50 h2,
+.transaction-form-container .bg-amber-50 h2,
+[data-transaction-page="true"] .bg-amber-50 h2,
+.transaction-portal-form-container [class*="text-2xl"][class*="font-bold"][class*="text-gray-800"],
+.transaction-form-container [class*="text-2xl"][class*="font-bold"][class*="text-gray-800"],
+[data-transaction-page="true"] [class*="text-2xl"][class*="font-bold"][class*="text-gray-800"] {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Missing info popup text styling */
+.transaction-portal-form-container .bg-amber-50 p,
+.transaction-form-container .bg-amber-50 p,
+[data-transaction-page="true"] .bg-amber-50 p,
+.transaction-portal-form-container [class*="text-lg"][class*="text-gray-700"],
+.transaction-form-container [class*="text-lg"][class*="text-gray-700"],
+[data-transaction-page="true"] [class*="text-lg"][class*="text-gray-700"] {
+  color: rgba(219, 234, 254, 0.9) !important;
+}
+
+/* Missing info popup list items */
+.transaction-portal-form-container .bg-amber-50 li,
+.transaction-form-container .bg-amber-50 li,
+[data-transaction-page="true"] .bg-amber-50 li {
+  color: rgba(219, 234, 254, 0.9) !important;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.3) !important;
+}
+
+.transaction-portal-form-container .bg-amber-50 li:last-child,
+.transaction-form-container .bg-amber-50 li:last-child,
+[data-transaction-page="true"] .bg-amber-50 li:last-child {
+  border-bottom: none !important;
+}
+
+/* Ensure dialog overlay is properly styled */
+.transaction-portal-form-container .fixed.inset-0.bg-black\/50,
+.transaction-form-container .fixed.inset-0.bg-black\/50,
+[data-transaction-page="true"] .fixed.inset-0.bg-black\/50 {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Style dialog buttons consistently */
+.transaction-portal-form-container .dialog-actions button,
+.transaction-form-container .dialog-actions button,
+[data-transaction-page="true"] .dialog-actions button,
+.transaction-portal-form-container .button-group button,
+.transaction-form-container .button-group button,
+[data-transaction-page="true"] .button-group button {
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+/* Fix 3: Make dropdown fields the same height as text entry fields */
+/* Target all select components */
+.transaction-portal-form-container [data-radix-select-trigger],
+.transaction-form-container [data-radix-select-trigger],
+[data-transaction-page="true"] [data-radix-select-trigger],
+.transaction-portal-form-container .select-trigger,
+.transaction-form-container .select-trigger,
+[data-transaction-page="true"] .select-trigger {
+  height: 2.5rem !important; /* Match the height of input fields (40px) */
+  min-height: 2.5rem !important;
+  max-height: 2.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Ensure select elements have consistent height */
+.transaction-portal-form-container select,
+.transaction-form-container select,
+[data-transaction-page="true"] select {
+  height: 2.5rem !important; /* 40px */
+  min-height: 2.5rem !important;
+  max-height: 2.5rem !important;
+}
+
+/* Target SelectTrigger components specifically */
+.transaction-portal-form-container .h-8,
+.transaction-form-container .h-8,
+[data-transaction-page="true"] .h-8 {
+  height: 2.5rem !important; /* 40px instead of h-8 (2rem/32px) */
+  min-height: 2.5rem !important;
+}
+
+/* Fix for PropertyInformation.tsx select elements with inline styles */
+.transaction-portal-form-container [id="propertyAccessType"],
+.transaction-form-container [id="propertyAccessType"],
+[data-transaction-page="true"] [id="propertyAccessType"],
+.transaction-portal-form-container [id="updateMls"],
+.transaction-form-container [id="updateMls"],
+[data-transaction-page="true"] [id="updateMls"],
+.transaction-portal-form-container [id="builtBefore1978"],
+.transaction-form-container [id="builtBefore1978"],
+[data-transaction-page="true"] [id="builtBefore1978"],
+.transaction-portal-form-container [id="isWinterized"],
+.transaction-form-container [id="isWinterized"],
+[data-transaction-page="true"] [id="isWinterized"] {
+  height: 2.5rem !important;
+  min-height: 2.5rem !important;
+}
+
+/* Override any inline styles with !important */
+.transaction-portal-form-container [style*="height: 2rem"],
+.transaction-form-container [style*="height: 2rem"],
+[data-transaction-page="true"] [style*="height: 2rem"] {
+  height: 2.5rem !important;
+  min-height: 2.5rem !important;
+}

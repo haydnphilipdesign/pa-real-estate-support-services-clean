@@ -1,0 +1,339 @@
+/**
+ * Enhanced Contrast CSS
+ * 
+ * This file provides specific contrast improvements for different components
+ * and sections throughout the site, ensuring all text meets WCAG AA standards.
+ */
+
+/* ===== HEADER AND NAVIGATION CONTRAST FIXES ===== */
+
+/* Improved contrast for navigation links */
+header nav a {
+  color: white !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  font-weight: 500 !important;
+}
+
+/* Fix to navigation hover states - don't use gold text on light backgrounds */
+header nav a:hover {
+  /* Using higher contrast dark navy instead of gold for hover on light backgrounds */
+  color: white !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+  /* Add underline for a clearer hover state that doesn't rely on color alone */
+  text-decoration: underline;
+}
+
+/* Add a dark semi-transparent background behind header when scrolled to improve readability */
+header.scrolled {
+  background-color: rgba(15, 28, 46, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Fix Agent Portal button text in header to always have dark text on gold background */
+a[href*="Agent Portal"] {
+  background-color: #e9c77b !important; /* Brand cream */
+  color: #0F1C2E !important; /* Brand navy (dark) */
+  font-weight: 600 !important;
+  text-shadow: none !important;
+}
+
+a[href*="Agent Portal"]:hover {
+  background-color: #f0d28c !important; /* Slightly lighter gold */
+  color: #0F1C2E !important; /* Keep dark text */
+}
+
+/* Mobile menu toggle button with improved contrast */
+[data-mobile-menu-toggle] {
+  color: white !important;
+  background-color: rgba(0, 102, 204, 0.9) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Mobile navigation menu items */
+.mobile-nav-bg {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.mobile-nav-item {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ===== HERO SECTION CONTRAST FIXES ===== */
+
+/* Improved overlay for hero images to make text more readable */
+[data-hero-component="true"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Ensure hero content is above the overlay */
+[data-hero-component="true"] > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Fix contrast for hero headlines */
+.hero-headline,
+.hero-title,
+h1.text-white,
+h2.text-white {
+  color: #e9c77b !important; /* Brand cream for better visibility on dark backgrounds */
+  font-weight: 700 !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Fix contrast for hero subheadlines */
+.hero-subheadline,
+.hero-subtitle,
+.hero-subheading,
+p.text-white,
+p.text-blue-100 {
+  color: #eff6ff !important; /* Very light blue for body text on dark background */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Fix for "Start a Transaction" button */
+a[href*="Start a Transaction"] {
+  background-color: white !important;
+  color: #0066CC !important; /* Brand blue */
+  font-weight: 600 !important;
+  border: 2px solid #e9c77b !important; /* Brand cream for border */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+a[href*="Start a Transaction"]:hover {
+  background-color: #FFB81C !important; /* Brand gold */
+  color: #0F1C2E !important; /* Brand navy for better contrast */
+}
+
+/* ===== GLASS CARD CONTRAST FIXES ===== */
+
+/* Dark blue glass cards */
+.glass-card-blue h2,
+.glass-card-blue h3,
+.glass-card-blue h4,
+.glass-card-blue h5,
+.glass-card-blue h6 {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.glass-card-blue p,
+.glass-card-blue li,
+.glass-card-blue span:not([class*="text-"]) {
+  color: #eff6ff !important; /* Very light blue for better readability */
+}
+
+/* Navy glass cards */
+.glass-card-navy h2,
+.glass-card-navy h3,
+.glass-card-navy h4,
+.glass-card-navy h5,
+.glass-card-navy h6 {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.glass-card-navy p,
+.glass-card-navy li,
+.glass-card-navy span:not([class*="text-"]) {
+  color: #eff6ff !important; /* Very light blue for better readability */
+}
+
+/* White glass cards */
+.glass-card-white h2,
+.glass-card-white h3,
+.glass-card-white h4,
+.glass-card-white h5,
+.glass-card-white h6,
+.glass-card-frost h2,
+.glass-card-frost h3,
+.glass-card-frost h4,
+.glass-card-frost h5,
+.glass-card-frost h6 {
+  color: #0F1C2E !important; /* Brand navy for better contrast */
+}
+
+.glass-card-white p,
+.glass-card-white li,
+.glass-card-white span:not([class*="text-"]),
+.glass-card-frost p,
+.glass-card-frost li,
+.glass-card-frost span:not([class*="text-"]) {
+  color: #374151 !important; /* Gray 700 - good contrast on white */
+}
+
+/* Gold glass cards */
+.glass-card-gold h2,
+.glass-card-gold h3,
+.glass-card-gold h4,
+.glass-card-gold h5,
+.glass-card-gold h6 {
+  color: #0F1C2E !important; /* Brand navy for text on gold */
+}
+
+.glass-card-gold p,
+.glass-card-gold li,
+.glass-card-gold span:not([class*="text-"]) {
+  color: #0F1C2E !important; /* Brand navy for text on gold */
+}
+
+/* ===== FEATURE CARDS CONTRAST FIXES ===== */
+
+.feature-card h3 {
+  color: #0066CC !important; /* Brand blue */
+}
+
+.feature-card p {
+  color: #374151 !important; /* Gray 700 */
+}
+
+/* ===== BUTTON CONTRAST FIXES ===== */
+
+/* Primary buttons (dark blue with white text) */
+.btn-primary {
+  background-color: #0066CC !important; /* Brand blue */
+  color: white !important;
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background-color: #004c99 !important; /* Darker brand blue */
+  color: white !important;
+}
+
+/* Secondary buttons (gold with navy text) */
+.btn-secondary {
+  background-color: #FFB81C !important; /* Brand gold */
+  color: #0F1C2E !important; /* Brand navy */
+  border: 1px solid transparent;
+}
+
+.btn-secondary:hover {
+  background-color: #f0d28c !important; /* Lighter gold */
+  color: #0F1C2E !important; /* Brand navy */
+}
+
+/* ===== FOOTER CONTRAST FIXES ===== */
+
+/* Footer headings */
+footer h3,
+footer h4 {
+  color: white !important;
+}
+
+/* Footer text and links */
+footer p,
+footer a:not(.btn):not([class*="bg-"]) {
+  color: #E5E7EB !important; /* Gray 200 - good contrast on dark backgrounds */
+}
+
+/* Footer link hover - avoid gold for contrast reasons */
+footer a:not(.btn):not([class*="bg-"]):hover {
+  color: white !important;
+  text-decoration: underline;
+}
+
+/* Footer Agent Portal button - use dark text on gold */
+footer a[href*="Agent Portal"] {
+  background-color: #FFB81C !important; /* Brand gold */
+  color: #0F1C2E !important; /* Brand navy */
+  font-weight: 600;
+}
+
+footer a[href*="Agent Portal"]:hover {
+  background-color: #f0d28c !important; /* Lighter gold */
+  color: #0F1C2E !important; /* Brand navy */
+}
+
+/* Copyright text in footer */
+footer .text-gray-500,
+footer .text-gray-600 {
+  color: #9CA3AF !important; /* Gray 400 - above 4.5:1 contrast on very dark background */
+}
+
+/* ===== FORM ELEMENTS CONTRAST FIXES ===== */
+
+/* Form labels */
+label {
+  color: #374151 !important; /* Gray 700 */
+}
+
+/* Input fields */
+input,
+select,
+textarea {
+  color: #1F2937 !important; /* Gray 800 */
+  border-color: #D1D5DB !important; /* Gray 300 */
+}
+
+/* Placeholder text */
+::placeholder {
+  color: #6B7280 !important; /* Gray 500 - better contrast than default */
+  opacity: 1;
+}
+
+/* ===== BACKGROUND-SPECIFIC CONTRAST FIXES ===== */
+
+/* Light backgrounds */
+.bg-white h2,
+.bg-white h3,
+.bg-gray-50 h2,
+.bg-gray-50 h3,
+.bg-gray-100 h2,
+.bg-gray-100 h3 {
+  color: #0F1C2E !important; /* Brand navy */
+}
+
+.bg-white p,
+.bg-gray-50 p,
+.bg-gray-100 p {
+  color: #374151 !important; /* Gray 700 */
+}
+
+/* Blue backgrounds */
+.bg-brand-blue h2,
+.bg-brand-blue h3,
+.bg-blue-600 h2,
+.bg-blue-600 h3,
+.bg-blue-700 h2,
+.bg-blue-700 h3,
+.bg-blue-800 h2,
+.bg-blue-800 h3,
+.bg-blue-900 h2,
+.bg-blue-900 h3 {
+  color: white !important;
+}
+
+.bg-brand-blue p,
+.bg-blue-600 p,
+.bg-blue-700 p,
+.bg-blue-800 p,
+.bg-blue-900 p {
+  color: #eff6ff !important; /* Very light blue for better readability */
+}
+
+/* ===== STATISTICS SECTION CONTRAST FIXES ===== */
+
+.statistics-card {
+  background-color: white !important;
+}
+
+.statistics-card .stat-number {
+  color: #0066CC !important; /* Brand blue */
+  font-weight: 700;
+}
+
+.statistics-card .stat-label {
+  color: #4B5563 !important; /* Gray 600 */
+}

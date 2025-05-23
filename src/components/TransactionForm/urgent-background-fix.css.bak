@@ -1,0 +1,93 @@
+/* Final urgent fixes - May 2025 */
+
+/* Fix the white background on the form content */
+.glass-card-navy > div,
+.glass-card-navy > * {
+  background-color: transparent !important;
+}
+
+/* Fix the Transaction Form background */
+.transaction-form-container {
+  background-color: transparent !important;
+}
+
+/* Fix container backgrounds */
+.modern-form-container {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Fix the step wizard positioning */
+.wizard-container {
+  background-color: rgba(30, 58, 138, 0.95) !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Fix the white card that appears around the form content */
+[class*="bg-white"], 
+[class*="bg-gray-"],
+[class*="max-w-"] {
+  background-color: transparent !important;
+}
+
+/* Make sure the form is on a transparent background */
+.glass-card-navy > :first-child {
+  background-color: transparent !important;
+}
+
+/* Reset any container with white background */
+.container {
+  background-color: transparent !important;
+}
+
+/* Reset all white backgrounds inside transaction form */
+.rounded-xl {
+  background-color: transparent !important;
+}
+
+/* White container fix */
+#welcome-section,
+.welcome-section,
+.py-6,
+.p-6,
+.mt-6,
+.rounded-xl,
+.shadow-xl,
+.p-6,
+.border,
+.border-white\/20,
+.mb-16,
+.md\:mb-0,
+.relative,
+.modern-form-container {
+  background-color: transparent !important;
+}
+
+/* Fix the form directly */
+.transaction-form-container > :first-child {
+  background-color: transparent !important;
+}
+
+/* Fix specific issues with modern form container */
+.modern-form-container > * {
+  background-color: transparent !important;
+}
+
+/* Target the specific wrapper with the white background */
+.glass-card-navy > div > div {
+  background-color: transparent !important;
+}
+
+/* Target the form body */
+.space-y-6.section-fade-in {
+  background-color: transparent !important;
+}
+
+/* White box that might be appearing */
+.rounded-xl.overflow-hidden.p-6 {
+  background-color: transparent !important;
+}

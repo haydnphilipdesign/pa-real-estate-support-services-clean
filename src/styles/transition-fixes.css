@@ -1,0 +1,148 @@
+/* Transition-specific styles for preventing flicker and visual glitches */
+
+/* Ensure elements marked with these attributes get proper z-index handling */
+[data-hero-component="true"] {
+  z-index: 10;
+  position: relative;
+  transform: translate3d(0, 0, 0); /* Force GPU acceleration */
+  backface-visibility: hidden; /* Prevent flickering */
+  will-change: opacity, transform; /* Hint to the browser */
+}
+
+/* Add proper GPU acceleration for transitioning elements */
+[data-hero-content] {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: opacity, transform;
+}
+
+/* Handle elements that should persist across transitions */
+[data-exclude-from-transition="true"] {
+  z-index: 1;
+  position: relative;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: opacity;
+}
+
+/* During transitions, ensure proper stacking */
+[data-is-transitioning="true"] [data-hero-component="true"] {
+  z-index: 20;
+}
+
+[data-during-transition="true"] {
+  z-index: 20 !important;
+}
+
+/* Add subtle transitions for content elements */
+[data-hero-content="title"],
+[data-hero-content="subtitle"],
+[data-hero-content="cta"],
+[data-hero-content="container"] {
+  transition: opacity 0.3s ease-out;
+}
+
+/* Ensure glass cards render with proper layers */
+[data-glass-card="true"] {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Prevent elements from disappearing prematurely */
+.page-content-wrapper {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: opacity, transform;
+  z-index: 20; /* Above slideshow, below header */
+}
+
+/* Prevent background flicker during transitions */
+.persistent-background {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: opacity;
+  z-index: -1;
+}
+
+/* Enhanced hero animation classes */
+.use-standard-animations {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: opacity, transform;
+}
+
+/* Special class for framer motion overrides */
+.framer-entrance-override {
+  transform: translate3d(0, 0, 0) !important;
+  will-change: opacity, transform !important;
+}
+
+/* Add additional fade class for smooth content transitions */
+.hero-fade-in {
+  animation: heroFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes heroFadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Fix for image transitions - prevent flickering and ensure smooth scaling */
+img {
+  transform: translateZ(0);
+}
+
+/* Animation classes */
+.transitioning {
+  transform: translate3d(0, 0, 0) !important;
+  backface-visibility: hidden !important;
+  will-change: opacity, transform !important;
+}
+
+/* Ensure containers properly clip overflows */
+[data-page-transition-container="true"] {
+  overflow: hidden !important;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Ensure proper layer rendering for hero sections */
+.transaction-hero-container {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: opacity, transform;
+}
+
+/* Additional flicker fixes for white flashes */
+body {
+  background-color: transparent;
+  /* Allow the persistent background to show through */
+}
+
+.page-transition-container {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: opacity, transform;
+  z-index: 10; /* Above slideshow, below header */
+}
+
+/* Fix for card transitions to prevent jitter */
+.card-tilt {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* Fix for large images in hero backgrounds to ensure smooth transitions */
+[data-persistent-background="true"] img {
+  object-fit: cover;
+  object-position: center;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* Apply smooth transition timing functions */
+.smooth-transition {
+  transition-timing-function: cubic-bezier(0.2, 0.0, 0.2, 1.0) !important;
+}

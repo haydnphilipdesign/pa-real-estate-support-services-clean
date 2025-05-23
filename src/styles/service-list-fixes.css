@@ -1,0 +1,142 @@
+/*
+ * Service List and Hero Badge Alignment Fixes
+ *
+ * This CSS file provides fixes for:
+ * 1. Hero badge alignment and styling
+ * 2. Service list bullet alignment and spacing
+ * 3. Consistent card heights and text alignment
+ */
+
+/* Hero Badge Fixes */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: #dbeafe;
+  color: #1e40af;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Service List Alignment Fixes */
+.glass-card ul,
+.glass-card-navy ul,
+.glass-card-blue ul,
+.glass-card-dark ul,
+.glass-card-on-white ul,
+.glass-card-base ul,
+.card ul,
+[class*="content-card"] ul {
+  margin-top: 1rem;
+  padding-left: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Force consistent alignment for all list items */
+.glass-card li,
+.glass-card-navy li,
+.glass-card-blue li,
+.glass-card-dark li,
+.glass-card-on-white li,
+.glass-card-base li,
+.card li,
+[class*="content-card"] li,
+/* Target service list items specifically */
+.grid li.flex.items-start.text-gray-700,
+.grid li.flex.items-start {
+  display: flex !important;
+  align-items: flex-start !important;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  padding-left: 0 !important;
+}
+
+/* Force consistent bullet appearance and spacing */
+.glass-card li > div:first-child,
+.glass-card-navy li > div:first-child,
+.glass-card-blue li > div:first-child,
+.glass-card-dark li > div:first-child,
+.glass-card-on-white li > div:first-child,
+.glass-card-base li > div:first-child,
+.card li > div:first-child,
+[class*="content-card"] li > div:first-child,
+/* Target exact bullet structure */
+.grid li.flex.items-start > div:first-child,
+.grid li.flex.items-start.text-gray-700 > div:first-child {
+  border-radius: 9999px;
+  flex-shrink: 0;
+  width: 6px !important;
+  height: 6px !important;
+  margin-top: 0.55rem !important;
+  margin-right: 0.75rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Force proper text alignment */
+.glass-card li > span,
+.glass-card-navy li > span,
+.glass-card-blue li > span,
+.glass-card-dark li > span,
+.glass-card-on-white li > span,
+.glass-card-base li > span,
+.card li > span,
+[class*="content-card"] li > span,
+/* Target exact text structure */
+.grid li.flex.items-start > span,
+.grid li.flex.items-start.text-gray-700 > span {
+  flex: 1 1 auto;
+  display: block !important;
+  padding-left: 0 !important;
+  text-indent: 0 !important;
+}
+
+/* Card height consistency */
+[class*="content-card"] {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+[class*="content-card"] > div {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure ul is at the bottom of the card */
+[class*="content-card"] ul {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+/* Reset all potentially harmful spacing */
+.grid li.flex.items-start::before,
+.grid li.flex.items-start.text-gray-700::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Specific fix for Core Service Categories section */
+.grid.grid-cols-1.md\:grid-cols-3.gap-8 li {
+  display: flex !important;
+  align-items: flex-start !important;
+}
+
+.grid.grid-cols-1.md\:grid-cols-3.gap-8 li > div:first-child {
+  margin-top: 0.55rem !important;
+  margin-right: 0.75rem !important;
+  flex-shrink: 0 !important;
+}
+
+.grid.grid-cols-1.md\:grid-cols-3.gap-8 li > span {
+  flex: 1 1 auto !important;
+}

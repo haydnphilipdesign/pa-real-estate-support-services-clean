@@ -1,0 +1,76 @@
+/**
+ * Switch Override Styles
+ *
+ * This file contains high-specificity rules to override the switch thumb color
+ * and ensure it remains gray in all states.
+ */
+
+/* Global override for all switch thumbs */
+[data-radix-switch-thumb] {
+  background-color: #e5e7eb !important;
+  border: 1px solid #d1d5db !important;
+  opacity: 1 !important;
+}
+
+/* Specific override for transaction form switches */
+.transaction-form-container [data-radix-switch-thumb],
+.transaction-portal-container [data-radix-switch-thumb] {
+  background-color: #e5e7eb !important;
+  border: 1px solid #d1d5db !important;
+  opacity: 1 !important;
+}
+
+/* Override for checked state */
+[data-state="checked"] [data-radix-switch-thumb],
+button[data-state="checked"] [data-radix-switch-thumb],
+button[aria-checked="true"] [data-radix-switch-thumb] {
+  background-color: #e5e7eb !important;
+  border: 1px solid #d1d5db !important;
+  opacity: 1 !important;
+}
+
+/* Override for unchecked state */
+[data-state="unchecked"] [data-radix-switch-thumb],
+button[data-state="unchecked"] [data-radix-switch-thumb],
+button[aria-checked="false"] [data-radix-switch-thumb] {
+  background-color: #e5e7eb !important;
+  border: 1px solid #d1d5db !important;
+  opacity: 1 !important;
+}
+
+/* Direct selector for the thumb element */
+button[role="switch"] span,
+button[role="switch"] div {
+  background-color: #e5e7eb !important;
+  border: 1px solid #d1d5db !important;
+  opacity: 1 !important;
+}
+
+/* Override any potential inline styles */
+[style*="background"][data-radix-switch-thumb] {
+  background-color: #e5e7eb !important;
+  opacity: 1 !important;
+}
+
+/* Target the specific class we added to the Switch component */
+.switch-thumb-element {
+  background-color: #e5e7eb !important;
+  border: 1px solid #d1d5db !important;
+  opacity: 1 !important;
+}
+
+/* Ensure any Radix UI specific styles are overridden */
+*[class*="radix-switch-thumb"] {
+  background-color: #e5e7eb !important;
+  border: 1px solid #d1d5db !important;
+  opacity: 1 !important;
+}
+
+/* Additional selectors to handle any transparency issues */
+.transaction-form-container button[role="switch"] span,
+.transaction-form-container button[role="switch"] div,
+.transaction-form-container button[role="switch"] [data-radix-switch-thumb] {
+  background-color: #e5e7eb !important;
+  border: 1px solid #d1d5db !important;
+  opacity: 1 !important;
+}
