@@ -39,7 +39,7 @@ const AboutUs: React.FC = () => {
       {/* Hero section with matching home page styling */}
       <GlobalPageHeroNew>
         <div className="container px-4 md:px-6 lg:px-8 mx-auto w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center min-h-[calc(100vh-64px)] py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center min-h-[calc(100vh-80px)] py-20">
             <div className="lg:col-span-7">
               <motion.div
                 className="max-w-2xl mx-auto lg:mx-0"

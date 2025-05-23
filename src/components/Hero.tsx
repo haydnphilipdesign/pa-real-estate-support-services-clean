@@ -100,7 +100,7 @@ const Hero: React.FC = () => {
 
   return (
     <GlobalPageHero title="Your trusted partner in reliable transaction management">
-      <div className="container px-4 md:px-6 lg:px-8 mx-auto w-full py-0" id="home-hero" style={{ paddingTop: '0', paddingBottom: '0', marginTop: '-80px' }}>
+      <div className="container px-4 md:px-6 lg:px-8 mx-auto w-full py-0" id="home-hero" style={{ paddingTop: '0', paddingBottom: '0' }}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
           {/* Main Hero Content */}
           <div className="lg:col-span-7">

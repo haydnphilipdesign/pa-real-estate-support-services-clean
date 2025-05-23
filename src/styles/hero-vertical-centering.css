@@ -15,7 +15,7 @@ section[data-hero-container="true"] {
 
 /* Add appropriate padding to keep content away from navigation area */
 [data-hero-container="true"] {
-  padding-top: 80px !important;
+  padding-top: 0px !important;
   padding-bottom: 40px !important;
 }
 

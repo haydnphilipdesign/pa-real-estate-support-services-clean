@@ -243,6 +243,12 @@ body[data-transaction-page="true"] header.main-navigation-header {
   top: auto !important;
 }
 
+/* Make header relative on Login page */
+#login-page header.main-navigation-header {
+  position: relative !important;
+  top: auto !important;
+}
+
 /* Footer link color override */
 footer a.text-gray-400,
 footer a[class*="text-gray-400"],

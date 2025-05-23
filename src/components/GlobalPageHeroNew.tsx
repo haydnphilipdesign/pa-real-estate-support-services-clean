@@ -28,7 +28,7 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
   const location = useLocation();
   const heroRef = useRef<HTMLDivElement>(null);
   const { pauseSlideshow, resumeSlideshow, isTransitioning, setIsTransitioning } = useSlideshow();
-  const isTransactionPage = location.pathname.includes('/transaction');
+  const isTransactionPage = location.pathname.includes('/transaction') || location.pathname.includes('/login');
   const [isExiting, setIsExiting] = useState(false);
 
   // Reset any lingering data attributes when component mounts
@@ -106,7 +106,7 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
     : minHeight === 'min-h-0' ? 'auto' : `calc(100vh - ${NAV_HEIGHT}px)`; // Regular page height
 
   // Calculate appropriate padding - consistent for all page types
-  const topPadding = isTransactionPage ? '4px' : '0px'; // Remove top padding to allow custom padding in specific pages
+  const topPadding = isTransactionPage ? '4px' : '80px'; // Apply 80px padding for non-transaction pages
 
   return (
     <motion.section
@@ -187,7 +187,6 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
           minHeight: 'auto',
           paddingTop: '0',
           paddingBottom: '0',
-          marginTop: '-40px' /* Negative margin to pull content up */
         }}
       >
         <div className="w-full py-0 pt-0">
