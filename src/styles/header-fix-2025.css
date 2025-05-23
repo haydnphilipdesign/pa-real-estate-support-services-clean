@@ -1,0 +1,83 @@
+/**
+ * Header Fix 2025
+ * 
+ * Enhanced header visibility and navigation improvements.
+ * This file fixes the black background issues and improves header accessibility.
+ */
+
+/* Force header visibility with maximum specificity */
+body header.main-navigation-header,
+body .main-navigation-header,
+html header.main-navigation-header,
+header.fixed {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 99999 !important;
+  background-color: rgba(0, 0, 0, 0.7) !important; /* Changed from solid black to semi-transparent */
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition: background-color 0.3s ease !important;
+}
+
+/* Fix for potential z-index issues with other elements */
+header.main-navigation-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.5); /* Changed from solid black to semi-transparent */
+}
+
+/* Additional fixes for navigation links */
+header.main-navigation-header a,
+header.main-navigation-header button,
+.main-navigation-header a,
+.main-navigation-header button {
+  position: relative;
+  z-index: 100000;
+  pointer-events: auto !important;
+  color: white !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Improve hover states for better UX */
+header.main-navigation-header a:hover,
+header.main-navigation-header button:hover,
+.main-navigation-header a:hover,
+.main-navigation-header button:hover {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-decoration: none !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Ensure mobile navigation works properly */
+.mobile-menu-button,
+[aria-label="Open menu"],
+[aria-label="Close menu"] {
+  z-index: 100001 !important;
+  position: relative !important;
+  pointer-events: auto !important;
+}
+
+/* Fix for body::before that was blocking the header */
+body::before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  /* Removing problematic properties */
+  background-color: transparent !important; /* Was #000000 */
+  z-index: -1 !important; /* Was 1000 - now below content */
+}

@@ -5,6 +5,7 @@ import App from './App';
 import './index.css';
 import './styles/animation-reset.css'; // Import animation reset styles
 import './styles/consistent-header-fix.css'; // Import header consistency fixes
+import './styles/header-fix-2025.css'; // Import latest header fixes for black background issue
 import ErrorBoundary from './components/ErrorBoundary';
 
 // Configure future flags for React Router v7

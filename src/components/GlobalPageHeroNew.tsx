@@ -105,8 +105,8 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
     ? `calc(100vh - ${NAV_HEIGHT}px)` // Exact height minus nav for transaction pages
     : minHeight === 'min-h-0' ? 'auto' : `calc(100vh - ${NAV_HEIGHT}px)`; // Regular page height
 
-  // Calculate appropriate padding - consistent for all page types
-  const topPadding = isTransactionPage ? '4px' : '0px'; // Remove top padding to allow custom padding in specific pages
+  // Remove top padding completely for cleaner layout
+  const topPadding = '0px';
 
   return (
     <motion.section
@@ -120,7 +120,7 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
         marginTop: isTransactionPage ? `${NAV_HEIGHT}px` : '0', // Only add margin for transaction pages
         paddingTop: topPadding,
         height: pageHeight,
-        overflowY: isTransactionPage ? 'hidden' : 'visible', // Allow overflow on non-transaction pages
+        overflowY: 'hidden', // Prevent vertical scrollbar on all pages
         overflowX: 'hidden',
         backgroundColor: solidBackground ? 'white' : 'transparent',
         position: 'relative', // Use relative positioning
@@ -177,7 +177,7 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
         <div className="absolute inset-0 bg-white z-0"></div>
       )}
 
-      {/* Content Container - with improved vertical centering */}
+      {/* Content Container - with improved vertical centering and removed excess padding */}
       <div 
         className="relative z-10 w-full flex-grow flex items-start justify-center" 
         style={{ 
@@ -185,9 +185,9 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
           alignItems: 'flex-start', 
           justifyContent: 'center',
           minHeight: 'auto',
-          paddingTop: '0',
-          paddingBottom: '0',
-          marginTop: '-40px' /* Negative margin to pull content up */
+          padding: 0,
+          margin: 0,
+          transform: 'translateY(-80px)' /* Use transform instead of margin for better performance */
         }}
       >
         <div className="w-full py-0 pt-0">
