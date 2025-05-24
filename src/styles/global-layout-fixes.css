@@ -1,0 +1,76 @@
+/* Global layout fixes for smooth transitions and proper spacing */
+
+/* Root app container must be full height and flex */
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content area should grow to fill space */
+main[data-main-content="true"] {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page transition container should fill available space */
+.page-transition-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page content wrapper should also grow */
+.page-content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hero sections should handle their own spacing */
+[data-hero-component="true"] {
+  margin-top: 0;
+  padding-top: 80px; /* Space for fixed header */
+}
+
+/* Agent portal specific fix */
+.agent-portal-login [data-hero-component="true"] {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 0; /* Remove padding for login page */
+}
+
+/* Footer should stick to bottom */
+footer {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+/* Prevent content jump during transitions */
+* {
+  scroll-behavior: auto;
+}
+
+/* Smooth transitions for all elements */
+.smooth-transition {
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Fix for SimpleHero pages */
+.simple-hero {
+  padding-top: 80px;
+}
+
+/* Ensure no extra space at bottom of pages */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

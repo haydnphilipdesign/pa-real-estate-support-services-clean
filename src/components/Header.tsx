@@ -15,96 +15,130 @@ const navLinks = [
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
   const { Link } = useNavigation();
   const [isTransactionPage, setIsTransactionPage] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
-
-  // Ensure header is always visible
-  useEffect(() => {
-    // Force header visibility
-    const ensureHeaderVisibility = () => {
-      if (headerRef.current) {
-        headerRef.current.style.display = 'block';
-        headerRef.current.style.visibility = 'visible';
-        headerRef.current.style.opacity = '1';
-        headerRef.current.style.zIndex = '9999';
-      }
-    };
-
-    // Initial visibility
-    ensureHeaderVisibility();
-
-    // Set interval to keep checking visibility
-    const visibilityInterval = setInterval(ensureHeaderVisibility, 100);
-
-    // Clean up
-    return () => clearInterval(visibilityInterval);
-  }, []);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Check if we're on a transaction page
   useEffect(() => {
     const checkTransactionPage = () => {
       const isTransaction = 
-        document.body.hasAttribute('data-transaction-page') || 
-        location.pathname.includes('agent-portal') ||
-        location.pathname.includes('transaction');
+        location.pathname.includes('agent-portal/transaction') ||
+        location.pathname.includes('/transaction');
       setIsTransactionPage(isTransaction);
     };
 
     checkTransactionPage();
-    
-    // Set up observer to watch for attribute changes
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'data-transaction-page') {
-          checkTransactionPage();
-        }
-      });
-    });
-    
-    observer.observe(document.body, { attributes: true });
-    
-    return () => observer.disconnect();
   }, [location.pathname]);
 
-  // Handle scroll events for header styling
+  // Handle auto-hide on scroll with improved logic
   useEffect(() => {
+    // Don't auto-hide on transaction pages
+    if (isTransactionPage) {
+      setIsVisible(true);
+      return;
+    }
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      const scrollDifference = currentScrollY - lastScrollY;
+      
+      // Update scrolled state for styling
+      setScrolled(currentScrollY > 20);
+      
+      // Determine visibility based on scroll direction and position
+      if (currentScrollY <= 60) {
+        // Always show header near top of page
+        setIsVisible(true);
+      } else if (scrollDifference > 3) {
+        // Hide when scrolling down
+        setIsVisible(false);
+      } else if (scrollDifference < -3) {
+        // Show when scrolling up
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+      
+      // Show header after scroll stops
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsVisible(true);
+      }, 1500); // Show after 1.5 seconds of no scrolling
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Add scroll listener with throttling
+    let ticking = false;
+    const scrollListener = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', scrollListener, { passive: true });
     handleScroll(); // Check initial scroll position
 
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener('scroll', scrollListener);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [lastScrollY, isTransactionPage]);
 
   // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false);
+    // Always show header when navigating to a new page
+    setIsVisible(true);
+    setLastScrollY(0);
   }, [location.pathname]);
 
+  // Show header on mouse move near top
+  useEffect(() => {
+    if (isTransactionPage) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (e.clientY < 100) {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [isTransactionPage]);
+
   return (
-    <header 
+    <motion.header 
       ref={headerRef}
-      className="fixed top-0 left-0 right-0 w-full z-50 bg-black main-navigation-header" 
+      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-black/95 backdrop-blur-lg shadow-lg' : 'bg-black'
+      } main-navigation-header`}
+      initial={{ y: 0 }}
+      animate={{ 
+        y: isVisible ? 0 : -100,
+        transition: {
+          duration: 0.3,
+          ease: [0.25, 0.1, 0.25, 1.0]
+        }
+      }}
       style={{ 
-        zIndex: 99999, // Increased z-index to ensure visibility
-        margin: 0, 
-        padding: 0, 
-        backgroundColor: '#000000', 
-        boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
-        transition: 'none',
-        visibility: 'visible',
-        opacity: 1,
-        transform: 'none',
-        position: 'fixed', // Ensure fixed positioning
-        display: 'block' // Force display
-      }}>
-      {/* Add a spacer div to prevent content jump when navigating between pages */}
-      {/* Spacer for transaction page, remains hidden */}
-      {isTransactionPage && <div className="h-20 w-full hidden"></div>}
+        zIndex: 99999,
+        willChange: 'transform',
+        transform: 'translate3d(0, 0, 0)', // Force GPU acceleration
+      }}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -120,7 +154,7 @@ const Header: React.FC = () => {
 
           {/* Desktop Navigation - Pill Menu */}
           <div className="hidden md:flex items-center">
-            <div className="flex items-center bg-black/50 rounded-full px-1 py-1 mr-3 relative" style={{ zIndex: 1100 }}>
+            <div className="flex items-center bg-black/50 rounded-full px-1 py-1 mr-3 relative">
               {navLinks.map((item) => (
                 <Link
                   key={item.path}
@@ -130,7 +164,6 @@ const Header: React.FC = () => {
                       ? 'bg-black/60 text-white'
                       : 'text-white hover:bg-black/50'
                   }`}
-                  style={{ zIndex: 1110 }}
                 >
                   <item.icon className="w-5 h-5 mr-2" />
                   {item.label}
@@ -141,8 +174,7 @@ const Header: React.FC = () => {
             {/* CTA Button */}
             <Link
               to="/agent-portal"
-              className="bg-[#eac87d] text-[#1a202c] px-6 py-2 rounded-full font-semibold flex items-center hover:bg-opacity-90 transition-all relative"
-              style={{ zIndex: 1100 }}
+              className="bg-[#eac87d] text-[#1a202c] px-6 py-2 rounded-full font-semibold flex items-center hover:bg-opacity-90 transition-all"
             >
               <FileText className="w-5 h-5 mr-2" />
               Start Transaction
@@ -154,43 +186,51 @@ const Header: React.FC = () => {
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden text-white"
           >
-            <Menu className="w-6 h-6" />
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white">
-          <div className="container mx-auto px-4 py-3">
-            {navLinks.map((item) => (
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            className="md:hidden bg-black/95 backdrop-blur-lg border-t border-white/10"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="container mx-auto px-4 py-4">
+              {navLinks.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center py-3 ${
+                    location.pathname === item.path
+                      ? 'text-[#eac87d]'
+                      : 'text-white'
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <item.icon className="w-5 h-5 mr-3" />
+                  {item.label}
+                </Link>
+              ))}
+
               <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center py-3 ${
-                  location.pathname === item.path
-                    ? 'text-blue-600'
-                    : 'text-gray-800'
-                }`}
+                to="/agent-portal"
+                className="flex items-center py-3 mt-4 bg-[#eac87d] text-[#1a202c] px-4 rounded-lg justify-center hover:bg-opacity-90 transition-all"
                 onClick={() => setIsOpen(false)}
               >
-                <item.icon className="w-5 h-5 mr-3" />
-                {item.label}
+                <FileText className="w-5 h-5 mr-2" />
+                Start Transaction
               </Link>
-            ))}
-
-            <Link
-              to="/agent-portal"
-              className="flex items-center py-3 mt-4 bg-[#eac87d] text-[#1a202c] px-4 rounded-lg justify-center hover:bg-opacity-90 transition-all"
-              onClick={() => setIsOpen(false)}
-            >
-              <FileText className="w-5 h-5 mr-2" />
-              Start Transaction
-            </Link>
-          </div>
-        </div>
-      )}
-    </header>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 };
 

@@ -144,8 +144,8 @@ const Login = () => {
   return (
     <GlobalPageHero
       minHeight="min-h-screen"
-      className="flex items-center justify-center pt-20 md:pt-24 agent-portal-login" 
-      overlayOpacity="bg-black/75" // Slightly more transparent overlay to match other heroes
+      className="flex items-center justify-center agent-portal-login" 
+      overlayOpacity="bg-black/75"
     >
       <motion.div 
         className="container px-4 md:px-6 lg:px-8 mx-auto login-page-container header-offset w-full" 

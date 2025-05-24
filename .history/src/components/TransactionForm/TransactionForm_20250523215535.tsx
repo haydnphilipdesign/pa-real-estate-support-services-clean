@@ -6,6 +6,12 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AgentRole, Client } from '@/types/transaction';
 
+// Helper function to detect mobile devices
+const checkMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
 // Initialize QueryClient outside the component
 const queryClient = new QueryClient();
 
@@ -86,27 +92,24 @@ const fixDropdownStyles = `
   }
 `;
 
+// Form steps configuration
+const formSteps = [
+  { title: "Agent Role", description: "Select your role in this transaction" },
+  { title: "Property", description: "Enter property details" },
+  { title: "Clients", description: "Add client information" },
+  { title: "Commission", description: "Enter commission details" },
+  { title: "Property Details", description: "Additional property information" },
+  { title: "Title & Escrow", description: "Title and escrow information" },
+  { title: "Additional Info", description: "Any additional information" },
+  { title: "Documents", description: "Upload required documents" },
+  { title: "Review", description: "Review all information" },
+  { title: "Sign & Submit", description: "Sign and submit the transaction" }
+];
+
+const totalSteps = formSteps.length;
+
 export function TransactionForm() {
-  // Helper function to detect mobile devices
-  const checkMobile = (): boolean => {
-    if (typeof window === 'undefined') return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  };
-
   const { toast, dismiss } = useToast();
-
-  // Enhanced navigation handlers
-  const enhancedHandleNext = () => {
-    handleNext();
-  };
-
-  const enhancedHandlePrevious = () => {
-    handlePrevious();
-  };
-
-  const resetForm = () => {
-    // Implement form reset logic
-  };
   const {
     currentStep,
     setCurrentStep,
@@ -175,28 +178,24 @@ export function TransactionForm() {
     };
   }, []);
 
-  // Form steps configuration
-  const formSteps = [
-    { title: "Agent Role", description: "Select your role in this transaction" },
-    { title: "Property", description: "Enter property details" },
-    { title: "Clients", description: "Add client information" },
-    { title: "Commission", description: "Enter commission details" },
-    { title: "Property Details", description: "Additional property information" },
-    { title: "Title & Escrow", description: "Title and escrow information" },
-    { title: "Additional Info", description: "Any additional information" },
-    { title: "Documents", description: "Upload required documents" },
-    { title: "Review", description: "Review all information" },
-    { title: "Sign & Submit", description: "Sign and submit the transaction" }
-  ];
+  { title: "Property Details", description: "Additional property information" },
+  { title: "Title & Escrow", description: "Title and escrow information" },
+  { title: "Additional Info", description: "Any additional information" },
+  { title: "Documents", description: "Upload required documents" },
+  { title: "Review", description: "Review all information" },
+  { title: "Sign & Submit", description: "Sign and submit the transaction" }
+];
 
-  const totalSteps = formSteps.length;
+const totalSteps = formSteps.length;
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100/80 pb-6 relative overflow-x-hidden">
-          <div className="max-w-5xl mx-auto px-4 py-8 relative">
-            {/* Form container */}
+export function TransactionForm() {
+  const { toast, dismiss } = useToast();
+  const {
+    currentStep,
+    setCurrentStep,
+    agentData,
+    setAgentData,
+    propertyData,
     setPropertyData,
     clients,
     setClients,
@@ -1263,3 +1262,11 @@ export function TransactionForm() {
     </QueryClientProvider>
   );
 }
+
+
+export function TransactionForm() {
+  const { toast, dismiss } = useToast();
+  const {
+    currentStep,
+    setCurrentStep,
+    agentData,

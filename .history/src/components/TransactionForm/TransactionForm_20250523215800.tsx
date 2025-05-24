@@ -6,6 +6,12 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AgentRole, Client } from '@/types/transaction';
 
+// Helper function to detect mobile devices
+const checkMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
 // Initialize QueryClient outside the component
 const queryClient = new QueryClient();
 
@@ -87,26 +93,7 @@ const fixDropdownStyles = `
 `;
 
 export function TransactionForm() {
-  // Helper function to detect mobile devices
-  const checkMobile = (): boolean => {
-    if (typeof window === 'undefined') return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  };
-
   const { toast, dismiss } = useToast();
-
-  // Enhanced navigation handlers
-  const enhancedHandleNext = () => {
-    handleNext();
-  };
-
-  const enhancedHandlePrevious = () => {
-    handlePrevious();
-  };
-
-  const resetForm = () => {
-    // Implement form reset logic
-  };
   const {
     currentStep,
     setCurrentStep,
@@ -1263,3 +1250,12 @@ export function TransactionForm() {
     </QueryClientProvider>
   );
 }
+
+
+// Return statement for TransactionForm component
+return (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100/80 pb-6 relative overflow-x-hidden">
+        <div className="max-w-5xl mx-auto px-4 py-8 relative">
+          {/* Form container */}

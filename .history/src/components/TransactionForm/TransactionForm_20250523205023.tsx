@@ -5,10 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AgentRole, Client } from '@/types/transaction';
-
-// Initialize QueryClient outside the component
-const queryClient = new QueryClient();
-
 // All TransactionForm CSS is now consolidated in src/styles/pages/transaction-form.css
 
 // Import components
@@ -86,117 +82,30 @@ const fixDropdownStyles = `
   }
 `;
 
+// Create a new QueryClient instance
+const queryClient = new QueryClient();
+
+// Define the form steps for the StepWizard
+const formSteps = [
+  { id: 1, title: "Agent Role", icon: "user" },
+  { id: 2, title: "Property", icon: "home" },
+  { id: 3, title: "Clients", icon: "users" },
+  { id: 4, title: "Commission", icon: "dollar-sign" },
+  { id: 5, title: "Property Details", icon: "clipboard" },
+  { id: 6, title: "Documents", icon: "file-text" },
+  { id: 7, title: "Additional Info", icon: "info" },
+  { id: 8, title: "Review", icon: "check-circle" },
+  { id: 9, title: "Signature", icon: "pen-tool" }
+];
+
 export function TransactionForm() {
-  // Helper function to detect mobile devices
-  const checkMobile = (): boolean => {
-    if (typeof window === 'undefined') return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  };
-
   const { toast, dismiss } = useToast();
-
-  // Enhanced navigation handlers
-  const enhancedHandleNext = () => {
-    handleNext();
-  };
-
-  const enhancedHandlePrevious = () => {
-    handlePrevious();
-  };
-
-  const resetForm = () => {
-    // Implement form reset logic
-  };
   const {
     currentStep,
     setCurrentStep,
     agentData,
     setAgentData,
     propertyData,
-    setPropertyData,
-    clients,
-    setClients,
-    commissionData,
-    setCommissionData,
-    propertyDetails,
-    setPropertyDetails,
-    titleData,
-    setTitleData,
-    additionalInfo,
-    setAdditionalInfo,
-    signatureData,
-    setSignatureData,
-    documentsData,
-    setDocumentsData,
-    handleStepClick,
-    handleNext,
-    handlePrevious,
-    handleSubmit,
-    submitting,
-    showProgressOverlay,
-    closeProgressOverlay,
-    submissionSteps,
-    currentSubmissionStep,
-    submissionError,
-    skippedFields,
-    getAllSkippedFields,
-    isFieldSkipped,
-    showValidationUI,
-    validationErrors,
-    handleContinueWithErrors,
-    handleFixValidationError,
-    closeValidationUI
-  } = useTransactionForm();
-
-  // Add refs for form container and content
-  const formContainerRef = useRef<HTMLDivElement>(null);
-  const formContentRef = useRef<HTMLDivElement>(null);
-
-  // Event handlers
-  const handleFixField = (field: string) => {
-    handleFixValidationError(field);
-  };
-
-  const handleSaveDraft = () => {
-    // Implement draft saving logic
-  };
-
-  // Add useEffect for dispatching step change events
-  useEffect(() => {
-    const event = new CustomEvent('transaction-step-change', { detail: { step: currentStep } });
-    document.dispatchEvent(event);
-  }, [currentStep]);
-
-  // Add useEffect for managing data-transaction-page attribute on body
-  useEffect(() => {
-    document.body.setAttribute('data-transaction-page', 'true');
-    return () => {
-      document.body.removeAttribute('data-transaction-page');
-    };
-  }, []);
-
-  // Form steps configuration
-  const formSteps = [
-    { title: "Agent Role", description: "Select your role in this transaction" },
-    { title: "Property", description: "Enter property details" },
-    { title: "Clients", description: "Add client information" },
-    { title: "Commission", description: "Enter commission details" },
-    { title: "Property Details", description: "Additional property information" },
-    { title: "Title & Escrow", description: "Title and escrow information" },
-    { title: "Additional Info", description: "Any additional information" },
-    { title: "Documents", description: "Upload required documents" },
-    { title: "Review", description: "Review all information" },
-    { title: "Sign & Submit", description: "Sign and submit the transaction" }
-  ];
-
-  const totalSteps = formSteps.length;
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100/80 pb-6 relative overflow-x-hidden">
-          <div className="max-w-5xl mx-auto px-4 py-8 relative">
-            {/* Form container */}
     setPropertyData,
     clients,
     setClients,

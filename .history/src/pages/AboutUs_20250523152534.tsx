@@ -124,9 +124,9 @@ const AboutUs: React.FC = () => {
                 </motion.div>
               </motion.div>
             </div>
-
+            
             {/* Single Blue Glass Card like Services Highlights */}
-            <motion.div
+            <motion.div 
               className="lg:col-span-5 hidden lg:block"
               initial={{ opacity: 0, x: 30 }}
               animate={{
@@ -146,7 +146,7 @@ const AboutUs: React.FC = () => {
                   </svg>
                   About Debbie O'Brien
                 </h3>
-
+                
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-blue-600/30 rounded-full flex items-center justify-center mr-3">
@@ -154,21 +154,21 @@ const AboutUs: React.FC = () => {
                     </div>
                     <span className="text-white text-sm">30+ years of real estate industry experience</span>
                   </div>
-
+                  
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-blue-600/30 rounded-full flex items-center justify-center mr-3">
                       <Target className="h-4 w-4 text-blue-200" />
                     </div>
                     <span className="text-white text-sm">Specializing in Pennsylvania real estate transactions</span>
                   </div>
-
+                  
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-blue-600/30 rounded-full flex items-center justify-center mr-3">
                       <CheckCircle2 className="h-4 w-4 text-blue-200" />
                     </div>
                     <span className="text-white text-sm">Over 2,000 successful transactions coordinated</span>
                   </div>
-
+                  
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-blue-600/30 rounded-full flex items-center justify-center mr-3">
                       <Users className="h-4 w-4 text-blue-200" />

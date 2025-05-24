@@ -16,12 +16,12 @@ interface GlobalPageHeroProps {
 
 /**
  * GlobalPageHero - A hero section that uses the persistent background
- * This version doesn't contain its own slideshow, as it relies on the PersistentBackground
+ * Fixed version with proper spacing and transitions
  */
 const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
   children,
   className = '',
-  minHeight = 'h-screen',
+  minHeight = 'min-h-screen',
   solidBackground = false,
   title
 }) => {
@@ -29,168 +29,92 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
   const heroRef = useRef<HTMLDivElement>(null);
   const { pauseSlideshow, resumeSlideshow, isTransitioning, setIsTransitioning } = useSlideshow();
   const isTransactionPage = location.pathname.includes('/transaction');
+  const isAgentPortal = location.pathname.includes('/agent-portal') || location.pathname === '/login';
   const [isExiting, setIsExiting] = useState(false);
 
-  // Reset any lingering data attributes when component mounts
+  // Handle slideshow coordination during transitions
   useEffect(() => {
-    document.body.removeAttribute('data-scrolling');
-
-    // Initialize heroRef with a blank dataset to prevent attribute conflicts
-    const currentHeroRef = heroRef.current;
-    if (currentHeroRef) {
-      Object.keys(currentHeroRef.dataset).forEach(key => {
-        if (key !== 'heroComponent' && key !== 'heroContainer') {
-          delete currentHeroRef.dataset[key];
-        }
-      });
-      
-      // Add data attribute to mark this as active hero
-      currentHeroRef.dataset.activeHero = 'true';
-    }
-
-    // Signal transition active during mounting
+    // Signal transition start
     setIsTransitioning(true);
     pauseSlideshow();
     
-    // After animation completes, resume slideshow
+    // Resume after transition completes
     const resumeTimer = setTimeout(() => {
       setIsTransitioning(false);
       resumeSlideshow();
-    }, TRANSITION_DURATION.standard.total * 1000 + 50);
+    }, TRANSITION_DURATION.standard.total * 1000 + 100);
 
     return () => {
-      // Pause slideshow during exit
       setIsExiting(true);
       pauseSlideshow();
       clearTimeout(resumeTimer);
-      
-      // Set transition status
       setIsTransitioning(true);
-      
-      if (currentHeroRef) {
-        delete currentHeroRef.dataset.activeHero;
-      }
     };
   }, [location.pathname, pauseSlideshow, resumeSlideshow, setIsTransitioning]);
 
-  // Listen for transition events
-  useEffect(() => {
-    const handleTransitionStart = () => {
-      setIsExiting(true);
-      pauseSlideshow();
-    };
-    
-    const handleTransitionComplete = () => {
-      // Only handle completion if this component is still mounted
-      if (heroRef.current) {
-        setIsExiting(false);
-        resumeSlideshow();
-      }
-    };
-    
-    // Add listeners for transition events
-    window.addEventListener('pagetransitionstart', handleTransitionStart);
-    window.addEventListener('pagetransitioncomplete', handleTransitionComplete);
-    
-    return () => {
-      window.removeEventListener('pagetransitionstart', handleTransitionStart);
-      window.removeEventListener('pagetransitioncomplete', handleTransitionComplete);
-    };
-  }, [pauseSlideshow, resumeSlideshow]);
-
-  // Calculate the appropriate height for transaction pages vs regular pages
-  // Fixed calculation to ensure transaction pages fit perfectly within viewport
-  const NAV_HEIGHT = 80; // Standard navigation height (h-20 = 5rem = 80px)
-  const pageHeight = isTransactionPage
-    ? `calc(100vh - ${NAV_HEIGHT}px)` // Exact height minus nav for transaction pages
-    : minHeight === 'min-h-0' ? 'auto' : `calc(100vh - ${NAV_HEIGHT}px)`; // Regular page height
-
-  // Remove top padding completely for cleaner layout
-  const topPadding = '0px';
+  // Proper height calculation based on page type
+  const NAV_HEIGHT = 80; // Standard navigation height
+  
+  // For agent portal/login pages, use full viewport height
+  const heroHeight = isAgentPortal ? '100vh' : (isTransactionPage ? `calc(100vh - ${NAV_HEIGHT}px)` : '100vh');
+  
+  // Set the appropriate class for min-height
+  const heightClass = minHeight === 'min-h-0' ? '' : (isAgentPortal ? 'min-h-screen' : minHeight);
 
   return (
     <motion.section
       ref={heroRef}
-      className={`relative flex flex-col max-w-full ${minHeight} ${className} use-standard-animations smooth-transition ${isTransactionPage ? 'transaction-hero' : ''}`}
+      className={`relative flex flex-col ${heightClass} ${className} hero-section`}
       data-hero-component="true"
       data-hero-container="true"
       data-title={title || ''}
-      data-during-transition={isTransitioning ? 'true' : 'false'}
       style={{
-        marginTop: isTransactionPage ? `${NAV_HEIGHT}px` : '0', // Only add margin for transaction pages
-        paddingTop: topPadding,
-        height: pageHeight,
-        overflowY: 'hidden', // Prevent vertical scrollbar on all pages
-        overflowX: 'hidden',
+        height: heroHeight,
+        marginTop: 0, // Remove all margin-top
+        paddingTop: NAV_HEIGHT, // Add padding-top to account for fixed header
+        paddingBottom: 0,
         backgroundColor: solidBackground ? 'white' : 'transparent',
-        position: 'relative', // Use relative positioning
-        zIndex: 1, // Simple z-index - just be above 0
-        opacity: 1, // Start fully opaque
-        perspective: 1000, // Add perspective for better 3D transitions
-        transformStyle: 'preserve-3d', // Improve 3D rendering
-        willChange: 'opacity, transform', // Optimize for GPU
-        backfaceVisibility: 'hidden', // Prevent flickering
-        transform: 'translate3d(0,0,0)' // Force GPU acceleration
+        position: 'relative',
+        zIndex: 1,
+        overflow: 'hidden',
+        willChange: 'opacity, transform',
+        backfaceVisibility: 'hidden',
+        transform: 'translate3d(0,0,0)',
+        display: 'flex',
+        flexDirection: 'column'
       }}
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0 }}
       animate={{
         opacity: 1,
-        y: 0,
         transition: {
-          duration: TRANSITION_DURATION.standard.enter, // Match with PageTransition
-          ease: [0.2, 0.0, 0.2, 1.0], // Smoother ease curve
-          delay: 0.1 // Small delay to start animation
+          duration: TRANSITION_DURATION.standard.enter,
+          ease: [0.25, 0.1, 0.25, 1.0],
+          delay: 0.1
         }
       }}
       exit={{
         opacity: 0,
-        y: -10, // Reduced movement to make transition less jarring
         transition: {
-          duration: TRANSITION_DURATION.standard.exit, // Match with PageTransition
-          ease: [0.2, 0.0, 0.2, 1.0], // Matching ease curve
-          delay: 0
-        }
-      }}
-      onAnimationStart={() => {
-        // Signal the start of animation
-        const event = new CustomEvent('heroanimationstart', {
-          detail: { path: location.pathname }
-        });
-        window.dispatchEvent(event);
-      }}
-      onAnimationComplete={() => {
-        // Signal animation complete
-        const event = new CustomEvent('heroanimationcomplete', {
-          detail: { path: location.pathname }
-        });
-        window.dispatchEvent(event);
-        
-        // Only resume if not exiting
-        if (!isExiting) {
-          resumeSlideshow();
-          setIsTransitioning(false);
+          duration: TRANSITION_DURATION.standard.exit,
+          ease: [0.25, 0.1, 0.25, 1.0]
         }
       }}
     >
-      {/* Optional solid background to prevent slideshow from showing through */}
+      {/* Optional solid background */}
       {solidBackground && (
         <div className="absolute inset-0 bg-white z-0"></div>
       )}
 
-      {/* Content Container - with improved vertical centering and removed excess padding */}
+      {/* Content Container - properly centered */}
       <div 
-        className="relative z-10 w-full flex-grow flex items-start justify-center" 
+        className="relative z-10 w-full flex-grow flex items-center justify-center"
         style={{ 
-          display: 'flex', 
-          alignItems: 'flex-start', 
-          justifyContent: 'center',
-          minHeight: 'auto',
-          padding: 0,
-          margin: 0,
-          transform: 'translateY(-80px)' /* Use transform instead of margin for better performance */
+          padding: '0',
+          margin: '0',
+          height: '100%'
         }}
       >
-        <div className="w-full py-0 pt-0">
+        <div className="w-full h-full flex items-center justify-center">
           {children}
         </div>
       </div>

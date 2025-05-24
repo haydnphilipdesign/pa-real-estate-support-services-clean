@@ -14,13 +14,13 @@ const SimpleHero: React.FC<SimpleHeroProps> = ({ children, style }) => {
       className="relative flex flex-col text-white overflow-hidden max-w-full"
       data-hero-component="true"
       data-hero-container="true"
-      style={{
+      style={{ 
         minHeight: 'calc(100vh - 80px)', // Account for header height
-        marginTop: '0', // Remove extra top margin to fix padding issue
+        marginTop: '80px', // Space for the fixed header
         marginBottom: '-1px', // Negative margin to eliminate any gap
         paddingTop: '0', // No top padding - start content immediately
         paddingBottom: '0', // No bottom padding
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent', 
         background: 'none',
         display: 'flex',
         alignItems: 'flex-start', // Align to very top

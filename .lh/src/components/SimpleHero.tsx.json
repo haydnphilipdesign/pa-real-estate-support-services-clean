@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/components/SimpleHero.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1748028309773,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1748028309830,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,15 +13,15 @@\n     <section\n       className=\"relative flex flex-col text-white overflow-hidden max-w-full\"\n       data-hero-component=\"true\"\n       data-hero-container=\"true\"\n-      style={{ \n+      style={{\n         minHeight: 'calc(100vh - 80px)', // Account for header height\n         marginTop: '0', // Remove extra top margin to fix padding issue\n         marginBottom: '-1px', // Negative margin to eliminate any gap\n         paddingTop: '0', // No top padding - start content immediately\n         paddingBottom: '0', // No bottom padding\n-        backgroundColor: 'transparent', \n+        backgroundColor: 'transparent',\n         background: 'none',\n         display: 'flex',\n         alignItems: 'flex-start', // Align to very top\n         justifyContent: 'center',\n"
+                }
+            ],
+            "date": 1748028309773,
+            "name": "Commit-0",
+            "content": "import React from 'react';\n\ninterface SimpleHeroProps {\n  children: React.ReactNode;\n  style?: React.CSSProperties;\n}\n\n/**\n * SimpleHero - A basic hero component to use as a fallback\n */\nconst SimpleHero: React.FC<SimpleHeroProps> = ({ children, style }) => {\n  return (\n    <section\n      className=\"relative flex flex-col text-white overflow-hidden max-w-full\"\n      data-hero-component=\"true\"\n      data-hero-container=\"true\"\n      style={{ \n        minHeight: 'calc(100vh - 80px)', // Account for header height\n        marginTop: '0', // Remove extra top margin to fix padding issue\n        marginBottom: '-1px', // Negative margin to eliminate any gap\n        paddingTop: '0', // No top padding - start content immediately\n        paddingBottom: '0', // No bottom padding\n        backgroundColor: 'transparent', \n        background: 'none',\n        display: 'flex',\n        alignItems: 'flex-start', // Align to very top\n        justifyContent: 'center',\n        ...style // Merge in any custom styles passed as props\n      }}\n    >\n      {/* Content Container positioned at top */}\n      <div className=\"relative z-10 w-full max-w-full overflow-hidden\">\n        {children}\n      </div>\n    </section>\n  );\n};\n\nexport default SimpleHero;"
+        }
+    ]
+}

@@ -93,12 +93,12 @@ const AgentPortal = (): JSX.Element => {
     // Testimonial content is now shown directly in the JSX
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300" id="agent-portal-page">
+    <div className="h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300" id="agent-portal-page">
       <AnimatePresence mode="wait">
         {isPasswordProtected ? (
           <motion.div
             key="login"
-            className="min-h-screen flex flex-col"
+            className="h-screen flex flex-col"
             initial={{ opacity: 0, y: 20 }}
             animate={{
               opacity: 1,
@@ -355,7 +355,7 @@ const AgentPortal = (): JSX.Element => {
         ) : (
           <motion.div
             key="form"
-            className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100"
+            className="h-screen bg-gradient-to-br from-gray-50 to-gray-100"
             initial={{ opacity: 0, y: 20 }}
             animate={{
               opacity: 1,

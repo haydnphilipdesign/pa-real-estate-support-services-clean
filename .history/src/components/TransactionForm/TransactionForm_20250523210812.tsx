@@ -6,6 +6,12 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AgentRole, Client } from '@/types/transaction';
 
+// Helper function to detect mobile devices
+const checkMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
 // Initialize QueryClient outside the component
 const queryClient = new QueryClient();
 
@@ -86,117 +92,28 @@ const fixDropdownStyles = `
   }
 `;
 
+export const TransactionForm = () => {
+  // Define form steps
+  const formSteps = [
+    { id: 1, title: "Agent Role", icon: "user" },
+    { id: 2, title: "Property", icon: "home" },
+  { id: 3, title: "Clients", icon: "users" },
+  { id: 4, title: "Commission", icon: "dollar-sign" },
+  { id: 5, title: "Property Details", icon: "clipboard" },
+  { id: 6, title: "Documents", icon: "file-text" },
+  { id: 7, title: "Additional Info", icon: "info" },
+  { id: 8, title: "Review", icon: "check-circle" },
+  { id: 9, title: "Signature", icon: "pen-tool" }
+];
+
 export function TransactionForm() {
-  // Helper function to detect mobile devices
-  const checkMobile = (): boolean => {
-    if (typeof window === 'undefined') return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  };
-
   const { toast, dismiss } = useToast();
-
-  // Enhanced navigation handlers
-  const enhancedHandleNext = () => {
-    handleNext();
-  };
-
-  const enhancedHandlePrevious = () => {
-    handlePrevious();
-  };
-
-  const resetForm = () => {
-    // Implement form reset logic
-  };
   const {
     currentStep,
     setCurrentStep,
     agentData,
     setAgentData,
     propertyData,
-    setPropertyData,
-    clients,
-    setClients,
-    commissionData,
-    setCommissionData,
-    propertyDetails,
-    setPropertyDetails,
-    titleData,
-    setTitleData,
-    additionalInfo,
-    setAdditionalInfo,
-    signatureData,
-    setSignatureData,
-    documentsData,
-    setDocumentsData,
-    handleStepClick,
-    handleNext,
-    handlePrevious,
-    handleSubmit,
-    submitting,
-    showProgressOverlay,
-    closeProgressOverlay,
-    submissionSteps,
-    currentSubmissionStep,
-    submissionError,
-    skippedFields,
-    getAllSkippedFields,
-    isFieldSkipped,
-    showValidationUI,
-    validationErrors,
-    handleContinueWithErrors,
-    handleFixValidationError,
-    closeValidationUI
-  } = useTransactionForm();
-
-  // Add refs for form container and content
-  const formContainerRef = useRef<HTMLDivElement>(null);
-  const formContentRef = useRef<HTMLDivElement>(null);
-
-  // Event handlers
-  const handleFixField = (field: string) => {
-    handleFixValidationError(field);
-  };
-
-  const handleSaveDraft = () => {
-    // Implement draft saving logic
-  };
-
-  // Add useEffect for dispatching step change events
-  useEffect(() => {
-    const event = new CustomEvent('transaction-step-change', { detail: { step: currentStep } });
-    document.dispatchEvent(event);
-  }, [currentStep]);
-
-  // Add useEffect for managing data-transaction-page attribute on body
-  useEffect(() => {
-    document.body.setAttribute('data-transaction-page', 'true');
-    return () => {
-      document.body.removeAttribute('data-transaction-page');
-    };
-  }, []);
-
-  // Form steps configuration
-  const formSteps = [
-    { title: "Agent Role", description: "Select your role in this transaction" },
-    { title: "Property", description: "Enter property details" },
-    { title: "Clients", description: "Add client information" },
-    { title: "Commission", description: "Enter commission details" },
-    { title: "Property Details", description: "Additional property information" },
-    { title: "Title & Escrow", description: "Title and escrow information" },
-    { title: "Additional Info", description: "Any additional information" },
-    { title: "Documents", description: "Upload required documents" },
-    { title: "Review", description: "Review all information" },
-    { title: "Sign & Submit", description: "Sign and submit the transaction" }
-  ];
-
-  const totalSteps = formSteps.length;
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100/80 pb-6 relative overflow-x-hidden">
-          <div className="max-w-5xl mx-auto px-4 py-8 relative">
-            {/* Form container */}
     setPropertyData,
     clients,
     setClients,
@@ -1263,3 +1180,153 @@ export function TransactionForm() {
     </QueryClientProvider>
   );
 }
+
+
+// Add checkMobile function at the top of the file
+const checkMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
+{currentStep === 9 && (
+  <>
+    <div id="section-title" className="pt-1 md:pt-2 mb-2 sm:mb-3 pb-1 sm:pb-2">
+      {/* Sign & Submit section header with pen icon */}
+      <div className="flex items-center mb-1">
+        <div className="flex items-center justify-center rounded-full w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 shadow-md mr-2 animated-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-white">
+            <path d="M12 19L19 12L22 15L15 22L12 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M18 13L16.5 5.5L2 2L5.5 16.5L13 18L18 13Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 2L9.586 9.586" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M11 13C12.1046 13 13 12.1046 13 11C13 9.89543 12.1046 9 11 9C9.89543 9 9 9.89543 9 11C9 12.1046 9.89543 13 11 13Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Sign & Submit</h2>
+      </div>
+      <div className="fancy-divider my-2"></div>
+      <p className="text-blue-100 text-xs sm:text-sm pl-2 border-l-4 border-blue-500/40 ml-1">
+        Please sign below to confirm all information is correct and to submit your transaction.
+      </p>
+    </div>
+
+    {/* Signature Section with enhanced styling */}
+    <div className="w-full">
+      <div className="bg-transparent rounded-xl p-4 border border-slate-700/30 shadow-lg relative overflow-hidden">
+        {/* Subtle visual accent */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-green-500 to-green-600"></div>
+        <div className="absolute -top-14 -right-14 w-28 h-28 bg-green-500/10 rounded-full"></div>
+        <div className="absolute -bottom-10 -left-10 w-20 h-20 bg-green-500/10 rounded-full"></div>
+
+        <SignatureSection
+          data={signatureData}
+          onChange={(field, value) => setSignatureData(prev => ({ ...prev, [field]: value }))}
+          role={agentData.role}
+          skippedFields={[]}
+          onFieldFix={handleFixField}
+        />
+      </div>
+    </div>
+  </>
+);
+
+export const TransactionForm = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+
+  useEffect(() => {
+    // Notify the parent component of step changes
+    const event = new CustomEvent('stepChange', {
+      detail: { step: currentStep }
+    });
+    window.dispatchEvent(event);
+  }, [currentStep]);
+
+  // Set the data attribute when component mounts and remove on unmount
+  useEffect(() => {
+    document.body.setAttribute('data-transaction-page', 'true');
+
+    return () => {
+      document.body.removeAttribute('data-transaction-page');
+    };
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        {/* Add style tag for dropdown fixes */}
+        <style dangerouslySetInnerHTML={{ __html: fixDropdownStyles }} />
+
+        <div ref={formContainerRef} className="transaction-form-container flex flex-col bg-blue-900/95 rounded-xl shadow-md min-h-screen">
+          <div className="container mx-auto px-1 sm:px-3 py-1 sm:py-3 flex-grow flex flex-col overflow-visible">
+            {/* Main form container with enhanced visual design */}
+            <div ref={formContentRef} className="modern-form-container bg-transparent rounded-xl p-2 sm:p-3 border-0 relative flex flex-col flex-grow" style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+              {/* Decorative corner accents for visual polish */}
+              <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-blue-500/20 rounded-tl-xl pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-blue-500/20 rounded-tr-xl pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-blue-500/10 rounded-bl-xl pointer-events-none hidden md:block"></div>
+              <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-blue-500/10 rounded-br-xl pointer-events-none hidden md:block"></div>
+
+              {/* Form Content with section fade-in effect */}
+              <div className="space-y-4 section-fade-in flex-grow overflow-visible min-h-[400px] pb-16" style={{ backgroundColor: 'transparent' }}>
+                {currentStep === 1 && (
+                  <>
+                    <div id="section-title" className="pt-1 md:pt-2 mb-2 sm:mb-3 pb-1 sm:pb-2">
+                      {/* Enhanced section header with icon and gradient accent */}
+                      <div className="flex items-center mb-1">
+                        <div className="flex items-center justify-center rounded-full w-8 h-8 bg-gradient-to-br from-white/30 to-white/10 shadow-md mr-2 border border-white/20">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-white">
+                            <path d="M14.5 22V12C14.5 10.8954 13.6046 10 12.5 10H6.5C5.39543 10 4.5 10.8954 4.5 12V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M2.5 22H21.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M19.5 22V6C19.5 4.89543 18.6046 4 17.5 4H14.5C13.3954 4 12.5 4.89543 12.5 6V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M7.5 22V17H11.5V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                        <h2 className="text-lg sm:text-xl font-bold text-white">Select Your Role</h2>
+                      </div>
+                      <div className="border-t border-white/10 my-2"></div>
+                      <p className="text-white/80 text-xs sm:text-sm pl-2 border-l-4 border-white/30 ml-1">
+                        This form will guide you through submitting a new real estate transaction. Please select your role to get started.
+                      </p>
+                    </div>
+                    <div className="flex-grow flex flex-col justify-center py-8">
+                      <RoleSelection
+                        selectedRole={agentData.role}
+                        onRoleChange={(value) => setAgentData(prev => ({ ...prev, role: value }))}
+                        agentName={agentData.name}
+                        onAgentNameChange={(value) => {
+                          setAgentData(prev => ({ ...prev, name: value }));
+                          // Also update the signature data to keep it in sync
+                          setSignatureData(prev => ({ ...prev, agentName: value }));
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
+                {currentStep === 2 && (
+                  <>
+                    <div id="section-title" className="pt-1 md:pt-2 mb-2 sm:mb-3 pb-1 sm:pb-2">
+                      {/* Property Information section header with home icon */}
+                      <div className="flex items-center mb-1">
+                        <div className="flex items-center justify-center rounded-full w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 shadow-md mr-2">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-white">
+                            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M9 22V12H15V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                        <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Property Information</h2>
+                      </div>
+                      <div className="fancy-divider my-2"></div>
+                      <p className="text-gray-600 text-xs sm:text-sm pl-2 border-l-4 border-blue-500/30 ml-1">
+                        Enter property details for this transaction.
+                      </p>
+                    </div>
+                    <div className="flex-grow py-6">
+                      <PropertyInformation
+                        data={propertyData}
+                        onChange={(field, value) => setPropertyData(prev => ({ ...prev, [field]: value }))}
+                        role={agentData.role}
+                      />
+                    </div>
+                  </>
+                )}
+                {currentStep === 3 && (
+                  <>

@@ -94,19 +94,6 @@ export function TransactionForm() {
   };
 
   const { toast, dismiss } = useToast();
-
-  // Enhanced navigation handlers
-  const enhancedHandleNext = () => {
-    handleNext();
-  };
-
-  const enhancedHandlePrevious = () => {
-    handlePrevious();
-  };
-
-  const resetForm = () => {
-    // Implement form reset logic
-  };
   const {
     currentStep,
     setCurrentStep,

@@ -23,6 +23,8 @@ import { loadLayoutFixes } from './components/LayoutFixes';
 import AntiFlickerInitializer from './components/AntiFlickerInitializer';
 import './styles/transition-fixes.css'; // Import transition fixes CSS
 import './styles/transition-flicker-fixes.css'; // Import additional flicker fixes
+import './styles/hero-transition-fixes.css'; // Import hero transition fixes
+import './styles/global-layout-fixes.css'; // Import global layout fixes
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -54,6 +56,22 @@ const App: React.FC = () => {
 
   return (
     <>
+      {/* Temporary change indicator - REMOVE AFTER CONFIRMING */}
+      <div style={{
+        position: 'fixed',
+        top: '100px',
+        right: '20px',
+        background: 'green',
+        color: 'white',
+        padding: '10px 20px',
+        borderRadius: '5px',
+        zIndex: 999999,
+        fontSize: '14px',
+        fontWeight: 'bold'
+      }}>
+        ✅ CHANGES ACTIVE - v2
+      </div>
+      
       {/* Single Header - rendered normally */}
       <Header />
       
@@ -62,15 +80,18 @@ const App: React.FC = () => {
         <AntiFlickerInitializer />
 
         <div
-          className="app-root relative min-h-screen overflow-x-hidden"
+          className="app-root relative min-h-screen overflow-x-hidden flex flex-col"
           data-app-root="true"
           style={{
             position: 'relative',
-            zIndex: 0, // Lower z-index to ensure header is above
+            zIndex: 0,
             marginTop: 0,
             paddingTop: 0,
             backgroundColor: 'transparent',
-            background: 'none'
+            background: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh'
           }}
         >
           <ScrollRestoration />
@@ -80,15 +101,19 @@ const App: React.FC = () => {
 
           <ScrollIndicatorWrapper />
 
-          {/* Page content with transitions - removed flex-grow to prevent spacing issues */}
+          {/* Page content with transitions */}
           <main 
-            className="overflow-x-hidden relative" 
+            className="overflow-x-hidden relative flex-grow flex flex-col" 
             style={{ 
               backgroundColor: 'transparent', 
               background: 'none',
               zIndex: 5, // Above slideshow, below page transitions
-              marginTop: 0, // Remove margin - heroes will handle their own spacing
-              paddingTop: 0 // Ensure no top padding
+              marginTop: 0, // No margin
+              paddingTop: 0, // No padding - PageTransition handles spacing
+              position: 'relative',
+              flex: '1 0 auto',
+              display: 'flex',
+              flexDirection: 'column'
             }} 
             data-main-content="true"
           >
@@ -119,8 +144,8 @@ const App: React.FC = () => {
             </PageTransition>
           </main>
 
-          {/* Footer - Always rendered for now, can be conditionally displayed later */}
-          <Footer key="main-footer" />
+          {/* Footer - Always at bottom */}
+          <Footer key="main-footer" className="mt-auto" />
         </div>
       </AppProviders>
     </>
