@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { TransactionForm } from "./TransactionForm.complete";
+import TransactionForm from "./TransactionForm";
 import GlobalPageHero from "../GlobalPageHero";
 import { FileText, Shield, Clock, CheckCircle, Users, Home } from 'lucide-react';
 import Logo from '/logo-flat.png';

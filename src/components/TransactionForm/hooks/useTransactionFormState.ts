@@ -209,7 +209,7 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
     }
   }, []);
 
-  const validateStep = useCallback((step: number): boolean => {
+  const validateStep = useCallback((step: number, updateState = true): boolean => {
     const errors: Record<string, string> = {};
     
     switch (step) {
@@ -236,7 +236,9 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
       // Add validation for other steps as needed
     }
     
-    setFormData(prev => ({ ...prev, validationErrors: errors }));
+    if (updateState) {
+      setFormData(prev => ({ ...prev, validationErrors: errors }));
+    }
     return Object.keys(errors).length === 0;
   }, [formData, validateField]);
 
@@ -355,7 +357,7 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
     currentStep: formData.currentStep,
     isFirstStep: formData.currentStep === 1,
     isLastStep: formData.currentStep === TOTAL_STEPS,
-    canGoNext: validateStep(formData.currentStep),
+    canGoNext: Object.keys(formData.validationErrors).length === 0,
     canGoPrevious: formData.currentStep > 1,
   };
 

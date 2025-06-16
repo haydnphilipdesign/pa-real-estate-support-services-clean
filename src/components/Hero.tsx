@@ -1,6 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, CheckCircle, Clock, Shield, ChevronRight, Users } from 'lucide-react';
+import { 
+  ArrowRight, 
+  CheckCircle, 
+  Clock, 
+  Shield, 
+  ChevronRight, 
+  Users, 
+  Phone, 
+  Mail, 
+  Award,
+  TrendingUp,
+  FileCheck,
+  MapPin
+} from 'lucide-react';
 import GlobalPageHero from './GlobalPageHero';
 import { Button } from '@/components/ui';
 import ContentCard from './ContentCard';
@@ -45,12 +58,40 @@ const testimonials = [
   }
 ];
 
-// Key features to highlight
-const features = [
-  { icon: CheckCircle, title: "Streamlined Transactions", description: "Simplified process from contract to closing" },
-  { icon: Clock, title: "Faster Closings", description: "Efficient coordination saves valuable time" },
-  { icon: Shield, title: "Compliance Expertise", description: "Stay compliant with regulatory requirements" },
-  { icon: Users, title: "Client Communication", description: "Professional updates to all parties" }
+// Trust indicators for real estate professionals
+const trustIndicators = [
+  { icon: Award, value: "30+", label: "Years Experience", color: "text-blue-300" },
+  { icon: FileCheck, value: "2,000+", label: "Transactions", color: "text-green-300" },
+  { icon: TrendingUp, value: "$500M+", label: "Volume Coordinated", color: "text-yellow-300" },
+  { icon: MapPin, value: "100%", label: "Pocono Mountains", color: "text-purple-300" }
+];
+
+// Core value propositions for agents
+const coreValues = [
+  { 
+    icon: Clock, 
+    title: "Save 10+ Hours Per Transaction", 
+    description: "Focus on sales while I handle all paperwork coordination",
+    metric: "85% time savings"
+  },
+  { 
+    icon: Shield, 
+    title: "Zero Compliance Issues", 
+    description: "Pennsylvania real estate law expertise ensures every detail",
+    metric: "100% compliant"
+  },
+  { 
+    icon: CheckCircle, 
+    title: "Faster Closings", 
+    description: "Proactive management eliminates delays and last-minute issues",
+    metric: "21 day average"
+  },
+  { 
+    icon: Users, 
+    title: "Happy Clients & Referrals", 
+    description: "Professional communication keeps all parties informed",
+    metric: "95% satisfaction"
+  }
 ];
 
 // Real statistics data
@@ -100,173 +141,153 @@ const Hero: React.FC = () => {
 
   return (
     <GlobalPageHero 
-      overlayColor="from-black/30 via-black/20 to-black/30"
-      overlayOpacity="bg-black/40"
+      overlayColor="from-black/50 via-black/30 to-black/50"
+      overlayOpacity="bg-black/20"
     >
-      <div className="container px-4 md:px-6 lg:px-8 mx-auto w-full py-8" id="home-hero">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center min-h-0">
-          {/* Main Hero Content */}
-          <div className="lg:col-span-7">
-            <motion.div
-              className="max-w-2xl mx-auto lg:mx-0"
-              variants={HERO_ANIMATION.variants.container}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              data-hero-content="container"
-            >
-              {/* Main headline */}
-              <motion.div
-                variants={HERO_ANIMATION.variants.title}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="mb-8"
-                data-hero-content="title"
-              >
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight text-white text-center lg:text-left">
-                  <motion.div className="overflow-hidden inline-block w-full">
-                    <motion.span
-                      className="inline-block"
-                      variants={HERO_ANIMATION.variants.titleWithReveal}
-                    >
-                      Your trusted partner in
-                    </motion.span>
-                  </motion.div>
-                  <motion.div className="overflow-visible inline-block w-full">
-                    <motion.span
-                      className="inline-block text-blue-300"
-                      variants={HERO_ANIMATION.variants.titleWithReveal}
-                      transition={{ delay: 0.35 }}
-                    >
-                      reliable transaction
-                    </motion.span>
-                  </motion.div>
-                  <motion.div className="overflow-visible inline-block w-full pb-2">
-                    <motion.span
-                      className="inline-block text-blue-300"
-                      variants={HERO_ANIMATION.variants.titleWithReveal}
-                      transition={{ delay: 0.5 }}
-                    >
-                      management
-                    </motion.span>
-                  </motion.div>
-                </h1>
-              </motion.div>
-
-              {/* Subheadline */}
-              <motion.div
-                variants={HERO_ANIMATION.variants.subtitle}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="mb-10"
-                data-hero-content="subtitle"
-              >
-                <p className="text-xl md:text-2xl mb-6 md:mb-8 text-blue-100 font-light text-center lg:text-left">
-                  Empowering realtors with expert coordination services so you can focus on what matters most—your clients.
-                </p>
-              </motion.div>
-
-              {/* CTA Buttons */}
-              <motion.div
-                className="flex flex-wrap gap-4 mt-12 mb-12 justify-center lg:justify-start items-center"
-                variants={HERO_ANIMATION.variants.cta}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                data-hero-content="cta"
-              >
-                <div className="flex flex-wrap items-center gap-4">
-                  <Button
-                    to="/work-with-me"
-                    variant="glass"
-                    size="lg"
-                    radius="full"
-                    withAnimation={true}
-                    icon={
-                      <motion.div
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-                      >
-                        <ArrowRight className="w-5 h-5" />
-                      </motion.div>
-                    }
-                    iconPosition="right"
-                  >
-                    Get Started
-                  </Button>
-                  <Button
-                    to="/about"
-                    variant="glass"
-                    size="lg"
-                    radius="full"
-                    withAnimation={true}
-                    icon={
-                      <motion.div
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-                      >
-                        <ChevronRight className="w-5 h-5" />
-                      </motion.div>
-                    }
-                    iconPosition="right"
-                  >
-                    Learn More
-                  </Button>
-                </div>
-              </motion.div>
-            </motion.div>
+      <div className="container px-4 md:px-6 lg:px-8 mx-auto w-full py-12" id="home-hero">
+        {/* Professional Header with Immediate Credibility */}
+        <motion.div 
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Credibility Badge */}
+          <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-4 border border-white/20">
+            <Award className="w-4 h-4 text-yellow-300 mr-2" />
+            <span className="text-white/90 text-sm font-medium">Trusted by 200+ Pocono Mountains Realtors</span>
           </div>
+          
+          {/* Main Professional Headline */}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+            <span className="block">Professional Transaction</span>
+            <span className="block text-blue-300">Coordination Services</span>
+          </h1>
+          
+          {/* Value Proposition */}
+          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-4xl mx-auto font-light">
+            I handle your paperwork, you focus on sales. 30+ years of expertise serving real estate professionals in the Pocono Mountains.
+          </p>
+        </motion.div>
 
-          {/* Right Side Card Section */}
-          <motion.div
-            className="lg:col-span-5 hidden lg:block"
-            variants={HERO_ANIMATION.variants.card}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          >
-            <ContentCard
-              heroStyle={true}
-              className="glass-card-navy px-8 sm:px-12 py-10 card-inner-glow card-tilt"
-              inHero={true}
-              data-glass-card="true"
-            >
-              {/* Stats section */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="text-center bg-white/10 p-4 rounded-xl stat-info-box">
-                  <p className="text-xl font-bold text-white">{stats[0].value}</p>
-                  <p className="text-xs text-blue-200">{stats[0].label}</p>
+        {/* Trust Indicators Grid */}
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          {trustIndicators.map((indicator, index) => (
+            <div key={index} className="glass-card-navy text-center p-6">
+              <indicator.icon className={`w-8 h-8 mx-auto mb-3 ${indicator.color}`} />
+              <div className="text-2xl font-bold text-white mb-1">{indicator.value}</div>
+              <div className="text-sm text-blue-200">{indicator.label}</div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Core Value Propositions */}
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          {coreValues.map((value, index) => (
+            <div key={index} className="glass-card-navy p-6 hover:lift">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <value.icon className="w-6 h-6 text-blue-300" />
+                  </div>
                 </div>
-                <div className="text-center bg-white/10 p-4 rounded-xl stat-info-box">
-                  <p className="text-xl font-bold text-white">{stats[1].value}</p>
-                  <p className="text-xs text-blue-200">{stats[1].label}</p>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white mb-2">{value.title}</h3>
+                  <p className="text-blue-100 text-sm mb-3 leading-relaxed">{value.description}</p>
+                  <div className="inline-flex items-center bg-green-500/20 rounded-full px-3 py-1">
+                    <TrendingUp className="w-3 h-3 text-green-300 mr-1" />
+                    <span className="text-green-300 text-xs font-medium">{value.metric}</span>
+                  </div>
                 </div>
               </div>
+            </div>
+          ))}
+        </motion.div>
 
-              {/* Testimonial content */}
-              <div className="text-4xl text-blue-200 opacity-50 font-serif mb-3">"</div>
-              <div className="min-h-[160px] mb-2">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={currentTestimonial}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <p className="text-lg font-medium mb-4 text-white/90">
-                      {testimonials[currentTestimonial].quote}
-                    </p>
-                    <p className="text-sm text-blue-200">
-                      {testimonials[currentTestimonial].name}, {testimonials[currentTestimonial].role.split(',')[0]}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
+        {/* Professional CTA Section */}
+        <motion.div 
+          className="text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <div className="glass-card-navy p-8 max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-white mb-4">
+              Ready to Scale Your Real Estate Business?
+            </h2>
+            <p className="text-blue-100 mb-6 text-lg">
+              Let me handle the transaction coordination while you focus on what you do best—serving clients and closing deals.
+            </p>
+            
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button
+                to="/work-with-me"
+                variant="secondary"
+                size="lg"
+                className="bg-white text-brand-blue hover:bg-white/90"
+                icon={<ArrowRight className="w-5 h-5" />}
+                iconPosition="right"
+              >
+                Start Working Together
+              </Button>
+              
+              <div className="flex items-center gap-4 text-white">
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-blue-300" />
+                  <span className="font-medium">(570) 588-4637</span>
+                </div>
+                <div className="hidden sm:block w-px h-6 bg-white/30"></div>
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-blue-300" />
+                  <span>Quick Response</span>
+                </div>
               </div>
+            </div>
+          </div>
+        </motion.div>
 
-              {/* Testimonial navigation dots */}
+        {/* Agent Testimonial Sidebar */}
+        <motion.div 
+          className="mt-8 max-w-2xl mx-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <div className="glass-card-navy p-6">
+            <div className="text-center">
+              <div className="text-3xl text-blue-200 opacity-50 font-serif mb-2">"</div>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={currentTestimonial}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <p className="text-white/90 italic mb-4 text-lg">
+                    {testimonials[currentTestimonial].quote}
+                  </p>
+                  <div className="text-blue-200 font-medium">
+                    — {testimonials[currentTestimonial].name}
+                  </div>
+                  <div className="text-blue-300 text-sm">
+                    {testimonials[currentTestimonial].role}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+              
+              {/* Testimonial Dots */}
               <div className="flex justify-center mt-4 space-x-2">
                 {testimonials.map((_, index) => (
                   <button
@@ -281,38 +302,8 @@ const Hero: React.FC = () => {
                   />
                 ))}
               </div>
-            </ContentCard>
-          </motion.div>
-        </div>
-
-        {/* Features Section */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-14 mb-8"
-          variants={HERO_ANIMATION.variants.featureContainer}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-        >
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              className="glass-card-navy p-4 py-3.5 card-scale card-border-shine"
-              data-glass-card="true"
-              variants={HERO_ANIMATION.variants.feature}
-              initial="hidden"
-              animate="show"
-              exit="exit"
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-            >
-              <div className="flex flex-col items-center text-center">
-                <div className="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center mb-3">
-                  <feature.icon className="h-5 w-5 text-blue-300" />
-                </div>
-                <h3 className="font-semibold text-white text-sm mb-2">{feature.title}</h3>
-                <p className="text-blue-200 text-xs">{feature.description}</p>
-              </div>
-            </motion.div>
-          ))}
+            </div>
+          </div>
         </motion.div>
       </div>
     </GlobalPageHero>

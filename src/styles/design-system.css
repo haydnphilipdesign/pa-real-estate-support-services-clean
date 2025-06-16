@@ -345,15 +345,18 @@ img {
 }
 
 .btn-secondary {
-  background: var(--glass-bg-light);
-  color: var(--neutral-800);
-  border: 1px solid var(--neutral-200);
+  background: white;
+  color: var(--brand-blue);
+  border: 1px solid var(--brand-blue);
   backdrop-filter: blur(var(--glass-blur));
+  font-weight: 600;
 }
 
 .btn-secondary:hover {
-  background: white;
+  background: var(--brand-blue);
+  color: white;
   transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Form System */
