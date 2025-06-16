@@ -52,7 +52,7 @@ export interface PropertyDetailsData {
   homeWarranty: boolean;
   warrantyCompany: string;
   warrantyCost: string;
-  warrantyPaidBy: 'SELLER' | 'BUYER' | 'AGENT';
+  warrantyPaidBy: 'SELLER' | 'BUYER' | 'AGENT' | 'SPLIT';
 }
 
 export interface TitleCompanyData {
@@ -95,15 +95,51 @@ export interface AgentData {
 
 export interface SignatureData {
   agentName: string;
+  signature: string;
   dateSubmitted: string;
   signatures: {
     agent?: string;
     [key: string]: string | undefined; // For client signatures like client_0, client_1, etc.
   };
-  termsAccepted: {
-    [termId: string]: boolean;
-  };
+  termsAccepted: boolean;
   infoConfirmed: boolean;
+}
+
+// Enhanced signature data interface for legal compliance
+export interface LegalSignatureData extends SignatureData {
+  // ESIGN Act Compliance
+  esignActConsent: boolean;
+  electronicRecordsConsent: boolean;
+  withdrawalRightsAcknowledged: boolean;
+  
+  // Pennsylvania UETA Compliance
+  uetaConsent: boolean;
+  
+  // Real Estate Specific
+  agentLicenseNumber: string;
+  brokerageName: string;
+  realEstateDisclosuresAcknowledged: boolean;
+  leadPaintDisclosure: boolean;
+  radonDisclosure: boolean;
+  
+  // Security and Audit
+  ipAddress?: string;
+  timestamp: string;
+  documentHash: string;
+  userAgent: string;
+  sessionId: string;
+  signatureMethod: 'typed' | 'drawn';
+  
+  // Identity Verification
+  emailVerified: boolean;
+  verificationMethod: string;
+  
+  // Audit Trail
+  auditTrail: Array<{
+    timestamp: string;
+    event: string;
+    details: any;
+  }>;
 }
 
 export interface TransactionFormData {

@@ -291,16 +291,21 @@ img {
 .glass-card-navy {
   background: var(--glass-bg-navy);
   color: white;
+  /* Ensure text has proper contrast */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .glass-card-blue {
   background: var(--glass-bg-blue);
   color: white;
+  /* Ensure text has proper contrast */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .glass-card-gold {
   background: var(--glass-bg-gold);
   color: var(--neutral-900);
+  /* No text shadow needed for dark text on light background */
 }
 
 /* Button System */

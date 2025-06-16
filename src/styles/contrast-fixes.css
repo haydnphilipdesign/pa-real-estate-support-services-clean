@@ -1,0 +1,382 @@
+/**
+ * =====================================================
+ * TARGETED TEXT CONTRAST FIXES
+ * =====================================================
+ * 
+ * Specific contrast improvements that don't break existing working areas.
+ * These fixes ensure WCAG AA compliance (4.5:1 contrast ratio minimum).
+ */
+
+/* =====================================================
+   1. GLASS CARD TEXT CONTRAST FIXES
+   ===================================================== */
+
+/* Ensure all glass card variants have proper text contrast */
+.glass-card-navy,
+.glass-card-blue,
+.glass-card-dark {
+  /* Force white text with sufficient contrast */
+  color: #ffffff !important;
+}
+
+.glass-card-navy *:not(input):not(select):not(textarea):not([role="combobox"]),
+.glass-card-blue *:not(input):not(select):not(textarea):not([role="combobox"]),
+.glass-card-dark *:not(input):not(select):not(textarea):not([role="combobox"]) {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+.glass-card-light {
+  /* Ensure dark text on light backgrounds */
+  color: #1f2937 !important;
+}
+
+.glass-card-light *:not(input):not(select):not(textarea):not([role="combobox"]) {
+  color: #1f2937 !important;
+  text-shadow: none !important;
+}
+
+.glass-card-gold {
+  /* Ensure sufficient contrast on gold backgrounds */
+  color: #1f2937 !important;
+}
+
+.glass-card-gold *:not(input):not(select):not(textarea):not([role="combobox"]) {
+  color: #1f2937 !important;
+  text-shadow: none !important;
+}
+
+/* =====================================================
+   2. HERO SECTION TEXT CONTRAST FIXES
+   ===================================================== */
+
+/* Improve hero text readability */
+.hero-content,
+.hero-content *,
+[data-hero-content] *,
+[id*="hero"] *:not(input):not(select):not(textarea) {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Hero section badges and pills */
+.hero-content .bg-white\/10,
+.hero-content [class*="bg-white/"] {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Hero section headings need extra contrast */
+.hero-content h1,
+.hero-content h2,
+.hero-content h3,
+[data-hero-content] h1,
+[data-hero-content] h2,
+[data-hero-content] h3 {
+  color: #ffffff !important;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8) !important;
+  font-weight: 700 !important;
+}
+
+/* =====================================================
+   3. TRANSACTION FORM CONTRAST FIXES
+   ===================================================== */
+
+/* Transaction form container background for better contrast */
+.transaction-form-container,
+[data-transaction-card="true"],
+#transaction-glass-card-unique {
+  background: rgba(30, 58, 138, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Form inputs inside transaction forms */
+.transaction-form-container input:not([type="radio"]):not([type="checkbox"]),
+.transaction-form-container select,
+.transaction-form-container textarea,
+.transaction-form-container [data-radix-select-trigger],
+.transaction-form-container [role="combobox"],
+[data-transaction-card="true"] input:not([type="radio"]):not([type="checkbox"]),
+[data-transaction-card="true"] select,
+[data-transaction-card="true"] textarea,
+[data-transaction-card="true"] [data-radix-select-trigger],
+[data-transaction-card="true"] [role="combobox"] {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+  border: 2px solid #e5e7eb !important;
+  font-weight: 500 !important;
+}
+
+/* Ensure form inputs have proper contrast everywhere */
+input:not([type="radio"]):not([type="checkbox"]),
+select,
+textarea,
+[data-radix-select-trigger],
+[role="combobox"] {
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+}
+
+/* Focus states for better visibility */
+input:focus:not([type="radio"]):not([type="checkbox"]),
+select:focus,
+textarea:focus,
+[data-radix-select-trigger]:focus,
+[role="combobox"]:focus {
+  outline: 3px solid #3b82f6 !important;
+  outline-offset: 2px !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Form labels in transaction forms */
+.transaction-form-container label,
+.transaction-form-container .form-label,
+[data-transaction-card="true"] label,
+[data-transaction-card="true"] .form-label {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  font-weight: 600 !important;
+}
+
+/* Form placeholders */
+.transaction-form-container input::placeholder,
+.transaction-form-container textarea::placeholder,
+[data-transaction-card="true"] input::placeholder,
+[data-transaction-card="true"] textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Required field indicators */
+.text-red-500,
+.text-red-600 {
+  color: #ef4444 !important;
+  font-weight: bold !important;
+}
+
+/* =====================================================
+   4. BUTTON CONTRAST FIXES
+   ===================================================== */
+
+/* Glass morphism button variants */
+.btn.glass-card-navy,
+.btn.glass-card-blue,
+.btn.glass-card-dark,
+.glass-card-navy .btn,
+.glass-card-blue .btn,
+.glass-card-dark .btn {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+}
+
+.btn.glass-card-light,
+.btn.glass-card-gold,
+.glass-card-light .btn,
+.glass-card-gold .btn {
+  color: #1f2937 !important;
+  text-shadow: none !important;
+}
+
+/* Primary and secondary button fixes */
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+.btn-secondary {
+  background: #ffffff !important;
+  color: #3b82f6 !important;
+  border: 2px solid #3b82f6 !important;
+}
+
+.btn-secondary:hover {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+}
+
+/* =====================================================
+   5. NAVIGATION & HEADER CONTRAST FIXES
+   ===================================================== */
+
+/* Header text contrast */
+.site-header,
+.main-navigation-header {
+  background: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+.site-header *:not(input):not(select):not(textarea),
+.main-navigation-header *:not(input):not(select):not(textarea) {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Navigation links */
+.site-header a,
+.main-navigation-header a {
+  color: #ffffff !important;
+  transition: color 0.2s ease !important;
+}
+
+.site-header a:hover,
+.main-navigation-header a:hover {
+  color: #60a5fa !important;
+}
+
+/* Mobile navigation */
+.mobile-menu,
+[class*="mobile"] nav {
+  background: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+/* =====================================================
+   6. TESTIMONIAL & CARD TEXT FIXES
+   ===================================================== */
+
+/* Testimonial cards on background images */
+.testimonial-card,
+[class*="testimonial"] {
+  background: rgba(30, 58, 138, 0.9) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.testimonial-card *,
+[class*="testimonial"] * {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Content cards on complex backgrounds */
+.content-card,
+.stats-card,
+[class*="stats"] {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.content-card *,
+.stats-card *,
+[class*="stats"] * {
+  color: #1f2937 !important;
+  text-shadow: none !important;
+}
+
+/* =====================================================
+   7. SPECIAL ELEMENT FIXES
+   ===================================================== */
+
+/* Badge and pill components */
+.badge,
+[class*="badge"],
+.pill,
+[class*="pill"] {
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Status indicators */
+.success-text,
+.text-green-300,
+.text-green-400 {
+  color: #22c55e !important;
+  font-weight: 600 !important;
+}
+
+.warning-text,
+.text-yellow-300,
+.text-yellow-400 {
+  color: #eab308 !important;
+  font-weight: 600 !important;
+}
+
+.error-text,
+.text-red-300,
+.text-red-400 {
+  color: #ef4444 !important;
+  font-weight: 600 !important;
+}
+
+/* Info text colors */
+.text-blue-300,
+.text-blue-400 {
+  color: #60a5fa !important;
+  font-weight: 500 !important;
+}
+
+/* =====================================================
+   8. ACCESSIBILITY ENHANCEMENTS
+   ===================================================== */
+
+/* Focus states with high contrast */
+*:focus-visible {
+  outline: 3px solid #fbbf24 !important;
+  outline-offset: 2px !important;
+  border-radius: 4px !important;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass-card-navy,
+  .glass-card-blue,
+  .glass-card-dark {
+    background: #000000 !important;
+    border: 2px solid #ffffff !important;
+  }
+  
+  .glass-card-light,
+  .glass-card-gold {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+  }
+  
+  .btn-primary {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+  }
+  
+  .btn-secondary {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .text-shadow,
+  [style*="text-shadow"] {
+    text-shadow: none !important;
+  }
+}
+
+/* =====================================================
+   9. PRINT STYLES
+   ===================================================== */
+
+@media print {
+  .glass-card-navy,
+  .glass-card-blue,
+  .glass-card-dark,
+  .glass-card-light,
+  .glass-card-gold {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+    text-shadow: none !important;
+  }
+  
+  .btn {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+  }
+}

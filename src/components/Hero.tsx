@@ -72,13 +72,13 @@ const coreValues = [
     icon: Clock, 
     title: "Save 10+ Hours Per Transaction", 
     description: "Focus on sales while I handle all paperwork coordination",
-    metric: "85% time savings"
+    metric: "Significant time savings"
   },
   { 
     icon: Shield, 
-    title: "Zero Compliance Issues", 
-    description: "Pennsylvania real estate law expertise ensures every detail",
-    metric: "100% compliant"
+    title: "Compliance Focused", 
+    description: "Pennsylvania real estate law expertise to minimize compliance risks",
+    metric: "Experience-driven"
   },
   { 
     icon: CheckCircle, 
@@ -90,7 +90,7 @@ const coreValues = [
     icon: Users, 
     title: "Happy Clients & Referrals", 
     description: "Professional communication keeps all parties informed",
-    metric: "95% satisfaction"
+    metric: "High satisfaction"
   }
 ];
 
@@ -153,19 +153,19 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.6 }}
         >
           {/* Credibility Badge */}
-          <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-4 border border-white/20">
-            <Award className="w-4 h-4 text-yellow-300 mr-2" />
-            <span className="text-white/90 text-sm font-medium">Trusted by 200+ Pocono Mountains Realtors</span>
+          <div className="inline-flex items-center bg-black/40 backdrop-blur-sm rounded-full px-6 py-2 mb-4 border border-white/30">
+            <Award className="w-4 h-4 text-yellow-400 mr-2" />
+            <span className="text-white text-sm font-semibold" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.7)' }}>Trusted by Pocono Mountains Realtors</span>
           </div>
           
           {/* Main Professional Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4" style={{ textShadow: '0 3px 6px rgba(0, 0, 0, 0.8)' }}>
             <span className="block">Professional Transaction</span>
-            <span className="block text-blue-300">Coordination Services</span>
+            <span className="block text-blue-200">Coordination Services</span>
           </h1>
           
           {/* Value Proposition */}
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-4xl mx-auto font-light">
+          <p className="text-xl md:text-2xl text-white mb-8 max-w-4xl mx-auto font-light" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.7)' }}>
             I handle your paperwork, you focus on sales. 30+ years of expertise serving real estate professionals in the Pocono Mountains.
           </p>
         </motion.div>

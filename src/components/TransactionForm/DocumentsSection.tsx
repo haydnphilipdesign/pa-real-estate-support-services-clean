@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-  ListChecks, AlertCircle, FileText, Home, FileSpreadsheet, Users, DollarSign
+  ListChecks, AlertCircle, FileText, Home, FileSpreadsheet, Users, DollarSign, CheckCircle, Clock
 } from "lucide-react";
-import { DocumentsData, AgentRole } from "@/types/transaction";
+import { DocumentsData, DocumentItem, AgentRole } from "@/types/transaction";
 
 interface DocumentsSectionProps {
   role?: AgentRole | null;
@@ -14,12 +14,12 @@ interface DocumentsSectionProps {
   commissionData?: any;
 }
 
-// Define document categories type
+// Define document categories with proper DocumentItem structure
 type DocumentCategory = {
   name: string;
   icon: React.ReactNode;
   description: string;
-  documents: string[];
+  documents: DocumentItem[];
 };
 
 export function DocumentsSection({
@@ -28,6 +28,16 @@ export function DocumentsSection({
   onChange
 }: DocumentsSectionProps) {
   const [showValidationError, setShowValidationError] = useState(false);
+
+  // Handle document selection
+  const handleDocumentChange = (documentName: string, selected: boolean) => {
+    const updatedDocuments = data.documents.map(doc => 
+      doc.name === documentName 
+        ? { ...doc, selected }
+        : doc
+    );
+    onChange('documents', updatedDocuments);
+  };
 
   // Handle confirmation checkbox
   const handleConfirmationChange = (checked: boolean) => {
@@ -38,17 +48,17 @@ export function DocumentsSection({
     }
   };
 
-  // Define document categories with icons and descriptions
+  // Define comprehensive document categories with proper DocumentItem structure
   const documentCategories: DocumentCategory[] = [
     {
       name: "Core Transaction Documents",
       icon: <FileText className="h-5 w-5 text-blue-600" />,
       description: "Essential documents required for all transactions",
       documents: [
-        "Agreement of Sale",
-        "Deposit Money Notice",
-        "Cooperating Broker's Compensation",
-        "KW Wire Fraud Notice",
+        { name: "Agreement of Sale", selected: false, required: true, roles: ['BUYERS AGENT', 'LISTING AGENT', 'DUAL AGENT'] },
+        { name: "Deposit Money Notice", selected: false, required: true, roles: ['BUYERS AGENT', 'LISTING AGENT', 'DUAL AGENT'] },
+        { name: "Cooperating Broker's Compensation", selected: false, required: true, roles: ['BUYERS AGENT', 'LISTING AGENT', 'DUAL AGENT'] },
+        { name: "KW Wire Fraud Notice", selected: false, required: true, roles: ['BUYERS AGENT', 'LISTING AGENT', 'DUAL AGENT'] },
       ]
     },
     {
@@ -56,12 +66,12 @@ export function DocumentsSection({
       icon: <Users className="h-5 w-5 text-purple-600" />,
       description: "Documents related to representation and disclosures",
       documents: [
-        "Buyer's Agency Contract",
-        "Listing Agreement",
-        "Dual Agency Disclosure",
-        "Consumer Notice",
-        "KW Affiliate Services Disclosure",
-        "Seller's Property Disclosure",
+        { name: "Buyer's Agency Contract", selected: false, required: true, roles: ['BUYERS AGENT', 'DUAL AGENT'] },
+        { name: "Listing Agreement", selected: false, required: true, roles: ['LISTING AGENT', 'DUAL AGENT'] },
+        { name: "Dual Agency Disclosure", selected: false, required: true, roles: ['DUAL AGENT'] },
+        { name: "Consumer Notice", selected: false, required: true, roles: ['BUYERS AGENT', 'LISTING AGENT', 'DUAL AGENT'] },
+        { name: "KW Affiliate Services Disclosure", selected: false, required: false, roles: ['BUYERS AGENT', 'LISTING AGENT', 'DUAL AGENT'] },
+        { name: "Seller's Property Disclosure", selected: false, required: true, roles: ['LISTING AGENT', 'DUAL AGENT'] },
       ]
     },
     {
@@ -69,8 +79,8 @@ export function DocumentsSection({
       icon: <DollarSign className="h-5 w-5 text-emerald-600" />,
       description: "Documents related to transaction costs",
       documents: [
-        "Buyer's Estimated Costs",
-        "Seller's Estimated Costs",
+        { name: "Buyer's Estimated Costs", selected: false, required: true, roles: ['BUYERS AGENT', 'DUAL AGENT'] },
+        { name: "Seller's Estimated Costs", selected: false, required: true, roles: ['LISTING AGENT', 'DUAL AGENT'] },
       ]
     },
     {
@@ -78,9 +88,9 @@ export function DocumentsSection({
       icon: <Home className="h-5 w-5 text-amber-600" />,
       description: "Documents specific to the property type and condition",
       documents: [
-        "Lead Based Paint Disclosure",
-        "Resale Certificate",
-        "Certificate of Occupancy",
+        { name: "Lead Based Paint Disclosure", selected: false, required: false, roles: ['BUYERS AGENT', 'LISTING AGENT', 'DUAL AGENT'] },
+        { name: "Resale Certificate", selected: false, required: false, roles: ['LISTING AGENT', 'DUAL AGENT'] },
+        { name: "Certificate of Occupancy", selected: false, required: false, roles: ['LISTING AGENT', 'DUAL AGENT'] },
       ]
     },
     {
@@ -88,9 +98,9 @@ export function DocumentsSection({
       icon: <FileSpreadsheet className="h-5 w-5 text-gray-600" />,
       description: "Other important documents for your transaction",
       documents: [
-        "Attorney Review Clause",
-        "Referral Agreement & W-9",
-        "Home Warranty Information",
+        { name: "Attorney Review Clause", selected: false, required: false, roles: ['BUYERS AGENT', 'LISTING AGENT', 'DUAL AGENT'] },
+        { name: "Referral Agreement & W-9", selected: false, required: false, roles: ['BUYERS AGENT', 'LISTING AGENT', 'DUAL AGENT'] },
+        { name: "Home Warranty Information", selected: false, required: false, roles: ['LISTING AGENT', 'DUAL AGENT'] },
       ]
     }
   ];
@@ -98,28 +108,31 @@ export function DocumentsSection({
   // Filter categories based on role
   const getFilteredCategories = () => {
     return documentCategories.map(category => {
-      let filteredDocs = category.documents;
-      if (role === 'BUYERS AGENT') {
-        filteredDocs = filteredDocs.filter(doc =>
-          !doc.toLowerCase().includes('listing') &&
-          !doc.toLowerCase().includes('seller')
-        );
-      } else if (role === 'LISTING AGENT') {
-        filteredDocs = filteredDocs.filter(doc =>
-          !doc.toLowerCase().includes('buyer')
-        );
-      }
+      const filteredDocs = category.documents.filter(doc => 
+        doc.roles.includes(role || 'BUYERS AGENT')
+      );
       return {
         ...category,
         documents: filteredDocs
       };
-    });
+    }).filter(category => category.documents.length > 0);
   };
 
-  // Flatten all filtered documents into a single list
+  // Initialize documents from filtered categories if data.documents is empty
   const filteredCategories = getFilteredCategories();
   const allDocuments = filteredCategories.flatMap(cat => cat.documents);
-  const uniqueDocuments = Array.from(new Set(allDocuments));
+  
+  // Initialize document selection state if needed
+  useEffect(() => {
+    if (data.documents.length === 0 && allDocuments.length > 0) {
+      // Initialize with unselected documents
+      const initialDocs = allDocuments.map(doc => ({
+        ...doc,
+        selected: false
+      }));
+      onChange('documents', initialDocs);
+    }
+  }, [role, allDocuments.length, data.documents.length]);
 
   return (
     <div className="tf-documents-section">
@@ -148,14 +161,37 @@ export function DocumentsSection({
                     <p className="tf-text-muted">{category.description}</p>
                   </div>
                 </div>
-                <ul className="tf-document-list">
-                  {category.documents.map((doc) => (
-                    <li key={doc} className="tf-document-item">
-                      <FileText className="tf-icon-sm" />
-                      <span>{doc}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="tf-document-list">
+                  {category.documents.map((doc) => {
+                    // Find the current document in data.documents to get its selected state
+                    const currentDoc = data.documents.find(d => d.name === doc.name);
+                    const isSelected = currentDoc?.selected || false;
+                    
+                    return (
+                      <div key={doc.name} className="tf-document-item">
+                        <Checkbox
+                          id={`doc-${doc.name.replace(/\s+/g, '-').toLowerCase()}`}
+                          checked={isSelected}
+                          onCheckedChange={(checked) => handleDocumentChange(doc.name, checked === true)}
+                          className="tf-checkbox"
+                        />
+                        <label 
+                          htmlFor={`doc-${doc.name.replace(/\s+/g, '-').toLowerCase()}`}
+                          className="tf-document-label"
+                        >
+                          <FileText className="tf-icon-sm" />
+                          <span className="tf-document-name">
+                            {doc.name}
+                            {doc.required && <span className="tf-label-required ml-1">*</span>}
+                          </span>
+                          {doc.required && (
+                            <span className="tf-required-badge">Required</span>
+                          )}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )
           ))}

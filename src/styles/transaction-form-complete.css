@@ -1,0 +1,755 @@
+/**
+ * COMPLETE TRANSACTION FORM STYLING
+ * Fortune 500 Professional Design System
+ * 
+ * This file completely overrides all conflicting styles to ensure
+ * perfect readability and professional appearance throughout the
+ * entire transaction form workflow.
+ */
+
+/* =====================================================
+   BACKGROUND SLIDESHOW EXTENSION
+   ===================================================== */
+
+/* Ensure background slideshow covers entire transaction form area */
+html body [data-transaction-page="true"] {
+  min-height: 100vh !important;
+  position: relative !important;
+}
+
+html body [data-transaction-page="true"] .background-slideshow,
+html body [data-transaction-page="true"] [data-persistent-background="true"],
+html body [data-transaction-page="true"] .slideshow-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  z-index: -100 !important;
+  object-fit: cover !important;
+}
+
+/* Extend background for long forms */
+html body [data-transaction-page="true"] .background-slideshow img,
+html body [data-transaction-page="true"] [data-persistent-background="true"] img,
+html body [data-transaction-page="true"] .slideshow-container img {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+/* Ensure transaction form content area extends properly */
+html body [data-transaction-page="true"] .transaction-hero-container,
+html body [data-transaction-page="true"] .hero-container,
+html body [data-transaction-page="true"] .global-page-hero {
+  min-height: 100vh !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Make sure form content doesn't get cut off */
+html body [data-transaction-page="true"] .transaction-form,
+html body [data-transaction-page="true"] .unified-transaction-form {
+  position: relative !important;
+  z-index: 10 !important;
+  padding-bottom: 4rem !important;
+}
+
+/* =====================================================
+   CRITICAL BASE OVERRIDES - MAXIMUM SPECIFICITY
+   ===================================================== */
+
+/* Force all transaction form containers to use proper backgrounds */
+html body div[data-transaction-page="true"],
+html body div[data-transaction-page="true"] *:not(input):not(select):not(textarea):not([data-radix-select-trigger]):not([data-radix-select-content]):not([data-radix-select-item]),
+html body .transaction-form,
+html body .transaction-form *:not(input):not(select):not(textarea):not([data-radix-select-trigger]):not([data-radix-select-content]):not([data-radix-select-item]),
+html body .unified-transaction-form,
+html body .unified-transaction-form *:not(input):not(select):not(textarea):not([data-radix-select-trigger]):not([data-radix-select-content]):not([data-radix-select-item]),
+html body .tf-role-selection,
+html body .tf-role-selection *:not(input):not(select):not(textarea):not([data-radix-select-trigger]):not([data-radix-select-content]):not([data-radix-select-item]),
+html body .tf-property-info,
+html body .tf-property-info *:not(input):not(select):not(textarea):not([data-radix-select-trigger]):not([data-radix-select-content]):not([data-radix-select-item]) {
+  color: #1f2937 !important;
+  text-shadow: none !important;
+}
+
+/* =====================================================
+   GLASS CARD PROFESSIONAL STYLING
+   ===================================================== */
+
+/* All glass cards in transaction forms */
+html body [data-transaction-page="true"] .tf-glass-card,
+html body .transaction-form .tf-glass-card,
+html body .unified-transaction-form .tf-glass-card,
+html body .tf-role-selection .tf-glass-card,
+html body .tf-property-info .tf-glass-card,
+html body .tf-selected-role-details {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  backdrop-filter: blur(16px) !important;
+  padding: 2rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+/* =====================================================
+   TYPOGRAPHY - PROFESSIONAL HIERARCHY
+   ===================================================== */
+
+/* Main section headings */
+html body [data-transaction-page="true"] .tf-heading-secondary,
+html body [data-transaction-page="true"] h3.tf-heading-secondary,
+html body .transaction-form .tf-heading-secondary,
+html body .unified-transaction-form .tf-heading-secondary,
+html body .tf-role-selection .tf-heading-secondary,
+html body .tf-property-info .tf-heading-secondary {
+  color: #1f2937 !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.5rem !important;
+  text-shadow: none !important;
+  line-height: 1.3 !important;
+}
+
+/* Sub-headings */
+html body [data-transaction-page="true"] .tf-heading-tertiary,
+html body [data-transaction-page="true"] h4.tf-heading-tertiary,
+html body .transaction-form .tf-heading-tertiary,
+html body .unified-transaction-form .tf-heading-tertiary,
+html body .tf-role-selection .tf-heading-tertiary,
+html body .tf-property-info .tf-heading-tertiary {
+  color: #374151 !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.75rem !important;
+  text-shadow: none !important;
+}
+
+/* Subtitle text */
+html body [data-transaction-page="true"] .tf-text-subtitle,
+html body [data-transaction-page="true"] p.tf-text-subtitle,
+html body .transaction-form .tf-text-subtitle,
+html body .unified-transaction-form .tf-text-subtitle,
+html body .tf-role-selection .tf-text-subtitle,
+html body .tf-property-info .tf-text-subtitle {
+  color: #6b7280 !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  margin-bottom: 1rem !important;
+  text-shadow: none !important;
+  line-height: 1.5 !important;
+}
+
+/* Description text */
+html body [data-transaction-page="true"] .tf-text-description,
+html body [data-transaction-page="true"] p.tf-text-description,
+html body .transaction-form .tf-text-description,
+html body .unified-transaction-form .tf-text-description,
+html body .tf-role-selection .tf-text-description,
+html body .tf-property-info .tf-text-description {
+  color: #4b5563 !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  text-shadow: none !important;
+}
+
+/* Muted text */
+html body [data-transaction-page="true"] .tf-text-muted,
+html body [data-transaction-page="true"] p.tf-text-muted,
+html body .transaction-form .tf-text-muted,
+html body .unified-transaction-form .tf-text-muted,
+html body .tf-role-selection .tf-text-muted,
+html body .tf-property-info .tf-text-muted {
+  color: #9ca3af !important;
+  font-size: 0.875rem !important;
+  text-shadow: none !important;
+}
+
+/* =====================================================
+   FORM LABELS - MAXIMUM SPECIFICITY
+   ===================================================== */
+
+/* All form labels */
+html body [data-transaction-page="true"] label,
+html body [data-transaction-page="true"] .tf-label,
+html body [data-transaction-page="true"] .form-label,
+html body .transaction-form label,
+html body .transaction-form .tf-label,
+html body .unified-transaction-form label,
+html body .unified-transaction-form .tf-label,
+html body .tf-role-selection label,
+html body .tf-role-selection .tf-label,
+html body .tf-property-info label,
+html body .tf-property-info .tf-label,
+html body .tf-glass-card label,
+html body .tf-glass-card .tf-label,
+html body .tf-form-group label,
+html body .tf-form-group .tf-label,
+html body .tf-property-row label,
+html body .tf-property-row .tf-label,
+html body [data-transaction-page="true"] label[for],
+html body [data-transaction-page="true"] .tf-label[for] {
+  color: #374151 !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  text-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+/* Required field asterisks */
+html body [data-transaction-page="true"] .tf-label-required,
+html body [data-transaction-page="true"] .required,
+html body .transaction-form .tf-label-required,
+html body .unified-transaction-form .tf-label-required,
+html body .tf-role-selection .tf-label-required,
+html body .tf-property-info .tf-label-required {
+  color: #dc2626 !important;
+  font-weight: 700 !important;
+  margin-left: 0.25rem !important;
+}
+
+/* Label icons */
+html body [data-transaction-page="true"] .tf-label-icon,
+html body .transaction-form .tf-label-icon,
+html body .unified-transaction-form .tf-label-icon,
+html body .tf-role-selection .tf-label-icon,
+html body .tf-property-info .tf-label-icon {
+  color: #3b82f6 !important;
+  width: 1rem !important;
+  height: 1rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* =====================================================
+   FORM INPUTS - PROFESSIONAL STYLING
+   ===================================================== */
+
+/* All input fields */
+html body [data-transaction-page="true"] input:not([type="radio"]):not([type="checkbox"]),
+html body [data-transaction-page="true"] textarea,
+html body [data-transaction-page="true"] .tf-input,
+html body .transaction-form input:not([type="radio"]):not([type="checkbox"]),
+html body .transaction-form textarea,
+html body .transaction-form .tf-input,
+html body .unified-transaction-form input:not([type="radio"]):not([type="checkbox"]),
+html body .unified-transaction-form textarea,
+html body .unified-transaction-form .tf-input,
+html body .tf-role-selection input:not([type="radio"]):not([type="checkbox"]),
+html body .tf-role-selection textarea,
+html body .tf-role-selection .tf-input,
+html body .tf-property-info input:not([type="radio"]):not([type="checkbox"]),
+html body .tf-property-info textarea,
+html body .tf-property-info .tf-input {
+  background: #ffffff !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  color: #1f2937 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  width: 100% !important;
+  min-height: 2.5rem !important;
+}
+
+/* Input focus states */
+html body [data-transaction-page="true"] input:focus:not([type="radio"]):not([type="checkbox"]),
+html body [data-transaction-page="true"] textarea:focus,
+html body [data-transaction-page="true"] .tf-input:focus,
+html body .transaction-form input:focus:not([type="radio"]):not([type="checkbox"]),
+html body .transaction-form textarea:focus,
+html body .transaction-form .tf-input:focus,
+html body .unified-transaction-form input:focus:not([type="radio"]):not([type="checkbox"]),
+html body .unified-transaction-form textarea:focus,
+html body .unified-transaction-form .tf-input:focus {
+  outline: none !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  background: #ffffff !important;
+}
+
+/* Input placeholder text */
+html body [data-transaction-page="true"] input::placeholder,
+html body [data-transaction-page="true"] textarea::placeholder,
+html body .transaction-form input::placeholder,
+html body .transaction-form textarea::placeholder,
+html body .unified-transaction-form input::placeholder,
+html body .unified-transaction-form textarea::placeholder {
+  color: #9ca3af !important;
+  font-weight: 400 !important;
+}
+
+/* =====================================================
+   SELECT DROPDOWNS - PROFESSIONAL STYLING
+   ===================================================== */
+
+/* Radix Select triggers */
+html body [data-transaction-page="true"] [data-radix-select-trigger],
+html body [data-transaction-page="true"] .tf-select,
+html body .transaction-form [data-radix-select-trigger],
+html body .transaction-form .tf-select,
+html body .unified-transaction-form [data-radix-select-trigger],
+html body .unified-transaction-form .tf-select {
+  background: #ffffff !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.875rem !important;
+  color: #1f2937 !important;
+  min-height: 2.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Select focus states */
+html body [data-transaction-page="true"] [data-radix-select-trigger]:focus,
+html body [data-transaction-page="true"] .tf-select:focus,
+html body .transaction-form [data-radix-select-trigger]:focus,
+html body .transaction-form .tf-select:focus {
+  outline: none !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Select value text */
+html body [data-radix-select-trigger] [data-radix-select-value],
+html body [data-radix-select-trigger] span[data-radix-select-value] {
+  color: #1f2937 !important;
+  font-weight: 500 !important;
+}
+
+/* Select placeholder text */
+html body [data-radix-select-trigger][data-placeholder] span,
+html body [data-radix-select-trigger][data-placeholder] [data-radix-select-value] {
+  color: #9ca3af !important;
+  font-weight: 400 !important;
+}
+
+/* NUCLEAR DROPDOWN POSITIONING FIX */
+html body [data-radix-select-content],
+body [data-radix-select-content],
+[data-radix-select-content] {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  z-index: 999999 !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+  position: fixed !important;
+  min-width: var(--radix-select-trigger-width) !important;
+  will-change: auto !important;
+  /* FORCE positioning below */
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  transform: translateY(8px) !important;
+  margin: 0 !important;
+  padding: 0.25rem !important;
+}
+
+/* Ensure dropdown portal is properly positioned */
+html body [data-radix-select-portal] {
+  z-index: 999999 !important;
+}
+
+/* Fix dropdown viewport */
+html body [data-radix-select-viewport] {
+  padding: 0.25rem !important;
+}
+
+/* Ensure select trigger has proper stacking context and positioning */
+html body [data-transaction-page="true"] [data-radix-select-trigger],
+html body [data-transaction-page="true"] .tf-select {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* Force Radix Select to use downward positioning */
+html body [data-radix-select-content][data-side="top"] {
+  top: auto !important;
+  bottom: auto !important;
+  transform: translateY(0) !important;
+}
+
+html body [data-radix-select-content][data-side="bottom"] {
+  top: 100% !important;
+  bottom: auto !important;
+  transform: translateY(4px) !important;
+}
+
+/* AGGRESSIVE DROPDOWN POSITIONING OVERRIDES */
+
+/* Target all possible Radix Select content variations */
+[data-radix-select-content],
+div[data-radix-select-content],
+[role="listbox"],
+[data-radix-popper-content-wrapper] [data-radix-select-content] {
+  position: fixed !important;
+  transform: none !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  margin: 0 !important;
+  z-index: 999999 !important;
+}
+
+/* Force all data-side attributes to position downward */
+[data-radix-select-content][data-side] {
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+/* Nuclear option - reset all positioning for dropdowns */
+[data-radix-select-content] * {
+  position: static !important;
+}
+
+/* Fix for overlapping form elements */
+html body .tf-property-row,
+html body .tf-form-group {
+  position: relative !important;
+  z-index: 1 !important;
+  overflow: visible !important;
+}
+
+/* Ensure glass cards don't interfere with dropdowns */
+html body .tf-glass-card {
+  position: relative !important;
+  z-index: 0 !important;
+  overflow: visible !important;
+}
+
+/* Add JavaScript-based repositioning */
+[data-radix-select-content] {
+  /* This will be overridden by JavaScript */
+}
+
+/* Select dropdown items */
+html body [data-radix-select-item] {
+  color: #1f2937 !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  cursor: pointer !important;
+  transition: background-color 0.15s ease !important;
+}
+
+html body [data-radix-select-item]:hover,
+html body [data-radix-select-item][data-highlighted] {
+  background: #f3f4f6 !important;
+  color: #1f2937 !important;
+  outline: none !important;
+}
+
+/* =====================================================
+   ROLE SELECTION CARDS - PROFESSIONAL DESIGN
+   ===================================================== */
+
+/* Role selection grid */
+html body .tf-role-cards {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  gap: 1.5rem !important;
+  margin: 2rem 0 !important;
+}
+
+/* Individual role cards */
+html body .tf-role-card {
+  background: #ffffff !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 1.5rem !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  position: relative !important;
+}
+
+html body .tf-role-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1) !important;
+  border-color: #3b82f6 !important;
+}
+
+html body .tf-role-card.selected {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(37, 99, 235, 0.02)) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Role card titles */
+html body .tf-role-card-title,
+html body .tf-role-card h4 {
+  color: #1f2937 !important;
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  margin: 0 0 0.5rem 0 !important;
+  text-shadow: none !important;
+}
+
+/* Role card descriptions */
+html body .tf-role-card-description,
+html body .tf-role-card p {
+  color: #6b7280 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  margin-bottom: 1rem !important;
+  text-shadow: none !important;
+}
+
+/* Role card features */
+html body .tf-role-feature {
+  color: #4b5563 !important;
+  font-size: 0.875rem !important;
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 0.5rem !important;
+  text-shadow: none !important;
+}
+
+html body .tf-role-feature-bullet {
+  width: 0.375rem !important;
+  height: 0.375rem !important;
+  background: #3b82f6 !important;
+  border-radius: 50% !important;
+  margin-right: 0.75rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* =====================================================
+   INFO CARDS - PROFESSIONAL STYLING
+   ===================================================== */
+
+html body .tf-info-card {
+  background: rgba(59, 130, 246, 0.03) !important;
+  border: 1px solid rgba(59, 130, 246, 0.1) !important;
+  border-radius: 8px !important;
+  padding: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+html body .tf-info-card h5,
+html body .tf-info-card .tf-font-semibold {
+  color: #1f2937 !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  text-shadow: none !important;
+}
+
+html body .tf-info-card p,
+html body .tf-info-card .tf-text-muted {
+  color: #6b7280 !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+  text-shadow: none !important;
+}
+
+/* =====================================================
+   NAVIGATION BUTTONS - PROFESSIONAL DESIGN
+   ===================================================== */
+
+/* Primary navigation buttons */
+html body .tf-nav-button.back,
+html body .tf-nav-button.next,
+html body .tf-nav-button.submit {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  color: #ffffff !important;
+  border: 2px solid #3b82f6 !important;
+  border-radius: 8px !important;
+  padding: 0.875rem 2rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  min-height: 2.75rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+html body .tf-nav-button.back:hover,
+html body .tf-nav-button.next:hover,
+html body .tf-nav-button.submit:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Secondary buttons (save, reset) - Match primary navigation buttons */
+html body .tf-nav-button.save,
+html body .tf-nav-button.reset {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  color: #ffffff !important;
+  border: 2px solid #3b82f6 !important;
+  border-radius: 8px !important;
+  padding: 0.875rem 2rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  min-height: 2.75rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+html body .tf-nav-button.save:hover,
+html body .tf-nav-button.reset:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* =====================================================
+   ERROR STATES & VALIDATION
+   ===================================================== */
+
+/* Error messages */
+html body .tf-error-message,
+html body .error-message {
+  color: #dc2626 !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  margin-top: 0.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  text-shadow: none !important;
+}
+
+/* Error input states */
+html body .tf-input-error,
+html body .tf-field-error {
+  border-color: #dc2626 !important;
+  background: rgba(254, 242, 242, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
+/* Success input states */
+html body .tf-field-success {
+  border-color: #059669 !important;
+  background: rgba(240, 253, 244, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1) !important;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN - MOBILE OPTIMIZATION
+   ===================================================== */
+
+@media (max-width: 768px) {
+  html body .tf-glass-card {
+    padding: 1.5rem !important;
+    margin: 1rem 0 !important;
+  }
+  
+  html body .tf-role-cards {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  html body .tf-role-card {
+    padding: 1rem !important;
+  }
+  
+  html body .tf-heading-secondary {
+    font-size: 1.25rem !important;
+  }
+  
+  html body .tf-nav-button.back,
+  html body .tf-nav-button.next,
+  html body .tf-nav-button.submit {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.8125rem !important;
+  }
+}
+
+/* =====================================================
+   DROPDOWN POSITIONING FIXES
+   ===================================================== */
+
+/* Remove any transforms that might interfere with dropdown positioning */
+html body [data-transaction-page="true"] * {
+  /* Reset transforms that might interfere with fixed positioning */
+  transform: none !important;
+}
+
+/* Restore transforms only for specific animations we want to keep */
+html body .tf-role-card:hover {
+  transform: translateY(-2px) !important;
+}
+
+html body .tf-nav-button:hover {
+  transform: translateY(-1px) !important;
+}
+
+/* Ensure form containers don't create stacking contexts that interfere with dropdowns */
+html body [data-transaction-page="true"] .tf-property-info,
+html body [data-transaction-page="true"] .tf-role-selection,
+html body [data-transaction-page="true"] .transaction-form,
+html body [data-transaction-page="true"] .unified-transaction-form {
+  contain: layout style !important;
+  isolation: auto !important;
+}
+
+/* Fix for Radix Select specifically in transaction forms */
+html body [data-transaction-page="true"] [data-radix-select-content] {
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  perspective: 1000px !important;
+}
+
+/* =====================================================
+   FINAL OVERRIDES - NUCLEAR OPTION
+   ===================================================== */
+
+/* Force override any remaining conflicts */
+html body [data-transaction-page="true"] *:not(input):not(select):not(textarea):not([data-radix-select-trigger]):not([data-radix-select-content]):not([data-radix-select-item]):not(.tf-label-icon):not(svg):not(path) {
+  color: inherit !important;
+}
+
+/* Re-establish proper text hierarchy */
+html body [data-transaction-page="true"] h1,
+html body [data-transaction-page="true"] h2,
+html body [data-transaction-page="true"] h3,
+html body [data-transaction-page="true"] h4,
+html body [data-transaction-page="true"] h5,
+html body [data-transaction-page="true"] h6 {
+  color: #1f2937 !important;
+}
+
+html body [data-transaction-page="true"] p,
+html body [data-transaction-page="true"] span,
+html body [data-transaction-page="true"] div {
+  color: #4b5563 !important;
+}
+
+html body [data-transaction-page="true"] label,
+html body [data-transaction-page="true"] .tf-label {
+  color: #374151 !important;
+}

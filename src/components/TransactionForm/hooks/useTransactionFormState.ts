@@ -7,36 +7,36 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import type { AgentRole, Client } from '@/types/transaction';
+import type { AgentRole, Client, PropertyData, CommissionData, PropertyDetailsData, TitleCompanyData, AdditionalInfoData, SignatureData, DocumentsData, AgentData } from '@/types/transaction';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface TransactionFormData {
-  // Role and basic info
-  selectedRole: AgentRole;
+  // Agent data
+  agentData: AgentData;
   
   // Property information
-  mlsNumber: string;
-  propertyAddress: string;
-  salePrice: string;
+  propertyData: PropertyData;
   
   // Client information
   clients: Client[];
   
   // Commission information
-  totalCommission: string;
-  buyersAgentCommission: string;
-  listingAgentCommission: string;
-  commissionBase: string;
+  commissionData: CommissionData;
+  
+  // Property details
+  propertyDetailsData: PropertyDetailsData;
+  
+  // Title company information
+  titleData: TitleCompanyData;
   
   // Documents
-  requiredDocuments: string[];
+  documentsData: DocumentsData;
   
   // Additional info
-  additionalNotes: string;
+  additionalInfo: AdditionalInfoData;
   
   // Signature
-  signature: string;
-  agentName: string;
+  signatureData: SignatureData;
   
   // Form state
   isSubmitting: boolean;
@@ -46,19 +46,79 @@ export interface TransactionFormData {
 }
 
 export const initialFormData: TransactionFormData = {
-  selectedRole: 'Buyer\'s Agent',
-  mlsNumber: '',
-  propertyAddress: '',
-  salePrice: '',
+  agentData: {
+    role: 'BUYERS AGENT',
+    name: '',
+    email: '',
+    phone: ''
+  },
+  propertyData: {
+    mlsNumber: '',
+    address: '',
+    salePrice: '',
+    status: 'VACANT',
+    isWinterized: 'NO',
+    updateMls: 'NO',
+    propertyAccessType: 'ELECTRONIC LOCKBOX',
+    lockboxAccessCode: '',
+    county: '',
+    propertyType: 'RESIDENTIAL',
+    isBuiltBefore1978: '',
+    closingDate: ''
+  },
   clients: [],
-  totalCommission: '',
-  buyersAgentCommission: '',
-  listingAgentCommission: '',
-  commissionBase: 'Gross Price',
-  requiredDocuments: [],
-  additionalNotes: '',
-  signature: '',
-  agentName: '',
+  commissionData: {
+    totalCommissionPercentage: '',
+    listingAgentPercentage: '',
+    buyersAgentPercentage: '',
+    hasBrokerFee: false,
+    brokerFeeAmount: '',
+    sellerPaidAmount: '',
+    buyerPaidAmount: '',
+    hasSellersAssist: false,
+    sellersAssist: '',
+    isReferral: false,
+    referralParty: '',
+    brokerEin: '',
+    referralFee: '',
+    coordinatorFeePaidBy: 'client'
+  },
+  propertyDetailsData: {
+    resaleCertRequired: false,
+    hoaName: '',
+    coRequired: false,
+    municipality: '',
+    firstRightOfRefusal: false,
+    firstRightName: '',
+    attorneyRepresentation: false,
+    attorneyName: '',
+    homeWarranty: false,
+    warrantyCompany: '',
+    warrantyCost: '',
+    warrantyPaidBy: 'SELLER'
+  },
+  titleData: {
+    titleCompany: '',
+    name: '',
+    contactName: '',
+    contactPhone: ''
+  },
+  documentsData: {
+    documents: [],
+    confirmDocuments: false
+  },
+  additionalInfo: {
+    specialInstructions: '',
+    urgentIssues: '',
+    notes: ''
+  },
+  signatureData: {
+    agentName: '',
+    dateSubmitted: '',
+    signatures: {},
+    termsAccepted: {},
+    infoConfirmed: false
+  },
   isSubmitting: false,
   currentStep: 1,
   validationErrors: {},
@@ -67,7 +127,7 @@ export const initialFormData: TransactionFormData = {
 
 export interface TransactionFormActions {
   // Data updates
-  updateField: <K extends keyof TransactionFormData>(field: K, value: TransactionFormData[K]) => void;
+  updateField: (field: string, value: any) => void;
   updateClient: (index: number, client: Partial<Client>) => void;
   addClient: () => void;
   removeClient: (index: number) => void;
@@ -107,16 +167,29 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
   const [formData, setFormData] = useState<TransactionFormData>(initialFormData);
   const { toast } = useToast();
 
-  // Field update handler
-  const updateField = useCallback(<K extends keyof TransactionFormData>(
-    field: K, 
-    value: TransactionFormData[K]
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value,
-      touchedFields: new Set([...prev.touchedFields, field as string])
-    }));
+  // Field update handler - supports nested updates
+  const updateField = useCallback((field: string, value: any) => {
+    setFormData(prev => {
+      // Handle nested field updates like 'propertyData.mlsNumber'
+      if (field.includes('.')) {
+        const [section, subField] = field.split('.');
+        return {
+          ...prev,
+          [section]: {
+            ...prev[section as keyof TransactionFormData],
+            [subField]: value
+          },
+          touchedFields: new Set([...(prev.touchedFields || []), field])
+        };
+      }
+      
+      // Handle direct field updates
+      return {
+        ...prev,
+        [field]: value,
+        touchedFields: new Set([...(prev.touchedFields || []), field])
+      };
+    });
   }, []);
 
   // Client management
@@ -177,21 +250,33 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
   // Validation
   const validateField = useCallback((field: string, value: any): string | null => {
     switch (field) {
-      case 'selectedRole':
+      case 'agentData.role':
         return !value ? 'Please select your role' : null;
+        
+      case 'agentData.name':
+        return !value || value.trim().length < 2 ? 'Agent name is required' : null;
       
-      case 'mlsNumber':
+      case 'propertyData.mlsNumber':
         if (!value) return 'MLS number is required';
-        if (!/^\d{6}$/.test(value)) return 'MLS number must be 6 digits';
+        if (!/^(PM-)?[0-9]{6}$/.test(value)) return 'MLS number must be 6 digits (PM-123456 or 123456)';
         return null;
       
-      case 'propertyAddress':
+      case 'propertyData.address':
         return !value || value.length < 5 ? 'Valid property address is required' : null;
       
-      case 'salePrice':
+      case 'propertyData.salePrice':
         if (!value) return 'Sale price is required';
         if (isNaN(parseFloat(value))) return 'Sale price must be a valid number';
         return null;
+        
+      case 'propertyData.county':
+        return !value ? 'County is required' : null;
+        
+      case 'propertyData.propertyType':
+        return !value ? 'Property type is required' : null;
+        
+      case 'propertyData.closingDate':
+        return !value ? 'Closing date is required' : null;
       
       case 'clients':
         if (!Array.isArray(value) || value.length === 0) {
@@ -214,18 +299,26 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
     
     switch (step) {
       case 1: // Role Selection
-        const roleError = validateField('selectedRole', formData.selectedRole);
-        if (roleError) errors.selectedRole = roleError;
+        const roleError = validateField('agentData.role', formData.agentData.role);
+        const agentNameError = validateField('agentData.name', formData.agentData.name);
+        if (roleError) errors['agentData.role'] = roleError;
+        if (agentNameError) errors['agentData.name'] = agentNameError;
         break;
       
       case 2: // Property Information
-        const mlsError = validateField('mlsNumber', formData.mlsNumber);
-        const addressError = validateField('propertyAddress', formData.propertyAddress);
-        const priceError = validateField('salePrice', formData.salePrice);
+        const mlsError = validateField('propertyData.mlsNumber', formData.propertyData.mlsNumber);
+        const addressError = validateField('propertyData.address', formData.propertyData.address);
+        const priceError = validateField('propertyData.salePrice', formData.propertyData.salePrice);
+        const countyError = validateField('propertyData.county', formData.propertyData.county);
+        const propertyTypeError = validateField('propertyData.propertyType', formData.propertyData.propertyType);
+        const closingDateError = validateField('propertyData.closingDate', formData.propertyData.closingDate);
         
-        if (mlsError) errors.mlsNumber = mlsError;
-        if (addressError) errors.propertyAddress = addressError;
-        if (priceError) errors.salePrice = priceError;
+        if (mlsError) errors['propertyData.mlsNumber'] = mlsError;
+        if (addressError) errors['propertyData.address'] = addressError;
+        if (priceError) errors['propertyData.salePrice'] = priceError;
+        if (countyError) errors['propertyData.county'] = countyError;
+        if (propertyTypeError) errors['propertyData.propertyType'] = propertyTypeError;
+        if (closingDateError) errors['propertyData.closingDate'] = closingDateError;
         break;
       
       case 3: // Client Information
@@ -245,7 +338,7 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
   const setFieldTouched = useCallback((field: string) => {
     setFormData(prev => ({
       ...prev,
-      touchedFields: new Set([...prev.touchedFields, field])
+      touchedFields: new Set([...(prev.touchedFields || []), field])
     }));
   }, []);
 
@@ -322,7 +415,10 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
         const isExpired = Date.now() - timestamp > 24 * 60 * 60 * 1000; // 24 hours
         
         if (!isExpired) {
-          setFormData(data);
+          setFormData({
+            ...data,
+            touchedFields: new Set(data.touchedFields || [])
+          });
           toast({
             title: 'Draft Loaded',
             description: 'Your previous progress has been restored',

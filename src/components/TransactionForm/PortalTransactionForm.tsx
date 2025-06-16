@@ -265,19 +265,19 @@ export const PortalTransactionForm: React.FC<PortalTransactionFormProps> = () =>
           opacity: 1 !important;
         }
 
-        /* Comprehensive text styling for proper contrast */
-        .transaction-portal-form-container label,
-        .transaction-portal-form-container .form-label,
-        .transaction-portal-form-container .section-title,
-        .transaction-portal-form-container h1,
-        .transaction-portal-form-container h2,
-        .transaction-portal-form-container h3,
-        .transaction-portal-form-container h4,
-        .transaction-portal-form-container h5,
-        .transaction-portal-form-container h6,
-        .transaction-portal-form-container p,
-        .transaction-portal-form-container span,
-        .transaction-portal-form-container div {
+        /* Comprehensive text styling for proper contrast (excluding role cards) */
+        .transaction-portal-form-container label:not(.tf-role-card *),
+        .transaction-portal-form-container .form-label:not(.tf-role-card *),
+        .transaction-portal-form-container .section-title:not(.tf-role-card *),
+        .transaction-portal-form-container h1:not(.tf-role-card *),
+        .transaction-portal-form-container h2:not(.tf-role-card *),
+        .transaction-portal-form-container h3:not(.tf-role-card *),
+        .transaction-portal-form-container h4:not(.tf-role-card *),
+        .transaction-portal-form-container h5:not(.tf-role-card *),
+        .transaction-portal-form-container h6:not(.tf-role-card *),
+        .transaction-portal-form-container p:not(.tf-role-card *),
+        .transaction-portal-form-container span:not(.tf-role-card *),
+        .transaction-portal-form-container div:not(.tf-role-card):not(.tf-role-card *) {
           color: white !important;
         }
 
@@ -326,13 +326,13 @@ export const PortalTransactionForm: React.FC<PortalTransactionFormProps> = () =>
           color: #fca5a5 !important;
         }
 
-        /* Ultra-high specificity fixes for tf- classes */
-        .transaction-portal-form-container .tf-heading-secondary,
-        .transaction-portal-form-container .tf-heading-tertiary,
-        .transaction-portal-form-container .tf-text-subtitle,
-        .transaction-portal-form-container .tf-label,
-        .transaction-portal-form-container .tf-checkbox-label,
-        .transaction-portal-form-container .tf-help-text {
+        /* Ultra-high specificity fixes for tf- classes (excluding role cards) */
+        .transaction-portal-form-container .tf-heading-secondary:not(.tf-role-card *),
+        .transaction-portal-form-container .tf-heading-tertiary:not(.tf-role-card *),
+        .transaction-portal-form-container .tf-text-subtitle:not(.tf-role-card *),
+        .transaction-portal-form-container .tf-label:not(.tf-role-card *),
+        .transaction-portal-form-container .tf-checkbox-label:not(.tf-role-card *),
+        .transaction-portal-form-container .tf-help-text:not(.tf-role-card *) {
           color: white !important;
         }
 
@@ -385,11 +385,76 @@ export const PortalTransactionForm: React.FC<PortalTransactionFormProps> = () =>
           min-height: 170px !important;
           padding: 1.25rem !important;
           cursor: pointer !important;
-          color: #1e40af !important;
           opacity: 1 !important;
           visibility: visible !important;
           position: relative !important;
           z-index: 10 !important;
+        }
+
+        /* CRITICAL FIX: Role card text must be dark on white background */
+        html body .transaction-portal-form-container .tf-role-card *,
+        html body .transaction-portal-form-container .tf-role-card .tf-role-card-title,
+        html body .transaction-portal-form-container .tf-role-card .tf-role-card-description,
+        html body .transaction-portal-form-container .tf-role-card .tf-role-feature,
+        html body .transaction-portal-form-container .tf-role-card h4,
+        html body .transaction-portal-form-container .tf-role-card p,
+        html body .transaction-portal-form-container .tf-role-card li,
+        html body .transaction-portal-form-container .tf-role-card span,
+        html body .transaction-portal-form-container .tf-role-card div {
+          color: rgb(31, 41, 55) !important;
+        }
+
+        /* Specific role card element styling for enhanced readability */
+        html body .transaction-portal-form-container .tf-role-card .tf-role-card-title {
+          color: rgb(31, 41, 55) !important;
+          font-weight: 700 !important;
+          font-size: 1.25rem !important;
+          margin-bottom: 0.75rem !important;
+        }
+
+        html body .transaction-portal-form-container .tf-role-card .tf-role-card-description {
+          color: rgb(75, 85, 99) !important;
+          font-size: 0.875rem !important;
+          line-height: 1.5 !important;
+          margin-bottom: 1rem !important;
+        }
+
+        html body .transaction-portal-form-container .tf-role-card .tf-role-feature {
+          color: rgb(75, 85, 99) !important;
+          font-size: 0.875rem !important;
+          display: flex !important;
+          align-items: center !important;
+          margin-bottom: 0.5rem !important;
+        }
+
+        /* Role card icon styling */
+        html body .transaction-portal-form-container .tf-role-card .tf-icon-container {
+          background: linear-gradient(135deg, rgb(59, 130, 246), rgb(37, 99, 235)) !important;
+          color: white !important;
+          width: 3rem !important;
+          height: 3rem !important;
+          border-radius: 0.75rem !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          margin-right: 1rem !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        html body .transaction-portal-form-container .tf-role-card .tf-icon {
+          color: white !important;
+          width: 1.5rem !important;
+          height: 1.5rem !important;
+        }
+
+        /* Role card bullet points */
+        html body .transaction-portal-form-container .tf-role-card .tf-role-feature-bullet {
+          width: 0.375rem !important;
+          height: 0.375rem !important;
+          background: rgb(59, 130, 246) !important;
+          border-radius: 50% !important;
+          margin-right: 0.75rem !important;
+          flex-shrink: 0 !important;
         }
 
         /* Force all form sections to be visible */
@@ -416,12 +481,12 @@ export const PortalTransactionForm: React.FC<PortalTransactionFormProps> = () =>
           margin: 1rem 0 !important;
         }
 
-        /* Force all text content to be visible on dark background */
+        /* Force all text content to be visible on dark background (except role cards) */
         html body .transaction-portal-form-container .tf-section-header h2,
         html body .transaction-portal-form-container .tf-section-header p,
-        html body .transaction-portal-form-container label,
-        html body .transaction-portal-form-container span,
-        html body .transaction-portal-form-container div {
+        html body .transaction-portal-form-container label:not(.tf-role-card *),
+        html body .transaction-portal-form-container span:not(.tf-role-card *),
+        html body .transaction-portal-form-container div:not(.tf-role-card):not(.tf-role-card *) {
           color: white !important;
         }
 
@@ -530,10 +595,10 @@ export const PortalTransactionForm: React.FC<PortalTransactionFormProps> = () =>
           }
         }}
       >
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 xl:gap-12">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 xl:gap-8">
           {/* Left Side - Information Panel (reduced width for better form space) */}
           <motion.div
-            className="xl:col-span-3 flex flex-col justify-center space-y-6 portal-sidebar"
+            className="xl:col-span-5 flex flex-col justify-center space-y-6 portal-sidebar"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.2, 0.0, 0.2, 1.0] }}
@@ -662,7 +727,7 @@ export const PortalTransactionForm: React.FC<PortalTransactionFormProps> = () =>
 
           {/* Right Side - Transaction Form Card (expanded for better usability with increased spacing) */}
           <motion.div
-            className="xl:col-span-9 transaction-form-card-container w-full mt-4 xl:mt-0 xl:ml-6 portal-form-area"
+            className="xl:col-span-7 transaction-form-card-container w-full mt-4 xl:mt-0 xl:ml-6 portal-form-area"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: [0.2, 0.0, 0.2, 1.0] }}

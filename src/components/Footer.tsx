@@ -4,12 +4,12 @@ import { Phone, Mail, MapPin, ArrowRight, Clock } from 'lucide-react';
 import Logo from '/logo-flat.png';
 import { useNavigation } from '../providers/SmoothNavigationProvider';
 
-const Footer: React.FC = () => {
+const Footer: React.FC<{ className?: string }> = ({ className }) => {
   const { Link } = useNavigation();
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className={`bg-gray-900 text-white ${className || ''}`}>
       {/* Main footer content */}
       <div className="container mx-auto px-6 pt-16 pb-8">
         {/* Top section with logo and quick intro */}

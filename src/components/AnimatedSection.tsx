@@ -1,7 +1,7 @@
 import React, { ReactNode, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { fadeConfig, slideConfig, scaleConfig, depthConfig } from '../hooks/useOptimizedAnimation';
+import { fadeConfig, scaleConfig, depthConfig } from '../hooks/useOptimizedAnimation';
 import usePreloadedAnimation from '../hooks/usePreloadedAnimation';
 
 interface AnimatedSectionProps {
@@ -93,9 +93,9 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       className={`${className} ${bg} relative z-10 overflow-hidden`}
       style={{ y: parallax ? y : 0 }}
       initial="hidden"
-      animate={(inView && isLoaded) ? "visible" : "hidden"}
+      animate={inView && isLoaded ? "visible" : "hidden"}
       variants={variants}
-      transition={getTransitionConfig()}
+      transition={{...getTransitionConfig('tween'), delay} as any}
     >
       <div 
         ref={ref}

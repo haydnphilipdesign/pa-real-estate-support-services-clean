@@ -49,6 +49,7 @@ import { Button } from '@/components/ui';
 // Import hooks and utils
 import { useTransactionFormState } from './hooks/useTransactionFormState';
 import { ensureCssImported } from '../FixedCssImport';
+import TransactionFormFixes from '../TransactionFormFixes';
 
 // Ensure CSS is imported
 ensureCssImported();
@@ -191,6 +192,9 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
 
   return (
     <TooltipProvider>
+      {/* Transaction Form Fixes Component */}
+      <TransactionFormFixes />
+      
       {/* Inject form styles */}
       <style dangerouslySetInnerHTML={{ __html: formStyles }} />
       
@@ -227,16 +231,39 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
                 icon={currentStepConfig.icon}
                 isActive={true}
               >
-                <CurrentStepComponent
-                  formData={formData}
-                  onChange={actions.updateField}
-                  onClientChange={actions.updateClient}
-                  onAddClient={actions.addClient}
-                  onRemoveClient={actions.removeClient}
-                  validationErrors={formData.validationErrors}
-                  touchedFields={formData.touchedFields}
-                  onFieldTouch={actions.setFieldTouched}
-                />
+{currentStepConfig.id === 1 ? (
+                  // RoleSelection step - pass specific props
+                  <RoleSelection
+                    selectedRole={formData.agentData.role}
+                    onRoleChange={(role) => actions.updateField('agentData.role', role)}
+                    agentName={formData.agentData.name}
+                    onAgentNameChange={(name) => actions.updateField('agentData.name', name)}
+                    errors={{
+                      selectedRole: formData.validationErrors['agentData.role'],
+                      agentName: formData.validationErrors['agentData.name']
+                    }}
+                    showValidation={formData.touchedFields.size > 0}
+                  />
+                ) : currentStepConfig.id === 2 ? (
+                  // PropertyInformation step - pass correct props
+                  <PropertyInformation
+                    data={formData.propertyData}
+                    onChange={(field, value) => actions.updateField(`propertyData.${field}`, value)}
+                    role={formData.agentData.role}
+                  />
+                ) : (
+                  // Other steps - pass standard props
+                  <CurrentStepComponent
+                    formData={formData}
+                    onChange={actions.updateField}
+                    onClientChange={actions.updateClient}
+                    onAddClient={actions.addClient}
+                    onRemoveClient={actions.removeClient}
+                    validationErrors={formData.validationErrors}
+                    touchedFields={formData.touchedFields}
+                    onFieldTouch={actions.setFieldTouched}
+                  />
+                )}
               </FormStep>
             )}
           </AnimatePresence>

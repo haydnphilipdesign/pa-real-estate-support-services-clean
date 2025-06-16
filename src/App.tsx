@@ -18,6 +18,7 @@ import { PortalTransactionForm } from './components/TransactionForm/PortalTransa
 import ScrollIndicatorWrapper from './components/ScrollIndicatorWrapper';
 import PageTransition from './components/PageTransition';
 import PersistentBackground from './components/PersistentBackground';
+import MobileEnhancements from './components/MobileEnhancements';
 import useNavigationScroll from './hooks/useNavigationScroll';
 import { loadLayoutFixes } from './components/LayoutFixes';
 import AntiFlickerInitializer from './components/AntiFlickerInitializer';
@@ -58,6 +59,9 @@ const App: React.FC = () => {
       <AppProviders>
         {/* Add AntiFlickerInitializer to manage anti-flicker measures */}
         <AntiFlickerInitializer />
+        
+        {/* Mobile optimizations */}
+        <MobileEnhancements />
 
         <div
           className="app-root relative min-h-screen overflow-x-hidden flex flex-col"

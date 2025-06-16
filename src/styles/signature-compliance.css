@@ -1,0 +1,334 @@
+/**
+ * Legally Compliant Signature Component Styles
+ * Provides professional styling for signature section with legal compliance features
+ */
+
+/* =====================================================
+   LEGAL COMPLIANCE CARDS
+   ===================================================== */
+
+.tf-legal-compliance-card {
+  @apply border-2 border-blue-200 bg-blue-50;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
+}
+
+.tf-legal-compliance-card:hover {
+  @apply border-blue-300 bg-blue-100;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+
+.tf-real-estate-disclosures {
+  @apply border-2 border-green-200 bg-green-50;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
+}
+
+.tf-real-estate-disclosures:hover {
+  @apply border-green-300 bg-green-100;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
+}
+
+/* =====================================================
+   LEGAL NOTICES
+   ===================================================== */
+
+.tf-legal-notice {
+  @apply flex items-start gap-3 p-4 rounded-lg;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.tf-legal-notice p {
+  @apply mb-1;
+}
+
+.tf-legal-notice .font-semibold {
+  color: var(--status-warning);
+}
+
+/* =====================================================
+   SIGNATURE INPUT SECTION
+   ===================================================== */
+
+.tf-signature-input {
+  @apply border-2 border-purple-200 bg-purple-50;
+  border-radius: var(--radius-lg);
+}
+
+.tf-signature-method-selector {
+  @apply mb-4;
+}
+
+.tf-signature-input-field {
+  @apply text-lg font-semibold;
+  font-family: 'Brush Script MT', cursive, serif;
+  letter-spacing: 1px;
+}
+
+.tf-signature-preview {
+  @apply mt-3 p-4 rounded-lg;
+  background: var(--neutral-100);
+  border: 2px dashed var(--neutral-300);
+}
+
+.tf-signature-display {
+  @apply text-2xl font-bold text-center py-4;
+  font-family: 'Brush Script MT', cursive, serif;
+  color: var(--brand-blue);
+  letter-spacing: 2px;
+  border-bottom: 2px solid var(--neutral-400);
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+}
+
+/* =====================================================
+   SIGNATURE CANVAS
+   ===================================================== */
+
+.tf-signature-canvas-container {
+  @apply relative rounded-lg overflow-hidden;
+  border: 2px solid var(--neutral-300);
+  background: var(--neutral-50);
+}
+
+.tf-signature-canvas {
+  @apply block w-full cursor-crosshair;
+  background: white;
+  touch-action: none; /* Prevents scrolling on mobile */
+}
+
+.tf-signature-canvas:hover {
+  background: #fafafa;
+}
+
+.tf-signature-canvas-controls {
+  @apply absolute top-2 right-2;
+}
+
+.tf-signature-clear-btn {
+  @apply bg-white/90 hover:bg-white text-xs;
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--neutral-300);
+}
+
+/* =====================================================
+   SIGNATURE STATUS
+   ===================================================== */
+
+.tf-signature-status {
+  @apply p-4 rounded-lg;
+  background: rgba(34, 197, 94, 0.1);
+  border: 2px solid rgba(34, 197, 94, 0.3);
+}
+
+.tf-signature-metadata {
+  @apply mt-2 space-y-1;
+}
+
+.tf-signature-metadata p {
+  @apply font-mono;
+  color: var(--neutral-600);
+}
+
+/* =====================================================
+   SECURITY NOTICE
+   ===================================================== */
+
+.tf-security-notice {
+  @apply border-2 border-blue-200;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(59, 130, 246, 0.1));
+  border-radius: var(--radius-lg);
+}
+
+.tf-security-notice h4 {
+  color: var(--brand-blue);
+}
+
+/* =====================================================
+   ENHANCED CHECKBOXES FOR LEGAL COMPLIANCE
+   ===================================================== */
+
+.tf-checkbox-group {
+  @apply flex items-start gap-3 p-3 rounded-lg transition-all;
+  border: 1px solid transparent;
+}
+
+.tf-checkbox-group:hover {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.tf-checkbox-group:has(input:checked) {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.tf-checkbox-group:has(input:focus) {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
+}
+
+.tf-checkbox-label {
+  @apply text-sm leading-relaxed flex-1;
+  color: var(--neutral-700);
+}
+
+.tf-checkbox-label .tf-label-required {
+  @apply text-red-500 font-bold mr-1;
+}
+
+/* Enhanced checkbox styling */
+.tf-checkbox-group input[type="checkbox"] {
+  @apply w-5 h-5 mt-0.5 flex-shrink-0 rounded border-2;
+  border-color: var(--neutral-400);
+  background: var(--neutral-50);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.tf-checkbox-group input[type="checkbox"]:checked {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z'/%3e%3c/svg%3e");
+  background-size: 0.75rem;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.tf-checkbox-group input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.tf-checkbox-group input[type="checkbox"]:hover:not(:disabled) {
+  border-color: var(--brand-blue);
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN FOR SIGNATURE
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .tf-signature-canvas {
+    height: 120px; /* Smaller on mobile */
+  }
+  
+  .tf-signature-display {
+    @apply text-xl py-3;
+  }
+  
+  .tf-legal-notice {
+    @apply flex-col gap-2;
+  }
+  
+  .tf-checkbox-group {
+    @apply flex-col gap-2;
+  }
+  
+  .tf-signature-method-selector .tf-flex {
+    @apply flex-col gap-2;
+  }
+}
+
+/* =====================================================
+   ACCESSIBILITY ENHANCEMENTS FOR SIGNATURE
+   ===================================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .tf-legal-compliance-card,
+  .tf-real-estate-disclosures,
+  .tf-signature-input {
+    border-width: 3px;
+  }
+  
+  .tf-signature-canvas {
+    border-width: 3px;
+    border-color: #000;
+  }
+  
+  .tf-signature-display {
+    border-bottom-width: 3px;
+    border-color: #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .tf-legal-compliance-card,
+  .tf-real-estate-disclosures,
+  .tf-checkbox-group {
+    transition: none;
+  }
+}
+
+/* Print styles for signature */
+@media print {
+  .tf-signature-canvas-controls {
+    display: none;
+  }
+  
+  .tf-signature-status {
+    border: 2px solid #000;
+    background: white;
+  }
+  
+  .tf-legal-notice {
+    border: 1px solid #000;
+    background: white;
+  }
+}
+
+/* =====================================================
+   FOCUS MANAGEMENT FOR LEGAL FORMS
+   ===================================================== */
+
+.tf-signature-section [tabindex="0"]:focus,
+.tf-signature-section button:focus,
+.tf-signature-section input:focus,
+.tf-signature-section canvas:focus {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
+}
+
+/* Skip link for accessibility */
+.tf-signature-skip-link {
+  @apply absolute -top-10 left-4 bg-blue-600 text-white px-4 py-2 rounded;
+  z-index: 100;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+}
+
+.tf-signature-skip-link:focus {
+  transform: translateY(0%);
+}
+
+/* =====================================================
+   SIGNATURE VALIDATION STATES
+   ===================================================== */
+
+.tf-signature-valid {
+  @apply border-green-500;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.tf-signature-invalid {
+  @apply border-red-500;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.tf-signature-required:not(.tf-signature-valid) {
+  animation: pulse-required 2s infinite;
+}
+
+@keyframes pulse-required {
+  0%, 100% {
+    border-color: var(--status-error);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    border-color: var(--status-error);
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+  }
+}

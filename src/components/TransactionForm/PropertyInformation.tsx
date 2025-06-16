@@ -89,15 +89,6 @@ export const PropertyInformation: React.FC<PropertyInformationProps> = ({
     <div className="tf-property-info">
       {/* Main card container */}
       <div className="tf-glass-card">
-        <div className="tf-flex tf-items-center tf-mb-4">
-          <div className="tf-icon-container">
-            <Building className="tf-icon" />
-          </div>
-          <div>
-            <h3 className="tf-heading-secondary">Property Information</h3>
-            <p className="tf-text-subtitle">Enter the property details for this transaction</p>
-          </div>
-        </div>
 
         {/* First row - Main property details */}
         <div className="tf-property-row">

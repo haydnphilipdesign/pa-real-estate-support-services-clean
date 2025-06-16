@@ -346,6 +346,8 @@ export function ArtisticTransactionForm() {
                       <RoleSelection
                         selectedRole={agentData.role}
                         onRoleChange={(value) => setAgentData(prev => ({ ...prev, role: value }))}
+                        agentName={agentData.name}
+                        onAgentNameChange={(value) => setAgentData(prev => ({ ...prev, name: value }))}
                         onAutofill={() => {}}
                       />
                     )}

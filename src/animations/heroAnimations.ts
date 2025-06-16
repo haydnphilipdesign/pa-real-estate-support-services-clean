@@ -60,7 +60,7 @@ export const HERO_ANIMATION = {
         transition: {
           duration: TRANSITION_DURATION.standard.enter,
           ease: [0.2, 0.0, 0.2, 1.0],
-          delay: TRANSITION_DURATION.standard.delay
+          delay: 0.1
         }
       },
       exit: { 

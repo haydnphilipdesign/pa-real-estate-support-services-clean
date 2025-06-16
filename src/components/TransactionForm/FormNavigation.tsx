@@ -56,7 +56,7 @@ export function FormNavigation({
                   ? "bg-gradient-to-r from-blue-600 to-brand-blue text-white" 
                   : currentStep > step
                   ? "bg-blue-200 text-blue-800"
-                  : "bg-gray-200 text-gray-500"}
+                  : "bg-gray-200 text-gray-800"}
                 ${onStepClick ? "cursor-pointer hover:ring-2 hover:ring-blue-300/50" : "cursor-default"}
               `}
             >
@@ -137,9 +137,9 @@ export function FormNavigation({
                 className="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"
               />
             ) : (
-              <Send className="mr-2 h-4 w-4" />
+              <CheckCircle className="w-4 h-4" />
             )}
-            Submit
+            Submit Form
           </Button>
         )}
       </div>

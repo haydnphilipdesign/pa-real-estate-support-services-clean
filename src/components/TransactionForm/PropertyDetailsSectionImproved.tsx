@@ -28,23 +28,121 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
   const isListingOrDual = role === 'LISTING AGENT' || role === 'DUAL AGENT';
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validateField = (field: string, value: string) => {
+  const validateField = (field: string, value: string, isRequired: boolean = false) => {
+    // If field is empty and not required, return no error
+    if (value === '' && !isRequired) return '';
+    
+    // If field is empty and required, return error
+    if (value === '' && isRequired) return 'This field is required';
+
     switch (field) {
       case "warrantyCost":
-        if (value === '') return '';
         const cost = parseFloat(value);
-        return !isNaN(cost) && cost >= 0 ? "" : "Invalid cost amount";
+        if (isNaN(cost) || cost < 0) {
+          return "Please enter a valid cost amount";
+        }
+        if (cost > 10000) {
+          return "Cost seems unusually high. Please verify.";
+        }
+        return "";
+      case "warrantyCompany":
+        return value.trim().length >= 2 ? "" : "Please enter a valid company name";
+      case "hoaName":
+        return value.trim().length >= 2 ? "" : "Please enter a valid HOA name";
+      case "municipality": 
+        return value.trim().length >= 2 ? "" : "Please enter a valid municipality";
+      case "firstRightName":
+        return value.trim().length >= 2 ? "" : "Please enter a valid name";
+      case "attorneyName":
+        return value.trim().length >= 2 ? "" : "Please enter a valid attorney name";
       default:
         return value.trim() ? "" : "This field is required";
     }
   };
 
-  const handleWarrantyChange = (field: keyof PropertyDetailsData, value: string | boolean) => {
-    if (typeof value === 'string') {
-      const error = validateField(field, value);
-      setErrors(prev => ({ ...prev, [field]: error }));
+  const handleFieldChange = (field: keyof PropertyDetailsData, value: string | boolean) => {
+    // Clear error when field changes
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
     }
+
+    // For conditional required fields, validate based on parent field state
+    if (typeof value === 'string') {
+      let isRequired = false;
+      
+      // Check if field is conditionally required
+      if (field === 'warrantyCompany' && data.homeWarranty) isRequired = true;
+      if (field === 'warrantyCost' && data.homeWarranty) isRequired = true;
+      if (field === 'hoaName' && data.resaleCertRequired) isRequired = true;
+      if (field === 'municipality' && data.coRequired) isRequired = true;
+      if (field === 'firstRightName' && data.firstRightOfRefusal) isRequired = true;
+      if (field === 'attorneyName' && data.attorneyRepresentation) isRequired = true;
+
+      const error = validateField(field, value, isRequired);
+      if (error) {
+        setErrors(prev => ({ ...prev, [field]: error }));
+      }
+    }
+    
     onChange(field, value);
+  };
+
+  // Handle switch changes and clear dependent fields when disabled
+  const handleSwitchChange = (field: keyof PropertyDetailsData, checked: boolean) => {
+    onChange(field, checked);
+    
+    // Clear dependent fields when switch is turned off
+    if (!checked) {
+      switch (field) {
+        case 'homeWarranty':
+          onChange('warrantyCompany', '');
+          onChange('warrantyCost', '');
+          onChange('warrantyPaidBy', 'SELLER');
+          setErrors(prev => {
+            const newErrors = { ...prev };
+            delete newErrors.warrantyCompany;
+            delete newErrors.warrantyCost;
+            return newErrors;
+          });
+          break;
+        case 'resaleCertRequired':
+          onChange('hoaName', '');
+          setErrors(prev => {
+            const newErrors = { ...prev };
+            delete newErrors.hoaName;
+            return newErrors;
+          });
+          break;
+        case 'coRequired':
+          onChange('municipality', '');
+          setErrors(prev => {
+            const newErrors = { ...prev };
+            delete newErrors.municipality;
+            return newErrors;
+          });
+          break;
+        case 'firstRightOfRefusal':
+          onChange('firstRightName', '');
+          setErrors(prev => {
+            const newErrors = { ...prev };
+            delete newErrors.firstRightName;
+            return newErrors;
+          });
+          break;
+        case 'attorneyRepresentation':
+          onChange('attorneyName', '');
+          setErrors(prev => {
+            const newErrors = { ...prev };
+            delete newErrors.attorneyName;
+            return newErrors;
+          });
+          break;
+      }
+    }
   };
 
   return (
@@ -70,7 +168,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                 <Switch
                   id="resaleCertRequired"
                   checked={data?.resaleCertRequired}
-                  onCheckedChange={(checked) => onChange?.("resaleCertRequired", checked)}
+                  onCheckedChange={(checked) => handleSwitchChange("resaleCertRequired", checked)}
                 />
                 <label htmlFor="resaleCertRequired" className="tf-switch-label">
                   <Home className="tf-label-icon" />
@@ -88,10 +186,13 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                     <input
                       id="hoaName"
                       value={data?.hoaName}
-                      onChange={(e) => onChange?.("hoaName", e.target.value)}
+                      onChange={(e) => handleFieldChange("hoaName", e.target.value)}
                       placeholder="Enter HOA name"
-                      className="tf-input"
+                      className={`tf-input ${errors.hoaName ? 'tf-input-error' : ''}`}
                     />
+                    {errors.hoaName && (
+                      <p className="tf-error-message">{errors.hoaName}</p>
+                    )}
                   </div>
                 </div>
               )}
@@ -100,7 +201,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                 <Switch
                   id="coRequired"
                   checked={data?.coRequired}
-                  onCheckedChange={(checked) => onChange?.("coRequired", checked)}
+                  onCheckedChange={(checked) => handleSwitchChange("coRequired", checked)}
                 />
                 <label htmlFor="coRequired" className="tf-switch-label">
                   <FileText className="tf-label-icon" />
@@ -118,7 +219,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                     <input
                       id="municipality"
                       value={data?.municipality}
-                      onChange={(e) => onChange?.("municipality", e.target.value)}
+                      onChange={(e) => handleFieldChange("municipality", e.target.value)}
                       placeholder="Enter municipality"
                       className="tf-input"
                     />
@@ -130,7 +231,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                 <Switch
                   id="firstRightOfRefusal"
                   checked={data?.firstRightOfRefusal}
-                  onCheckedChange={(checked) => onChange?.("firstRightOfRefusal", checked)}
+                  onCheckedChange={(checked) => handleSwitchChange("firstRightOfRefusal", checked)}
                 />
                 <label htmlFor="firstRightOfRefusal" className="tf-switch-label">
                   <User className="tf-label-icon" />
@@ -148,7 +249,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                     <input
                       id="firstRightName"
                       value={data?.firstRightName}
-                      onChange={(e) => onChange?.("firstRightName", e.target.value)}
+                      onChange={(e) => handleFieldChange("firstRightName", e.target.value)}
                       placeholder="Enter first right name"
                       className="tf-input"
                     />
@@ -189,7 +290,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                 <Switch
                   id="attorneyRepresentation"
                   checked={data?.attorneyRepresentation}
-                  onCheckedChange={(checked) => onChange?.("attorneyRepresentation", checked)}
+                  onCheckedChange={(checked) => handleSwitchChange("attorneyRepresentation", checked)}
                 />
                 <label htmlFor="attorneyRepresentation" className="tf-switch-label">
                   <FileText className="tf-label-icon" />
@@ -207,7 +308,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                     <input
                       id="attorneyName"
                       value={data?.attorneyName}
-                      onChange={(e) => onChange?.("attorneyName", e.target.value)}
+                      onChange={(e) => handleFieldChange("attorneyName", e.target.value)}
                       placeholder="Enter attorney name"
                       className="tf-input"
                     />
@@ -228,7 +329,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                   <Switch
                     id="homeWarranty"
                     checked={data.homeWarranty}
-                    onCheckedChange={(checked) => handleWarrantyChange("homeWarranty", checked)}
+                    onCheckedChange={(checked) => handleSwitchChange("homeWarranty", checked)}
                   />
                   <label htmlFor="homeWarranty" className="tf-switch-label">
                     Home Warranty Included
@@ -246,7 +347,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                         <input
                           id="warrantyCompany"
                           value={data.warrantyCompany}
-                          onChange={(e) => handleWarrantyChange("warrantyCompany", e.target.value)}
+                          onChange={(e) => handleFieldChange("warrantyCompany", e.target.value)}
                           placeholder="Enter company name"
                           required
                           className="tf-input"
@@ -263,7 +364,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                           <input
                             id="warrantyCost"
                             value={data.warrantyCost}
-                            onChange={(e) => handleWarrantyChange("warrantyCost", e.target.value)}
+                            onChange={(e) => handleFieldChange("warrantyCost", e.target.value)}
                             placeholder="Enter cost"
                             required
                             type="text"
@@ -281,7 +382,7 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
                         </label>
                         <Select
                           value={data.warrantyPaidBy}
-                          onValueChange={(value) => onChange("warrantyPaidBy", value)}
+                          onValueChange={(value) => handleFieldChange("warrantyPaidBy", value)}
                         >
                           <SelectTrigger className="tf-select">
                             <SelectValue placeholder="Select who pays" />

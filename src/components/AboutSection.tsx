@@ -13,8 +13,6 @@ import {
   Building
 } from 'lucide-react';
 import ContentSection from './ContentSection';
-import ContentCard from './ContentCard';
-import HeroButton from './HeroButton';
 
 // Professional credentials and expertise data
 const credentials = [

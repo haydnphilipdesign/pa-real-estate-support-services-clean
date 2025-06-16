@@ -384,6 +384,49 @@ function mapFormDataToPositions(formData) {
     });
   }
   
+  // Add additional notes to the notes section on page 2 (bottom of the page)
+  if (formData.additionalNotes && formData.additionalNotes.trim() !== '') {
+    console.log("Adding additional notes to PDF:", formData.additionalNotes);
+    
+    // Notes section title
+    textElements.push({
+      page: 1,
+      x: 50,
+      y: 120 + Y_OFFSET,
+      text: "ADDITIONAL NOTES:",
+      fontSize: 10,
+      isBold: true
+    });
+    
+    // Split long notes into multiple lines for better formatting
+    const maxLineLength = 85; // Approximate characters per line
+    const noteLines = [];
+    const words = formData.additionalNotes.split(' ');
+    let currentLine = '';
+    
+    for (const word of words) {
+      if ((currentLine + word).length <= maxLineLength) {
+        currentLine += (currentLine ? ' ' : '') + word;
+      } else {
+        if (currentLine) noteLines.push(currentLine);
+        currentLine = word;
+      }
+    }
+    if (currentLine) noteLines.push(currentLine);
+    
+    // Add each line of notes
+    noteLines.forEach((line, index) => {
+      textElements.push({
+        page: 1,
+        x: 50,
+        y: 100 + Y_OFFSET - (index * 12), // 12pt spacing between lines
+        text: line,
+        fontSize: 9,
+        isBold: false
+      });
+    });
+  }
+  
   console.log(`Generated ${textElements.length} text elements for PDF`);
   return textElements;
 }

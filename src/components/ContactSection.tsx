@@ -13,8 +13,6 @@ import {
   Calendar
 } from 'lucide-react';
 import { useNavigation } from '../providers/SmoothNavigationProvider';
-import ContentCard from './ContentCard';
-import HeroButton from './HeroButton';
 import HeroBadge from './HeroBadge';
 import PreloadedAnimationWrapper from './PreloadedAnimationWrapper';
 import { useForm } from 'react-hook-form';

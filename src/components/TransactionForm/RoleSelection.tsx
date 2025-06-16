@@ -6,7 +6,7 @@ import { useState } from "react";
 
 interface RoleSelectionProps {
   selectedRole?: string;
-  onRoleChange: (role: any) => void;
+  onRoleChange?: (role: any) => void;
   agentName?: string;
   onAgentNameChange?: (name: string) => void;
   errors?: {
@@ -14,6 +14,12 @@ interface RoleSelectionProps {
     selectedRole?: string;
   };
   showValidation?: boolean;
+  // UnifiedTransactionForm props
+  formData?: any;
+  onChange?: (field: string, value: any) => void;
+  validationErrors?: any;
+  touchedFields?: any;
+  onFieldTouch?: (field: string) => void;
 }
 
 const roles = [
@@ -57,21 +63,41 @@ const roles = [
 
 // Remove inline styles - now using unified CSS classes
 
-export function RoleSelection({ selectedRole, onRoleChange, agentName, onAgentNameChange, errors, showValidation }: RoleSelectionProps) {
-  const selectedRoleObj = roles.find(role => role.id === selectedRole);
+export function RoleSelection({ 
+  selectedRole, 
+  onRoleChange, 
+  agentName, 
+  onAgentNameChange, 
+  errors, 
+  showValidation,
+  formData,
+  onChange,
+  validationErrors,
+  touchedFields,
+  onFieldTouch
+}: RoleSelectionProps) {
+  // Handle both prop styles - UnifiedTransactionForm vs direct props
+  const actualSelectedRole = selectedRole || formData?.selectedRole;
+  const actualAgentName = agentName || formData?.agentName;
+  const actualOnRoleChange = onRoleChange || ((value: any) => onChange?.('selectedRole', value));
+  const actualOnAgentNameChange = onAgentNameChange || ((value: string) => onChange?.('agentName', value));
+  const actualErrors = errors || validationErrors;
+  const actualShowValidation = showValidation || (touchedFields && Object.keys(touchedFields).length > 0);
+
+  const selectedRoleObj = roles.find(role => role.id === actualSelectedRole);
   const [isFocused, setIsFocused] = useState(false);
 
   // Determine validation state for agent name
-  const agentNameValidationClass = showValidation && errors?.agentName
+  const agentNameValidationClass = actualShowValidation && actualErrors?.agentName
     ? 'tf-field-error'
-    : agentName && agentName.trim().length > 0
+    : actualAgentName && actualAgentName.trim().length > 0
     ? 'tf-field-success'
     : '';
 
   // Determine validation state for role selection
-  const roleValidationClass = showValidation && errors?.selectedRole
+  const roleValidationClass = actualShowValidation && actualErrors?.selectedRole
     ? 'tf-validation-error'
-    : selectedRole
+    : actualSelectedRole
     ? 'tf-validation-success'
     : '';
 
@@ -94,11 +120,11 @@ export function RoleSelection({ selectedRole, onRoleChange, agentName, onAgentNa
             id="agent-name"
             placeholder="Enter your full name"
             className={`tf-input ${agentNameValidationClass}`}
-            value={agentName || ''}
-            onChange={(e) => onAgentNameChange && onAgentNameChange(e.target.value)}
+            value={actualAgentName || ''}
+            onChange={(e) => actualOnAgentNameChange && actualOnAgentNameChange(e.target.value)}
             onFocus={() => setIsFocused(true)}
-            aria-invalid={showValidation && errors?.agentName ? 'true' : 'false'}
-            aria-describedby={errors?.agentName ? 'agent-name-error' : undefined}
+            aria-invalid={actualShowValidation && actualErrors?.agentName ? 'true' : 'false'}
+            aria-describedby={actualErrors?.agentName ? 'agent-name-error' : undefined}
             onBlur={() => setIsFocused(false)}
           />
           {showValidation && errors?.agentName && (
@@ -125,20 +151,31 @@ export function RoleSelection({ selectedRole, onRoleChange, agentName, onAgentNa
           {roles.map(role => (
             <div
               key={role.id}
-              onClick={() => onRoleChange(role.id)}
-              className={`tf-role-card ${selectedRole === role.id ? 'selected' : ''} ${roleValidationClass}`}
+              onClick={() => actualOnRoleChange && actualOnRoleChange(role.id)}
+              className={`tf-role-card ${actualSelectedRole === role.id ? 'selected' : ''} ${roleValidationClass}`}
               role="button"
               tabIndex={0}
-              aria-pressed={selectedRole === role.id}
-              aria-describedby={showValidation && errors?.selectedRole ? 'role-selection-error' : undefined}
+              aria-pressed={actualSelectedRole === role.id}
+              aria-describedby={actualShowValidation && actualErrors?.selectedRole ? 'role-selection-error' : undefined}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  onRoleChange(role.id);
+                  actualOnRoleChange && actualOnRoleChange(role.id);
                 }
               }}
+              onTouchStart={(e) => {
+                // Add touch feedback for mobile
+                e.currentTarget.style.transform = 'scale(0.98)';
+                e.currentTarget.style.transition = 'transform 0.1s ease';
+              }}
+              onTouchEnd={(e) => {
+                // Reset transform after touch
+                setTimeout(() => {
+                  e.currentTarget.style.transform = '';
+                }, 100);
+              }}
             >
-              {selectedRole === role.id && (
+              {actualSelectedRole === role.id && (
                 <div className="tf-role-selected-indicator">
                   <Check className="tf-icon" />
                 </div>
@@ -175,7 +212,7 @@ export function RoleSelection({ selectedRole, onRoleChange, agentName, onAgentNa
       </div>
 
       {/* Selected Role Details - simplified structure */}
-      {selectedRole && (
+      {actualSelectedRole && (
         <div className="tf-section tf-selected-role-details">
           <div className="tf-flex tf-items-center tf-mb-4">
             <div className="tf-icon-container">

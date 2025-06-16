@@ -23,22 +23,37 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
   const validateField = useCallback((field: string, value: string | boolean) => {
     if (typeof value === 'boolean') return '';
 
-    // Allow empty values to support clearing fields
-    if (value === '') return '';
+    // Allow empty values for optional fields
+    if (value === '' && !['totalCommissionPercentage', 'listingAgentPercentage', 'buyersAgentPercentage'].includes(field)) {
+      return '';
+    }
 
     switch (field) {
       case 'totalCommissionPercentage':
       case 'listingAgentPercentage':
       case 'buyersAgentPercentage':
       case 'referralFee':
-      case 'brokerFeeAmount':
-      case 'sellerPaidAmount':
-      case 'buyerPaidAmount':
-        const numValue = parseFloat(value);
+        const percentValue = parseFloat(value);
         if (!value.trim()) {
           return 'This field is required';
         }
-        if (isNaN(numValue) || numValue < 0 || numValue > 100) {
+        if (isNaN(percentValue) || percentValue < 0 || percentValue > 100) {
+          return 'Please enter a valid percentage between 0 and 100';
+        }
+        // Add commission split validation
+        if (field === 'totalCommissionPercentage' && percentValue > 0) {
+          const listing = parseFloat(data.listingAgentPercentage || '0');
+          const buyers = parseFloat(data.buyersAgentPercentage || '0');
+          if (listing + buyers > percentValue + 0.01) { // Allow small floating point tolerance
+            return 'Total commission must be at least the sum of listing and buyer agent percentages';
+          }
+        }
+        break;
+      case 'sellerPaidAmount':
+      case 'buyerPaidAmount':
+        // These are percentages, not currency amounts
+        const paidPercentValue = parseFloat(value);
+        if (value.trim() && (isNaN(paidPercentValue) || paidPercentValue < 0 || paidPercentValue > 100)) {
           return 'Please enter a valid percentage between 0 and 100';
         }
         break;
@@ -50,66 +65,113 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
         if (isNaN(amount) || amount < 0) {
           return 'Please enter a valid amount';
         }
+        if (amount > 1000000) { // Reasonable upper limit
+          return 'Amount seems unusually high. Please verify.';
+        }
+        break;
+      case 'brokerFeeAmount':
+        const brokerFee = parseFloat(value);
+        if (value.trim() && (isNaN(brokerFee) || brokerFee < 0)) {
+          return 'Please enter a valid fee amount';
+        }
         break;
       case 'referralParty':
+        if (!value.trim()) {
+          return 'This field is required';
+        }
+        if (value.trim().length < 2) {
+          return 'Please enter a valid name';
+        }
+        break;
       case 'brokerEin':
         if (!value.trim()) {
           return 'This field is required';
         }
+        // Validate EIN format (XX-XXXXXXX)
+        const einPattern = /^\d{2}-\d{7}$/;
+        if (!einPattern.test(value.trim())) {
+          return 'Please enter EIN in format: XX-XXXXXXX';
+        }
         break;
     }
     return '';
+  }, [data]);
+
+  // Safe number parsing with validation
+  const safeParseFloat = useCallback((value: string | undefined): number => {
+    if (!value || value === '') return 0;
+    const parsed = parseFloat(value);
+    return isNaN(parsed) ? 0 : parsed;
   }, []);
 
-  // Helper function to calculate automatic commission values
+  // Validate percentage is within acceptable range
+  const validatePercentage = useCallback((value: number): number => {
+    return Math.max(0, Math.min(100, value));
+  }, []);
+
+  // Round to 2 decimal places without floating point errors
+  const roundToTwo = useCallback((value: number): string => {
+    return (Math.round(value * 100) / 100).toFixed(2);
+  }, []);
+
+  // Helper function to calculate automatic commission values with proper bounds checking
   const calculateCommission = useCallback((field: string, value: string, currentData: CommissionData) => {
-    // Parse current values, defaulting to 0 if not provided
-    const total = parseFloat(currentData.totalCommissionPercentage || '0');
-    const listing = parseFloat(currentData.listingAgentPercentage || '0');
-    const buyers = parseFloat(currentData.buyersAgentPercentage || '0');
-    const brokerFee = parseFloat(currentData.brokerFeeAmount || '0');
+    // Parse current values safely
+    const total = safeParseFloat(currentData.totalCommissionPercentage);
+    const listing = safeParseFloat(currentData.listingAgentPercentage);
+    const buyers = safeParseFloat(currentData.buyersAgentPercentage);
+    const newValue = safeParseFloat(value);
+
+    // Validate input is reasonable
+    if (newValue < 0 || newValue > 100) {
+      return {}; // Don't auto-calculate for invalid inputs
+    }
 
     // Store the updates we want to make
     let updates: Partial<CommissionData> = {};
 
-    // Auto-calculate commission percentages
+    // Auto-calculate commission percentages with bounds checking
     if (field === 'totalCommissionPercentage' || field === 'listingAgentPercentage' || field === 'buyersAgentPercentage') {
-      const newValue = parseFloat(value || '0');
-
       // When total percentage changes, adjust buyer's or listing agent's percentage
       if (field === 'totalCommissionPercentage') {
         if (listing > 0) {
           // If listing is known, adjust buyer's percentage: buyer = total - listing
-          updates.buyersAgentPercentage = (newValue - listing).toFixed(2);
+          const calculatedBuyers = validatePercentage(newValue - listing);
+          updates.buyersAgentPercentage = roundToTwo(calculatedBuyers);
         } else if (buyers > 0) {
           // If buyer's is known, adjust listing percentage: listing = total - buyer
-          updates.listingAgentPercentage = (newValue - buyers).toFixed(2);
+          const calculatedListing = validatePercentage(newValue - buyers);
+          updates.listingAgentPercentage = roundToTwo(calculatedListing);
         }
       }
       // When listing percentage changes, adjust buyer's or total percentage
       else if (field === 'listingAgentPercentage') {
         if (total > 0) {
           // If total is known, adjust buyer's percentage: buyer = total - listing
-          updates.buyersAgentPercentage = (total - newValue).toFixed(2);
+          const calculatedBuyers = validatePercentage(total - newValue);
+          updates.buyersAgentPercentage = roundToTwo(calculatedBuyers);
         } else if (buyers > 0) {
           // If buyer's is known, calculate total: total = listing + buyer
-          updates.totalCommissionPercentage = (newValue + buyers).toFixed(2);
+          const calculatedTotal = validatePercentage(newValue + buyers);
+          updates.totalCommissionPercentage = roundToTwo(calculatedTotal);
         }
       }
       // When buyer's percentage changes, adjust listing or total percentage
       else if (field === 'buyersAgentPercentage') {
         if (total > 0) {
           // If total is known, adjust listing percentage: listing = total - buyer
-          updates.listingAgentPercentage = (total - newValue).toFixed(2);
+          const calculatedListing = validatePercentage(total - newValue);
+          updates.listingAgentPercentage = roundToTwo(calculatedListing);
         } else if (listing > 0) {
           // If listing is known, calculate total: total = listing + buyer
-          updates.totalCommissionPercentage = (listing + newValue).toFixed(2);
+          const calculatedTotal = validatePercentage(listing + newValue);
+          updates.totalCommissionPercentage = roundToTwo(calculatedTotal);
         }
       }
     }
 
     return updates;
-  }, []);
+  }, [safeParseFloat, validatePercentage, roundToTwo]);
 
   const handleChange = useCallback((field: keyof CommissionData, value: string | boolean) => {
     if (typeof value === 'string') {
@@ -130,11 +192,24 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
 
   }, [onChange, validateField, calculateCommission, data]);
 
-  // Handle numeric input allowing for empty values
+  // Handle numeric input with improved validation
   const handleNumericChange = (field: keyof CommissionData, value: string) => {
-    // Allow empty value or valid numbers
-    if (value === '' || (!isNaN(parseFloat(value)) && parseFloat(value) >= 0)) {
+    // Allow empty value for clearing
+    if (value === '') {
       onChange(field, value);
+      return;
+    }
+
+    // Allow partial typing (e.g., ".", "0.", "5.")
+    if (/^\d*\.?\d*$/.test(value)) {
+      const numValue = parseFloat(value);
+      // Only validate completed numbers
+      if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
+        onChange(field, value);
+      } else if (value.endsWith('.') || value === '0' || /^\d+$/.test(value)) {
+        // Allow partial typing
+        onChange(field, value);
+      }
     }
   };
 

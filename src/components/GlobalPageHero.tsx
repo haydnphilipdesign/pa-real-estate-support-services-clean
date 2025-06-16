@@ -54,7 +54,7 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
         zIndex: 0,
         pointerEvents: 'auto',
         userSelect: 'auto',
-        paddingTop: '5rem' // Account for header height + some spacing
+        paddingTop: '7rem' // Account for header height + extra spacing for transaction pages
       }}
     >
       {/* Note: Background slideshow removed - now handled by PersistentBackground component */}

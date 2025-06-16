@@ -94,7 +94,7 @@ const AboutOwner: React.FC = () => {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="grid grid-cols-3 gap-6"
             >
-              {achievements.map((achievement, index) => (
+              {achievements.map((achievement) => (
                 <div key={achievement.title} className="text-center">
                   <div className="w-12 h-12 mx-auto bg-gradient-to-br from-brand-gold/20 to-brand-blue/20 rounded-full flex items-center justify-center mb-4">
                     <achievement.icon className="w-6 h-6 text-brand-gold" />

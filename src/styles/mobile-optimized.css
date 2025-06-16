@@ -1,0 +1,501 @@
+/**
+ * WORLD-CLASS MOBILE EXPERIENCE FOR TRANSACTION FORM
+ * Optimized for smartphones and tablets with touch-first design
+ */
+
+/* ===================================
+   MOBILE-FIRST RESPONSIVE BREAKPOINTS
+   =================================== */
+
+/* Mobile devices (320px - 767px) */
+@media (max-width: 767px) {
+  
+  /* TRANSACTION PAGE MOBILE LAYOUT */
+  [data-transaction-page="true"] {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* HERO SECTION - Mobile optimized */
+  [data-transaction-page="true"] .transaction-hero-container {
+    padding-top: 80px !important; /* Header clearance */
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    margin: 0 !important;
+  }
+
+  /* GRID LAYOUT - Stack vertically on mobile */
+  [data-transaction-page="true"] .grid-cols-1.xl\\:grid-cols-12 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  /* HIDE SIDEBAR ON MOBILE - Show only form */
+  [data-transaction-page="true"] .portal-sidebar {
+    display: none !important;
+  }
+
+  /* FORM TAKES FULL WIDTH */
+  [data-transaction-page="true"] .portal-form-area {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+  }
+
+  /* MOBILE FORM CARDS */
+  .tf-glass-card,
+  .tf-role-card,
+  .tf-selected-role-details {
+    margin: 0.5rem 0 !important;
+    padding: 1.5rem 1rem !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* MOBILE TYPOGRAPHY */
+  .tf-heading-secondary {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .tf-heading-tertiary {
+    font-size: 1.25rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .tf-text-subtitle,
+  .tf-text-description {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* ===================================
+   TOUCH-OPTIMIZED FORM ELEMENTS
+   =================================== */
+
+/* MOBILE INPUT FIELDS - 44px minimum touch target */
+@media (max-width: 767px) {
+  .tf-input,
+  [data-transaction-page="true"] input,
+  [data-transaction-page="true"] textarea,
+  [data-transaction-page="true"] select {
+    min-height: 44px !important;
+    padding: 12px 16px !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    border-radius: 8px !important;
+    border: 2px solid rgba(59, 130, 246, 0.3) !important;
+    background: white !important;
+    color: rgb(31, 41, 55) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* FOCUS STATES - Larger for mobile */
+  .tf-input:focus,
+  [data-transaction-page="true"] input:focus,
+  [data-transaction-page="true"] textarea:focus {
+    outline: none !important;
+    border-color: rgb(59, 130, 246) !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2) !important;
+    transform: none !important; /* Remove transforms on mobile */
+  }
+
+  /* LABELS - Larger and touch-friendly */
+  .tf-label {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+    color: rgb(31, 41, 55) !important;
+  }
+}
+
+/* ===================================
+   MOBILE ROLE SELECTION CARDS
+   =================================== */
+
+@media (max-width: 767px) {
+  
+  /* ROLE CARDS GRID - Single column on mobile */
+  .tf-role-cards {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* INDIVIDUAL ROLE CARDS - Touch optimized */
+  .tf-role-card {
+    min-height: 120px !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    border: 2px solid rgba(59, 130, 246, 0.2) !important;
+    background: white !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    
+    /* Touch feedback */
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.1) !important;
+    user-select: none !important;
+  }
+
+  /* ROLE CARD ACTIVE/PRESSED STATE */
+  .tf-role-card:active {
+    transform: scale(0.98) !important;
+    background: rgba(59, 130, 246, 0.05) !important;
+  }
+
+  /* SELECTED ROLE CARD */
+  .tf-role-card.selected {
+    border-color: rgb(59, 130, 246) !important;
+    background: rgba(59, 130, 246, 0.08) !important;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2) !important;
+  }
+
+  /* ROLE CARD HEADER - Mobile layout */
+  .tf-role-card-header {
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .tf-role-card-title {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: rgb(31, 41, 55) !important;
+    margin: 0 !important;
+  }
+
+  .tf-role-card-description {
+    font-size: 0.95rem !important;
+    color: rgb(75, 85, 99) !important;
+    line-height: 1.4 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* ROLE FEATURES - Mobile optimized */
+  .tf-role-feature {
+    display: flex !important;
+    align-items: flex-start !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.9rem !important;
+    color: rgb(75, 85, 99) !important;
+  }
+
+  .tf-role-feature-bullet {
+    margin-top: 0.25rem !important;
+    margin-right: 0.75rem !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* ===================================
+   MOBILE FORM NAVIGATION
+   =================================== */
+
+@media (max-width: 767px) {
+  
+  /* NAVIGATION CONTAINER - Sticky bottom */
+  .tf-form-navigation {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: white !important;
+    border-top: 1px solid rgba(229, 231, 235, 1) !important;
+    padding: 1rem !important;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1) !important;
+    z-index: 1000 !important;
+  }
+
+  /* NAVIGATION BUTTONS - Full width and touch-friendly */
+  .tf-nav-buttons {
+    display: flex !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+  }
+
+  .tf-nav-button {
+    flex: 1 !important;
+    min-height: 48px !important;
+    padding: 12px 20px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    
+    /* Touch feedback */
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+  }
+
+  /* NEXT/SUBMIT BUTTON */
+  .tf-nav-button.next,
+  .tf-nav-button.submit {
+    background: linear-gradient(135deg, rgb(59, 130, 246), rgb(37, 99, 235)) !important;
+    color: white !important;
+  }
+
+  .tf-nav-button.next:active,
+  .tf-nav-button.submit:active {
+    transform: scale(0.98) !important;
+    background: linear-gradient(135deg, rgb(37, 99, 235), rgb(29, 78, 216)) !important;
+  }
+
+  /* BACK BUTTON */
+  .tf-nav-button.back {
+    background: rgba(229, 231, 235, 1) !important;
+    color: rgb(75, 85, 99) !important;
+  }
+
+  .tf-nav-button.back:active {
+    transform: scale(0.98) !important;
+    background: rgba(209, 213, 219, 1) !important;
+  }
+
+  /* RESET BUTTON */
+  .tf-nav-button.reset {
+    flex: none !important;
+    padding: 8px 16px !important;
+    background: transparent !important;
+    color: rgb(107, 114, 128) !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* ADD BOTTOM PADDING TO FORM TO ACCOUNT FOR FIXED NAVIGATION */
+  [data-transaction-page="true"] .portal-form-area {
+    padding-bottom: 120px !important; /* Space for fixed navigation */
+  }
+}
+
+/* ===================================
+   MOBILE STEP INDICATOR
+   =================================== */
+
+@media (max-width: 767px) {
+  
+  /* STEP INDICATOR - Horizontal scroll on mobile */
+  .tf-step-indicator {
+    display: flex !important;
+    overflow-x: auto !important;
+    padding: 1rem 0 !important;
+    margin-bottom: 1rem !important;
+    gap: 1rem !important;
+    
+    /* Hide scrollbar but keep functionality */
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+
+  .tf-step-indicator::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* STEP BUTTONS - Larger for touch */
+  .tf-step-button {
+    min-width: 40px !important;
+    min-height: 40px !important;
+    border-radius: 50% !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    flex-shrink: 0 !important;
+    border: 2px solid !important;
+  }
+
+  .tf-step-button.active {
+    background: rgb(59, 130, 246) !important;
+    color: white !important;
+    border-color: rgb(59, 130, 246) !important;
+    transform: scale(1.1) !important;
+  }
+
+  .tf-step-button.completed {
+    background: rgb(34, 197, 94) !important;
+    color: white !important;
+    border-color: rgb(34, 197, 94) !important;
+  }
+
+  .tf-step-button.inactive {
+    background: rgba(229, 231, 235, 1) !important;
+    color: rgb(107, 114, 128) !important;
+    border-color: rgba(209, 213, 219, 1) !important;
+  }
+
+  /* STEP CONNECTOR LINES - Adjusted for mobile */
+  .tf-step-connector {
+    flex: none !important;
+    width: 24px !important;
+    height: 2px !important;
+    margin: 0 !important;
+    align-self: center !important;
+  }
+}
+
+/* ===================================
+   MOBILE PROPERTY INFORMATION FORM
+   =================================== */
+
+@media (max-width: 767px) {
+  
+  /* PROPERTY ROWS - Single column on mobile */
+  .tf-property-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* FORM GROUPS - Full width */
+  .tf-form-group {
+    width: 100% !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* ICON CONTAINERS - Smaller on mobile */
+  .tf-icon-container {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    margin-right: 0.75rem !important;
+  }
+
+  /* SELECT DROPDOWNS - Touch optimized */
+  .tf-select,
+  [data-transaction-page="true"] select {
+    min-height: 44px !important;
+    padding: 12px 16px !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
+    background: white !important;
+    border: 2px solid rgba(59, 130, 246, 0.3) !important;
+    color: rgb(31, 41, 55) !important;
+  }
+}
+
+/* ===================================
+   MOBILE LOADING AND FEEDBACK STATES
+   =================================== */
+
+@media (max-width: 767px) {
+  
+  /* LOADING SPINNER - Larger on mobile */
+  .tf-loading-spinner {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    border-width: 3px !important;
+  }
+
+  /* ERROR MESSAGES - More prominent */
+  .tf-error-message {
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+    margin-top: 0.5rem !important;
+    border-radius: 6px !important;
+    background: rgba(254, 242, 242, 1) !important;
+  }
+
+  /* SUCCESS FEEDBACK */
+  .tf-success-message {
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+    margin-top: 0.5rem !important;
+    border-radius: 6px !important;
+    background: rgba(240, 253, 244, 1) !important;
+    color: rgb(21, 128, 61) !important;
+  }
+}
+
+/* ===================================
+   TABLET SPECIFIC OPTIMIZATIONS
+   =================================== */
+
+/* Tablet devices (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  
+  /* TWO-COLUMN LAYOUT FOR TABLETS */
+  [data-transaction-page="true"] .grid-cols-1.xl\\:grid-cols-12 {
+    display: grid !important;
+    grid-template-columns: 1fr 2fr !important;
+    gap: 2rem !important;
+  }
+
+  /* SHOW SIDEBAR ON TABLETS */
+  [data-transaction-page="true"] .portal-sidebar {
+    display: flex !important;
+  }
+
+  /* ROLE CARDS - Two columns on tablet */
+  .tf-role-cards {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* FORM NAVIGATION - Not fixed on tablets */
+  .tf-form-navigation {
+    position: relative !important;
+    bottom: auto !important;
+    box-shadow: none !important;
+    border-top: none !important;
+  }
+
+  [data-transaction-page="true"] .portal-form-area {
+    padding-bottom: 2rem !important;
+  }
+}
+
+/* ===================================
+   ACCESSIBILITY ENHANCEMENTS
+   =================================== */
+
+/* REDUCE MOTION FOR USERS WHO PREFER IT */
+@media (prefers-reduced-motion: reduce) {
+  .tf-role-card,
+  .tf-nav-button,
+  .tf-step-button {
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  .tf-role-card:active,
+  .tf-nav-button:active {
+    transform: none !important;
+  }
+}
+
+/* HIGH CONTRAST MODE */
+@media (prefers-contrast: high) {
+  .tf-role-card,
+  .tf-glass-card,
+  .tf-input {
+    border-width: 3px !important;
+    border-color: rgb(0, 0, 0) !important;
+  }
+  
+  .tf-nav-button.next,
+  .tf-nav-button.submit {
+    background: rgb(0, 0, 0) !important;
+    color: white !important;
+  }
+}
+
+/* DARK MODE SUPPORT */
+@media (prefers-color-scheme: dark) {
+  .tf-glass-card,
+  .tf-role-card,
+  .tf-input {
+    background: rgb(31, 41, 55) !important;
+    color: white !important;
+    border-color: rgba(156, 163, 175, 0.5) !important;
+  }
+  
+  .tf-form-navigation {
+    background: rgb(31, 41, 55) !important;
+    border-top-color: rgba(156, 163, 175, 0.3) !important;
+  }
+}
