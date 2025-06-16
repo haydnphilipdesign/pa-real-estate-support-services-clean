@@ -28,6 +28,7 @@
 @import './styles/accessibility-ux.css';
 @import './styles/enhanced-accessibility.css';
 @import './styles/signature-compliance.css';
+@import './styles/background-extension-fix.css';
 @import './styles/contrast-fixes.css';
 @import './styles/responsive-enhancements.css';
 @import './styles/premium-animations.css';

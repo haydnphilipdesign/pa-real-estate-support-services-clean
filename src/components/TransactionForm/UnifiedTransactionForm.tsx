@@ -292,7 +292,7 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
           <div className="flex items-center gap-3">
             <Button
               variant="outline"
-              size="default"
+              size="lg"
               onClick={actions.saveDraft}
               icon={<Save className="w-4 h-4" />}
               className="border-white/30 text-white hover:bg-white/10"
@@ -302,7 +302,7 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
             
             <Button
               variant="outline"
-              size="default"
+              size="lg"
               onClick={actions.resetForm}
               icon={<RotateCcw className="w-4 h-4" />}
               className="border-white/30 text-white hover:bg-white/10"

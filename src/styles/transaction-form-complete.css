@@ -28,19 +28,34 @@ html body [data-transaction-page="true"] .slideshow-container {
   width: 100vw !important;
   height: 100vh !important;
   min-height: 100vh !important;
+  max-height: none !important;
   z-index: -100 !important;
   object-fit: cover !important;
 }
 
-/* Extend background for long forms */
+/* Extend background for long forms - ensure it covers beyond form content */
 html body [data-transaction-page="true"] .background-slideshow img,
 html body [data-transaction-page="true"] [data-persistent-background="true"] img,
 html body [data-transaction-page="true"] .slideshow-container img {
   width: 100% !important;
   height: 100% !important;
   min-height: 100vh !important;
+  max-height: none !important;
   object-fit: cover !important;
   object-position: center !important;
+}
+
+/* Force background to extend beyond content height */
+html body [data-transaction-page="true"]:after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 150vh; /* Extend beyond viewport */
+  background: inherit;
+  z-index: -101;
+  pointer-events: none;
 }
 
 /* Ensure transaction form content area extends properly */
@@ -52,12 +67,21 @@ html body [data-transaction-page="true"] .global-page-hero {
   z-index: 1 !important;
 }
 
-/* Make sure form content doesn't get cut off */
+/* Make sure form content doesn't get cut off and has proper spacing */
 html body [data-transaction-page="true"] .transaction-form,
 html body [data-transaction-page="true"] .unified-transaction-form {
   position: relative !important;
   z-index: 10 !important;
-  padding-bottom: 4rem !important;
+  padding-bottom: 8rem !important; /* Increased padding for longer forms */
+  min-height: calc(100vh - 4rem) !important;
+}
+
+/* Ensure page content extends with background */
+html body [data-transaction-page="true"] .page-content,
+html body [data-transaction-page="true"] .main-content {
+  min-height: 100vh !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 /* =====================================================
@@ -599,9 +623,12 @@ html body .tf-nav-button.submit:hover {
   box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3) !important;
 }
 
-/* Secondary buttons (save, reset) - Match primary navigation buttons */
+/* Secondary buttons (save, reset) - Match primary navigation buttons EXACTLY */
 html body .tf-nav-button.save,
-html body .tf-nav-button.reset {
+html body .tf-nav-button.reset,
+html body [data-transaction-page="true"] button[class*="size-lg"],
+html body [data-transaction-page="true"] .button-lg,
+html body [data-transaction-page="true"] button:has(.w-4.h-4) {
   background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
   color: #ffffff !important;
   border: 2px solid #3b82f6 !important;
@@ -616,14 +643,29 @@ html body .tf-nav-button.reset {
   transition: all 0.2s ease !important;
   cursor: pointer !important;
   min-height: 2.75rem !important;
+  height: 2.75rem !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
 }
 
 html body .tf-nav-button.save:hover,
-html body .tf-nav-button.reset:hover {
+html body .tf-nav-button.reset:hover,
+html body [data-transaction-page="true"] button[class*="size-lg"]:hover,
+html body [data-transaction-page="true"] .button-lg:hover,
+html body [data-transaction-page="true"] button:has(.w-4.h-4):hover {
   background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Ensure all navigation buttons have identical sizing */
+html body [data-transaction-page="true"] .navigation-buttons button,
+html body [data-transaction-page="true"] .form-navigation button,
+html body [data-transaction-page="true"] .transaction-nav button {
+  min-height: 2.75rem !important;
+  height: 2.75rem !important;
+  padding: 0.875rem 2rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
 }
 
 /* =====================================================
