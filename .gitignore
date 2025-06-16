@@ -128,3 +128,20 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Custom project ignores
+# Backup files (prevent future backup accumulation)
+*.bak
+*.backup
+*.old
+*~
+
+# Documentation archive
+docs/archive/
+
+# Build analysis
+stats.html
+bundle-analyzer-report.html
+
+# Vercel
+.vercel

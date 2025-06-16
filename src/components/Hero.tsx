@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, CheckCircle, Clock, Shield, ChevronRight, Users } from 'lucide-react';
-import GlobalPageHero from './GlobalPageHeroNew';
-import { UnifiedButton } from './ui/unified-button';
+import GlobalPageHero from './GlobalPageHero';
+import { Button } from '@/components/ui';
 import ContentCard from './ContentCard';
 import HERO_ANIMATION from '../animations/heroAnimations';
 
@@ -99,9 +99,12 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <GlobalPageHero title="Your trusted partner in reliable transaction management">
-      <div className="container px-4 md:px-6 lg:px-8 mx-auto w-full py-0" id="home-hero" style={{ paddingTop: '0', paddingBottom: '0', marginTop: '-80px' }}>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+    <GlobalPageHero 
+      overlayColor="from-black/30 via-black/20 to-black/30"
+      overlayOpacity="bg-black/40"
+    >
+      <div className="container px-4 md:px-6 lg:px-8 mx-auto w-full py-8" id="home-hero">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center min-h-0">
           {/* Main Hero Content */}
           <div className="lg:col-span-7">
             <motion.div
@@ -121,7 +124,7 @@ const Hero: React.FC = () => {
                 className="mb-8"
                 data-hero-content="title"
               >
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight text-white text-center lg:text-left">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight text-white text-center lg:text-left">
                   <motion.div className="overflow-hidden inline-block w-full">
                     <motion.span
                       className="inline-block"
@@ -175,7 +178,7 @@ const Hero: React.FC = () => {
                 data-hero-content="cta"
               >
                 <div className="flex flex-wrap items-center gap-4">
-                  <UnifiedButton
+                  <Button
                     to="/work-with-me"
                     variant="glass"
                     size="lg"
@@ -192,8 +195,8 @@ const Hero: React.FC = () => {
                     iconPosition="right"
                   >
                     Get Started
-                  </UnifiedButton>
-                  <UnifiedButton
+                  </Button>
+                  <Button
                     to="/about"
                     variant="glass"
                     size="lg"
@@ -210,7 +213,7 @@ const Hero: React.FC = () => {
                     iconPosition="right"
                   >
                     Learn More
-                  </UnifiedButton>
+                  </Button>
                 </div>
               </motion.div>
             </motion.div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import ContentCard from './ContentCard';
@@ -71,14 +71,28 @@ const Testimonials = () => {
     );
   };
 
+  // Add keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        prevTestimonial();
+      } else if (event.key === 'ArrowRight') {
+        nextTestimonial();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
-    <section className="py-20 relative overflow-hidden max-w-full bg-gray-50" data-section="testimonials">
+    <section className="pt-32 pb-20 relative overflow-hidden max-w-full bg-gradient-to-b from-brand-blue/5 via-gray-50/50 to-gray-50" data-section="testimonials">
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,102,204,0.02)_100%)]" />
-        <div className="absolute inset-0 bg-grid-blue-500/[0.01] bg-[length:32px_32px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,102,204,0.01)_100%)]" />
+        <div className="absolute inset-0 bg-grid-blue-500/[0.005] bg-[length:32px_32px]" />
       </div>
       
-      <div className="container mx-auto px-4 max-w-6xl relative z-10">
+      <div className="container mx-auto px-8 md:px-24 max-w-7xl relative z-10">
         <PreloadedAnimationWrapper 
           className="text-center mb-12"
           preloadDelay={200}
@@ -92,29 +106,25 @@ const Testimonials = () => {
           </p>
         </PreloadedAnimationWrapper>
 
-        <div className="relative mx-auto">
-          <button
-            onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 md:-translate-x-10 bg-white p-3 rounded-full shadow-md z-10 text-brand-blue hover:bg-blue-50 transition-all duration-300 md:block hidden border border-gray-100 hover:scale-110"
-            aria-label="Previous testimonial"
-          >
-            <ArrowLeft size={16} />
-          </button>
+        <div className="relative mx-auto max-w-6xl">
+          <div className="flex items-center justify-center gap-4 md:gap-8">
+            {/* Left Navigation Button */}
+            <button
+              onClick={prevTestimonial}
+              className="flex-shrink-0 bg-white p-3 md:p-4 rounded-full shadow-lg text-brand-blue hover:bg-blue-50 transition-all duration-300 flex items-center justify-center border border-gray-200 hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+              aria-label="Previous testimonial"
+            >
+              <ArrowLeft size={18} className="md:w-5 md:h-5" />
+            </button>
 
-          <button
-            onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 md:translate-x-10 bg-white p-3 rounded-full shadow-md z-10 text-brand-blue hover:bg-blue-50 transition-all duration-300 md:block hidden border border-gray-100 hover:scale-110"
-            aria-label="Next testimonial"
-          >
-            <ArrowRight size={16} />
-          </button>
-
-          <ContentCard
-            className="p-0 overflow-hidden shadow-xl"
-            withAnimation={true}
-            hoverEffect="none"
-            cardStyle="default"
-          >
+            {/* Testimonial Card */}
+            <div className="flex-1 max-w-4xl">
+              <ContentCard
+                className="p-0 overflow-hidden shadow-xl"
+                withAnimation={true}
+                hoverEffect="none"
+                cardStyle="default"
+              >
             <AnimatePresence mode="wait">
               <motion.div
                 key={testimonialData[currentIndex].id}
@@ -175,20 +185,32 @@ const Testimonials = () => {
                   </div>
                 </div>
               </motion.div>
-            </AnimatePresence>
-          </ContentCard>
+              </AnimatePresence>
+              </ContentCard>
+            </div>
 
-          <div className="flex justify-center mt-8">
+            {/* Right Navigation Button */}
+            <button
+              onClick={nextTestimonial}
+              className="flex-shrink-0 bg-white p-3 md:p-4 rounded-full shadow-lg text-brand-blue hover:bg-blue-50 transition-all duration-300 flex items-center justify-center border border-gray-200 hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+              aria-label="Next testimonial"
+            >
+              <ArrowRight size={18} className="md:w-5 md:h-5" />
+            </button>
+          </div>
+
+          <div className="flex justify-center mt-8 gap-2">
             {testimonialData.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`mx-1 transition-all duration-300 ${
+                className={`transition-all duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2 ${
                   currentIndex === index
-                    ? 'w-8 h-2 bg-brand-blue'
-                    : 'w-2 h-2 bg-gray-300 hover:bg-brand-blue/50'
-                } rounded-full`}
+                    ? 'w-8 h-3 bg-brand-blue shadow-md'
+                    : 'w-3 h-3 bg-gray-300 hover:bg-brand-blue/50 hover:scale-110'
+                }`}
                 aria-label={`Go to testimonial ${index + 1}`}
+                aria-current={currentIndex === index ? 'true' : 'false'}
               />
             ))}
           </div>

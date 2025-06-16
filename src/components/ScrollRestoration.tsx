@@ -1,32 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useSlideshow } from '../context/GlobalSlideshowContext';
 
 /**
- * ScrollRestoration component that works with the global slideshow
- * to maintain the illusion of continuous hero backgrounds during navigation.
+ * ScrollRestoration component that manages scroll position independently
+ * from the slideshow context to maintain clean separation of concerns.
  *
- * This component doesn't force scrolling to top on every navigation,
- * as that's now handled by the SmoothLink component.
+ * This component handles scroll restoration during navigation and maintains
+ * scroll position state locally.
  */
 const ScrollRestoration = () => {
   const { pathname } = useLocation();
-  const { scrollPosition } = useSlideshow();
+  const [hasInitialized, setHasInitialized] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
-  // Only scroll to top on initial page load or when explicitly needed
-  // (SmoothLink handles scroll during navigation)
+  // Only scroll to top on initial page load
   useEffect(() => {
-    // Check if this is the initial page load
-    if (!window.globalSlideshowState.hasInitialized) {
+    if (!hasInitialized) {
       window.scrollTo(0, 0);
-      window.globalSlideshowState.hasInitialized = true;
+      setHasInitialized(true);
     }
-  }, []);
+  }, [hasInitialized]);
 
-  // Update the current scroll position in the global state
+  // Track current scroll position
   useEffect(() => {
     const handleScroll = () => {
-      window.globalSlideshowState.scrollPosition = window.scrollY;
+      setScrollPosition(window.scrollY);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });

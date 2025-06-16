@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { TransactionForm } from "./TransactionForm";
+import TransactionForm from "./TransactionForm";
 import { ArtisticTransactionForm } from "./ArtisticTransactionForm";
 import { Palette, Layout } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { ensureCssImported } from "../FixedCssImport";
 
 // Ensure CSS is imported

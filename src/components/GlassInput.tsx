@@ -75,14 +75,42 @@ const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
           {showPasswordToggle && onPasswordToggle && (
             <button
               type="button"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white/90 transition-colors duration-200"
+              className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors duration-200"
               onClick={onPasswordToggle}
               tabIndex={-1}
+              style={{ 
+                color: '#000000 !important',
+                fill: '#000000 !important',
+                fontSize: 'inherit',
+                fontFamily: 'inherit'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#374151 !important';
+                const svg = e.currentTarget.querySelector('svg');
+                if (svg) svg.style.color = '#374151 !important';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#000000 !important';
+                const svg = e.currentTarget.querySelector('svg');
+                if (svg) svg.style.color = '#000000 !important';
+              }}
             >
               {isPasswordVisible ? (
-                <EyeOff className="h-4 w-4" />
+                <EyeOff 
+                  className="h-4 w-4" 
+                  style={{ 
+                    color: '#000000 !important', 
+                    fill: 'currentColor !important' 
+                  }} 
+                />
               ) : (
-                <Eye className="h-4 w-4" />
+                <Eye 
+                  className="h-4 w-4" 
+                  style={{ 
+                    color: '#000000 !important', 
+                    fill: 'currentColor !important' 
+                  }} 
+                />
               )}
             </button>
           )}

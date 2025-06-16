@@ -92,7 +92,7 @@ const AnimatedCounter: React.FC<{
         hidden: { opacity: 0, y: 10 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
       }}
-      className="text-amber-500 font-bold text-5xl md:text-6xl tracking-tight"
+      className="text-brand-gold font-bold text-5xl md:text-6xl tracking-tight"
     >
       {prefix}{count.toLocaleString()}{suffix}
     </motion.div>
@@ -125,8 +125,8 @@ const Statistics: React.FC = () => {
 
   return (
     <section className="py-24 md:py-28 relative overflow-hidden max-w-full statistics-section" id="statistics">
-      {/* Enhanced background with deep navy */}
-      <div className="absolute inset-0 bg-gray-900">
+      {/* Enhanced background with brand colors */}
+      <div className="absolute inset-0 bg-neutral-900">
         <div className="absolute inset-0 bg-grid-white/[0.03] bg-[length:24px_24px]" />
       </div>
 
@@ -145,22 +145,21 @@ const Statistics: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <div className="px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-200 text-sm font-medium uppercase tracking-wider">
+            <div className="px-4 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/20 text-brand-gold text-sm font-medium uppercase tracking-wider">
               Results That Speak For Themselves
             </div>
           </motion.div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-amber-200 mb-6 tracking-tight">
+          <h2 className="text-h1 font-bold text-brand-gold mb-6 tracking-tight">
             Proven Excellence in Numbers
           </h2>
 
           <motion.p
-            className="text-lg md:text-xl text-white !important max-w-3xl mx-auto leading-relaxed"
+            className="text-body-xl text-white max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ color: 'white' }}
           >
             A track record of success built on dedication, expertise, and unwavering commitment to excellence
           </motion.p>
@@ -179,20 +178,17 @@ const Statistics: React.FC = () => {
               variants={itemVariants}
               className="h-full"
             >
-              <div className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-xl p-8 h-full shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 relative overflow-hidden group">
-                {/* Top border accent */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-amber-500/70"></div>
-
+              <div className="glass-card glass-card-navy border-t-4 border-t-brand-gold h-full hover:lift relative overflow-hidden group">
                 {/* Content */}
                 <div className="flex flex-col items-center text-center space-y-4">
                   {/* Number with animation */}
                   <AnimatedCounter value={stat.value} duration={2.5} />
 
-                  <h3 className="text-amber-500 font-semibold text-xl whitespace-nowrap">
+                  <h3 className="text-brand-gold font-semibold text-h3 whitespace-nowrap">
                     {stat.label}
                   </h3>
 
-                  <p className="text-white !important text-base h-12 flex items-center justify-center" style={{ color: 'white' }}>
+                  <p className="text-white text-body h-12 flex items-center justify-center">
                     {stat.description}
                   </p>
                 </div>

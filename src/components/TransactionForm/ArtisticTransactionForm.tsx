@@ -20,7 +20,7 @@ import { AdditionalInfoSection } from "@/components/TransactionForm/AdditionalIn
 import { SignatureSection } from "@/components/TransactionForm/SignatureSection";
 import { ReviewSection } from "@/components/TransactionForm/ReviewSection";
 import { SubmissionProgress } from "@/components/TransactionForm/SubmissionProgress";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { ArrowLeft, ArrowRight, Send, Home, Star, Users, DollarSign, FileText, Info, PenTool, CheckCircle, UserPlus } from "lucide-react";
 
 // Import hooks and utils

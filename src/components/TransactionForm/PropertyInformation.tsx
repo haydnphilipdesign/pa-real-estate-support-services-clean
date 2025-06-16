@@ -21,18 +21,6 @@ export const PropertyInformation: React.FC<PropertyInformationProps> = ({
   const isResidential = data.propertyType === 'RESIDENTIAL';
   const isVacant = data.status === 'VACANT';
 
-  // Debug log to check role and conditional values
-  useEffect(() => {
-    console.log('Property Information Component:', {
-      role,
-      isListingOrDual,
-      propertyType: data.propertyType,
-      isResidential,
-      status: data.status,
-      isVacant
-    });
-  }, [role, data.propertyType, data.status]);
-
   function handleMlsNumberChange(value: string): void {
     // Allow typing partial MLS numbers during input, including partial typing of PM- prefix
     if (value === '' ||
@@ -98,277 +86,288 @@ export const PropertyInformation: React.FC<PropertyInformationProps> = ({
   const maxDateStr = maxDate.toISOString().split('T')[0];
 
   return (
-    <div className="space-y-2 max-w-5xl mx-auto property-information-section">
-      {/* First row - Main property details */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-2">
-        {/* MLS Number */}
-        <div className="space-y-1">
-          <Label htmlFor="mlsNumber" className="flex items-center text-gray-800 text-sm">
-            <Building className="h-3 w-3 mr-1 text-blue-600" />
-            MLS Number {isListingOrDual && <span className="text-red-500 ml-1">*</span>}
-          </Label>
-          <Input
-            id="mlsNumber"
-            value={data.mlsNumber}
-            onChange={(e) => handleMlsNumberChange(e.target.value)}
-            placeholder="Enter MLS number"
-            required={isListingOrDual}
-            className={`bg-white border-gray-300 placeholder:text-gray-400 h-8 text-sm ${
-              data.mlsNumber && !validateMlsNumber(data.mlsNumber) ? "border-red-500" : ""
-            }`}
-            aria-invalid={isListingOrDual && !validateMlsNumber(data.mlsNumber) ? "true" : "false"}
-          />
-          {isListingOrDual && !data.mlsNumber && (
-            <p className="text-xs text-red-500">Required</p>
-          )}
+    <div className="tf-property-info">
+      {/* Main card container */}
+      <div className="tf-glass-card">
+        <div className="tf-flex tf-items-center tf-mb-4">
+          <div className="tf-icon-container">
+            <Building className="tf-icon" />
+          </div>
+          <div>
+            <h3 className="tf-heading-secondary">Property Information</h3>
+            <p className="tf-text-subtitle">Enter the property details for this transaction</p>
+          </div>
         </div>
 
-        {/* Property Type */}
-        <div className="space-y-1">
-          <Label htmlFor="propertyType" className="flex items-center text-gray-800 text-sm">
-            <HomeIcon className="h-3 w-3 mr-1 text-blue-600" />
-            Property Type <span className="text-red-500 ml-1">*</span>
-          </Label>
-          <Select
-            value={data.propertyType}
-            onValueChange={(value: 'RESIDENTIAL' | 'COMMERCIAL' | 'LAND') => {
-              onChange('propertyType', value);
-            }}
-          >
-            <SelectTrigger id="propertyType" style={{ backgroundColor: 'white', color: '#1e3a8a', height: '2rem' }} className="bg-white h-8 text-sm">
-              <SelectValue placeholder="Select type..." />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="RESIDENTIAL">Residential</SelectItem>
-              <SelectItem value="COMMERCIAL">Commercial</SelectItem>
-              <SelectItem value="LAND">Land</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        {/* First row - Main property details */}
+        <div className="tf-property-row">
+          {/* MLS Number */}
+          <div className="tf-form-group">
+            <label htmlFor="mlsNumber" className="tf-label">
+              <Building className="tf-label-icon" />
+              MLS Number {isListingOrDual && <span className="tf-label-required">*</span>}
+            </label>
+            <Input
+              id="mlsNumber"
+              value={data.mlsNumber}
+              onChange={(e) => handleMlsNumberChange(e.target.value)}
+              placeholder="Enter MLS number"
+              required={isListingOrDual}
+              className={`tf-input ${
+                data.mlsNumber && !validateMlsNumber(data.mlsNumber) ? "tf-input-error" : ""
+              }`}
+              aria-invalid={isListingOrDual && !validateMlsNumber(data.mlsNumber) ? "true" : "false"}
+            />
+            {isListingOrDual && !data.mlsNumber && (
+              <p className="tf-error-message">Required</p>
+            )}
+          </div>
 
-        {/* County */}
-        <div className="space-y-1">
-          <Label htmlFor="county" className="flex items-center text-gray-800 text-sm">
-            <MapPin className="h-3 w-3 mr-1 text-blue-600" />
-            County <span className="text-red-500 ml-1">*</span>
-          </Label>
-          <Input
-            id="county"
-            placeholder="Enter county"
-            value={data.county}
-            onChange={e => onChange('county', e.target.value)}
-            required
-            className={`bg-white border-gray-300 placeholder:text-gray-400 h-8 text-sm ${
-              !data.county ? "border-red-500" : ""
-            }`}
-            aria-invalid={!data.county ? "true" : "false"}
-          />
-          {!data.county && (
-            <p className="text-xs text-red-500">Required</p>
-          )}
-        </div>
-      </div>
-
-      {/* Second row - Address and Price */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-2 mt-1">
-        {/* Property Address */}
-        <div className="space-y-1 md:col-span-2">
-          <Label htmlFor="address" className="flex items-center text-gray-800 text-sm">
-            <MapPin className="h-3 w-3 mr-1 text-blue-600" />
-            Property Address <span className="text-red-500 ml-1">*</span>
-          </Label>
-          <AddressInput
-            value={data.address}
-            onChange={(value: string) => onChange('address', value)}
-            required={true}
-            placeholder="Enter full property address"
-            error={!data.address ? "Required" : ""}
-          />
-        </div>
-
-        {/* Sale Price */}
-        <div className="space-y-1">
-          <Label htmlFor="salePrice" className="flex items-center text-gray-800 text-sm">
-            <DollarSign className="h-3 w-3 mr-1 text-blue-600" />
-            Sale Price <span className="text-red-500 ml-1">*</span>
-          </Label>
-          <Input
-            id="salePrice"
-            placeholder="Enter sale price"
-            value={data.salePrice}
-            onChange={e => handleSalePriceChange(e.target.value)}
-            type="text"
-            className="bg-white border-gray-300 placeholder:text-gray-400 h-8 text-sm"
-            aria-invalid={!data.salePrice ? "true" : "false"}
-          />
-          {!data.salePrice && (
-            <p className="text-xs text-red-500">Required</p>
-          )}
-        </div>
-      </div>
-
-      {/* Third row - Status fields */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 mt-1">
-        {/* Closing Date */}
-        <div className="space-y-1">
-          <Label htmlFor="closingDate" className="flex items-center text-gray-800 text-sm">
-            <Calendar className="h-3 w-3 mr-1 text-blue-600" />
-            Closing Date <span className="text-red-500 ml-1">*</span>
-          </Label>
-          <Input
-            id="closingDate"
-            type="date"
-            value={data.closingDate}
-            onChange={e => handleClosingDateChange(e.target.value)}
-            min={today}
-            max={maxDateStr}
-            required
-            className={`bg-white border-gray-300 placeholder:text-gray-400 h-8 text-sm ${
-              !data.closingDate || !isValidClosingDate(data.closingDate) ? "border-red-500" : ""
-            }`}
-            aria-invalid={!data.closingDate || !isValidClosingDate(data.closingDate) ? "true" : "false"}
-          />
-          {!data.closingDate && (
-            <p className="text-xs text-red-500">Required</p>
-          )}
-        </div>
-
-        {/* Property Status - Only for Residential property type */}
-        {isResidential && (
-          <div className="space-y-1">
-            <Label className="flex items-center text-gray-800 text-sm">
-              <HomeIcon className="h-3 w-3 mr-1 text-blue-600" />
-              Property Status <span className="text-red-500 ml-1">*</span>
-            </Label>
+          {/* Property Type */}
+          <div className="tf-form-group">
+            <label htmlFor="propertyType" className="tf-label">
+              <HomeIcon className="tf-label-icon" />
+              Property Type <span className="tf-label-required">*</span>
+            </label>
             <Select
-              value={data.status}
-              onValueChange={(value: 'OCCUPIED' | 'VACANT') => {
-                onChange('status', value);
-                if (value !== 'VACANT') {
-                  onChange('isWinterized', "NO");
-                }
+              value={data.propertyType}
+              onValueChange={(value: 'RESIDENTIAL' | 'COMMERCIAL' | 'LAND') => {
+                onChange('propertyType', value);
               }}
             >
-              <SelectTrigger id="status" style={{ backgroundColor: 'white', color: '#1e3a8a', height: '2rem' }} className="bg-white h-8 text-sm">
-                <SelectValue placeholder="Select status..." />
+              <SelectTrigger id="propertyType" className="tf-select">
+                <SelectValue placeholder="Select type..." />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="OCCUPIED">Occupied</SelectItem>
-                <SelectItem value="VACANT">Vacant</SelectItem>
+                <SelectItem value="RESIDENTIAL">Residential</SelectItem>
+                <SelectItem value="COMMERCIAL">Commercial</SelectItem>
+                <SelectItem value="LAND">Land</SelectItem>
               </SelectContent>
             </Select>
           </div>
-        )}
 
-        {/* Update MLS Status - Only required for Listing Agent and Dual Agent */}
-        {isListingOrDual && (
-          <div className="space-y-1">
-            <Label htmlFor="updateMls" className="flex items-center text-gray-800 text-sm">
-              <Building className="h-3 w-3 mr-1 text-blue-600" />
-              Update MLS Status
-            </Label>
-            <Select
-              value={data.updateMls}
-              onValueChange={(value: 'YES' | 'NO') => onChange('updateMls', value)}
-            >
-              <SelectTrigger id="updateMls" style={{ backgroundColor: 'white', color: '#1e3a8a', height: '2rem' }} className="bg-white h-8 text-sm">
-                <SelectValue placeholder="Select..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="YES">Yes</SelectItem>
-                <SelectItem value="NO">No</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-
-        {/* Built Before 1978 - Only for Residential */}
-        {isResidential && (
-          <div className="space-y-1">
-            <Label htmlFor="builtBefore1978" className="flex items-center text-gray-800 text-sm">
-              <HomeIcon className="h-3 w-3 mr-1 text-blue-600" />
-              Built Before 1978
-            </Label>
-            <Select
-              value={data.isBuiltBefore1978}
-              onValueChange={(value) => onChange('isBuiltBefore1978', value)}
-            >
-              <SelectTrigger id="builtBefore1978" style={{ backgroundColor: 'white', color: '#1e3a8a', height: '2rem' }} className="bg-white h-8 text-sm">
-                <SelectValue placeholder="Select..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="YES">Yes</SelectItem>
-                <SelectItem value="NO">No</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-      </div>
-
-      {/* Fourth row - Access information */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 mt-1">
-        {/* Property Access Type - Required only for Listing & Dual Agents when property is residential */}
-        {isResidential && isListingOrDual && (
-          <div className="space-y-1">
-            <Label htmlFor="propertyAccessType" className="flex items-center text-gray-800 text-sm">
-              <HomeIcon className="h-3 w-3 mr-1 text-blue-600" />
-              Access Type <span className="text-red-500 ml-1">*</span>
-            </Label>
-            <Select
-              value={data.propertyAccessType}
-              onValueChange={(value) => onChange('propertyAccessType', value)}
-            >
-              <SelectTrigger id="propertyAccessType" style={{ backgroundColor: 'white', color: '#1e3a8a', height: '2rem' }} className="bg-white h-8 text-sm">
-                <SelectValue placeholder="Select..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="ELECTRONIC LOCKBOX">Electronic Lockbox</SelectItem>
-                <SelectItem value="COMBO LOCKBOX">Combo Lockbox</SelectItem>
-                <SelectItem value="KEYPAD">Keypad</SelectItem>
-                <SelectItem value="APPOINTMENT ONLY">Appointment Only</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-
-        {/* Lockbox Access Code */}
-        {isResidential && isListingOrDual && data.propertyAccessType && data.propertyAccessType !== "APPOINTMENT ONLY" && (
-          <div className="space-y-1">
-            <Label htmlFor="lockboxAccessCode" className="flex items-center text-gray-800 text-sm">
-              <HomeIcon className="h-3 w-3 mr-1 text-blue-600" />
-              Access Code
-            </Label>
+          {/* County */}
+          <div className="tf-form-group">
+            <label htmlFor="county" className="tf-label">
+              <MapPin className="tf-label-icon" />
+              County <span className="tf-label-required">*</span>
+            </label>
             <Input
-              id="lockboxAccessCode"
-              placeholder="Enter code"
-              value={data.lockboxAccessCode}
-              onChange={e => onChange('lockboxAccessCode', e.target.value)}
-              className="bg-white border-gray-300 placeholder:text-gray-400 h-8 text-sm"
+              id="county"
+              placeholder="Enter county"
+              value={data.county}
+              onChange={e => onChange('county', e.target.value)}
+              required
+              className={`tf-input ${!data.county ? "tf-input-error" : ""}`}
+              aria-invalid={!data.county ? "true" : "false"}
+            />
+            {!data.county && (
+              <p className="tf-error-message">Required</p>
+            )}
+          </div>
+        </div>
+
+        {/* Second row - Address and Price */}
+        <div className="tf-grid tf-grid-cols-1 md:tf-grid-cols-3 tf-gap-4 tf-mt-4">
+          {/* Property Address */}
+          <div className="tf-form-group md:col-span-2">
+            <label htmlFor="address" className="tf-label">
+              <MapPin className="tf-label-icon" />
+              Property Address <span className="tf-label-required">*</span>
+            </label>
+            <AddressInput
+              value={data.address}
+              onChange={(value: string) => onChange('address', value)}
+              required={true}
+              placeholder="Enter full property address"
+              error={!data.address ? "Required" : ""}
             />
           </div>
-        )}
 
-        {/* Winterized Status - Show when status is VACANT for Listing/Dual agents */}
-        {isVacant && isListingOrDual && (
-          <div className="space-y-1">
-            <Label htmlFor="isWinterized" className="flex items-center text-gray-800 text-sm">
-              <HomeIcon className="h-3 w-3 mr-1 text-blue-600" />
-              Is Winterized
-            </Label>
-            <Select
-              value={data.isWinterized}
-              onValueChange={(value: 'YES' | 'NO') => onChange('isWinterized', value)}
-            >
-              <SelectTrigger id="isWinterized" style={{ backgroundColor: 'white', color: '#1e3a8a', height: '2rem' }} className="bg-white h-8 text-sm">
-                <SelectValue placeholder="Select..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="YES">Yes</SelectItem>
-                <SelectItem value="NO">No</SelectItem>
-              </SelectContent>
-            </Select>
+          {/* Sale Price */}
+          <div className="tf-form-group">
+            <label htmlFor="salePrice" className="tf-label">
+              <DollarSign className="tf-label-icon" />
+              Sale Price <span className="tf-label-required">*</span>
+            </label>
+            <Input
+              id="salePrice"
+              placeholder="Enter sale price"
+              value={data.salePrice}
+              onChange={e => handleSalePriceChange(e.target.value)}
+              type="text"
+              className={`tf-input ${!data.salePrice ? "tf-input-error" : ""}`}
+              aria-invalid={!data.salePrice ? "true" : "false"}
+            />
+            {!data.salePrice && (
+              <p className="tf-error-message">Required</p>
+            )}
           </div>
-        )}
+        </div>
+
+        {/* Third row - Status fields */}
+        <div className="tf-grid tf-grid-cols-2 md:tf-grid-cols-4 tf-gap-4 tf-mt-4">
+          {/* Closing Date */}
+          <div className="tf-form-group">
+            <label htmlFor="closingDate" className="tf-label">
+              <Calendar className="tf-label-icon" />
+              Closing Date <span className="tf-label-required">*</span>
+            </label>
+            <Input
+              id="closingDate"
+              type="date"
+              value={data.closingDate}
+              onChange={e => handleClosingDateChange(e.target.value)}
+              min={today}
+              max={maxDateStr}
+              required
+              className={`tf-input ${
+                !data.closingDate || !isValidClosingDate(data.closingDate) ? "tf-input-error" : ""
+              }`}
+              aria-invalid={!data.closingDate || !isValidClosingDate(data.closingDate) ? "true" : "false"}
+            />
+            {!data.closingDate && (
+              <p className="tf-error-message">Required</p>
+            )}
+          </div>
+
+          {/* Property Status - Only for Residential property type */}
+          {isResidential && (
+            <div className="tf-form-group">
+              <label className="tf-label">
+                <HomeIcon className="tf-label-icon" />
+                Property Status <span className="tf-label-required">*</span>
+              </label>
+              <Select
+                value={data.status}
+                onValueChange={(value: 'OCCUPIED' | 'VACANT') => {
+                  onChange('status', value);
+                  if (value !== 'VACANT') {
+                    onChange('isWinterized', "NO");
+                  }
+                }}
+              >
+                <SelectTrigger id="status" className="tf-select">
+                  <SelectValue placeholder="Select status..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="OCCUPIED">Occupied</SelectItem>
+                  <SelectItem value="VACANT">Vacant</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* Update MLS Status - Only required for Listing Agent and Dual Agent */}
+          {isListingOrDual && (
+            <div className="tf-form-group">
+              <label htmlFor="updateMls" className="tf-label">
+                <Building className="tf-label-icon" />
+                Update MLS Status
+              </label>
+              <Select
+                value={data.updateMls}
+                onValueChange={(value: 'YES' | 'NO') => onChange('updateMls', value)}
+              >
+                <SelectTrigger id="updateMls" className="tf-select">
+                  <SelectValue placeholder="Select..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="YES">Yes</SelectItem>
+                  <SelectItem value="NO">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* Built Before 1978 - Only for Residential */}
+          {isResidential && (
+            <div className="tf-form-group">
+              <label htmlFor="builtBefore1978" className="tf-label">
+                <HomeIcon className="tf-label-icon" />
+                Built Before 1978
+              </label>
+              <Select
+                value={data.isBuiltBefore1978}
+                onValueChange={(value) => onChange('isBuiltBefore1978', value)}
+              >
+                <SelectTrigger id="builtBefore1978" className="tf-select">
+                  <SelectValue placeholder="Select..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="YES">Yes</SelectItem>
+                  <SelectItem value="NO">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+        </div>
+
+        {/* Fourth row - Access information */}
+        <div className="tf-grid tf-grid-cols-2 md:tf-grid-cols-4 tf-gap-4 tf-mt-4">
+          {/* Property Access Type - Required only for Listing & Dual Agents when property is residential */}
+          {isResidential && isListingOrDual && (
+            <div className="tf-form-group">
+              <label htmlFor="propertyAccessType" className="tf-label">
+                <HomeIcon className="tf-label-icon" />
+                Access Type <span className="tf-label-required">*</span>
+              </label>
+              <Select
+                value={data.propertyAccessType}
+                onValueChange={(value) => onChange('propertyAccessType', value)}
+              >
+                <SelectTrigger id="propertyAccessType" className="tf-select">
+                  <SelectValue placeholder="Select..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ELECTRONIC LOCKBOX">Electronic Lockbox</SelectItem>
+                  <SelectItem value="COMBO LOCKBOX">Combo Lockbox</SelectItem>
+                  <SelectItem value="KEYPAD">Keypad</SelectItem>
+                  <SelectItem value="APPOINTMENT ONLY">Appointment Only</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* Lockbox Access Code */}
+          {isResidential && isListingOrDual && data.propertyAccessType && data.propertyAccessType !== "APPOINTMENT ONLY" && (
+            <div className="tf-form-group">
+              <label htmlFor="lockboxAccessCode" className="tf-label">
+                <HomeIcon className="tf-label-icon" />
+                Access Code
+              </label>
+              <Input
+                id="lockboxAccessCode"
+                placeholder="Enter code"
+                value={data.lockboxAccessCode}
+                onChange={e => onChange('lockboxAccessCode', e.target.value)}
+                className="tf-input"
+              />
+            </div>
+          )}
+
+          {/* Winterized Status - Show when status is VACANT for Listing/Dual agents */}
+          {isVacant && isListingOrDual && (
+            <div className="tf-form-group">
+              <label htmlFor="isWinterized" className="tf-label">
+                <HomeIcon className="tf-label-icon" />
+                Is Winterized
+              </label>
+              <Select
+                value={data.isWinterized}
+                onValueChange={(value: 'YES' | 'NO') => onChange('isWinterized', value)}
+              >
+                <SelectTrigger id="isWinterized" className="tf-select">
+                  <SelectValue placeholder="Select..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="YES">Yes</SelectItem>
+                  <SelectItem value="NO">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

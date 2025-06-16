@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Shield, Clock, Lock, Eye, EyeOff, CheckCircle, RefreshCw, ChevronRight, Home, ArrowUpRight, Users } from 'lucide-react';
-import { Button } from '../components/ui/button';
+import { Button } from '@/components/ui';
 import { Input } from '../components/ui/input';
 import { toast } from '../components/ui/simple-toast';
-import { TransactionForm } from '../components/TransactionForm/TransactionForm';
+import TransactionForm from '../components/TransactionForm/TransactionForm';
 import useScrollToTop from '../hooks/useScrollToTop';
 import { Link } from '../components/GlobalLinkProvider';
 // Import CSS via centralized helper
@@ -93,7 +93,50 @@ const AgentPortal = (): JSX.Element => {
     // Testimonial content is now shown directly in the JSX
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300" id="agent-portal-page">
+    <>
+      {/* Add direct styles to override any global CSS */}
+      <style>{`
+        #agent-portal-page {
+          min-height: 100vh !important;
+          overflow: auto !important;
+        }
+        
+        #agent-portal-container {
+          min-height: 100vh !important;
+          height: auto !important;
+          display: flex !important;
+          flex-direction: column !important;
+        }
+        
+        #agent-portal-container .lg\\:col-span-2 {
+          display: block !important;
+          padding-top: 0.5rem !important;
+          padding-bottom: 2rem !important;
+          justify-content: flex-start !important;
+          align-items: flex-start !important;
+        }
+        
+        @media (min-width: 1024px) {
+          #agent-portal-container .lg\\:col-span-2 {
+            padding-top: 1rem !important;
+          }
+        }
+        
+        .agent-portal-nav {
+          padding-top: 0.25rem !important;
+          padding-bottom: 0.25rem !important;
+        }
+        
+        .agent-portal-login-form {
+          margin-top: 0.5rem !important;
+        }
+        
+        #agent-portal-container .w-full.max-w-md {
+          margin-top: 0 !important;
+          padding-top: 0 !important;
+        }
+      `}</style>
+      <div className="min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300" id="agent-portal-page">
       <AnimatePresence mode="wait">
         {isPasswordProtected ? (
           <motion.div
@@ -119,20 +162,20 @@ const AgentPortal = (): JSX.Element => {
             id="agent-portal-container"
           >
             {/* Navigation for the login screen */}
-            <div className="bg-white/10 backdrop-blur-md shadow-md agent-portal-nav">
-              <div className="container mx-auto px-4 py-3">
+            <div className="bg-white/10 backdrop-blur-md shadow-md agent-portal-nav flex-shrink-0">
+              <div className="container mx-auto px-4 py-1">
                 <div className="flex justify-between items-center">
                   <Link to="/" className="flex items-center gap-2 text-white">
-                    <Home size={20} />
-                    <span className="font-medium">Return to Homepage</span>
+                    <Home size={16} />
+                    <span className="font-medium text-xs">Return to Homepage</span>
                   </Link>
-                  <div className="flex items-center space-x-4">
-                    <Link to="/services" className="text-white/90 hover:text-white flex items-center gap-1 text-sm">
-                      <Users size={16} />
-                      <span>Our Services</span>
+                  <div className="flex items-center space-x-3">
+                    <Link to="/services" className="text-white/90 hover:text-white flex items-center gap-1 text-xs">
+                      <Users size={12} />
+                      <span>Services</span>
                     </Link>
-                    <Link to="/workwithme" className="text-white/90 hover:text-white flex items-center gap-1 text-sm">
-                      <ArrowUpRight size={16} />
+                    <Link to="/workwithme" className="text-white/90 hover:text-white flex items-center gap-1 text-xs">
+                      <ArrowUpRight size={12} />
                       <span>Work With Us</span>
                     </Link>
                   </div>
@@ -140,28 +183,35 @@ const AgentPortal = (): JSX.Element => {
               </div>
             </div>
 
-            <div className="flex-grow grid lg:grid-cols-5">
+            <div className="flex-1 grid lg:grid-cols-5">
               {/* Left side - Password form (2 columns) */}
               <motion.div
-                className="lg:col-span-2 flex items-center justify-center p-8 bg-white"
+                className="col-span-full lg:col-span-2 bg-white p-4 lg:px-8 lg:pt-1 lg:pb-8 relative overflow-hidden"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <div className="w-full max-w-md space-y-8">
+                {/* Decorative checkmarks */}
+                <div className="absolute top-4 left-8 opacity-10 hidden lg:block">
+                  <CheckCircle className="h-12 w-12 text-blue-500" />
+                </div>
+                <div className="absolute bottom-32 right-12 opacity-10 hidden lg:block">
+                  <CheckCircle className="h-16 w-16 text-blue-600" />
+                </div>
+                <div className="w-full max-w-md mx-auto space-y-4 relative z-10 pt-0">
                   <div>
-                    <div className="flex justify-center mb-4">
-                      <div className="h-16 w-16 bg-gradient-to-r from-blue-600 to-brand-blue rounded-2xl flex items-center justify-center shadow-lg transform -rotate-6">
-                        <Lock className="h-8 w-8 text-white" />
+                    <div className="flex justify-center mb-2">
+                      <div className="h-12 w-12 bg-gradient-to-r from-blue-600 to-brand-blue rounded-xl flex items-center justify-center shadow-lg transform -rotate-6">
+                        <Lock className="h-6 w-6 text-white" />
                       </div>
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900 text-center">Agent Portal</h1>
-                    <p className="mt-2 text-gray-600 text-center">
+                    <h1 className="text-2xl font-bold text-gray-900 text-center">Agent Login</h1>
+                    <p className="mt-1 text-gray-600 text-center text-sm">
                       Enter the password to access the transaction form
                     </p>
                   </div>
 
-                  <form onSubmit={handlePasswordSubmit} className="mt-8 space-y-6 agent-portal-login-form">
+                  <form onSubmit={handlePasswordSubmit} className="mt-4 space-y-3 agent-portal-login-form">
                     <div className="space-y-2">
                       <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                         Password
@@ -177,7 +227,7 @@ const AgentPortal = (): JSX.Element => {
                           required
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="pl-10 pr-10 py-6"
+                          className="pl-10 pr-10 py-3"
                           placeholder="Enter portal password"
                           autoComplete="new-password"
                         />
@@ -225,13 +275,13 @@ const AgentPortal = (): JSX.Element => {
                       <Button
                         type="submit"
                         disabled={isPasswordChecking}
-                        className="w-full py-6 bg-gradient-to-r from-blue-600 to-brand-blue hover:shadow-lg transition-all duration-300 text-white font-medium"
+                        className="w-full py-3 bg-gradient-to-r from-blue-600 to-brand-blue hover:shadow-lg transition-all duration-300 text-white font-medium"
                       >
                         {isPasswordChecking ? (
                           <RefreshCw className="h-5 w-5 animate-spin" />
                         ) : (
                           <>
-                            <span>Access Portal</span>
+                            <span>🔒 Sign in</span>
                             <ChevronRight className="ml-2 h-5 w-5" />
                           </>
                         )}
@@ -239,9 +289,17 @@ const AgentPortal = (): JSX.Element => {
                     </div>
                   </form>
 
+                  {/* Return to Home Button */}
+                  <div className="flex justify-center mt-4">
+                    <Link to="/" className="inline-flex items-center px-4 py-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                      <Home className="w-4 h-4 mr-2" />
+                      Return to Home
+                    </Link>
+                  </div>
+
                   {/* Testimonial */}
                   <motion.div
-                    className="mt-10 pt-6 border-t border-gray-200"
+                    className="mt-4 pt-3 border-t border-gray-200"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6, duration: 0.5 }}
@@ -284,40 +342,39 @@ const AgentPortal = (): JSX.Element => {
                   <div className="absolute bottom-20 left-20 w-60 h-60 bg-blue-400/10 rounded-full blur-xl"></div>
                 </div>
 
-                <div className="relative h-full z-10 flex flex-col p-12">
-                  <div className="flex-grow flex flex-col items-start justify-center max-w-2xl mx-auto">
+                <div className="relative h-full z-10 flex items-center justify-center p-4 lg:p-6">
+                  <div className="max-w-2xl w-full">
                     {/* Header */}
-                    <div className="mb-12">
-                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm mb-4">
+                    <div className="mb-6 text-center lg:text-left">
+                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm mb-3">
                         <span className="h-2 w-2 rounded-full bg-green-400 mr-2"></span>
                         <span>Secure Agent Portal</span>
                       </div>
-                      <h2 className="text-4xl font-bold text-white mb-4">Transaction Coordination Portal</h2>
-                      <p className="text-white/80 text-lg">
-                        Streamline your real estate transactions with our dedicated coordination service.
-                        Submit your details once and let us handle the rest.
+                      <h2 className="text-2xl lg:text-3xl font-bold text-white mb-2">Welcome to the<br className="hidden lg:block" /><span className="text-blue-300">Agent Portal</span></h2>
+                      <p className="text-white/80 text-sm lg:text-base">
+                        Submit new transactions quickly and easily with our streamlined intake form.
                       </p>
                     </div>
 
                     {/* Features with enhanced styling */}
-                    <div className="space-y-8 mb-12 w-full">
+                    <div className="space-y-3 mb-4 w-full">
                       {features.map((feature, index) => {
                         const Icon = feature.icon;
                         return (
                           <motion.div
                             key={index}
-                            className="flex gap-6 bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300"
+                            className="flex gap-4 bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.4 + (index * 0.1) }}
                             whileHover={{ y: -5 }}
                           >
-                            <div className="bg-gradient-to-br from-blue-500 to-brand-blue p-4 rounded-xl shadow-lg">
-                              <Icon className="h-6 w-6 text-white" />
+                            <div className="bg-gradient-to-br from-blue-500 to-brand-blue p-3 rounded-lg shadow-lg flex-shrink-0">
+                              <Icon className="h-5 w-5 text-white" />
                             </div>
                             <div>
-                              <h3 className="font-semibold text-xl text-white">{feature.title}</h3>
-                              <p className="text-white/80 mt-1">{feature.description}</p>
+                              <h3 className="font-semibold text-lg text-white">{feature.title}</h3>
+                              <p className="text-white/80 mt-1 text-sm">{feature.description}</p>
                             </div>
                           </motion.div>
                         );
@@ -326,26 +383,29 @@ const AgentPortal = (): JSX.Element => {
 
                     {/* Stats section */}
                     <motion.div
-                      className="grid grid-cols-3 gap-4 w-full"
+                      className="grid grid-cols-3 gap-3 w-full"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.7, duration: 0.5 }}
                     >
                       {stats.map((stat, index) => (
-                        <div key={index} className="bg-white/5 backdrop-blur-sm rounded-xl p-4 text-center border border-white/10">
-                          <p className="text-2xl font-bold text-white">{stat.value}</p>
+                        <div key={index} className="bg-white/5 backdrop-blur-sm rounded-lg p-3 text-center border border-white/10">
+                          <p className="text-xl font-bold text-white">{stat.value}</p>
                           <p className="text-xs text-blue-200 uppercase tracking-wider">{stat.label}</p>
                         </div>
                       ))}
                     </motion.div>
-                  </div>
 
-                  {/* Footer note */}
-                  <div className="mt-auto pt-6 border-t border-white/10 text-white/60 flex items-center justify-between">
-                    <p className="text-sm">© {new Date().getFullYear()} PA Real Estate Support Services</p>
-                    <div className="flex items-center gap-4">
-                      <Link to="/privacy" className="text-sm hover:text-white transition-colors">Privacy Policy</Link>
-                      <Link to="/terms" className="text-sm hover:text-white transition-colors">Terms of Service</Link>
+                    {/* Fast and Secure labels */}
+                    <div className="flex justify-between items-center mt-6">
+                      <div className="text-center">
+                        <p className="text-white font-semibold">Fast</p>
+                        <p className="text-white/70 text-xs">Transaction Submission</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-white font-semibold">Secure</p>
+                        <p className="text-white/70 text-xs">Agent Portal Access</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -355,7 +415,7 @@ const AgentPortal = (): JSX.Element => {
         ) : (
           <motion.div
             key="form"
-            className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100"
+            className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 overflow-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{
               opacity: 1,
@@ -387,6 +447,7 @@ const AgentPortal = (): JSX.Element => {
         )}
       </AnimatePresence>
     </div>
+    </>
   );
 };
 

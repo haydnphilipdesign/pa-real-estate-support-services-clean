@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, Loader2, AlertCircle, PartyPopper } from "lucide-react";
 
@@ -9,30 +9,50 @@ export type SubmissionStep = {
 };
 
 interface SubmissionProgressProps {
-  isOpen: boolean;
-  steps: SubmissionStep[];
-  currentStep: number;
-  error: string | null;
-  onClose: () => void;
+  isOpen?: boolean;
+  steps?: SubmissionStep[];
+  currentStep?: number;
+  error?: string | null;
+  onClose?: () => void;
+  // Legacy props for backward compatibility
+  totalSteps?: number;
 }
 
 export function SubmissionProgress({
-  isOpen,
-  steps,
-  currentStep,
-  error,
-  onClose
+  isOpen = true,
+  steps = [],
+  currentStep = 0,
+  error = null,
+  onClose = () => {},
+  totalSteps
 }: SubmissionProgressProps) {
   const [isAllComplete, setIsAllComplete] = useState(false);
   
+  // Handle legacy usage with totalSteps
+  const effectiveSteps = useMemo(() => {
+    if (totalSteps && (!steps || steps.length === 0)) {
+      // Create default steps for legacy usage
+      return Array.from({ length: totalSteps }, (_, index) => ({
+        id: `step-${index + 1}`,
+        label: `Step ${index + 1}`,
+        status: index < currentStep ? 'complete' : index === currentStep ? 'loading' : 'pending'
+      } as SubmissionStep));
+    }
+    return steps || [];
+  }, [steps, totalSteps, currentStep]);
+  
   // Check if all steps are complete
   useEffect(() => {
-    if (steps.every(step => step.status === 'complete')) {
-      setIsAllComplete(true);
+    if (effectiveSteps && Array.isArray(effectiveSteps) && effectiveSteps.length > 0) {
+      if (effectiveSteps.every(step => step.status === 'complete')) {
+        setIsAllComplete(true);
+      } else {
+        setIsAllComplete(false);
+      }
     } else {
       setIsAllComplete(false);
     }
-  }, [steps]);
+  }, [effectiveSteps]);
 
   if (!isOpen) return null;
 
@@ -40,12 +60,12 @@ export function SubmissionProgress({
   const progressPercentage = 
     error ? 100 : // If error, show full bar in red
     isAllComplete ? 100 : // If all complete, show full bar
-    Math.min(100, Math.round(((currentStep + (steps[currentStep]?.status === 'loading' ? 0.5 : 0)) / steps.length) * 100));
+    (effectiveSteps && effectiveSteps.length > 0) ? Math.min(100, Math.round(((currentStep + (effectiveSteps[currentStep]?.status === 'loading' ? 0.5 : 0)) / effectiveSteps.length) * 100)) : 0;
 
   // Check if the last step was just completed (for celebration animation)
   const isJustCompleted = 
-    steps.length > 0 && 
-    steps[steps.length - 1].status === 'complete' && 
+    effectiveSteps && effectiveSteps.length > 0 && 
+    effectiveSteps[effectiveSteps.length - 1].status === 'complete' && 
     !error;
 
   return (
@@ -131,7 +151,7 @@ export function SubmissionProgress({
             
             {/* Steps list */}
             <div className="space-y-4">
-              {steps.map((step, index) => (
+              {effectiveSteps && Array.isArray(effectiveSteps) ? effectiveSteps.map((step, index) => (
                 <motion.div 
                   key={step.id} 
                   className={`flex items-center gap-3 p-3 rounded-lg border ${
@@ -179,7 +199,11 @@ export function SubmissionProgress({
                     </p>
                   </div>
                 </motion.div>
-              ))}
+              )) : (
+                <div className="text-blue-200/70 text-center py-4">
+                  No steps available
+                </div>
+              )}
             </div>
             
             {error && (

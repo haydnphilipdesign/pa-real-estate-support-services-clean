@@ -21,10 +21,6 @@ import PersistentBackground from './components/PersistentBackground';
 import useNavigationScroll from './hooks/useNavigationScroll';
 import { loadLayoutFixes } from './components/LayoutFixes';
 import AntiFlickerInitializer from './components/AntiFlickerInitializer';
-import './styles/transition-fixes.css'; // Import transition fixes CSS
-import './styles/transition-flicker-fixes.css'; // Import additional flicker fixes
-import './styles/hero-transition-fixes.css'; // Import hero transition fixes
-import './styles/global-layout-fixes.css'; // Import global layout fixes
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -43,7 +39,7 @@ const App: React.FC = () => {
     document.body.style.willChange = 'auto';
     document.body.style.transform = 'translateZ(0)';
     document.body.style.backfaceVisibility = 'hidden';
-    
+
     loadLayoutFixes();
 
     // Also set a small delay to ensure fixes are applied after full render
@@ -56,25 +52,9 @@ const App: React.FC = () => {
 
   return (
     <>
-      {/* Temporary change indicator - REMOVE AFTER CONFIRMING */}
-      <div style={{
-        position: 'fixed',
-        top: '100px',
-        right: '20px',
-        background: 'green',
-        color: 'white',
-        padding: '10px 20px',
-        borderRadius: '5px',
-        zIndex: 999999,
-        fontSize: '14px',
-        fontWeight: 'bold'
-      }}>
-        ✅ CHANGES ACTIVE - v2
-      </div>
-      
       {/* Single Header - rendered normally */}
       <Header />
-      
+
       <AppProviders>
         {/* Add AntiFlickerInitializer to manage anti-flicker measures */}
         <AntiFlickerInitializer />
@@ -95,26 +75,26 @@ const App: React.FC = () => {
           }}
         >
           <ScrollRestoration />
-          
+
           {/* Position PersistentBackground inside the providers */}
           <PersistentBackground />
 
           <ScrollIndicatorWrapper />
 
           {/* Page content with transitions */}
-          <main 
-            className="overflow-x-hidden relative flex-grow flex flex-col" 
-            style={{ 
-              backgroundColor: 'transparent', 
+          <main
+            className={`overflow-x-hidden relative ${isTransactionPage ? 'transaction-page-main' : 'flex-grow flex flex-col'}`}
+            style={{
+              backgroundColor: 'transparent',
               background: 'none',
-              zIndex: 5, // Above slideshow, below page transitions
+              zIndex: isTransactionPage ? 99 : 5, // Higher z-index for transaction pages
               marginTop: 0, // No margin
               paddingTop: 0, // No padding - PageTransition handles spacing
               position: 'relative',
-              flex: '1 0 auto',
-              display: 'flex',
-              flexDirection: 'column'
-            }} 
+              flex: isTransactionPage ? 'none' : '1 0 auto',
+              display: isTransactionPage ? 'block' : 'flex',
+              flexDirection: isTransactionPage ? 'initial' : 'column'
+            }}
             data-main-content="true"
           >
             <PageTransition>
@@ -144,8 +124,10 @@ const App: React.FC = () => {
             </PageTransition>
           </main>
 
-          {/* Footer - Always at bottom */}
-          <Footer key="main-footer" className="mt-auto" />
+          {/* Footer - Only show on non-transaction pages */}
+          {shouldShowFooter && (
+            <Footer key="main-footer" className="mt-auto flex-shrink-0" />
+          )}
         </div>
       </AppProviders>
     </>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PageContainer, WizardContainer, FormSection } from './PageContainer';
 import { MobileNavBar } from './MobileNavBar';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { ArrowLeft } from 'lucide-react';
 
 // This is a placeholder for the StepWizard component that will be created in the next task

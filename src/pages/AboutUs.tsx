@@ -5,7 +5,7 @@ import { ArrowRight, Calendar, CheckCircle2, Target, Presentation, Users, Award 
 import useScrollToTop from "../hooks/useScrollToTop";
 import CenteredTimelineLayout from "../components/CenteredTimelineLayout";
 import GlobalPageHeroNew from '../components/GlobalPageHeroNew';
-import { UnifiedButton } from '../components/ui/unified-button';
+import { Button } from '@/components/ui';
 import { ensureCssImported } from '../components/FixedCssImport'; // Import the CSS helper
 
 // Ensure CSS is imported
@@ -103,7 +103,7 @@ const AboutUs: React.FC = () => {
                     }
                   }}
                 >
-                  <UnifiedButton
+                  <Button
                     to="/work-with-me"
                     variant="glass"
                     size="lg"
@@ -120,7 +120,7 @@ const AboutUs: React.FC = () => {
                     iconPosition="right"
                   >
                     Get in Touch
-                  </UnifiedButton>
+                  </Button>
                 </motion.div>
               </motion.div>
             </div>
@@ -273,7 +273,7 @@ const AboutUs: React.FC = () => {
             <p className="text-xl text-white/90 mb-10 max-w-3xl mx-auto">
               Let me handle the paperwork while you focus on growing your business
             </p>
-            <UnifiedButton
+            <Button
               to="/agent-portal"
               variant="secondary"
               size="lg"
@@ -284,7 +284,7 @@ const AboutUs: React.FC = () => {
               }
             >
               Start a Transaction
-            </UnifiedButton>
+            </Button>
           </div>
         </div>
       </motion.section>

@@ -3,7 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 
 /**
  * TransitionTester - Component for testing and diagnosing page transitions
- * 
+ *
  * This component displays transition metrics and provides tools to test transitions
  * between different routes. It can be temporarily added to any page to help with testing.
  */
@@ -21,12 +21,12 @@ const TransitionTester: React.FC = () => {
   useEffect(() => {
     // Increment transition count on location change
     setTransitionCount(prev => prev + 1);
-    
+
     // Record transition start time
     const startTime = performance.now();
     setTransitionStart(startTime);
     setIsTransitioning(true);
-    
+
     // Calculate last transition time
     if (lastTransitionTime) {
       setLastTransitionTime(startTime);
@@ -56,7 +56,7 @@ const TransitionTester: React.FC = () => {
         if (window.performance && window.performance.getEntriesByType) {
           const navigationEntries = window.performance.getEntriesByType('navigation');
           const paintEntries = window.performance.getEntriesByType('paint');
-          
+
           setMetrics({
             navigationEntries: navigationEntries.length > 0 ? navigationEntries[0] : null,
             firstPaint: paintEntries.find(e => e.name === 'first-paint')?.startTime,
@@ -88,39 +88,38 @@ const TransitionTester: React.FC = () => {
   const debugTransition = () => {
     // Use transparent background to allow slideshow to show through
     document.body.style.backgroundColor = 'transparent';
-    
+
     // Log current state
     console.log('Current transition state:', {
       location: location.pathname,
       isTransitioning,
-      slideshowState: window.globalSlideshowState,
       transitionCount,
       lastTransitionTime,
       transitionDuration
     });
-    
+
     // Check for common issues
     const issues = [];
-    
+
     // Check for proper background
     const backgrounds = document.querySelectorAll('[data-persistent-background="true"]');
     if (backgrounds.length === 0) {
       issues.push("No persistent background found");
     }
-    
+
     // Check for hero components
     const heroes = document.querySelectorAll('[data-hero-component="true"]');
     if (heroes.length === 0) {
       issues.push("No hero components found");
     }
-    
+
     // Check for proper z-index stacking
     const allElements = [
       ...Array.from(backgrounds),
       ...Array.from(heroes),
       ...Array.from(document.querySelectorAll('.page-content-wrapper'))
     ];
-    
+
     const zIndexIssues = allElements.filter(el => {
       if (el instanceof HTMLElement) {
         const computed = window.getComputedStyle(el);
@@ -128,11 +127,11 @@ const TransitionTester: React.FC = () => {
       }
       return false;
     });
-    
+
     if (zIndexIssues.length > 0) {
       issues.push(`${zIndexIssues.length} elements with potential z-index issues`);
     }
-    
+
     // Update error state
     if (issues.length > 0) {
       setErrors(prev => [...prev, ...issues]);
@@ -143,19 +142,19 @@ const TransitionTester: React.FC = () => {
     <div className="fixed bottom-0 right-0 w-96 max-w-full bg-black/80 text-white p-4 z-50 rounded-tl-lg shadow-lg">
       <h3 className="text-lg font-bold mb-2 flex justify-between">
         Transition Tester
-        <button 
+        <button
           onClick={() => debugTransition()}
           className="px-2 py-1 bg-blue-600 text-xs rounded"
         >
           Debug
         </button>
       </h3>
-      
+
       <div className="mb-4 text-sm">
         <div><span className="font-semibold">Current route:</span> {location.pathname}</div>
         <div><span className="font-semibold">Transition count:</span> {transitionCount}</div>
         <div>
-          <span className="font-semibold">Status:</span> 
+          <span className="font-semibold">Status:</span>
           <span className={isTransitioning ? "text-yellow-300" : "text-green-300"}>
             {isTransitioning ? "Transitioning..." : "Idle"}
           </span>
@@ -164,7 +163,7 @@ const TransitionTester: React.FC = () => {
           <div><span className="font-semibold">Last transition duration:</span> {transitionDuration.toFixed(2)}ms</div>
         )}
       </div>
-      
+
       <div className="mb-4">
         <h4 className="text-sm font-semibold mb-1">Test Routes</h4>
         <div className="flex flex-wrap gap-2">
@@ -179,7 +178,7 @@ const TransitionTester: React.FC = () => {
           ))}
         </div>
       </div>
-      
+
       {errors.length > 0 && (
         <div className="mb-4">
           <h4 className="text-sm font-semibold text-red-400 mb-1">Issues Detected</h4>
@@ -190,7 +189,7 @@ const TransitionTester: React.FC = () => {
           </ul>
         </div>
       )}
-      
+
       <div className="text-xs opacity-50">
         This component is for testing only and should be removed in production.
       </div>

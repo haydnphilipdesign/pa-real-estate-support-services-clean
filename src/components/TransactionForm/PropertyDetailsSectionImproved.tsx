@@ -48,231 +48,258 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
   };
 
   return (
-    <div className="space-y-6 w-full">
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Left Column - Property Information */}
-        <div className="space-y-6">
-          <div className="rounded-lg border border-white/20 shadow-sm p-6 glass-effect">
-            <h3 className="text-lg font-medium text-white mb-4 flex items-center">
-              <Building className="h-5 w-5 mr-2 text-blue-300" />
-              Property Requirements
-            </h3>
+    <div className="tf-property-details">
+      <div className="tf-glass-card">
+        <div className="tf-flex tf-items-center tf-mb-4">
+          <div className="tf-icon-container">
+            <Building className="tf-icon" />
+          </div>
+          <div>
+            <h3 className="tf-heading-secondary">Property Details</h3>
+            <p className="tf-text-subtitle">Configure property requirements and additional details</p>
+          </div>
+        </div>
 
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="resaleCertRequired" className="flex items-center text-white">
-                  <Home className="h-4 w-4 mr-2 text-blue-300" />
-                  Resale Certificate Required
-                </Label>
+        <div className="tf-grid tf-grid-cols-1 md:tf-grid-cols-2 tf-gap-6">
+          {/* Left Column - Property Requirements */}
+          <div className="tf-property-requirements">
+            <div className="tf-glass-card-light">
+              <h4 className="tf-heading-tertiary tf-mb-4">Property Requirements</h4>
+
+              <div className="tf-switch-group">
                 <Switch
                   id="resaleCertRequired"
                   checked={data?.resaleCertRequired}
                   onCheckedChange={(checked) => onChange?.("resaleCertRequired", checked)}
-                  className="data-[state=checked]:bg-blue-600"
                 />
+                <label htmlFor="resaleCertRequired" className="tf-switch-label">
+                  <Home className="tf-label-icon" />
+                  Resale Certificate Required
+                </label>
               </div>
 
               {data?.resaleCertRequired && (
-                <div className="space-y-2 mt-2 ml-6 pl-2 border-l-2 border-blue-400/30">
-                  <Label htmlFor="hoaName" className="text-white">HOA Name</Label>
-                  <Input
-                    id="hoaName"
-                    value={data?.hoaName}
-                    onChange={(e) => onChange?.("hoaName", e.target.value)}
-                    placeholder="Enter HOA name"
-                    className="border-white/20"
-                  />
+                <div className="tf-glass-card tf-mt-4">
+                  <div className="tf-form-group">
+                    <label htmlFor="hoaName" className="tf-label">
+                      <Building className="tf-label-icon" />
+                      HOA Name
+                    </label>
+                    <input
+                      id="hoaName"
+                      value={data?.hoaName}
+                      onChange={(e) => onChange?.("hoaName", e.target.value)}
+                      placeholder="Enter HOA name"
+                      className="tf-input"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="tf-switch-group tf-mt-4">
+                <Switch
+                  id="coRequired"
+                  checked={data?.coRequired}
+                  onCheckedChange={(checked) => onChange?.("coRequired", checked)}
+                />
+                <label htmlFor="coRequired" className="tf-switch-label">
+                  <FileText className="tf-label-icon" />
+                  CO Required
+                </label>
+              </div>
+
+              {data?.coRequired && (
+                <div className="tf-glass-card tf-mt-4">
+                  <div className="tf-form-group">
+                    <label htmlFor="municipality" className="tf-label">
+                      <Building className="tf-label-icon" />
+                      Municipality
+                    </label>
+                    <input
+                      id="municipality"
+                      value={data?.municipality}
+                      onChange={(e) => onChange?.("municipality", e.target.value)}
+                      placeholder="Enter municipality"
+                      className="tf-input"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="tf-switch-group tf-mt-4">
+                <Switch
+                  id="firstRightOfRefusal"
+                  checked={data?.firstRightOfRefusal}
+                  onCheckedChange={(checked) => onChange?.("firstRightOfRefusal", checked)}
+                />
+                <label htmlFor="firstRightOfRefusal" className="tf-switch-label">
+                  <User className="tf-label-icon" />
+                  First Right of Refusal
+                </label>
+              </div>
+
+              {data?.firstRightOfRefusal && (
+                <div className="tf-glass-card tf-mt-4">
+                  <div className="tf-form-group">
+                    <label htmlFor="firstRightName" className="tf-label">
+                      <User className="tf-label-icon" />
+                      First Right Name
+                    </label>
+                    <input
+                      id="firstRightName"
+                      value={data?.firstRightName}
+                      onChange={(e) => onChange?.("firstRightName", e.target.value)}
+                      placeholder="Enter first right name"
+                      className="tf-input"
+                    />
+                  </div>
                 </div>
               )}
             </div>
 
-            <div className="flex items-center justify-between mt-4">
-              <Label htmlFor="coRequired" className="flex items-center text-white">
-                <FileText className="h-4 w-4 mr-2 text-blue-300" />
-                CO Required
-              </Label>
-              <Switch
-                id="coRequired"
-                checked={data?.coRequired}
-                onCheckedChange={(checked) => onChange?.("coRequired", checked)}
-                className="data-[state=checked]:bg-blue-600"
-              />
-            </div>
+            {/* Title Company Information */}
+            <div className="tf-glass-card-light tf-mt-6">
+              <h4 className="tf-heading-tertiary tf-mb-4">
+                <Landmark className="tf-label-icon" />
+                Title Company
+              </h4>
 
-            {data?.coRequired && (
-              <div className="space-y-2 mt-2 ml-6 pl-2 border-l-2 border-blue-400/30">
-                <Label htmlFor="municipality" className="text-white">Municipality</Label>
-                <Input
-                  id="municipality"
-                  value={data?.municipality}
-                  onChange={(e) => onChange?.("municipality", e.target.value)}
-                  placeholder="Enter municipality"
-                  className="border-white/20"
+              <div className="tf-form-group">
+                <label htmlFor="titleCompany" className="tf-label">
+                  <Landmark className="tf-label-icon" />
+                  Title Company Name
+                </label>
+                <input
+                  id="titleCompany"
+                  value={titleData?.titleCompany}
+                  onChange={(e) => onTitleChange?.("titleCompany", e.target.value)}
+                  placeholder="Enter title company name"
+                  className="tf-input"
                 />
               </div>
-            )}
-
-            <div className="flex items-center justify-between mt-4">
-              <Label htmlFor="firstRightOfRefusal" className="flex items-center text-white">
-                <User className="h-4 w-4 mr-2 text-blue-300" />
-                First Right of Refusal
-              </Label>
-              <Switch
-                id="firstRightOfRefusal"
-                checked={data?.firstRightOfRefusal}
-                onCheckedChange={(checked) => onChange?.("firstRightOfRefusal", checked)}
-                className="data-[state=checked]:bg-blue-600"
-              />
             </div>
+          </div>
 
-            {data?.firstRightOfRefusal && (
-              <div className="space-y-2 mt-2 ml-6 pl-2 border-l-2 border-blue-400/30">
-                <Label htmlFor="firstRightName" className="text-white">First Right Name</Label>
-                <Input
-                  id="firstRightName"
-                  value={data?.firstRightName}
-                  onChange={(e) => onChange?.("firstRightName", e.target.value)}
-                  placeholder="Enter first right name"
-                  className="border-white/20"
+          {/* Right Column - Attorney and Warranty */}
+          <div className="tf-legal-warranty">
+            <div className="tf-glass-card-light">
+              <h4 className="tf-heading-tertiary tf-mb-4">Legal Representation</h4>
+
+              <div className="tf-switch-group">
+                <Switch
+                  id="attorneyRepresentation"
+                  checked={data?.attorneyRepresentation}
+                  onCheckedChange={(checked) => onChange?.("attorneyRepresentation", checked)}
                 />
+                <label htmlFor="attorneyRepresentation" className="tf-switch-label">
+                  <FileText className="tf-label-icon" />
+                  Attorney Representation
+                </label>
               </div>
-            )}
-          </div>
 
-          {/* Title Company Information */}
-          <div className="rounded-lg border border-white/20 shadow-sm p-6 glass-effect">
-            <h3 className="text-lg font-medium text-white mb-4 flex items-center">
-              <Landmark className="h-5 w-5 mr-2 text-blue-300" />
-              Title Company
-            </h3>
-
-            <div className="space-y-2">
-              <Label htmlFor="titleCompany" className="text-white">Title Company Name</Label>
-              <Input
-                id="titleCompany"
-                value={titleData?.titleCompany}
-                onChange={(e) => onTitleChange?.("titleCompany", e.target.value)}
-                placeholder="Enter title company name"
-                className="border-white/20"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column - Attorney and Warranty */}
-        <div className="space-y-6">
-          <div className="rounded-lg border border-white/20 shadow-sm p-6 glass-effect">
-            <h3 className="text-lg font-medium text-white mb-4 flex items-center">
-              <User className="h-5 w-5 mr-2 text-blue-300" />
-              Legal Representation
-            </h3>
-
-            <div className="flex items-center justify-between">
-              <Label htmlFor="attorneyRepresentation" className="flex items-center text-white">
-                <FileText className="h-4 w-4 mr-2 text-blue-300" />
-                Attorney Representation
-              </Label>
-              <Switch
-                id="attorneyRepresentation"
-                checked={data?.attorneyRepresentation}
-                onCheckedChange={(checked) => onChange?.("attorneyRepresentation", checked)}
-                className="data-[state=checked]:bg-blue-600"
-              />
+              {data?.attorneyRepresentation && (
+                <div className="tf-glass-card tf-mt-4">
+                  <div className="tf-form-group">
+                    <label htmlFor="attorneyName" className="tf-label">
+                      <User className="tf-label-icon" />
+                      Attorney Name
+                    </label>
+                    <input
+                      id="attorneyName"
+                      value={data?.attorneyName}
+                      onChange={(e) => onChange?.("attorneyName", e.target.value)}
+                      placeholder="Enter attorney name"
+                      className="tf-input"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
-            {data?.attorneyRepresentation && (
-              <div className="space-y-2 mt-2 ml-6 pl-2 border-l-2 border-blue-400/30">
-                <Label htmlFor="attorneyName" className="text-white">Attorney Name</Label>
-                <Input
-                  id="attorneyName"
-                  value={data?.attorneyName}
-                  onChange={(e) => onChange?.("attorneyName", e.target.value)}
-                  placeholder="Enter attorney name"
-                  className="border-white/20"
-                />
-              </div>
-            )}
-          </div>
+            {/* Home Warranty - Only Shown if role is Listing Agent or Dual Agent */}
+            {isListingOrDual && (
+              <div className="tf-glass-card-light tf-mt-6">
+                <h4 className="tf-heading-tertiary tf-mb-4">
+                  <Shield className="tf-label-icon" />
+                  Home Warranty
+                </h4>
 
-          {/* Home Warranty - Only Shown if role is Listing Agent or Dual Agent */}
-          {isListingOrDual && (
-            <div className="rounded-lg border border-white/20 shadow-sm p-6 glass-effect">
-              <h3 className="text-lg font-medium text-white mb-4 flex items-center">
-                <Shield className="h-5 w-5 mr-2 text-blue-300" />
-                Home Warranty
-              </h3>
-
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
+                <div className="tf-switch-group">
                   <Switch
                     id="homeWarranty"
                     checked={data.homeWarranty}
                     onCheckedChange={(checked) => handleWarrantyChange("homeWarranty", checked)}
-                    className="data-[state=checked]:bg-blue-600"
                   />
-                  <Label htmlFor="homeWarranty" className="text-white">Home Warranty Included</Label>
+                  <label htmlFor="homeWarranty" className="tf-switch-label">
+                    Home Warranty Included
+                  </label>
                 </div>
 
                 {data.homeWarranty && (
-                  <div className="space-y-4 mt-2 ml-6 pl-2 border-l-2 border-blue-400/30">
-                    <div className="space-y-2">
-                      <Label htmlFor="warrantyCompany" className="text-white">
-                        Warranty Company <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="warrantyCompany"
-                        value={data.warrantyCompany}
-                        onChange={(e) => handleWarrantyChange("warrantyCompany", e.target.value)}
-                        placeholder="Enter company name"
-                        required
-                        className="border-white/20"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="warrantyCost" className="text-white">
-                        Warranty Cost <span className="text-red-500">*</span>
-                      </Label>
-                      <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300">$</span>
-                        <Input
-                          id="warrantyCost"
-                          value={data.warrantyCost}
-                          onChange={(e) => handleWarrantyChange("warrantyCost", e.target.value)}
-                          placeholder="Enter cost"
+                  <div className="tf-glass-card tf-mt-4">
+                    <div className="tf-grid tf-grid-cols-1 tf-gap-4">
+                      <div className="tf-form-group">
+                        <label htmlFor="warrantyCompany" className="tf-label">
+                          <Shield className="tf-label-icon" />
+                          Warranty Company <span className="tf-label-required">*</span>
+                        </label>
+                        <input
+                          id="warrantyCompany"
+                          value={data.warrantyCompany}
+                          onChange={(e) => handleWarrantyChange("warrantyCompany", e.target.value)}
+                          placeholder="Enter company name"
                           required
-                          type="text"
-                          className={`pl-7 border-white/20 ${errors.warrantyCost ? 'border-red-500' : ''}`}
-                          aria-invalid={!!errors.warrantyCost}
+                          className="tf-input"
                         />
                       </div>
-                      {errors.warrantyCost && <p className="text-xs text-red-500 mt-1">{errors.warrantyCost}</p>}
-                    </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="warrantyPaidBy" className="text-white">
-                        Warranty Paid By <span className="text-red-500">*</span>
-                      </Label>
-                      <Select
-                        value={data.warrantyPaidBy}
-                        onValueChange={(value) => onChange("warrantyPaidBy", value)}
-                      >
-                        <SelectTrigger className="border-white/20">
-                          <SelectValue placeholder="Select who pays" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="SELLER">Seller</SelectItem>
-                          <SelectItem value="BUYER">Buyer</SelectItem>
-                          <SelectItem value="AGENT">Agent</SelectItem>
-                          <SelectItem value="SPLIT">Split</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <div className="tf-form-group">
+                        <label htmlFor="warrantyCost" className="tf-label">
+                          <Shield className="tf-label-icon" />
+                          Warranty Cost <span className="tf-label-required">*</span>
+                        </label>
+                        <div className="tf-input-wrapper">
+                          <span className="tf-input-prefix">$</span>
+                          <input
+                            id="warrantyCost"
+                            value={data.warrantyCost}
+                            onChange={(e) => handleWarrantyChange("warrantyCost", e.target.value)}
+                            placeholder="Enter cost"
+                            required
+                            type="text"
+                            className={`tf-input tf-input-currency ${errors.warrantyCost ? 'tf-input-error' : ''}`}
+                            aria-invalid={!!errors.warrantyCost}
+                          />
+                        </div>
+                        {errors.warrantyCost && <p className="tf-error-message">{errors.warrantyCost}</p>}
+                      </div>
+
+                      <div className="tf-form-group">
+                        <label htmlFor="warrantyPaidBy" className="tf-label">
+                          <Shield className="tf-label-icon" />
+                          Warranty Paid By <span className="tf-label-required">*</span>
+                        </label>
+                        <Select
+                          value={data.warrantyPaidBy}
+                          onValueChange={(value) => onChange("warrantyPaidBy", value)}
+                        >
+                          <SelectTrigger className="tf-select">
+                            <SelectValue placeholder="Select who pays" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="SELLER">Seller</SelectItem>
+                            <SelectItem value="BUYER">Buyer</SelectItem>
+                            <SelectItem value="AGENT">Agent</SelectItem>
+                            <SelectItem value="SPLIT">Split</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

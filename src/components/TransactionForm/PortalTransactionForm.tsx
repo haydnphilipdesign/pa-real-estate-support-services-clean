@@ -1,302 +1,716 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { TransactionForm } from "./TransactionForm";
-import TransactionHero from "../TransactionHero";
-import { FileText, Shield, Clock } from 'lucide-react';
-// Import the centralized CSS helper
-import { ensureCssImported } from "../FixedCssImport";
-
-// Ensure CSS is imported
-ensureCssImported();
-
-// Import new transaction form portal styles
-import '../../styles/pages/transaction-form-portal.css';
-import '../../styles/pages/additional-form-fixes.css';
-import '../../styles/pages/form-ui-fixes.css';
-
-// Add inline style to ensure dropdowns are properly styled
-const fixDropdownStyles = `
-  select, select option, .select__control, .select__menu, .select__option {
-    background-color: white !important;
-    color: #1e3a8a !important;
-    opacity: 1 !important;
-    -webkit-appearance: menulist !important;
-    appearance: menulist !important;
-    background: white !important;
-  }
-
-  /* Target specific Property Status dropdown */
-  select[data-status], select[name] {
-    background-color: white !important;
-    background: white !important;
-    color: #1e3a8a !important;
-    opacity: 1 !important;
-  }
-
-  .dropdown-menu, .dropdown-content, [role="listbox"],
-  .select__menu-list, .select__value-container, .select__single-value {
-    background-color: white !important;
-    color: #1e3a8a !important;
-    border: 1px solid rgba(59, 130, 246, 0.5) !important;
-    opacity: 1 !important;
-  }
-
-  /* Fix for React Select components */
-  .css-1s2u09g-control, .css-1pahdxg-control,
-  .css-26l3qy-menu, .css-4ljt47-MenuList {
-    background-color: white !important;
-    color: #1e3a8a !important;
-    opacity: 1 !important;
-    background: white !important;
-  }
-
-  /* Ensure dropdown items are visible */
-  .select__option, [role="option"], .dropdown-item {
-    background-color: white !important;
-    color: #1e3a8a !important;
-    opacity: 1 !important;
-  }
-
-  /* Critical fixes for mobile display */
-  @media (max-width: 767px) {
-    .homepage-style-title h1 {
-      font-size: 1.875rem !important;
-      text-align: center !important;
-      width: 100% !important;
-      display: block !important;
-    }
-
-    .homepage-style-title h1 span.text-blue-300 {
-      display: inline !important;
-      color: rgb(147, 197, 253) !important;
-    }
-
-    .homepage-style-subtitle {
-      font-size: 1rem !important;
-      text-align: center !important;
-      width: 100% !important;
-      display: block !important;
-    }
-
-    .transaction-portal-steps {
-      display: flex !important;
-      justify-content: center !important;
-      margin: 1rem auto !important;
-      width: fit-content !important;
-      overflow-y: hidden !important;
-    }
-
-    /* Remove scrollbars from left column */
-    .transaction-portal-container .xl\\:w-1\\/3 {
-      overflow-y: hidden !important;
-      max-height: none !important;
-    }
-  }
-`;
+import { TransactionForm } from "./TransactionForm.complete";
+import GlobalPageHero from "../GlobalPageHero";
+import { FileText, Shield, Clock, CheckCircle, Users, Home } from 'lucide-react';
+import Logo from '/logo-flat.png';
 
 interface PortalTransactionFormProps {
 }
 
 export const PortalTransactionForm: React.FC<PortalTransactionFormProps> = () => {
-  // State to track current step for the vertical wizard
-  const [currentStep, setCurrentStep] = useState(1);
 
-  // Listen for step changes from the TransactionForm component
+  // Set data attribute for styling and ensure header visibility
   useEffect(() => {
-    const handleStepChange = (event: CustomEvent) => {
-      if (event.detail && event.detail.step) {
-        setCurrentStep(event.detail.step);
+    document.body.setAttribute('data-transaction-page', 'true');
+
+    // Function to apply header styles
+    const applyHeaderStyles = () => {
+      const header = document.querySelector('header.main-navigation-header') as HTMLElement;
+      if (header) {
+        // Override any transform styles that might hide the header
+        header.style.transform = 'translate3d(0, 0, 0)';
+        header.style.position = 'fixed';
+        header.style.top = '0';
+        header.classList.add('site-header'); // Use design system z-index
+        header.style.visibility = 'visible';
+        header.style.opacity = '1';
+        return header;
+      } else {
+        return null;
       }
     };
 
-    // Add event listener
-    window.addEventListener('stepChange' as any, handleStepChange);
+    // Try to apply styles immediately
+    let header = applyHeaderStyles();
 
-    // Cleanup
+    // If header not found, retry after a short delay
+    if (!header) {
+      const retryTimer = setTimeout(() => {
+        header = applyHeaderStyles();
+      }, 100);
+
+      return () => {
+        clearTimeout(retryTimer);
+        document.body.removeAttribute('data-transaction-page');
+      };
+    }
+
     return () => {
-      window.removeEventListener('stepChange' as any, handleStepChange);
+      document.body.removeAttribute('data-transaction-page');
+      // Reset header styles when leaving transaction page
+      if (header) {
+        header.style.transform = '';
+        header.style.position = '';
+        header.style.top = '';
+        header.style.zIndex = '';
+        header.style.visibility = '';
+        header.style.opacity = '';
+      }
     };
   }, []);
 
-  // Function to handle clicking on a step in the vertical wizard
-  const handleStepClick = (stepId: number) => {
-    // Only allow clicking on completed steps (steps before the current step)
-    if (stepId < currentStep) {
-      // Dispatch an event to notify the TransactionForm component
-      const event = new CustomEvent('verticalStepClick', {
-        detail: { step: stepId }
+  // Force glass card styling to prevent JavaScript overrides
+  useEffect(() => {
+    const enforceGlassCardStyling = () => {
+      const glassCard = document.getElementById('transaction-glass-card-unique');
+      if (glassCard) {
+        // Apply glass card styles directly via JavaScript to override any CSS conflicts
+        glassCard.style.setProperty('background', 'rgba(30, 58, 138, 0.85)', 'important');
+        glassCard.style.setProperty('background-color', 'rgba(30, 58, 138, 0.85)', 'important');
+        glassCard.style.setProperty('backdrop-filter', 'blur(16px)', 'important');
+        glassCard.style.setProperty('-webkit-backdrop-filter', 'blur(16px)', 'important');
+        glassCard.style.setProperty('border', '1px solid rgba(59, 130, 246, 0.3)', 'important');
+        glassCard.style.setProperty('border-radius', '0.75rem', 'important');
+        glassCard.style.setProperty('box-shadow', '0 20px 35px -5px rgba(0, 0, 0, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.2) inset', 'important');
+        glassCard.style.setProperty('opacity', '1', 'important');
+        glassCard.style.setProperty('visibility', 'visible', 'important');
+        glassCard.style.setProperty('display', 'block', 'important');
+      }
+    };
+
+    // Apply immediately
+    enforceGlassCardStyling();
+
+    // Also apply after a short delay to catch any late-loading CSS
+    const timeoutId = setTimeout(enforceGlassCardStyling, 100);
+
+    // Set up a MutationObserver to watch for style changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+          enforceGlassCardStyling();
+        }
       });
-      window.dispatchEvent(event);
+    });
 
-      // Update local state as well
-      setCurrentStep(stepId);
+    const glassCard = document.getElementById('transaction-glass-card-unique');
+    if (glassCard) {
+      observer.observe(glassCard, { attributes: true, attributeFilter: ['style'] });
     }
-  };
 
-  // Features displayed on the sidebar
-  const features = [
-    {
-      icon: FileText,
-      title: "Fast Transaction Submission",
-      description: "Submit details through our user-friendly form designed for real estate professionals."
-    },
-    {
-      icon: Shield,
-      title: "Secure Handling",
-      description: "Your transaction information is securely processed and stored."
-    },
-    {
-      icon: Clock,
-      title: "Time-Saving",
-      description: "Save hours on paperwork with our efficient coordination service."
-    }
-  ];
-
-  // Inline styles for critical elements
-  const titleStyles: CSSProperties = {
-    width: '100%',
-    display: 'block',
-    textAlign: 'center',
-    wordBreak: 'normal',
-    whiteSpace: 'normal'
-  };
-
-  const subtitleStyles: CSSProperties = {
-    width: '100%',
-    display: 'block',
-    textAlign: 'center',
-    margin: '0 auto'
-  };
-
-  const stepsContainerStyles: CSSProperties = {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    margin: '1rem auto',
-    overflow: 'hidden' // Change from 'visible' to 'hidden' to prevent scrollbars
-  };
-
-  // Style for left column to prevent scrollbars
-  const leftColumnStyles: CSSProperties = {
-    maxHeight: 'none',
-    overflowY: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  };
+    return () => {
+      clearTimeout(timeoutId);
+      observer.disconnect();
+    };
+  }, []);
 
   return (
-    <TransactionHero className="py-2 px-0">
-      {/* Add style tag for dropdown fixes */}
-      <style dangerouslySetInnerHTML={{ __html: fixDropdownStyles }} />
+    <>
+      {/* CRITICAL LAYOUT FIXES - Override GlobalPageHero centering for transaction portal */}
+      <style>{`
+        /* HEADER VISIBILITY - Ultimate fix with maximum specificity */
+        html body header.main-navigation-header,
+        html body .main-navigation-header,
+        body[data-transaction-page="true"] header.main-navigation-header {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          width: 100% !important;
+          height: 80px !important;
+          z-index: 999999 !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          pointer-events: auto !important;
+          transform: translate3d(0, 0, 0) !important;
+          background-color: rgba(0, 0, 0, 0.95) !important;
+          backdrop-filter: blur(10px) !important;
+          -webkit-backdrop-filter: blur(10px) !important;
+          display: block !important;
+        }
 
-      <div className="transaction-portal-container mx-auto responsive-container" style={{ height: 'auto' }}>
-        {/* Left side - Title and features */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="xl:w-1/3 p-4 xl:p-5 flex flex-col xl:sticky xl:top-20 self-start"
-          style={{ ...leftColumnStyles, maxHeight: 'calc(100vh - 84px)' }}
-        >
-          {/* Title styled to match homepage hero */}
-          <div className="homepage-style-title mb-3 xl:mb-4 text-center xl:text-left" style={titleStyles}>
-            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-              <span className="title-wrapper">Submit a <span className="text-blue-300">New File</span></span>
-            </h1>
-          </div>
+        /* TRANSACTION PAGE LAYOUT - Ensure proper spacing and visibility */
+        .transaction-portal-page {
+          min-height: auto !important;
+          height: auto !important;
+          padding-top: 0 !important; /* GlobalPageHero already accounts for header */
+          padding-bottom: 2rem !important;
+          margin-top: 0 !important;
+          position: relative !important;
+          z-index: 1 !important;
+        }
 
-          <div className="subtitle-wrapper w-full" style={subtitleStyles}>
-            <p className="homepage-style-subtitle text-lg text-white/90 mb-3 xl:mb-4 leading-relaxed text-center xl:text-left">
-              Create a new file for properties under contract with our streamlined intake form.
-            </p>
-          </div>
+        /* LEFT SIDEBAR CONTENT - Ensure visibility and proper positioning */
+        .transaction-portal-page .xl\\:col-span-3 {
+          position: relative !important;
+          z-index: 100 !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          display: flex !important;
+          flex-direction: column !important;
+        }
 
-          {/* Features in glass cards - only shown on desktop layouts */}
-          <div className="space-y-3 mt-2 hidden xl:block">
-            {features.map((feature, index) => (
+        /* GRID LAYOUT - Ensure proper responsive behavior */
+        .transaction-portal-page .grid.grid-cols-1.xl\\:grid-cols-12 {
+          display: grid !important;
+          grid-template-columns: 1fr !important;
+          gap: 2rem !important;
+        }
+
+        @media (min-width: 1280px) {
+          .transaction-portal-page .grid.grid-cols-1.xl\\:grid-cols-12 {
+            grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+            gap: 3rem !important;
+          }
+        }
+
+        /* CONTENT CONTAINER - Ensure proper layout flow */
+        .transaction-portal-page .relative.z-20.w-full {
+          position: relative !important;
+          z-index: 20 !important;
+          width: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          display: block !important;
+          overflow: visible !important;
+        }
+
+        /* CONTAINER SPACING - Remove conflicting padding/margins */
+        .transaction-portal-page .container.mx-auto {
+          padding-top: 2rem !important;
+          padding-bottom: 2rem !important;
+          margin-top: 0 !important;
+          position: relative !important;
+          z-index: 10 !important;
+        }
+
+        /* MOTION ELEMENTS - Ensure animations don't break layout */
+        .transaction-portal-page [data-framer-motion] {
+          position: relative !important;
+          z-index: inherit !important;
+        }
+
+        /* Ensure persistent background doesn't interfere with header */
+        .background-slideshow {
+          z-index: -1 !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          position: fixed !important;
+        }
+
+        /* Ensure overlays don't cover header */
+        .background-slideshow > div[style*="z-index"] {
+          z-index: 1 !important;
+        }
+
+        /* Transaction form specific styling */
+        .transaction-portal-form-container {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          width: 100% !important;
+          height: auto !important;
+          overflow: visible !important;
+          display: block !important;
+        }
+
+        /* Fix glass card container constraints */
+        .glass-card-navy[data-transaction-card="true"] {
+          height: auto !important;
+          min-height: auto !important;
+          max-height: none !important;
+          overflow: visible !important;
+          width: 100% !important;
+        }
+
+        /* Ensure transaction form premium styling takes precedence */
+        .transaction-portal-form-container .transaction-form-premium {
+          width: 100% !important;
+          max-width: none !important;
+          height: auto !important;
+          min-height: auto !important;
+          max-height: none !important;
+          overflow: visible !important;
+          margin: 0 !important;
+          padding: 2rem !important;
+        }
+
+        /* Form field styling for better contrast - consolidated */
+        .transaction-portal-form-container input:not([type="radio"]):not([type="checkbox"]),
+        .transaction-portal-form-container select,
+        .transaction-portal-form-container textarea,
+        .transaction-portal-form-container [data-radix-select-trigger],
+        .transaction-portal-form-container [role="combobox"] {
+          background-color: white !important;
+          background: white !important;
+          color: #1e3a8a !important;
+          border: 1px solid rgba(59, 130, 246, 0.4) !important;
+          border-radius: 0.5rem !important;
+          padding: 0.75rem 1rem !important;
+          opacity: 1 !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+          transition: all 0.2s ease-in-out !important;
+        }
+
+        /* Button styling */
+        .transaction-portal-form-container button {
+          background-color: #3b82f6 !important;
+          color: white !important;
+          border: none !important;
+          opacity: 1 !important;
+        }
+
+        /* Comprehensive text styling for proper contrast */
+        .transaction-portal-form-container label,
+        .transaction-portal-form-container .form-label,
+        .transaction-portal-form-container .section-title,
+        .transaction-portal-form-container h1,
+        .transaction-portal-form-container h2,
+        .transaction-portal-form-container h3,
+        .transaction-portal-form-container h4,
+        .transaction-portal-form-container h5,
+        .transaction-portal-form-container h6,
+        .transaction-portal-form-container p,
+        .transaction-portal-form-container span,
+        .transaction-portal-form-container div {
+          color: white !important;
+        }
+
+        /* Placeholder styling */
+        .transaction-portal-form-container input::placeholder,
+        .transaction-portal-form-container textarea::placeholder {
+          color: #9ca3af !important;
+          opacity: 0.8 !important;
+        }
+
+        /* Focus states for form fields */
+        .transaction-portal-form-container input:focus,
+        .transaction-portal-form-container select:focus,
+        .transaction-portal-form-container textarea:focus,
+        .transaction-portal-form-container [data-radix-select-trigger]:focus,
+        .transaction-portal-form-container [role="combobox"]:focus {
+          border-color: #3b82f6 !important;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+          background-color: white !important;
+        }
+
+        /* Fix for any remaining dark text elements */
+        .transaction-portal-form-container .text-gray-800,
+        .transaction-portal-form-container .text-gray-700,
+        .transaction-portal-form-container .text-gray-600,
+        .transaction-portal-form-container .text-gray-500,
+        .transaction-portal-form-container .text-blue-800,
+        .transaction-portal-form-container .text-blue-700,
+        .transaction-portal-form-container .text-blue-600 {
+          color: white !important;
+        }
+
+        /* Fix for percentage and dollar signs */
+        .transaction-portal-form-container .absolute.right-3,
+        .transaction-portal-form-container .absolute.left-3 {
+          color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        /* Fix for error text to remain red but visible */
+        .transaction-portal-form-container .text-red-500 {
+          color: #f87171 !important;
+        }
+
+        /* Fix for required asterisks */
+        .transaction-portal-form-container .text-red-500 {
+          color: #fca5a5 !important;
+        }
+
+        /* Ultra-high specificity fixes for tf- classes */
+        .transaction-portal-form-container .tf-heading-secondary,
+        .transaction-portal-form-container .tf-heading-tertiary,
+        .transaction-portal-form-container .tf-text-subtitle,
+        .transaction-portal-form-container .tf-label,
+        .transaction-portal-form-container .tf-checkbox-label,
+        .transaction-portal-form-container .tf-help-text {
+          color: white !important;
+        }
+
+        /* Fix for links in dark background */
+        .transaction-portal-form-container .tf-link,
+        .transaction-portal-form-container a {
+          color: #93c5fd !important;
+        }
+
+        .transaction-portal-form-container .tf-link:hover,
+        .transaction-portal-form-container a:hover {
+          color: #bfdbfe !important;
+        }
+
+        /* Enhanced role selection card styling */
+        .transaction-portal-form-container .tf-role-card {
+          background: rgba(255, 255, 255, 0.98) !important;
+          border: 2px solid rgba(59, 130, 246, 0.5) !important;
+          border-radius: 0.75rem !important;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12) !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .transaction-portal-form-container .tf-role-card:hover {
+          transform: translateY(-4px) scale(1.02) !important;
+          border-color: rgba(59, 130, 246, 0.8) !important;
+          box-shadow: 0 12px 25px rgba(59, 130, 246, 0.25) !important;
+          background: rgba(255, 255, 255, 1) !important;
+        }
+
+        .transaction-portal-form-container .tf-role-card.selected {
+          border-color: #3b82f6 !important;
+          background: rgba(219, 234, 254, 0.95) !important;
+          transform: translateY(-2px) scale(1.03) !important;
+          box-shadow: 0 16px 30px rgba(59, 130, 246, 0.3) !important;
+        }
+
+        /* ULTRA-HIGH SPECIFICITY FIXES: Force form content to be visible and properly styled */
+        html body .transaction-portal-form-container .transaction-form-premium .tf-step-content .tf-section-glass-card .tf-role-card,
+        html body .transaction-portal-form-container .tf-role-card,
+        html body div.transaction-portal-form-container div.transaction-form-premium div.tf-step-content div.tf-section-glass-card div.tf-role-card {
+          background: rgba(255, 255, 255, 0.98) !important;
+          border: 2px solid rgba(59, 130, 246, 0.5) !important;
+          border-radius: 0.75rem !important;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12) !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          display: flex !important;
+          flex-direction: column !important;
+          justify-content: space-between !important;
+          min-height: 170px !important;
+          padding: 1.25rem !important;
+          cursor: pointer !important;
+          color: #1e40af !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          position: relative !important;
+          z-index: 10 !important;
+        }
+
+        /* Force all form sections to be visible */
+        html body .transaction-portal-form-container .transaction-form-premium,
+        html body .transaction-portal-form-container .tf-step-content,
+        html body .transaction-portal-form-container .tf-section-glass-card,
+        html body .transaction-portal-form-container .tf-section-header {
+          display: block !important;
+          width: 100% !important;
+          height: auto !important;
+          overflow: visible !important;
+          position: relative !important;
+          z-index: 1 !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
+        /* Force role cards grid to be visible */
+        html body .transaction-portal-form-container .tf-role-cards {
+          display: grid !important;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+          gap: 1rem !important;
+          width: 100% !important;
+          margin: 1rem 0 !important;
+        }
+
+        /* Force all text content to be visible on dark background */
+        html body .transaction-portal-form-container .tf-section-header h2,
+        html body .transaction-portal-form-container .tf-section-header p,
+        html body .transaction-portal-form-container label,
+        html body .transaction-portal-form-container span,
+        html body .transaction-portal-form-container div {
+          color: white !important;
+        }
+
+        /* Force form inputs to have white background and dark text */
+        html body .transaction-portal-form-container input,
+        html body .transaction-portal-form-container select,
+        html body .transaction-portal-form-container textarea {
+          background: white !important;
+          color: #1e3a8a !important;
+          border: 1px solid rgba(59, 130, 246, 0.3) !important;
+          border-radius: 0.375rem !important;
+          padding: 0.5rem 0.75rem !important;
+        }
+
+        /* Force navigation buttons to be visible */
+        html body .transaction-portal-form-container .tf-form-navigation {
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+          width: 100% !important;
+          margin-top: 2rem !important;
+          padding: 1rem !important;
+          background: rgba(255, 255, 255, 0.1) !important;
+          border-radius: 0.5rem !important;
+        }
+
+        html body .transaction-portal-form-container .tf-button {
+          background: #3b82f6 !important;
+          color: white !important;
+          border: none !important;
+          padding: 0.5rem 1rem !important;
+          border-radius: 0.375rem !important;
+          cursor: pointer !important;
+        }
+
+        /* CRITICAL: Fix glass card styling to show proper transparency */
+        .hero-glass-card.transaction-form-card {
+          background: rgba(30, 58, 138, 0.85) !important;
+          backdrop-filter: blur(16px) !important;
+          -webkit-backdrop-filter: blur(16px) !important;
+          border: 1px solid rgba(59, 130, 246, 0.3) !important;
+          border-radius: 0.75rem !important;
+          box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.2) inset !important;
+          color: white !important;
+          position: relative !important;
+          overflow: visible !important;
+        }
+
+        /* ULTRA-HIGH SPECIFICITY: Override any conflicting glass card styles */
+        html body div.transaction-portal-page div.container div.grid div.xl\\:col-span-9 div.hero-glass-card.transaction-form-card[data-transaction-card="true"],
+        html body div.transaction-portal-page div.container div.grid div.xl\\:col-span-9 div.glass-card-navy[data-transaction-card="true"],
+        html body div.transaction-portal-page div.container div.grid div.xl\\:col-span-9 div[data-transaction-card="true"].hero-glass-card {
+          background: rgba(30, 58, 138, 0.85) !important;
+          background-color: rgba(30, 58, 138, 0.85) !important;
+          backdrop-filter: blur(16px) !important;
+          -webkit-backdrop-filter: blur(16px) !important;
+          border: 1px solid rgba(59, 130, 246, 0.3) !important;
+          border-radius: 0.75rem !important;
+          box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.2) inset !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          display: block !important;
+        }
+
+        /* NUCLEAR OPTION: Maximum specificity override */
+        html body div.transaction-portal-page div.container.px-4.md\\:px-6.lg\\:px-8.mx-auto.transaction-page-container.w-full div.grid.grid-cols-1.xl\\:grid-cols-12.gap-8.xl\\:gap-12 div.xl\\:col-span-9.transaction-form-card-container.w-full.mt-4.xl\\:mt-0.xl\\:ml-6 div.hero-glass-card.transaction-form-card.relative.p-4.md\\:p-6[data-glass-card="true"][data-transaction-card="true"] {
+          background: rgba(30, 58, 138, 0.85) !important;
+          background-color: rgba(30, 58, 138, 0.85) !important;
+          backdrop-filter: blur(16px) !important;
+          -webkit-backdrop-filter: blur(16px) !important;
+          border: 1px solid rgba(59, 130, 246, 0.3) !important;
+          border-radius: 0.75rem !important;
+          box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.2) inset !important;
+        }
+
+        /* ULTIMATE OVERRIDE: ID-based targeting with maximum specificity */
+        html body div.transaction-portal-page div.container div.grid div.xl\\:col-span-9 div#transaction-glass-card-unique.hero-glass-card.transaction-form-card[data-glass-card="true"][data-transaction-card="true"] {
+          background: rgba(30, 58, 138, 0.85) !important;
+          background-color: rgba(30, 58, 138, 0.85) !important;
+          backdrop-filter: blur(16px) !important;
+          -webkit-backdrop-filter: blur(16px) !important;
+          border: 1px solid rgba(59, 130, 246, 0.3) !important;
+          border-radius: 0.75rem !important;
+          box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.2) inset !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          display: block !important;
+        }
+      `}</style>
+      <GlobalPageHero
+        minHeight="auto"
+        className="transaction-portal-page"
+        overlayOpacity="bg-black/85"
+        overlayColor="from-blue-900/95 via-blue-900/90 to-blue-900/95"
+      >
+      <motion.div
+        className="container px-4 md:px-6 lg:px-8 mx-auto transaction-page-container w-full portal-container"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.4,
+            ease: [0.2, 0.0, 0.2, 1.0],
+            delay: 0.05
+          }
+        }}
+      >
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 xl:gap-12">
+          {/* Left Side - Information Panel (reduced width for better form space) */}
+          <motion.div
+            className="xl:col-span-3 flex flex-col justify-center space-y-6 portal-sidebar"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.2, 0.0, 0.2, 1.0] }}
+          >
+            {/* Logo and Title */}
+            <div className="text-center xl:text-left">
+              <div className="flex justify-center xl:justify-start mb-6">
+                <div className="relative group">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-brand-gold rounded-lg opacity-0 group-hover:opacity-75 blur transition duration-300" />
+                  <img
+                    src={Logo}
+                    alt="PA Real Estate Support Services"
+                    className="h-16 relative"
+                  />
+                </div>
+              </div>
+
+              <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+                Transaction Intake Form
+              </h1>
+              <p className="text-xl text-blue-100 mb-8">
+                Submit your real estate transaction details quickly and securely
+              </p>
+            </div>
+
+            {/* Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 10 }}
+                className="flex items-start space-x-4"
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
-                whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                className="feature-glass-card bg-blue-900/95 backdrop-blur-xl border border-blue-700/30 rounded-lg p-4 flex items-start hover:bg-blue-800/90 hover:border-blue-600/40 transition-all"
+                transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <div className="transaction-portal-feature-icon mr-3 mt-1 text-blue-300">
-                  <feature.icon size={22} />
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <FileText className="w-6 h-6 text-blue-300" />
+                  </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
-                  <p className="text-white/80 text-sm leading-relaxed">{feature.description}</p>
+                  <h3 className="text-lg font-semibold text-white mb-2">Digital Processing</h3>
+                  <p className="text-blue-100 text-sm">
+                    Streamlined digital workflow for faster transaction processing
+                  </p>
                 </div>
               </motion.div>
-            ))}
-          </div>
 
-          {/* Step indicators */}
-          <div className="steps-container w-full flex justify-center xl:justify-start" style={stepsContainerStyles}>
-            <div className="transaction-portal-steps mt-4 xl:mt-8 mx-auto xl:mx-0" style={{ overflowY: 'hidden' }}>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(step => (
-                <div
-                  key={step}
-                  className={`transaction-portal-step ${step === currentStep ? 'transaction-portal-step-active' : ''}`}
-                  onClick={() => handleStepClick(step)}
-                />
-              ))}
+              <motion.div
+                className="flex items-start space-x-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-blue-300" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Secure & Compliant</h3>
+                  <p className="text-blue-100 text-sm">
+                    Bank-level security with full regulatory compliance
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="flex items-start space-x-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-blue-300" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Real-time Updates</h3>
+                  <p className="text-blue-100 text-sm">
+                    Track your transaction status with live notifications
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="flex items-start space-x-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+              >
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <CheckCircle className="w-6 h-6 text-blue-300" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Expert Support</h3>
+                  <p className="text-blue-100 text-sm">
+                    Professional guidance throughout the entire process
+                  </p>
+                </div>
+              </motion.div>
             </div>
-          </div>
-        </motion.div>
 
-        {/* Right side - Transaction Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="xl:w-2/3 flex-grow mt-4 xl:mt-0"
-          style={{ minHeight: '600px' }}
-        >
-          <div className="transaction-portal-card h-full flex flex-col">
-            <div className="top-wizard-container z-20 sticky top-0 bg-blue-900/95 backdrop-blur-xl px-4 py-2 rounded-t-xl border-b border-blue-700/30">
-              <div className="flex justify-between overflow-x-auto space-x-2 py-1 scrollbar-hide">
-                {[
-                  { id: 1, title: "Agent Role" },
-                  { id: 2, title: "Property" },
-                  { id: 3, title: "Clients" },
-                  { id: 4, title: "Commission" },
-                  { id: 5, title: "Details" },
-                  { id: 6, title: "Documents" },
-                  { id: 7, title: "Additional" },
-                  { id: 8, title: "Review" },
-                  { id: 9, title: "Sign" }
-                ].map(step => (
-                  <button
-                    key={step.id}
-                    className={`flex items-center justify-center rounded-full min-w-8 h-8 text-xs font-medium transition-all tooltip-container
-                      ${step.id === currentStep
-                        ? 'bg-blue-500 text-white shadow-md'
-                        : step.id < currentStep
-                          ? 'bg-blue-200 text-blue-800 hover:bg-blue-300'
-                          : 'bg-blue-800/50 text-blue-200/50'}`}
-                    aria-current={step.id === currentStep ? "step" : undefined}
-                    data-step-name={step.title}
-                    data-completed={step.id < currentStep ? "true" : "false"}
-                    onClick={() => handleStepClick(step.id)}
-                  >
-                    <span>{step.id}</span>
-                    <span className="tooltip">{step.title}</span>
-                  </button>
-                ))}
+            {/* Stats section */}
+            <motion.div
+              className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+            >
+              <div className="text-center">
+                <p className="text-2xl font-bold text-white">24/7</p>
+                <p className="text-xs text-blue-100">Support Available</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-white">Fast</p>
+                <p className="text-xs text-blue-100">Processing Time</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-white">Secure</p>
+                <p className="text-xs text-blue-100">Data Protection</p>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Right Side - Transaction Form Card (expanded for better usability with increased spacing) */}
+          <motion.div
+            className="xl:col-span-9 transaction-form-card-container w-full mt-4 xl:mt-0 xl:ml-6 portal-form-area"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.2, 0.0, 0.2, 1.0] }}
+          >
+            <div
+              className="hero-glass-card transaction-form-card transaction-glass-card-fixed relative p-4 md:p-6 form-card"
+              data-glass-card="true"
+              data-transaction-card="true"
+              id="transaction-glass-card-unique"
+              style={{
+                height: 'auto',
+                minHeight: '600px',
+                maxHeight: 'none',
+                overflow: 'visible',
+                background: 'rgba(30, 58, 138, 0.85)',
+                backgroundColor: 'rgba(30, 58, 138, 0.85)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(59, 130, 246, 0.3)',
+                borderRadius: '0.75rem',
+                boxShadow: '0 20px 35px -5px rgba(0, 0, 0, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.2) inset'
+              }}
+            >
+              <div className="relative">
+                {/* Transaction Form Container */}
+                <div className="transaction-portal-form-container">
+                  <TransactionForm />
+                </div>
+
+                {/* Footer */}
+                <div className="transaction-portal-footer mt-4 pt-3 border-t border-white/20">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center">
+                      <p className="text-sm font-semibold text-white">Secure</p>
+                      <p className="text-xs text-blue-100">SSL Encrypted</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm font-semibold text-white">Support</p>
+                      <p className="text-xs text-blue-100">24/7 Available</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Main form content with TransactionForm component */}
-            <div className="transaction-portal-form-container flex-grow overflow-y-auto">
-              <TransactionForm />
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </TransactionHero>
+          </motion.div>
+        </div>
+      </motion.div>
+    </GlobalPageHero>
+    </>
   );
 };

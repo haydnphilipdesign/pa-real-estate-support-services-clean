@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import PageHeroWrapper from "../components/PageHeroWrapper";
 import { FileSearch, Database, Clock, CheckSquare, Shield, Users, FileText, Briefcase, CheckCircle, ArrowRight } from "lucide-react";
-import { UnifiedButton } from '../components/ui/unified-button';
+import { Button } from '@/components/ui';
 import useScrollToTop from "../hooks/useScrollToTop";
 import ContentSection from "../components/ContentSection";
 import ContentCard from "../components/ContentCard";
@@ -165,7 +165,7 @@ const Services: React.FC = () => {
         subtitle="Comprehensive transaction support to help your business thrive"
         style={{ paddingTop: '40px', paddingBottom: '80px', display: 'flex', alignItems: 'flex-start', justifyContent: 'center' }}
       >
-        <UnifiedButton
+        <Button
           to="/agent-portal"
           variant="glass"
           size="lg"
@@ -183,7 +183,7 @@ const Services: React.FC = () => {
           iconPosition="right"
         >
           Start a Transaction
-        </UnifiedButton>
+        </Button>
       </PageHeroWrapper>
 
       {/* Services Overview Section */}

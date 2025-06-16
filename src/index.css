@@ -1,355 +1,166 @@
-/* Enhanced Glass Card System - May 2025 Update */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap');
-@import './styles/glass-cards.css';
-@import './styles/glass-cards-improved.css';
-@import './styles/glass-cards-3d-effects.css'; /* New 3D effects for glass cards */
-@import './styles/enhanced-text-contrast.css';
-@import './styles/hero-vertical-centering.css'; /* Hero vertical spacing and centering */
-@import './styles/service-list-fixes.css'; /* Fix for hero badge and service list alignment */
-@import './styles/animation-consistency.css'; /* Ensure consistent animations across the site */
-@import './styles/pages/transaction-form-portal.css'; /* Transaction form portal styling - isolated from other components */
-@import './styles/pages/transaction-form.css'; /* Transaction form styles with isolation */
-@import './styles/form-field-background-fix.css'; /* Emergency fix for form field backgrounds */
+/**
+ * =====================================================
+ * PA REAL ESTATE SUPPORT SERVICES - MAIN STYLESHEET
+ * =====================================================
+ * 
+ * This is the main entry point for all CSS styling.
+ * It imports our unified design system architecture and Tailwind CSS.
+ * 
+ * IMPORT ORDER:
+ * 1. Tailwind CSS base styles
+ * 2. Core Design System (design tokens, base styles, components)
+ * 3. Enhanced UX & Accessibility features
+ * 4. Responsive design enhancements
+ * 5. Premium animations
+ * 6. Tailwind CSS components and utilities
+ * 
+ * ARCHITECTURE (2025 REBUILD):
+ * - Modular design system with proper separation of concerns
+ * - Design token-based theming system
+ * - WCAG AA compliant accessibility features
+ * - Mobile-first responsive design
+ * - Performance-optimized animations
+ * - Glass morphism UI with proper browser support
+ */
 
-html, body {
-  margin: 0;
-  padding: 0;
-}
+/* Import all CSS files first, then Tailwind */
+@import './styles/design-system.css';
+@import './styles/accessibility-ux.css';
+@import './styles/responsive-enhancements.css';
+@import './styles/premium-animations.css';
+@import './styles/final-polish.css';
 
-/* Ensure header is always visible above all other elements */
-header.main-navigation-header {
-  z-index: 99999 !important; /* Increased z-index for maximum visibility */
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  height: 80px !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  transform: none !important;
-  display: block !important; /* Force display */
-}
-
-/* Eliminate any gaps between hero sections and following content */
-section[data-hero-container] {
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-/* Ensure seamless section connections */
-section.bg-gradient-to-br {
-  margin-top: -1px !important;
-}
-
-/* Force SimpleHero to have no bottom spacing */
-section[data-hero-component] {
-  margin-bottom: -1px !important;
-  padding-bottom: 0 !important;
-}
-
-/* Ensure MainLayout doesn't add unwanted spacing */
-main.relative {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Ultimate header visibility fix - most specific selector */
-body header.main-navigation-header,
-body .main-navigation-header,
-html header.main-navigation-header {
-  z-index: 999999 !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background-color: rgba(0, 0, 0, 0.7) !important; /* Changed from solid black to semi-transparent */
-  pointer-events: auto !important;
-  transition: none !important;
-  animation: none !important;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
-}
-
-/* Ensure the header's children are also visible */
-header.main-navigation-header * {
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* We no longer need extra padding since we're using DOM manipulation for the header */
-/* The header is now properly positioned with direct DOM manipulation */
-
-/* Tailwind directives */
+/* Import Tailwind CSS after all @import statements */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* —————————————————————————————————————————————
-   YOUR CUSTOM STYLES
-————————————————————————————————————————————— */
+/* =====================================================
+   LEGACY COMPATIBILITY & SPECIFIC OVERRIDES
+   ===================================================== */
 
-/* 1) Global resets and variables */
-:root {
-  --brand-red:   #c0392b;
-  --brand-navy:  #2c3e50;
-  --brand-tan:   #d2b48c;
-  --brand-gold:  #eac87d;
-  --brand-blue:  #3b82f6; /* Standard blue color for consistency */
-}
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
-
+/**
+ * Ensure no background styles interfere with our design system
+ * These overrides ensure the page background remains transparent
+ * for the background image/video to show through properly
+ */
+html,
 body {
-  @apply text-gray-800 leading-relaxed;
+  background: none !important;
+  background-color: transparent !important;
+}
+
+/**
+ * Ensure all main layout containers are transparent
+ * This prevents any background colors from blocking the main background
+ */
+#root,
+.app,
+.main-content {
+  background: transparent;
   background-color: transparent;
 }
 
-/* 2) Component styles */
-@layer components {
-  .card {
-    @apply bg-white shadow-md p-6 rounded-lg;
-    background-color: white !important;
-  }
-  .button-primary {
-    @apply inline-block bg-brand-red text-white font-semibold py-2 px-4 rounded;
-  }
+/**
+ * Transaction form specific styles
+ * Enhanced with design tokens for consistency
+ */
+.transaction-form-container {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  margin: var(--space-6) auto;
+  max-width: 800px;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* 3) Utility extensions */
-@layer utilities {
-  .text-xxs { font-size: 0.625rem; }
-  .content-auto { content-visibility: auto; }
-}
-
-/* 4) Slideshow and persistent background fixes */
-[data-persistent-background="true"] {
-  visibility: visible !important;
-  opacity: 1 !important;
-  z-index: -1 !important;
+/**
+ * Page-specific overrides for components that need special treatment
+ * Uses design tokens for consistent theming
+ */
+.login-page footer,
+.transaction-page footer {
   display: block !important;
-}
-
-.persistent-background img {
-  display: block !important;
-  opacity: 1 !important;
   visibility: visible !important;
+  background-color: var(--neutral-900) !important;
+  color: var(--neutral-50) !important;
 }
 
-/* 5) Glass Card visibility fixes */
-.glass-card,
-.glass-card-navy,
-.glass-card-blue,
-.glass-card-dark,
-.glass-card-orange,
-.glass-card-gold,
-.glass-card-on-white,
-.glass-card-white,
-.glass-card-frost,
-.glass-card-light,
-.service-card,
-.statistics-card,
-.card {
-  visibility: visible !important;
-  opacity: 1 !important;
-  display: block !important;
-  overflow: visible !important;
+/**
+ * Ensure proper text contrast in all scenarios
+ * Updated to use design tokens and improved accessibility
+ */
+.hero-content * {
+  color: var(--neutral-50);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Ensure card content is visible */
-.card *,
-.glass-card *,
+.glass-card-dark *,
 .glass-card-navy *,
 .glass-card-blue *,
-.glass-card-dark *,
-.glass-card-orange *,
-.glass-card-gold *,
-.glass-card-on-white *,
-.glass-card-white *,
-.glass-card-frost *,
-.glass-card-light *,
-.service-card *,
-.statistics-card * {
-  visibility: visible !important;
-  opacity: 1 !important;
+.glass-card-blue h1,
+.glass-card-blue h2,
+.glass-card-blue h3,
+.glass-card-blue h4,
+.glass-card-blue h5,
+.glass-card-blue h6,
+.glass-card-blue p,
+.glass-card-blue span,
+.glass-card-blue div {
+  color: var(--neutral-50) !important;
 }
 
-/* Ensure content appears above the background */
-.app-root, main, header, footer {
-  position: relative;
-  z-index: 1;
+.glass-card-light * {
+  color: var(--neutral-800);
 }
 
-/* Login form specific overrides */
-.login-password {
-  color: white !important;
-  background-color: rgba(255, 255, 255, 0.2) !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
+/**
+ * Component-specific enhancements that extend the design system
+ * All components use design tokens for consistency
+ */
+.signature-pad-container {
+  background: var(--neutral-50);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  border: 2px solid var(--neutral-200);
+  margin: var(--space-4) 0;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
 }
 
-/* Ensure Acknowledgements heading is white */
-#acknowledgements-heading,
-.acknowledgements-heading,
-h5.acknowledgements-heading,
-div[class*="bg-[#102042]"] h5,
-[data-signature-heading="true"],
-[data-override-contrast="true"] h5 {
-  color: white !important;
-  text-shadow: none !important;
+.signature-pad-container:focus-within {
+  border-color: var(--brand-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Extra-high specificity override for Acknowledgements heading */
-.max-w-5xl.mx-auto .p-4.bg-\[\#102042\]\/70 h5,
-div[data-override-contrast="true"] > h5[data-signature-heading="true"],
-.field-group .space-y-4 .p-4 h5 {
-  color: white !important;
+.pdf-preview-container {
+  background: var(--neutral-50);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  margin: var(--space-6) 0;
+  border: 1px solid var(--neutral-200);
+  transition: all var(--transition-normal);
 }
 
-/* Ensure checkbox labels in SignatureSection are white */
-label[for="termsAccepted"],
-label[for="infoConfirmed"],
-.p-4.bg-\[\#102042\]\/70 label,
-[data-override-contrast="true"] label,
-.signature-label {
-  color: white !important;
-  text-shadow: none !important;
-  --tw-text-opacity: 1 !important;
+.pdf-preview-container:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
 }
 
-/* Super high specificity selectors to make absolutely sure */
-body .signature-label,
-html [data-override-contrast="true"] label,
-#root .p-4.bg-\[\#102042\]\/70 div.flex.items-start label,
-[data-form-signature="true"] label,
-[data-override-contrast="true"] label[for="termsAccepted"],
-[data-override-contrast="true"] label[for="infoConfirmed"] {
-  color: white !important;
+/**
+ * Animation performance optimization
+ * Ensure smooth animations with proper GPU acceleration
+ */
+.animate-on-scroll {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
-/* Make header non-sticky ONLY on transaction form pages */
-body[data-transaction-page="true"] header.main-navigation-header {
-  position: relative !important;
-  top: auto !important;
-}
-
-/* Fix for the agent portal page specifically */
-#agent-portal-page header.main-navigation-header {
-  position: relative !important;
-  top: auto !important;
-}
-
-/* Footer link color override */
-footer a.text-gray-400,
-footer a[class*="text-gray-400"],
-footer.bg-gray-900 a.text-gray-400,
-footer.bg-gray-900 h3 + ul a,
-footer ul a.text-gray-400 {
-  color: #94a3b8 !important; /* gray-400 */
-}
-
-footer a.text-gray-400:hover,
-footer a[class*="text-gray-400"]:hover,
-footer.bg-gray-900 a.text-gray-400:hover,
-footer.bg-gray-900 h3 + ul a:hover,
-footer ul a.text-gray-400:hover {
-  color: white !important;
-}
-
-/* Make sure footer headings are visible */
-footer h3.text-white,
-footer .text-white.font-semibold {
-  color: white !important;
-}
-
-/* Brand color overrides */
-.bg-amber-500, .bg-yellow-500, .bg-orange-500, .bg-brand-gold {
-  background-color: #eac87d !important;
-}
-
-/* Standardized blue color for consistency across the entire site */
-.bg-blue-400, .bg-blue-500, .bg-blue-600, .bg-brand-blue {
-  background-color: var(--brand-blue) !important;
-}
-
-.text-blue-400, .text-blue-500, .text-blue-600, .text-brand-blue {
-  color: var(--brand-blue) !important;
-}
-
-.border-blue-400, .border-blue-500, .border-blue-600, .border-brand-blue {
-  border-color: var(--brand-blue) !important;
-}
-
-/* Feature icons in hero sections */
-.w-10.h-10.bg-blue-500\/20 .text-blue-300,
-.bg-blue-600\/10 .text-brand-blue,
-.glass-card-navy .text-blue-300,
-.glass-card-blue .text-blue-300,
-.text-blue-300 {
-  color: var(--brand-blue) !important;
-  opacity: 0.9;
-}
-
-/* Testimonial text colors */
-.text-blue-200, p.text-blue-200, .text-sm.text-blue-200 {
-  color: var(--brand-blue) !important;
-  opacity: 0.8;
-}
-
-/* Specific component selectors to ensure brand blue consistency - ONLY for blue text elements */
-.hero-blue-text,
-.text-blue-400,
-.text-blue-500,
-.text-blue-600,
-span.text-blue-500,
-span.text-blue-400,
-span.text-blue-600,
-.text-brand-blue,
-span.text-brand-blue,
-.blue-highlight,
-.blue-highlight *,
-h1 span.text-blue-500,
-.agent-portal-title.text-blue-500,
-h1.agent-portal-title > span.agent-portal-text {
-  color: var(--brand-blue) !important;
-  -webkit-text-fill-color: var(--brand-blue) !important;
-}
-
-/* Special cases for page-specific elements */
-.login-page-container h1.agent-portal-title > span,
-[data-special-title="true"],
-.block.text-blue-400,
-.block.text-blue-200.drop-shadow-lg[data-special-title="true"] {
-  color: var(--brand-blue) !important;
-  -webkit-text-fill-color: var(--brand-blue) !important;
-}
-
-.hover\:bg-amber-600:hover, .hover\:bg-yellow-600:hover, .hover\:bg-orange-600:hover {
-  background-color: rgba(234, 200, 125, 0.9) !important;
-}
-
-.text-amber-500, .text-yellow-500, .text-orange-500, .text-brand-gold {
-  color: #eac87d !important;
-}
-
-.border-amber-500, .border-yellow-500, .border-orange-500, .border-brand-gold {
-  border-color: #eac87d !important;
-}
-
-/* Specific overrides for gradients */
-.from-amber-500, .from-yellow-500, .from-orange-500, .from-brand-gold {
-  --tw-gradient-from: #eac87d !important;
-}
-
-.to-amber-500, .to-yellow-500, .to-orange-500, .to-brand-gold {
-  --tw-gradient-to: #eac87d !important;
-}
-
-.via-amber-500, .via-yellow-500, .via-orange-500, .via-brand-gold {
-  --tw-gradient-stops: var(--tw-gradient-from), #eac87d, var(--tw-gradient-to) !important;
-}
-
+/* =====================================================
+   END OF MAIN STYLESHEET
+   ===================================================== */

@@ -1,59 +1,57 @@
 import React from 'react';
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
-import { AdditionalInfoData } from "@/types/transaction";
 import { FileText } from "lucide-react";
+import type { TransactionFormData } from './hooks/useTransactionFormState';
 
 interface AdditionalInfoSectionProps {
-  data: AdditionalInfoData;
-  onChange: (field: keyof AdditionalInfoData, value: any) => void;
+  formData: TransactionFormData;
+  onChange: <K extends keyof TransactionFormData>(field: K, value: TransactionFormData[K]) => void;
+  validationErrors?: Record<string, string>;
+  touchedFields?: Set<string>;
+  onFieldTouch?: (field: string) => void;
 }
 
 export const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
-  data,
-  onChange
+  formData,
+  onChange,
+  validationErrors = {},
+  touchedFields = new Set(),
+  onFieldTouch
 }) => {
   return (
-    <div className="space-y-8 w-full">
-      {/* Section Header */}
-
-
-      {/* Responsive Grid */}
-      <div className="grid md:grid-cols-2 gap-x-8 gap-y-8">
-        {/* Left Column: Special Instructions & Urgent Issues */}
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="specialInstructions" className="text-base text-white font-medium">Special Instructions</Label>
-            <Textarea
-              id="specialInstructions"
-              value={data.specialInstructions}
-              onChange={(e) => onChange('specialInstructions', e.target.value)}
-              placeholder="e.g. Deliver keys to lockbox, notify client before showings, etc."
-              className="min-h-[90px] bg-blue-50 border border-blue-200 text-blue-900 placeholder:text-blue-400 rounded-lg px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-400"
-            />
+    <div className="tf-additional-info">
+      <div className="tf-glass-card">
+        <div className="tf-flex tf-items-center tf-mb-4">
+          <div className="tf-icon-container">
+            <FileText className="tf-icon" />
           </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="urgentIssues" className="text-base text-white font-medium">Urgent Issues</Label>
-            <Textarea
-              id="urgentIssues"
-              value={data.urgentIssues}
-              onChange={(e) => onChange('urgentIssues', e.target.value)}
-              placeholder="e.g. Appraisal deadline approaching, missing signatures, etc."
-              className="min-h-[90px] bg-blue-50 border border-blue-200 text-blue-900 placeholder:text-blue-400 rounded-lg px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-400"
-            />
+          <div>
+            <h3 className="tf-heading-secondary">Additional Information</h3>
+            <p className="tf-text-subtitle">Add any additional information for this transaction</p>
           </div>
         </div>
-        {/* Right Column: Additional Notes (prominent) */}
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="notes" className="text-base text-white font-medium">Additional Notes</Label>
-          <Textarea
-            id="notes"
-            value={data.notes}
-            onChange={(e) => onChange('notes', e.target.value)}
-            placeholder="Any other comments, reminders, or info for the transaction coordinator."
-            className="min-h-[210px] bg-blue-50 border border-blue-200 text-blue-900 placeholder:text-blue-400 rounded-lg px-4 py-3 shadow-sm focus:ring-2 focus:ring-blue-400"
+
+        {/* Simplified single input */}
+        <div className="tf-form-group">
+          <label htmlFor="additionalInfo" className="tf-label">
+            <FileText className="tf-label-icon" />
+            Additional Information
+          </label>
+          <textarea
+            id="additionalInfo"
+            value={formData.additionalNotes || ''}
+            onChange={(e) => {
+              onChange('additionalNotes', e.target.value);
+              onFieldTouch?.('additionalNotes');
+            }}
+            onBlur={() => onFieldTouch?.('additionalNotes')}
+            placeholder="Add any additional information, comments, or special instructions for this transaction..."
+            className="tf-textarea tf-textarea-lg"
+            rows={8}
           />
+          {validationErrors.additionalNotes && touchedFields.has('additionalNotes') && (
+            <p className="text-red-500 text-sm mt-1">{validationErrors.additionalNotes}</p>
+          )}
+          <p className="tf-help-text">Optional: Any additional details or comments for this transaction</p>
         </div>
       </div>
     </div>

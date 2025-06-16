@@ -94,11 +94,16 @@ export interface AgentData {
 }
 
 export interface SignatureData {
-  signature: string;
+  agentName: string;
+  dateSubmitted: string;
+  signatures: {
+    agent?: string;
+    [key: string]: string | undefined; // For client signatures like client_0, client_1, etc.
+  };
+  termsAccepted: {
+    [termId: string]: boolean;
+  };
   infoConfirmed: boolean;
-  termsAccepted: boolean;
-  agentName?: string;
-  dateSubmitted?: string;
 }
 
 export interface TransactionFormData {

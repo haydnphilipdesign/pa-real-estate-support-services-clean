@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { Users, UserPlus, Trash, User, UserCheck } from "lucide-react";
 import { ClientFormFields } from './client/ClientFormFields';
 import type { Client, AgentRole } from '@/types/transaction';
@@ -95,78 +95,93 @@ export const ClientInformation: React.FC<ClientInformationProps> = ({
     return "Client";
   };
 
+  const getIcon = () => {
+    if (role === "LISTING AGENT") return User;
+    if (role === "BUYERS AGENT") return Users;
+    return UserCheck;
+  };
+
+  const Icon = getIcon();
+
   return (
-    <div className="space-y-4 w-full">
-      {clients.length === 0 ? (
-        <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200 border-dashed w-full">
-          <Users className="h-12 w-12 mx-auto text-gray-400 mb-3" />
-          <h3 className="text-lg font-medium text-gray-700 mb-2">No {getClientTypeLabel()}s Added Yet</h3>
-          <p className="text-gray-500 mb-4 max-w-md mx-auto">Add information about the {getClientTypeLabel().toLowerCase()}(s) for this transaction.</p>
-          <Button
-            onClick={handleAddClient}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <UserPlus className="h-4 w-4 mr-2" />
-            Add {getClientTypeLabel()}
-          </Button>
+    <div className="tf-client-info">
+      <div className="tf-glass-card">
+        <div className="tf-flex tf-items-center tf-mb-4">
+          <div className="tf-icon-container">
+            <Users className="tf-icon" />
+          </div>
+          <div>
+            <h3 className="tf-heading-secondary">Client Information</h3>
+            <p className="tf-text-subtitle">Manage {getClientTypeLabel().toLowerCase()} details for this transaction</p>
+          </div>
         </div>
-      ) : (
-        <div className="space-y-6 w-full">
-          {clients.map((client, index) => (
-            <div
-              key={client.id}
-              className="w-full"
+
+        {clients.length === 0 ? (
+          <div className="tf-glass-card-light tf-text-center">
+            <div className="tf-icon-container tf-mx-auto tf-mb-4">
+              <Icon className="tf-icon-lg" />
+            </div>
+            <h3 className="tf-heading-tertiary tf-mb-2">No {getClientTypeLabel()}s Added Yet</h3>
+            <p className="tf-text-description tf-mb-4">Add information about the {getClientTypeLabel().toLowerCase()}(s) for this transaction.</p>
+            <button
+              onClick={handleAddClient}
+              className="tf-button tf-button-primary"
             >
-              {/* Client header */}
-              <div className="flex items-center justify-between bg-blue-50 px-6 py-3 border-b border-blue-100 rounded-t-lg w-full">
-                <div className="flex items-center gap-2">
-                  {role === "LISTING AGENT" ? (
-                    <User className="h-5 w-5 text-blue-600" />
-                  ) : role === "BUYERS AGENT" ? (
-                    <Users className="h-5 w-5 text-blue-600" />
-                  ) : (
-                    <UserCheck className="h-5 w-5 text-blue-600" />
+              <UserPlus className="tf-button-icon" />
+              Add {getClientTypeLabel()}
+            </button>
+          </div>
+        ) : (
+          <div className="tf-client-list">
+            {clients.map((client, index) => (
+              <div
+                key={client.id}
+                className="tf-glass-card-light tf-mb-4"
+              >
+                {/* Client header */}
+                <div className="tf-client-header">
+                  <div className="tf-flex tf-items-center tf-gap-3">
+                    <div className="tf-icon-container tf-icon-sm-container">
+                      <Icon className="tf-icon-sm" />
+                    </div>
+                    <h3 className="tf-heading-tertiary">
+                      {getClientTypeLabel()} {clients.length > 1 ? `#${index + 1}` : ''}
+                    </h3>
+                  </div>
+
+                  {clients.length > 1 && (
+                    <button
+                      onClick={() => handleRemoveClient(client.id)}
+                      className="tf-button tf-button-secondary tf-button-danger"
+                    >
+                      <Trash className="tf-button-icon" />
+                      Remove
+                    </button>
                   )}
-                  <h3 className="font-medium text-blue-800">
-                    {getClientTypeLabel()} {clients.length > 1 ? `#${index + 1}` : ''}
-                  </h3>
                 </div>
 
-                {clients.length > 1 && (
-                  <Button
-                    onClick={() => handleRemoveClient(client.id)}
-                    variant="ghost"
-                    size="sm"
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                  >
-                    <Trash className="h-4 w-4 mr-1" />
-                    Remove
-                  </Button>
-                )}
+                {/* Client form fields */}
+                <div className="tf-client-form-content">
+                  <ClientFormFields
+                    client={client}
+                    onClientChange={(field, value) => handleClientChange(client.id, field, value)}
+                    role={role as AgentRole}
+                  />
+                </div>
               </div>
+            ))}
 
-              {/* Client form fields */}
-              <div className="p-6 w-full border-x border-b border-gray-100 rounded-b-lg">
-                <ClientFormFields
-                  client={client}
-                  onClientChange={(field, value) => handleClientChange(client.id, field, value)}
-                  role={role as AgentRole}
-                />
-              </div>
-            </div>
-          ))}
-
-          <Button
-            type="button"
-            onClick={handleAddClient}
-            variant="outline"
-            className="w-full py-4 border-dashed border-blue-300 text-blue-600 hover:bg-blue-50 mt-4 flex items-center justify-center"
-          >
-            <UserPlus className="h-5 w-5 mr-2" />
-            Add Another {getClientTypeLabel()}
-          </Button>
-        </div>
-      )}
+            <button
+              type="button"
+              onClick={handleAddClient}
+              className="tf-button tf-button-secondary tf-button-dashed tf-w-full"
+            >
+              <UserPlus className="tf-button-icon" />
+              Add Another {getClientTypeLabel()}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

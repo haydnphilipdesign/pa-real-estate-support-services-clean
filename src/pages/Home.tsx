@@ -8,7 +8,7 @@ import ContactSection from '../components/ContactSection';
 import Testimonials from '../components/Testimonials';
 import Hero from '../components/Hero';
 import useScrollToTop from '../hooks/useScrollToTop';
-import { UnifiedButton } from '../components/ui/unified-button';
+import { Button } from '@/components/ui';
 import { ArrowRight } from 'lucide-react';
 import PreloadedAnimationWrapper from '../components/PreloadedAnimationWrapper';
 
@@ -56,7 +56,7 @@ const Home: React.FC = () => {
 
       {/* CTA Section with Glass Card */}
       <section 
-        className="py-20 relative overflow-hidden" 
+        className="pt-0 pb-20 relative overflow-hidden" 
         data-section="streamline-transactions" 
         style={{ backgroundColor: "#1e3a8a", color: "white" }}
       >
@@ -73,7 +73,7 @@ const Home: React.FC = () => {
           <div className="absolute inset-0 bg-grid-white/[0.03] bg-[length:32px_32px]" />
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10 pt-20">
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -86,7 +86,7 @@ const Home: React.FC = () => {
               Let me handle the paperwork while you focus on growing your business
             </p>
             <div className="flex justify-center">
-              <UnifiedButton
+              <Button
                 to="/agent-portal"
                 variant="hero"
                 size="lg"
@@ -102,7 +102,7 @@ const Home: React.FC = () => {
                 }
               >
                 Start a Transaction
-              </UnifiedButton>
+              </Button>
             </div>
           </motion.div>
         </div>

@@ -8,7 +8,7 @@ import {
   DialogTrigger,
   DialogClose
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { FileText } from 'lucide-react';
 
 interface TermsDialogProps {

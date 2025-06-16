@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import GlobalPageHero from '../components/GlobalPageHeroNew';
 import { Shield, Users, FileText, Clock, AlertCircle, DollarSign, Mail, Phone } from 'lucide-react';
-import { UnifiedButton } from '../components/ui/unified-button';
+import { Button } from '@/components/ui';
 import useScrollToTop from '../hooks/useScrollToTop';
 import PreloadedAnimationWrapper from '../components/PreloadedAnimationWrapper';
 
@@ -139,14 +139,14 @@ const Terms: React.FC = () => {
                   }}
                   data-hero-content="cta"
                 >
-                  <UnifiedButton
+                  <Button
                     variant="glass"
                     size="default"
                     radius="full"
                     className="text-shadow-sm"
                   >
                     Last updated: June 1, 2023
-                  </UnifiedButton>
+                  </Button>
                 </motion.div>
               </motion.div>
             </div>

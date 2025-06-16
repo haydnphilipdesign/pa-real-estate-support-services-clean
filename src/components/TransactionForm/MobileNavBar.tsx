@@ -23,8 +23,8 @@ const Button = ({
 
   const variantStyles = {
     default: "bg-blue-600 text-white hover:bg-blue-700",
-    ghost: "bg-transparent hover:bg-gray-100 text-gray-700",
-    outline: "bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-50"
+    ghost: "bg-transparent hover:bg-white/20 text-white",
+    outline: "bg-transparent border border-white/30 text-white hover:bg-white/10"
   };
 
   const sizeStyles = {
@@ -78,7 +78,7 @@ export function MobileNavBar({
 }: MobileNavBarProps) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   // Handle menu open/close callbacks
   useEffect(() => {
     if (isMenuOpen && onMenuOpen) {
@@ -87,7 +87,7 @@ export function MobileNavBar({
       onMenuClose();
     }
   }, [isMenuOpen, onMenuOpen, onMenuClose]);
-  
+
   // Calculate progress percentage
   const calculateProgress = () => {
     return Math.max(5, Math.min(100, (currentStep / totalSteps) * 100));
@@ -97,21 +97,21 @@ export function MobileNavBar({
   return (
     <>
       {/* Fixed bottom navigation bar */}
-      <div 
+      <div
         className={cn(
           "fixed bottom-0 left-0 right-0 py-1 px-2 md:hidden z-50 shadow-lg",
           "pb-[calc(0.25rem+env(safe-area-inset-bottom,0px))]",
           "border-t-2",
           className
         )}
-        style={{ 
-          backgroundColor: '#1e3a8a', 
-          borderColor: '#1e40af' 
+        style={{
+          backgroundColor: '#1e3a8a',
+          borderColor: '#1e40af'
         }}
       >
         {/* Extra background layer for guaranteed opacity */}
-        <div 
-          className="absolute inset-0 -z-10" 
+        <div
+          className="absolute inset-0 -z-10"
           style={{ backgroundColor: '#1e3a8a' }}
         ></div>
 
@@ -139,7 +139,7 @@ export function MobileNavBar({
             size="sm"
             onClick={() => setIsMenuOpen(true)}
             className={cn(
-              "flex items-center justify-center w-10 h-10 rounded-full", 
+              "flex items-center justify-center w-10 h-10 rounded-full",
               "border-2 border-white bg-blue-700",
               "hover:bg-blue-800 transition-colors text-white"
             )}
@@ -149,7 +149,7 @@ export function MobileNavBar({
           >
             <Menu className="h-5 w-5 text-white" strokeWidth={2.5} />
           </Button>
-            
+
           {onSave && (
             <Button
               variant="ghost"
@@ -191,7 +191,7 @@ export function MobileNavBar({
               "min-w-[80px] font-semibold",
               isLastStep
                 ? "bg-green-500 hover:bg-green-600 text-white text-shadow-sm"
-                : "bg-white text-blue-800 hover:bg-blue-50",
+                : "bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border border-white/30",
               !canGoNext && "opacity-50 cursor-not-allowed"
             )}
           >
@@ -224,11 +224,11 @@ export function MobileNavBar({
         {isMenuOpen && (
           <>
             {/* Full-screen background overlay with top priority z-index to cover logo area */}
-            <div 
-              className="fixed inset-0 z-[100] md:hidden" 
+            <div
+              className="fixed inset-0 z-[100] md:hidden"
               style={{ backgroundColor: '#1e3a8a', opacity: 0.98 }}
             ></div>
-            
+
             {/* Animated container */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -244,8 +244,8 @@ export function MobileNavBar({
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
                 className="fixed inset-y-0 inset-x-0 flex flex-col justify-between p-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] overflow-auto z-[102]"
-                style={{ 
-                  backgroundColor: '#1e3a8a', 
+                style={{
+                  backgroundColor: '#1e3a8a',
                   borderColor: '#1e40af',
                   boxShadow: '0 -8px 25px rgba(0,0,0,0.5)'
                 }}
@@ -253,15 +253,15 @@ export function MobileNavBar({
               >
                 {/* Extra solid background to prevent any transparency */}
                 {/* Double-layer background for maximum opacity */}
-                <div 
-                  className="absolute inset-0 -z-10" 
+                <div
+                  className="absolute inset-0 -z-10"
                   style={{ backgroundColor: '#1e3a8a' }}
                 ></div>
-                <div 
-                  className="absolute inset-0 -z-10 opacity-100" 
+                <div
+                  className="absolute inset-0 -z-10 opacity-100"
                   style={{ backgroundColor: '#1e3a8a' }}
                 ></div>
-                
+
                 {/* Menu content */}
                 <div className="relative z-10">
                   {/* Header with app logo placeholder - shown at the top of the menu */}
@@ -275,8 +275,8 @@ export function MobileNavBar({
                       </div>
                       <span className="text-white font-bold text-lg">PA Real Estate</span>
                     </div>
-                    <button 
-                      onClick={() => setIsMenuOpen(false)} 
+                    <button
+                      onClick={() => setIsMenuOpen(false)}
                       className="p-1.5 rounded-full bg-blue-700 text-white hover:bg-blue-800 transition-colors"
                     >
                       <X className="w-5 h-5" strokeWidth={2.5} />
@@ -286,7 +286,7 @@ export function MobileNavBar({
                   <h3 className="text-lg font-bold text-white drop-shadow-sm mb-4">Transaction Options</h3>
 
                   <div className="space-y-2">
-                    <button 
+                    <button
                       className="w-full py-3.5 px-4 rounded-lg text-white font-medium text-left flex items-center shadow-md transition-colors"
                       style={{ backgroundColor: 'rgba(37, 99, 235, 1)', border: '1px solid rgba(96, 165, 250, 0.5)' }}
                     >
@@ -294,7 +294,7 @@ export function MobileNavBar({
                       <span className="drop-shadow-sm">Save as Draft</span>
                     </button>
 
-                    <button 
+                    <button
                       className="w-full py-3.5 px-4 rounded-lg text-white font-medium text-left flex items-center shadow-md transition-colors"
                       style={{ backgroundColor: 'rgba(30, 64, 175, 0.95)', border: '1px solid rgba(96, 165, 250, 0.4)' }}
                     >
@@ -302,7 +302,7 @@ export function MobileNavBar({
                       View Transaction Details
                     </button>
 
-                    <button 
+                    <button
                       className="w-full py-3 px-4 rounded-lg text-red-200 font-medium text-left flex items-center mt-4"
                       style={{ backgroundColor: 'rgba(220, 38, 38, 0.3)' }}
                     >

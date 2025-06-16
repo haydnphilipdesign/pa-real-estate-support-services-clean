@@ -122,51 +122,78 @@ export function DocumentsSection({
   const uniqueDocuments = Array.from(new Set(allDocuments));
 
   return (
-    <div className="space-y-8 w-full documents-section">
-      <h3 className="text-lg font-semibold mb-2 flex items-center text-gray-900 dark:text-white">
-        <ListChecks className="h-5 w-5 mr-2 text-blue-700 dark:text-blue-300" />
-        Document Checklist
-      </h3>
-      <p className="text-sm mb-4 text-gray-900 dark:text-gray-100">
-        Please review the list of required documents below. Ensure all are prepared and ready before confirming.
-      </p>
-      <ul className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-        {uniqueDocuments.map((doc) => (
-          <li key={doc} className="text-base flex items-center gap-2 text-gray-900 dark:text-white">
-            <FileText className="h-4 w-4 text-blue-700 dark:text-blue-200" />
-            <span className="whitespace-normal">{doc}</span>
-          </li>
-        ))}
-      </ul>
-      <div className="pt-4 mt-4 border-t border-gray-200">
-        <div className="flex items-center gap-3 bg-blue-50 p-4 rounded-lg border border-blue-100">
-          <Checkbox
-            id="documentConfirmation"
-            checked={data.confirmDocuments}
-            onCheckedChange={(checked) => handleConfirmationChange(checked === true)}
-            className={`h-5 w-5 rounded-sm
-              ${data.confirmDocuments
-                ? 'border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600'
-                : showValidationError ? 'border-red-500 ring-2 ring-red-200' : 'border-blue-300'}
-            `}
-            required
-            aria-required="true"
-            aria-invalid={showValidationError && !data.confirmDocuments ? "true" : "false"}
-          />
-          <div className="flex flex-col justify-center">
-            <label
-              htmlFor="documentConfirmation"
-              className={`text-sm font-medium ${showValidationError && !data.confirmDocuments ? 'text-red-600' : 'text-blue-800'}`}
-            >
-              <span className="text-red-500 mr-1">*</span>
-              I confirm that I have prepared all required documents and will upload them as required.
-            </label>
-            {showValidationError && !data.confirmDocuments ? (
-              <div className="flex items-center text-red-600 text-xs mt-1">
-                <AlertCircle className="h-3 w-3 mr-1" />
-                <span>This confirmation is required to proceed</span>
+    <div className="tf-documents-section">
+      <div className="tf-glass-card">
+        <div className="tf-flex tf-items-center tf-mb-4">
+          <div className="tf-icon-container">
+            <ListChecks className="tf-icon" />
+          </div>
+          <div>
+            <h3 className="tf-heading-secondary">Document Checklist</h3>
+            <p className="tf-text-subtitle">Review and confirm all required documents are prepared</p>
+          </div>
+        </div>
+
+        {/* Document Categories */}
+        <div className="tf-document-categories tf-mb-6">
+          {filteredCategories.map((category, index) => (
+            category.documents.length > 0 && (
+              <div key={index} className="tf-glass-card-light tf-mb-4">
+                <div className="tf-flex tf-items-center tf-mb-3">
+                  <div className="tf-icon-container tf-icon-sm-container">
+                    {category.icon}
+                  </div>
+                  <div>
+                    <h4 className="tf-heading-tertiary">{category.name}</h4>
+                    <p className="tf-text-muted">{category.description}</p>
+                  </div>
+                </div>
+                <ul className="tf-document-list">
+                  {category.documents.map((doc) => (
+                    <li key={doc} className="tf-document-item">
+                      <FileText className="tf-icon-sm" />
+                      <span>{doc}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ) : null}
+            )
+          ))}
+        </div>
+
+        {/* Confirmation Section */}
+        <div className="tf-glass-card-light">
+          <div className="tf-checkbox-group">
+            <Checkbox
+              id="documentConfirmation"
+              checked={data.confirmDocuments}
+              onCheckedChange={(checked) => handleConfirmationChange(checked === true)}
+              className={`tf-checkbox ${
+                data.confirmDocuments
+                  ? 'tf-checkbox-checked'
+                  : showValidationError ? 'tf-checkbox-error' : ''
+              }`}
+              required
+              aria-required="true"
+              aria-invalid={showValidationError && !data.confirmDocuments ? "true" : "false"}
+            />
+            <div className="tf-checkbox-content">
+              <label
+                htmlFor="documentConfirmation"
+                className={`tf-checkbox-label ${
+                  showValidationError && !data.confirmDocuments ? 'tf-text-error' : ''
+                }`}
+              >
+                <span className="tf-label-required">*</span>
+                I confirm that I have prepared all required documents and will upload them as required.
+              </label>
+              {showValidationError && !data.confirmDocuments && (
+                <div className="tf-error-message tf-flex tf-items-center">
+                  <AlertCircle className="tf-icon-sm tf-mr-1" />
+                  <span>This confirmation is required to proceed</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

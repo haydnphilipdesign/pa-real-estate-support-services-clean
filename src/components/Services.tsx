@@ -118,13 +118,13 @@ const process = [
 
 const Services: React.FC = () => {
   return (
-    <div className="bg-gray-50">
+    <div className="bg-neutral-50">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white">
+      <section className="py-20 bg-gradient-to-b from-brand-blue to-brand-blue/90 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Transaction Coordination Services</h1>
-            <p className="text-xl opacity-90">
+            <h1 className="text-h1 font-bold mb-6">Transaction Coordination Services</h1>
+            <p className="text-body-xl text-white/90">
               Professional transaction coordination services designed to streamline your real estate deals from contract to closing.
             </p>
           </div>
@@ -138,18 +138,18 @@ const Services: React.FC = () => {
             {services.map((service) => (
               <motion.div
                 key={service.id}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="glass-card glass-card-light hover:lift"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                <service.icon className="w-12 h-12 text-indigo-600 mb-4" />
-                <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                <p className="text-gray-600 mb-4">{service.description}</p>
+                <service.icon className="w-12 h-12 text-brand-blue mb-4" />
+                <h3 className="text-h3 font-bold mb-3 text-neutral-900">{service.title}</h3>
+                <p className="text-body text-neutral-600 mb-4">{service.description}</p>
                 <ul className="space-y-2">
                   {service.features.map((feature, index) => (
-                    <li key={`${service.id}-feature-${index}`} className="flex items-start text-gray-700">
-                      <span className="w-2 h-2 bg-indigo-600 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                    <li key={`${service.id}-feature-${index}`} className="flex items-start text-neutral-700">
+                      <span className="w-2 h-2 bg-brand-blue rounded-full mt-2 mr-2 flex-shrink-0"></span>
                       <span className="flex-1 text-left">{feature}</span>
                     </li>
                   ))}
@@ -163,7 +163,7 @@ const Services: React.FC = () => {
       {/* Process Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Process</h2>
+          <h2 className="text-h2 font-bold text-center mb-12 text-neutral-900">Our Process</h2>
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {process.map((step) => (
@@ -174,11 +174,11 @@ const Services: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
                 >
-                  <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <step.icon className="w-8 h-8 text-indigo-600" />
+                  <div className="bg-brand-blue/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <step.icon className="w-8 h-8 text-brand-blue" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                  <p className="text-gray-600">{step.description}</p>
+                  <h3 className="text-h3 font-semibold mb-2 text-neutral-900">{step.title}</h3>
+                  <p className="text-body text-neutral-600">{step.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -187,15 +187,15 @@ const Services: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-indigo-900 text-white">
+      <section className="py-20 bg-brand-blue text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Streamline Your Transactions?</h2>
-          <p className="text-xl mb-8 opacity-90">
+          <h2 className="text-h2 font-bold mb-6">Ready to Streamline Your Transactions?</h2>
+          <p className="text-body-xl mb-8 text-white/90">
             Let us handle the details while you focus on growing your business.
           </p>
           <Link
             to="/work-with-me"
-            className="inline-flex items-center px-8 py-4 bg-brand-gold text-brand-blue rounded-xl font-semibold hover:bg-brand-gold/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="btn btn-secondary btn-lg hover:lift"
           >
             Get Started
           </Link>

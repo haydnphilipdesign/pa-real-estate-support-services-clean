@@ -39,18 +39,19 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   const location = useLocation();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const isTransactionPage = location.pathname.includes('/agent-portal/transaction');
   // Set global transition state
   useEffect(() => {
     // Signal the beginning of a transition
     setIsTransitioning(true);
     window.dispatchEvent(new CustomEvent('pagetransitionstart'));
-    
+
     // Reset transition state after completion
     const resetTransitionTimer = setTimeout(() => {
       setIsTransitioning(false);
       window.dispatchEvent(new CustomEvent('pagetransitioncomplete'));
     }, TRANSITION_DURATION.standard.total * 1000 + 100);
-    
+
     return () => clearTimeout(resetTransitionTimer);
   }, [location.pathname]);
 
@@ -61,7 +62,7 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
 
   // Determine if this is an agent portal page for faster transitions
   const isAgentPortalPath = location.pathname.includes('/agent-portal') || location.pathname === '/login';
-  
+
   // Simplified page variants for smoother transitions
   const pageVariants = {
     initial: {
@@ -72,8 +73,8 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: isAgentPortalPath 
-          ? TRANSITION_DURATION.fast.enter 
+        duration: isAgentPortalPath
+          ? TRANSITION_DURATION.fast.enter
           : TRANSITION_DURATION.standard.enter,
         ease: [0.25, 0.1, 0.25, 1.0]
       }
@@ -82,8 +83,8 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
       opacity: 0,
       y: -20,
       transition: {
-        duration: isAgentPortalPath 
-          ? TRANSITION_DURATION.fast.exit 
+        duration: isAgentPortalPath
+          ? TRANSITION_DURATION.fast.exit
           : TRANSITION_DURATION.standard.exit,
         ease: [0.25, 0.1, 0.25, 1.0]
       }
@@ -93,17 +94,19 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   return (
     <div
       ref={containerRef}
-      className="page-transition-container relative w-full overflow-hidden"
+      className={`page-transition-container relative w-full ${isTransactionPage ? '' : 'overflow-hidden'}`}
       data-is-transitioning={isTransitioning ? 'true' : 'false'}
       style={{
-        minHeight: '100vh',
+        minHeight: isTransactionPage ? 'auto' : '100vh',
+        height: isTransactionPage ? 'auto' : undefined,
         paddingTop: 0, // Remove padding-top
         marginTop: 0, // Remove margin-top
         zIndex: 10,
         position: 'relative',
         willChange: 'opacity',
         backfaceVisibility: 'hidden',
-        transform: 'translateZ(0)'
+        transform: 'translateZ(0)',
+        overflow: isTransactionPage ? 'visible' : undefined
       }}
     >
       <AnimatePresence mode="wait" initial={false}>
@@ -117,7 +120,8 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
           style={{
             position: 'relative',
             zIndex: 20,
-            minHeight: 'inherit'
+            minHeight: isTransactionPage ? 'auto' : 'inherit',
+            height: isTransactionPage ? 'auto' : undefined
           }}
         >
           {children}

@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { useNavigation } from '../providers/SmoothNavigationProvider';
 import { ArrowRight, FileSearch, Database, Clock, CheckSquare } from 'lucide-react';
 import ContentCard from './ContentCard';
-import '../index.css';
 
 const services = [
   {

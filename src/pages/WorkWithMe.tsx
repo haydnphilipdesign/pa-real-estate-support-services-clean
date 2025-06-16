@@ -3,7 +3,7 @@ import MainLayout from '../layouts/MainLayout';
 import { motion } from 'framer-motion';
 import { Link } from '../components/GlobalLinkProvider';
 import { ArrowRight, Phone, Mail, Calendar, CheckCircle } from 'lucide-react';
-import { UnifiedButton } from '../components/ui/unified-button';
+import { Button } from '@/components/ui';
 import PageHeroWrapper from '../components/PageHeroWrapper';
 import FAQ from '../components/FAQ';
 import WorkTogether from '../components/WorkTogether';
@@ -73,7 +73,7 @@ const WorkWithMe: React.FC = () => {
         subtitle="Let's streamline your real estate transactions together"
         minHeight="min-h-[80vh]"
       >
-        <UnifiedButton
+        <Button
           to="/agent-portal"
           variant="glass"
           size="lg"
@@ -91,7 +91,7 @@ const WorkWithMe: React.FC = () => {
           iconPosition="right"
         >
           Start a Transaction
-        </UnifiedButton>
+        </Button>
       </PageHeroWrapper>
 
       {/* How We Work Section - Direct connection to hero with no gap */}
@@ -121,8 +121,6 @@ const WorkWithMe: React.FC = () => {
         </div>
       </section>
       
-      {/* Direct transition to contact section - eliminating any potential hidden section headers */}
-      <div className="h-16 bg-gradient-to-b from-blue-800 to-gray-50"></div>
       {/* Contact Section - Unified Design */}
       <section className="py-24 bg-gray-50 relative overflow-hidden">
         <div className="absolute inset-0">
@@ -147,43 +145,56 @@ const WorkWithMe: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 p-1"
+                className="bg-white rounded-xl shadow-lg border border-gray-200 p-6"
               >
-                <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg px-6 py-8">
-                  <h3 className="text-2xl font-bold text-white mb-6">Get In Touch</h3>
-                  <div className="space-y-6">
-                    {contactMethods.map((method, index) => {
-                      const Icon = method.icon;
-                      return (
-                        <motion.div
-                          key={index}
-                          className="group relative bg-white/15 backdrop-blur-sm rounded-lg p-4 hover:bg-white/25 transition-all duration-300 shadow-sm border border-white/10"
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.4, delay: index * 0.1 }}
-                          whileHover={{ x: 5, transition: { duration: 0.2 } }}
-                        >
-                          <div className="flex items-center">
-                            <div className="bg-white/30 p-3 rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300 shadow-md">
-                              <Icon className="w-5 h-5 text-white" />
-                            </div>
-                            <div className="flex-1">
-                              <h4 className="text-lg font-semibold text-white tracking-wide">{method.title}</h4>
-                              <p className="text-white text-sm mb-2 font-medium">{method.description}</p>
-                              <a
-                                href={method.link}
-                                className="inline-flex items-center text-amber-100 bg-amber-500/50 px-3 py-1 rounded-full text-sm font-medium hover:bg-amber-400/60 hover:text-white transition-all duration-300 shadow-sm border border-amber-400/30"
-                              >
-                                {method.action}
-                                <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                              </a>
-                            </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Get In Touch</h3>
+                <div className="space-y-4">
+                  {contactMethods.map((method, index) => {
+                    const Icon = method.icon;
+                    const iconColors = {
+                      0: 'bg-gray-100 text-green-600', // Phone - neutral bg with green icon
+                      1: 'bg-gray-100 text-blue-600',   // Email - neutral bg with blue icon
+                      2: 'bg-gray-100 text-purple-600' // Schedule - neutral bg with purple icon
+                    };
+                    const buttonColors = {
+                      0: 'bg-green-700 hover:bg-green-800 text-white hover:text-white shadow-sm !text-white',
+                      1: 'bg-blue-700 hover:bg-blue-800 text-white hover:text-white shadow-sm !text-white',
+                      2: 'bg-purple-700 hover:bg-purple-800 text-white hover:text-white shadow-sm !text-white'
+                    };
+                    
+                    return (
+                      <motion.div
+                        key={index}
+                        className="group p-4 border border-gray-100 rounded-lg hover:border-gray-200 hover:shadow-sm transition-all duration-300"
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                      >
+                        <div className="flex items-center">
+                          <div className={`p-3 rounded-full flex items-center justify-center mr-4 ${iconColors[index]} group-hover:scale-105 transition-transform duration-300`}>
+                            <Icon className="w-5 h-5" />
                           </div>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
+                          <div className="flex-1">
+                            <h4 className="text-lg font-semibold text-gray-900">{method.title}</h4>
+                            <p className="text-gray-600 text-sm mb-3">{method.description}</p>
+                            <a
+                              href={method.link}
+                              className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${buttonColors[index]} [&]:text-white [&]:hover:text-white [&>*]:text-white`}
+                              style={{ 
+                                color: 'white !important', 
+                                textDecoration: 'none !important',
+                                '--tw-text-opacity': '1'
+                              }}
+                            >
+                              <span style={{ color: 'white' }}>{method.action}</span>
+                              <ArrowRight className="h-4 w-4 ml-2" style={{ color: 'white' }} />
+                            </a>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </motion.div>
               

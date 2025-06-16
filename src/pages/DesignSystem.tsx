@@ -1,5 +1,5 @@
 import React from 'react';
-import { UnifiedButton } from '../components/ui/unified-button';
+import { Button } from '@/components/ui';
 import { ArrowRight, Plus, Check, Trash, ExternalLink, Save, Send } from 'lucide-react';
 
 /**
@@ -17,7 +17,7 @@ const DesignSystem: React.FC = () => {
       <section className="mb-16">
         <h2 className="text-2xl font-semibold mb-4 text-brand-navy">Buttons</h2>
         <p className="text-slate-700 mb-8">
-          The UnifiedButton component consolidates all button styles into a single, flexible component.
+          The Button component consolidates all button styles into a single, flexible component.
           Below are examples of the different variants, sizes, and styles available.
         </p>
 
@@ -25,18 +25,18 @@ const DesignSystem: React.FC = () => {
         <div className="mb-12">
           <h3 className="text-xl font-medium mb-4 text-brand-navy">Button Variants</h3>
           <div className="flex flex-wrap gap-4 items-center">
-            <UnifiedButton variant="default">Default (Primary)</UnifiedButton>
-            <UnifiedButton variant="secondary">Secondary</UnifiedButton>
-            <UnifiedButton variant="destructive">Destructive</UnifiedButton>
-            <UnifiedButton variant="outline">Outline</UnifiedButton>
-            <UnifiedButton variant="secondaryOutline">Secondary Outline</UnifiedButton>
-            <UnifiedButton variant="ghost">Ghost</UnifiedButton>
-            <UnifiedButton variant="link">Link</UnifiedButton>
+            <Button variant="default">Default (Primary)</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="destructive">Destructive</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="secondaryOutline">Secondary Outline</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="link">Link</Button>
             <div className="p-4 bg-brand-navy rounded inline-block">
-              <UnifiedButton variant="glass">Glass</UnifiedButton>
+              <Button variant="glass">Glass</Button>
             </div>
             <div className="p-4 bg-brand-navy rounded inline-block">
-              <UnifiedButton variant="hero">Hero</UnifiedButton>
+              <Button variant="hero">Hero</Button>
             </div>
           </div>
           
@@ -60,13 +60,13 @@ const DesignSystem: React.FC = () => {
         <div className="mb-12">
           <h3 className="text-xl font-medium mb-4 text-brand-navy">Button Sizes</h3>
           <div className="flex flex-wrap gap-4 items-center">
-            <UnifiedButton size="sm" variant="default">Small</UnifiedButton>
-            <UnifiedButton size="default" variant="default">Default</UnifiedButton>
-            <UnifiedButton size="lg" variant="default">Large</UnifiedButton>
-            <UnifiedButton size="xl" variant="default">Extra Large</UnifiedButton>
-            <UnifiedButton size="icon" variant="default" aria-label="Add item">
+            <Button size="sm" variant="default">Small</Button>
+            <Button size="default" variant="default">Default</Button>
+            <Button size="lg" variant="default">Large</Button>
+            <Button size="xl" variant="default">Extra Large</Button>
+            <Button size="icon" variant="default" aria-label="Add item">
               <Plus className="h-4 w-4" />
-            </UnifiedButton>
+            </Button>
           </div>
           
           <div className="mt-8 p-6 bg-slate-100 rounded-lg">
@@ -85,10 +85,10 @@ const DesignSystem: React.FC = () => {
         <div className="mb-12">
           <h3 className="text-xl font-medium mb-4 text-brand-navy">Border Radius</h3>
           <div className="flex flex-wrap gap-4 items-center">
-            <UnifiedButton radius="default" variant="default">Default Radius</UnifiedButton>
-            <UnifiedButton radius="lg" variant="default">Large Radius</UnifiedButton>
-            <UnifiedButton radius="xl" variant="default">Extra Large Radius</UnifiedButton>
-            <UnifiedButton radius="full" variant="default">Full Radius</UnifiedButton>
+            <Button radius="default" variant="default">Default Radius</Button>
+            <Button radius="lg" variant="default">Large Radius</Button>
+            <Button radius="xl" variant="default">Extra Large Radius</Button>
+            <Button radius="full" variant="default">Full Radius</Button>
           </div>
           
           <div className="mt-8 p-6 bg-slate-100 rounded-lg">
@@ -106,21 +106,21 @@ const DesignSystem: React.FC = () => {
         <div className="mb-12">
           <h3 className="text-xl font-medium mb-4 text-brand-navy">Buttons with Icons</h3>
           <div className="flex flex-wrap gap-4 items-center">
-            <UnifiedButton variant="default" icon={<ArrowRight />}>
+            <Button variant="default" icon={<ArrowRight />}>
               Next Step
-            </UnifiedButton>
-            <UnifiedButton variant="secondary" icon={<Save />}>
+            </Button>
+            <Button variant="secondary" icon={<Save />}>
               Save Progress
-            </UnifiedButton>
-            <UnifiedButton variant="outline" icon={<Check />}>
+            </Button>
+            <Button variant="outline" icon={<Check />}>
               Complete
-            </UnifiedButton>
-            <UnifiedButton variant="destructive" icon={<Trash />}>
+            </Button>
+            <Button variant="destructive" icon={<Trash />}>
               Delete
-            </UnifiedButton>
-            <UnifiedButton variant="link" icon={<ExternalLink />} iconPosition="right">
+            </Button>
+            <Button variant="link" icon={<ExternalLink />} iconPosition="right">
               View Documentation
-            </UnifiedButton>
+            </Button>
           </div>
           
           <div className="mt-8 p-6 bg-slate-100 rounded-lg">
@@ -139,10 +139,10 @@ const DesignSystem: React.FC = () => {
         <div className="mb-12">
           <h3 className="text-xl font-medium mb-4 text-brand-navy">Button Animations</h3>
           <div className="flex flex-wrap gap-4 items-center">
-            <UnifiedButton variant="default" withAnimation={true}>
+            <Button variant="default" withAnimation={true}>
               With Animation
-            </UnifiedButton>
-            <UnifiedButton 
+            </Button>
+            <Button 
               variant="hero" 
               radius="full" 
               withAnimation={true}
@@ -151,7 +151,7 @@ const DesignSystem: React.FC = () => {
               }
             >
               Start Transaction
-            </UnifiedButton>
+            </Button>
           </div>
           
           <div className="mt-8 p-6 bg-slate-100 rounded-lg">
@@ -172,15 +172,15 @@ const DesignSystem: React.FC = () => {
           <h4 className="text-lg font-medium mt-6 mb-3 text-brand-navy">Form Actions</h4>
           <div className="p-6 border rounded-lg mb-6">
             <div className="flex flex-wrap gap-4">
-              <UnifiedButton variant="default" size="default">Submit</UnifiedButton>
-              <UnifiedButton variant="outline" size="default">Cancel</UnifiedButton>
+              <Button variant="default" size="default">Submit</Button>
+              <Button variant="outline" size="default">Cancel</Button>
             </div>
           </div>
           
           <h4 className="text-lg font-medium mt-6 mb-3 text-brand-navy">Hero Section</h4>
           <div className="p-6 bg-brand-navy rounded-lg mb-6">
             <div className="flex flex-wrap gap-4">
-              <UnifiedButton 
+              <Button 
                 variant="hero" 
                 size="lg" 
                 radius="full" 
@@ -188,39 +188,39 @@ const DesignSystem: React.FC = () => {
                 icon={<Send />}
               >
                 Get Started
-              </UnifiedButton>
-              <UnifiedButton 
+              </Button>
+              <Button 
                 variant="glass" 
                 size="lg" 
                 radius="full" 
                 withAnimation={true}
               >
                 Learn More
-              </UnifiedButton>
+              </Button>
             </div>
           </div>
           
           <h4 className="text-lg font-medium mt-6 mb-3 text-brand-navy">Data Table Actions</h4>
           <div className="p-6 border rounded-lg mb-6">
             <div className="flex flex-wrap gap-2">
-              <UnifiedButton variant="default" size="sm">Edit</UnifiedButton>
-              <UnifiedButton variant="ghost" size="sm">View</UnifiedButton>
-              <UnifiedButton variant="destructive" size="sm">Delete</UnifiedButton>
+              <Button variant="default" size="sm">Edit</Button>
+              <Button variant="ghost" size="sm">View</Button>
+              <Button variant="destructive" size="sm">Delete</Button>
             </div>
           </div>
           
           <h4 className="text-lg font-medium mt-6 mb-3 text-brand-navy">Multi-Step Form</h4>
           <div className="p-6 border rounded-lg mb-6">
             <div className="flex justify-between">
-              <UnifiedButton variant="outline" size="default">Back</UnifiedButton>
-              <UnifiedButton 
+              <Button variant="outline" size="default">Back</Button>
+              <Button 
                 variant="default" 
                 size="default" 
                 icon={<ArrowRight />} 
                 iconPosition="right"
               >
                 Continue
-              </UnifiedButton>
+              </Button>
             </div>
           </div>
         </div>

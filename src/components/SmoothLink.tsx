@@ -118,10 +118,7 @@ const SmoothLink: React.FC<SmoothLinkProps> = ({
       document.body.setAttribute('data-navigating', 'true');
       document.body.setAttribute('data-animating-hero', 'true');
 
-      // Preserve slideshow state - mark as transitioning
-      if (typeof window !== 'undefined' && window.globalSlideshowState) {
-        window.globalSlideshowState.isTransitioning = true;
-      }
+      // Note: Slideshow state management removed to maintain persistent background functionality
 
       // Apply transition class to body for global styles
       document.body.classList.add('page-transitioning');
@@ -129,41 +126,39 @@ const SmoothLink: React.FC<SmoothLinkProps> = ({
     }
 
     // Special handling for login page and agent portal transitions to reduce jumpiness
-    const isLoginRelated = typeof to === 'string' && 
-      (to === '/login' || to === '/agent-portal' || to === '/agent-portal/transaction' || 
-       to.startsWith('/agent-portal/') || location.pathname === '/login' || 
+    const isLoginRelated = typeof to === 'string' &&
+      (to === '/login' || to === '/agent-portal' || to === '/agent-portal/transaction' ||
+       to.startsWith('/agent-portal/') || location.pathname === '/login' ||
        location.pathname.startsWith('/agent-portal/'));
-    
+
     // Use immediate, direct transitions for login-related pages
     if (isLoginRelated) {
       // For login-related pages, use instant scrolling and immediate transitions
       window.scrollTo(0, 0);
-      
+
       // No delay for login page transitions - navigate immediately
       hideScrollIndicator();
-      
+
       // Navigate immediately for login pages
       if (typeof to === 'string') {
         navigate(to, { state: { scrollToTop: true, timestamp: Date.now() } });
       } else {
         navigate(to, { state: { scrollToTop: true, timestamp: Date.now() } });
       }
-      
+
       // Reset states quickly
       requestAnimationFrame(() => {
         setIsNavigating(false);
         document.body.classList.remove('page-transitioning');
         document.body.removeAttribute('data-animating-hero');
         document.body.removeAttribute('data-navigating');
-        
-        if (typeof window !== 'undefined' && window.globalSlideshowState) {
-          window.globalSlideshowState.isTransitioning = false;
-        }
+
+        // Note: Slideshow state management removed to maintain persistent background functionality
       });
-      
+
       return; // Exit early for login pages
     }
-    
+
     // SMOOTH APPROACH for non-login pages: Use native browser scrolling with smooth behavior
     try {
       window.scroll({
@@ -207,10 +202,7 @@ const SmoothLink: React.FC<SmoothLinkProps> = ({
           document.body.removeAttribute('data-animating-hero');
           document.body.removeAttribute('data-navigating');
 
-          // Reset transition flag
-          if (typeof window !== 'undefined' && window.globalSlideshowState) {
-            window.globalSlideshowState.isTransitioning = false;
-          }
+          // Note: Slideshow state management removed to maintain persistent background functionality
 
           // Force a layout recalculation to ensure animations reset
           window.requestAnimationFrame(() => {

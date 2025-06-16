@@ -1,6 +1,6 @@
 import React from 'react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { Download } from "lucide-react";
 import { TransactionFormData } from "@/types/transaction";
 import { formatAddress } from "@/utils/addressUtils";

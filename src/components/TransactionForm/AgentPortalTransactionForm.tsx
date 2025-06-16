@@ -1,6 +1,6 @@
 
 import React from "react";
-import { TransactionForm } from "./TransactionForm";
+import TransactionForm from "./TransactionForm";
 
 // This component is designed to be used within an existing AgentPortal component
 export function AgentPortalTransactionForm() {

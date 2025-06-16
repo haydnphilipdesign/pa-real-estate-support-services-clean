@@ -62,20 +62,16 @@ const TransactionHero: React.FC<TransactionHeroProps> = ({
         marginTop: `${NAV_HEIGHT}px`,
         paddingTop: '0',
         paddingBottom: '0',
-        minHeight: `calc(100vh - ${NAV_HEIGHT + 20}px)`, // Reduced height by 20px
-        height: 'auto', // Change to auto height to accommodate content
-        overflowY: 'auto', // Allow internal scrolling
+        minHeight: `calc(100vh - ${NAV_HEIGHT}px)`,
+        height: 'auto',
+        overflowY: 'auto',
         overflowX: 'hidden',
         position: 'relative',
-        zIndex: 10,
+        zIndex: 100,
         backgroundColor: 'transparent',
-        border: 'none',
-        outline: 'none',
-        boxShadow: 'none',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginBottom: '-20px' // Added negative margin to reduce space
+        alignItems: 'flex-start'
       }}
       variants={HERO_ANIMATION.variants.transaction}
       initial="initial"
@@ -84,13 +80,22 @@ const TransactionHero: React.FC<TransactionHeroProps> = ({
     >
       {/* Content Container */}
       <div 
-        className="relative z-10 w-full flex-grow flex flex-col justify-start" 
-        style={{ backgroundColor: 'transparent', border: 'none' }}
+        className="relative z-20 w-full flex-grow flex flex-col justify-start" 
+        style={{ 
+          backgroundColor: 'transparent', 
+          isolation: 'isolate',
+          transform: 'translateZ(0)',
+          zIndex: 101
+        }}
         data-hero-content="container"
       >
         <div 
           className="w-full flex-grow py-0" 
-          style={{ backgroundColor: 'transparent', border: 'none' }}
+          style={{ 
+            backgroundColor: 'transparent',
+            position: 'relative',
+            zIndex: 102
+          }}
         >
           {children}
         </div>

@@ -23,7 +23,7 @@ export function ClientFormFields({ client, onClientChange, role }: ClientFormFie
   const handleChange = (field: keyof Client, value: string) => {
     // Clear error when field is changed
     setErrors(prev => ({ ...prev, [field]: '' }));
-    
+
     // Format phone numbers as they're typed
     if (field === 'phone') {
       const digits = value.replace(/\D/g, '');
@@ -33,7 +33,7 @@ export function ClientFormFields({ client, onClientChange, role }: ClientFormFie
         return; // Don't update if more than 10 digits
       }
     }
-    
+
     setLocalClient(prev => ({ ...prev, [field]: value }));
     onClientChange(field, value);
   };
@@ -88,24 +88,24 @@ export function ClientFormFields({ client, onClientChange, role }: ClientFormFie
     if (role === "LISTING AGENT" && client.type !== "SELLER") {
       onClientChange("type", "SELLER");
     }
-    
+
     // For buyers agents, always set client type to BUYER
     if (role === "BUYERS AGENT" && client.type !== "BUYER") {
       onClientChange("type", "BUYER");
     }
-    
+
     // For dual agents, the type can be selected in the UI
   }, [role, client.type, onClientChange]);
 
   return (
-    <div className="grid md:grid-cols-2 gap-6">
-      <div className="space-y-4">
+    <div className="tf-property-grid">
+      <div className="tf-client-form-column">
         {/* Name */}
-        <div className="space-y-2">
-          <Label htmlFor={`name-${client.id}`} className="flex items-center text-gray-800">
-            <User className="h-4 w-4 mr-2 text-blue-600" />
-            Name <span className="text-red-500 ml-1">*</span>
-          </Label>
+        <div className="tf-form-group">
+          <label htmlFor={`name-${client.id}`} className="tf-label">
+            <User className="tf-label-icon" />
+            Name <span className="tf-label-required">*</span>
+          </label>
           <Input
             id={`name-${client.id}`}
             value={localClient.name}
@@ -113,17 +113,17 @@ export function ClientFormFields({ client, onClientChange, role }: ClientFormFie
             onBlur={() => handleBlur("name")}
             required
             placeholder="Enter full name"
-            className={`bg-white border-gray-300 placeholder:text-gray-400 ${errors.name ? 'border-red-500' : ''}`}
+            className={`tf-input ${errors.name ? 'tf-input-error' : ''}`}
           />
-          {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+          {errors.name && <p className="tf-error-message">{errors.name}</p>}
         </div>
 
         {/* Email */}
-        <div className="space-y-2">
-          <Label htmlFor={`email-${client.id}`} className="flex items-center text-gray-800">
-            <Mail className="h-4 w-4 mr-2 text-blue-600" />
-            Email 
-          </Label>
+        <div className="tf-form-group">
+          <label htmlFor={`email-${client.id}`} className="tf-label">
+            <Mail className="tf-label-icon" />
+            Email
+          </label>
           <Input
             id={`email-${client.id}`}
             type="email"
@@ -131,17 +131,17 @@ export function ClientFormFields({ client, onClientChange, role }: ClientFormFie
             onChange={(e) => handleChange("email", e.target.value)}
             onBlur={() => handleBlur("email")}
             placeholder="Enter email address"
-            className={`bg-white border-gray-300 placeholder:text-gray-400 ${errors.email ? 'border-red-500' : ''}`}
+            className={`tf-input ${errors.email ? 'tf-input-error' : ''}`}
           />
-          {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+          {errors.email && <p className="tf-error-message">{errors.email}</p>}
         </div>
 
         {/* Phone */}
-        <div className="space-y-2">
-          <Label htmlFor={`phone-${client.id}`} className="flex items-center text-gray-800">
-            <Phone className="h-4 w-4 mr-2 text-blue-600" />
-            Phone <span className="text-red-500 ml-1">*</span>
-          </Label>
+        <div className="tf-form-group">
+          <label htmlFor={`phone-${client.id}`} className="tf-label">
+            <Phone className="tf-label-icon" />
+            Phone <span className="tf-label-required">*</span>
+          </label>
           <Input
             id={`phone-${client.id}`}
             value={localClient.phone}
@@ -149,19 +149,19 @@ export function ClientFormFields({ client, onClientChange, role }: ClientFormFie
             onBlur={() => handleBlur("phone")}
             placeholder="123-456-7890"
             maxLength={12}
-            className={`bg-white border-gray-300 placeholder:text-gray-400 ${errors.phone ? 'border-red-500' : ''}`}
+            className={`tf-input ${errors.phone ? 'tf-input-error' : ''}`}
           />
-          {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
+          {errors.phone && <p className="tf-error-message">{errors.phone}</p>}
         </div>
       </div>
-      
-      <div className="space-y-4">
+
+      <div className="tf-client-form-column">
         {/* Address */}
-        <div className="space-y-2">
-          <Label htmlFor={`address-${client.id}`} className="flex items-center text-gray-800">
-            <Home className="h-4 w-4 mr-2 text-blue-600" />
+        <div className="tf-form-group">
+          <label htmlFor={`address-${client.id}`} className="tf-label">
+            <Home className="tf-label-icon" />
             Address
-          </Label>
+          </label>
           <AddressInput
             value={localClient.address}
             onChange={(value: string) => handleChange("address", value)}
@@ -169,20 +169,21 @@ export function ClientFormFields({ client, onClientChange, role }: ClientFormFie
             id={`address-${client.id}`}
             placeholder="Enter address"
             error={errors.address}
+            className="tf-input"
           />
         </div>
 
         {/* Marital Status */}
-        <div className="space-y-2">
-          <Label htmlFor={`maritalStatus-${client.id}`} className="flex items-center text-gray-800">
-            <Heart className="h-4 w-4 mr-2 text-blue-600" />
-            Marital Status <span className="text-red-500 ml-1">*</span>
-          </Label>
+        <div className="tf-form-group">
+          <label htmlFor={`maritalStatus-${client.id}`} className="tf-label">
+            <Heart className="tf-label-icon" />
+            Marital Status <span className="tf-label-required">*</span>
+          </label>
           <Select
             value={localClient.maritalStatus}
             onValueChange={(value) => handleChange("maritalStatus", value)}
           >
-            <SelectTrigger id={`maritalStatus-${client.id}`} className="bg-white border-gray-300">
+            <SelectTrigger id={`maritalStatus-${client.id}`} className="tf-select">
               <SelectValue placeholder="Select marital status..." />
             </SelectTrigger>
             <SelectContent>
@@ -193,21 +194,21 @@ export function ClientFormFields({ client, onClientChange, role }: ClientFormFie
               <SelectItem value="WIDOWED">Widowed</SelectItem>
             </SelectContent>
           </Select>
-          {errors.maritalStatus && <p className="text-xs text-red-500 mt-1">{errors.maritalStatus}</p>}
+          {errors.maritalStatus && <p className="tf-error-message">{errors.maritalStatus}</p>}
         </div>
 
         {/* Client Type (only for Dual Agent) */}
         {isDualAgent && (
-          <div className="space-y-2">
-            <Label htmlFor={`type-${client.id}`} className="flex items-center text-gray-800">
-              <UserPlus className="h-4 w-4 mr-2 text-blue-600" />
-              Client Type <span className="text-red-500 ml-1">*</span>
-            </Label>
+          <div className="tf-form-group">
+            <label htmlFor={`type-${client.id}`} className="tf-label">
+              <UserPlus className="tf-label-icon" />
+              Client Type <span className="tf-label-required">*</span>
+            </label>
             <Select
               value={localClient.type}
               onValueChange={(value) => handleChange("type", value)}
             >
-              <SelectTrigger id={`type-${client.id}`} className="bg-white border-gray-300">
+              <SelectTrigger id={`type-${client.id}`} className="tf-select">
                 <SelectValue placeholder="Select client type..." />
               </SelectTrigger>
               <SelectContent>
@@ -215,7 +216,7 @@ export function ClientFormFields({ client, onClientChange, role }: ClientFormFie
                 <SelectItem value="SELLER">Seller</SelectItem>
               </SelectContent>
             </Select>
-            {errors.type && <p className="text-xs text-red-500 mt-1">{errors.type}</p>}
+            {errors.type && <p className="tf-error-message">{errors.type}</p>}
           </div>
         )}
       </div>

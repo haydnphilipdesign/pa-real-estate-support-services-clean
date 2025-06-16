@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { Card } from "@/components/ui/card";
 import { Trash2, User } from "lucide-react";
 import { ClientFormFields } from "./ClientFormFields";

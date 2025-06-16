@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { Card } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
 import { TransactionFormData } from "@/types/transaction";

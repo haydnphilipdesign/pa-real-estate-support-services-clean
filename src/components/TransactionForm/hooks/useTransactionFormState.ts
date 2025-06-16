@@ -1,0 +1,367 @@
+/**
+ * Transaction Form State Management Hook
+ * 
+ * Consolidates state management logic from large transaction form components
+ * Provides clean separation between UI and business logic
+ */
+
+import { useState, useCallback, useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import type { AgentRole, Client } from '@/types/transaction';
+import { v4 as uuidv4 } from 'uuid';
+
+export interface TransactionFormData {
+  // Role and basic info
+  selectedRole: AgentRole;
+  
+  // Property information
+  mlsNumber: string;
+  propertyAddress: string;
+  salePrice: string;
+  
+  // Client information
+  clients: Client[];
+  
+  // Commission information
+  totalCommission: string;
+  buyersAgentCommission: string;
+  listingAgentCommission: string;
+  commissionBase: string;
+  
+  // Documents
+  requiredDocuments: string[];
+  
+  // Additional info
+  additionalNotes: string;
+  
+  // Signature
+  signature: string;
+  agentName: string;
+  
+  // Form state
+  isSubmitting: boolean;
+  currentStep: number;
+  validationErrors: Record<string, string>;
+  touchedFields: Set<string>;
+}
+
+export const initialFormData: TransactionFormData = {
+  selectedRole: 'Buyer\'s Agent',
+  mlsNumber: '',
+  propertyAddress: '',
+  salePrice: '',
+  clients: [],
+  totalCommission: '',
+  buyersAgentCommission: '',
+  listingAgentCommission: '',
+  commissionBase: 'Gross Price',
+  requiredDocuments: [],
+  additionalNotes: '',
+  signature: '',
+  agentName: '',
+  isSubmitting: false,
+  currentStep: 1,
+  validationErrors: {},
+  touchedFields: new Set(),
+};
+
+export interface TransactionFormActions {
+  // Data updates
+  updateField: <K extends keyof TransactionFormData>(field: K, value: TransactionFormData[K]) => void;
+  updateClient: (index: number, client: Partial<Client>) => void;
+  addClient: () => void;
+  removeClient: (index: number) => void;
+  
+  // Navigation
+  nextStep: () => void;
+  previousStep: () => void;
+  goToStep: (step: number) => void;
+  
+  // Validation
+  validateStep: (step: number) => boolean;
+  validateField: (field: string, value: any) => string | null;
+  setFieldTouched: (field: string) => void;
+  
+  // Form operations
+  saveDraft: () => Promise<void>;
+  resetForm: () => void;
+  submitForm: () => Promise<void>;
+}
+
+export interface UseTransactionFormStateResult {
+  formData: TransactionFormData;
+  actions: TransactionFormActions;
+  stepConfig: {
+    totalSteps: number;
+    currentStep: number;
+    isFirstStep: boolean;
+    isLastStep: boolean;
+    canGoNext: boolean;
+    canGoPrevious: boolean;
+  };
+}
+
+const TOTAL_STEPS = 9;
+
+export function useTransactionFormState(): UseTransactionFormStateResult {
+  const [formData, setFormData] = useState<TransactionFormData>(initialFormData);
+  const { toast } = useToast();
+
+  // Field update handler
+  const updateField = useCallback(<K extends keyof TransactionFormData>(
+    field: K, 
+    value: TransactionFormData[K]
+  ) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value,
+      touchedFields: new Set([...prev.touchedFields, field as string])
+    }));
+  }, []);
+
+  // Client management
+  const updateClient = useCallback((index: number, clientUpdate: Partial<Client>) => {
+    setFormData(prev => ({
+      ...prev,
+      clients: prev.clients.map((client, i) => 
+        i === index ? { ...client, ...clientUpdate } : client
+      )
+    }));
+  }, []);
+
+  const addClient = useCallback(() => {
+    const newClient: Client = {
+      id: uuidv4(),
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      maritalStatus: 'Single',
+      designation: 'Buyer'
+    };
+    
+    setFormData(prev => ({
+      ...prev,
+      clients: [...prev.clients, newClient]
+    }));
+  }, []);
+
+  const removeClient = useCallback((index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      clients: prev.clients.filter((_, i) => i !== index)
+    }));
+  }, []);
+
+  // Navigation
+  const nextStep = useCallback(() => {
+    setFormData(prev => ({
+      ...prev,
+      currentStep: Math.min(prev.currentStep + 1, TOTAL_STEPS)
+    }));
+  }, []);
+
+  const previousStep = useCallback(() => {
+    setFormData(prev => ({
+      ...prev,
+      currentStep: Math.max(prev.currentStep - 1, 1)
+    }));
+  }, []);
+
+  const goToStep = useCallback((step: number) => {
+    if (step >= 1 && step <= TOTAL_STEPS) {
+      setFormData(prev => ({ ...prev, currentStep: step }));
+    }
+  }, []);
+
+  // Validation
+  const validateField = useCallback((field: string, value: any): string | null => {
+    switch (field) {
+      case 'selectedRole':
+        return !value ? 'Please select your role' : null;
+      
+      case 'mlsNumber':
+        if (!value) return 'MLS number is required';
+        if (!/^\d{6}$/.test(value)) return 'MLS number must be 6 digits';
+        return null;
+      
+      case 'propertyAddress':
+        return !value || value.length < 5 ? 'Valid property address is required' : null;
+      
+      case 'salePrice':
+        if (!value) return 'Sale price is required';
+        if (isNaN(parseFloat(value))) return 'Sale price must be a valid number';
+        return null;
+      
+      case 'clients':
+        if (!Array.isArray(value) || value.length === 0) {
+          return 'At least one client is required';
+        }
+        for (const client of value) {
+          if (!client.name) return 'Client name is required';
+          if (!client.email) return 'Client email is required';
+          if (!client.phone) return 'Client phone is required';
+        }
+        return null;
+      
+      default:
+        return null;
+    }
+  }, []);
+
+  const validateStep = useCallback((step: number): boolean => {
+    const errors: Record<string, string> = {};
+    
+    switch (step) {
+      case 1: // Role Selection
+        const roleError = validateField('selectedRole', formData.selectedRole);
+        if (roleError) errors.selectedRole = roleError;
+        break;
+      
+      case 2: // Property Information
+        const mlsError = validateField('mlsNumber', formData.mlsNumber);
+        const addressError = validateField('propertyAddress', formData.propertyAddress);
+        const priceError = validateField('salePrice', formData.salePrice);
+        
+        if (mlsError) errors.mlsNumber = mlsError;
+        if (addressError) errors.propertyAddress = addressError;
+        if (priceError) errors.salePrice = priceError;
+        break;
+      
+      case 3: // Client Information
+        const clientsError = validateField('clients', formData.clients);
+        if (clientsError) errors.clients = clientsError;
+        break;
+      
+      // Add validation for other steps as needed
+    }
+    
+    setFormData(prev => ({ ...prev, validationErrors: errors }));
+    return Object.keys(errors).length === 0;
+  }, [formData, validateField]);
+
+  const setFieldTouched = useCallback((field: string) => {
+    setFormData(prev => ({
+      ...prev,
+      touchedFields: new Set([...prev.touchedFields, field])
+    }));
+  }, []);
+
+  // Form operations
+  const saveDraft = useCallback(async () => {
+    try {
+      // Save to localStorage as draft
+      localStorage.setItem('transaction-form-draft', JSON.stringify({
+        data: formData,
+        timestamp: Date.now()
+      }));
+      
+      toast({
+        title: 'Draft Saved',
+        description: 'Your progress has been saved locally',
+      });
+    } catch (error) {
+      toast({
+        title: 'Save Failed',
+        description: 'Unable to save draft',
+        variant: 'destructive',
+      });
+    }
+  }, [formData, toast]);
+
+  const resetForm = useCallback(() => {
+    setFormData(initialFormData);
+    localStorage.removeItem('transaction-form-draft');
+  }, []);
+
+  const submitForm = useCallback(async () => {
+    setFormData(prev => ({ ...prev, isSubmitting: true }));
+    
+    try {
+      // Validate all steps before submission
+      let isValid = true;
+      for (let step = 1; step <= TOTAL_STEPS; step++) {
+        if (!validateStep(step)) {
+          isValid = false;
+          break;
+        }
+      }
+      
+      if (!isValid) {
+        throw new Error('Please complete all required fields');
+      }
+      
+      // TODO: Implement actual submission logic
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
+      
+      toast({
+        title: 'Success!',
+        description: 'Transaction form submitted successfully',
+      });
+      
+      resetForm();
+    } catch (error) {
+      toast({
+        title: 'Submission Failed',
+        description: error instanceof Error ? error.message : 'An error occurred',
+        variant: 'destructive',
+      });
+    } finally {
+      setFormData(prev => ({ ...prev, isSubmitting: false }));
+    }
+  }, [validateStep, toast, resetForm]);
+
+  // Load draft on mount
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem('transaction-form-draft');
+      if (draft) {
+        const { data, timestamp } = JSON.parse(draft);
+        const isExpired = Date.now() - timestamp > 24 * 60 * 60 * 1000; // 24 hours
+        
+        if (!isExpired) {
+          setFormData(data);
+          toast({
+            title: 'Draft Loaded',
+            description: 'Your previous progress has been restored',
+          });
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to load draft:', error);
+    }
+  }, [toast]);
+
+  // Actions object
+  const actions: TransactionFormActions = {
+    updateField,
+    updateClient,
+    addClient,
+    removeClient,
+    nextStep,
+    previousStep,
+    goToStep,
+    validateStep,
+    validateField,
+    setFieldTouched,
+    saveDraft,
+    resetForm,
+    submitForm,
+  };
+
+  // Step configuration
+  const stepConfig = {
+    totalSteps: TOTAL_STEPS,
+    currentStep: formData.currentStep,
+    isFirstStep: formData.currentStep === 1,
+    isLastStep: formData.currentStep === TOTAL_STEPS,
+    canGoNext: validateStep(formData.currentStep),
+    canGoPrevious: formData.currentStep > 1,
+  };
+
+  return {
+    formData,
+    actions,
+    stepConfig,
+  };
+}

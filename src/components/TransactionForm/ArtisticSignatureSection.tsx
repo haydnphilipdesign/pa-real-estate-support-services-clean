@@ -4,7 +4,7 @@ import { PenTool, CheckCircle, XCircle, RefreshCw } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import SignatureCanvas from "react-signature-canvas";
 import type { AgentRole } from "@/types/transaction";
 

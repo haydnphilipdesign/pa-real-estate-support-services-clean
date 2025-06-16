@@ -9,9 +9,9 @@ import HeroButton from './HeroButton';
 const AboutSection: React.FC = () => {
   const { Link } = useNavigation();
   return (
-    <ContentSection dark={false} className="py-20 overflow-x-hidden max-w-full relative">
+    <ContentSection dark={false} className="py-20 overflow-x-hidden max-w-full relative !bg-white">
       {/* Add background patterns for consistency with other sections */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white">
+      <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,102,204,0.02)_100%)]" />
         <div className="absolute inset-0 bg-grid-blue-500/[0.01] bg-[length:32px_32px]" />
       </div>
@@ -53,7 +53,7 @@ const AboutSection: React.FC = () => {
           >
             <div className="space-y-3">
               <h2 className="text-2xl md:text-3xl font-bold leading-tight break-words text-white">
-                Transforming Complex Transactions into Seamless Success Stories
+                Complex Transactions Made Simple
               </h2>
               <p className="text-md text-blue-100 italic">
                 Three Decades of Excellence in the Pocono Mountains

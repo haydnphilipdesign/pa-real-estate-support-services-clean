@@ -142,8 +142,8 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
         {isListingOrDual && (
           <>
             <div className="space-y-2 w-full">
-              <Label htmlFor="totalCommissionPercentage" className="flex items-center text-gray-800">
-                Total Commission <span className="text-red-500 ml-1">*</span>
+              <Label htmlFor="totalCommissionPercentage" className="flex items-center text-white">
+                Total Commission <span className="text-red-400 ml-1">*</span>
               </Label>
               <div className="relative w-full">
                 <Input
@@ -153,9 +153,9 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
                   type="text"
                   placeholder="e.g. 6.0"
                   required
-                  className="pr-8 border-gray-300 w-full"
+                  className="pr-8 border-white/30 bg-white/10 text-white placeholder:text-white/60 w-full"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">%</span>
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70">%</span>
               </div>
               {errors.totalCommissionPercentage && (
                 <p className="text-xs text-red-500">{errors.totalCommissionPercentage}</p>
@@ -163,8 +163,8 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
             </div>
 
             <div className="space-y-2 w-full">
-              <Label htmlFor="listingAgentPercentage" className="flex items-center text-gray-800">
-                Listing Agent <span className="text-red-500 ml-1">*</span>
+              <Label htmlFor="listingAgentPercentage" className="flex items-center text-white">
+                Listing Agent <span className="text-red-400 ml-1">*</span>
               </Label>
               <div className="relative w-full">
                 <Input
@@ -174,9 +174,9 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
                   type="text"
                   placeholder="e.g. 3.0"
                   required
-                  className="pr-8 border-gray-300 w-full"
+                  className="pr-8 border-white/30 bg-white/10 text-white placeholder:text-white/60 w-full"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">%</span>
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70">%</span>
               </div>
               {errors.listingAgentPercentage && (
                 <p className="text-xs text-red-500">{errors.listingAgentPercentage}</p>

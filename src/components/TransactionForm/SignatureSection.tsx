@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SignatureData } from "@/types/transaction";
+import { PenTool, FileText, CheckCircle } from "lucide-react";
 
 interface SignatureSectionProps {
   data: SignatureData;
@@ -13,8 +14,8 @@ interface SignatureSectionProps {
   onFieldFix?: (field: string) => void;
 }
 
-export const SignatureSection: React.FC<SignatureSectionProps> = ({ 
-  data, 
+export const SignatureSection: React.FC<SignatureSectionProps> = ({
+  data,
   onChange
 }: SignatureSectionProps) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -29,19 +30,19 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
       });
     }
     onChange(field, value);
-    
+
     // If signature field changes, also update agentName field
     if (field === 'signature') {
       onChange('agentName', value);
     }
   };
-  
+
   // Set the date and sync agent name when the component loads
   useEffect(() => {
     if (!data.dateSubmitted) {
       onChange('dateSubmitted', new Date().toISOString().split('T')[0]);
     }
-    
+
     // If signature exists but agentName is not set, update it
     if (data.signature && !data.agentName) {
       onChange('agentName', data.signature);
@@ -51,85 +52,93 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
   // Removed unused functions
 
   return (
-    <div className="max-w-5xl mx-auto bg-transparent rounded-xl shadow-lg border border-blue-700/50 p-8">
-      {/* Signature Section */}
-      <div className="field-group">
-        <div className="grid md:grid-cols-2 gap-x-8 gap-y-6">
-          <div className="space-y-4">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="signature" className="text-white font-medium">
-                Your Full Name <span className="text-red-500">*</span>
-              </Label>
-              <Input
+    <div className="tf-signature-section">
+      <div className="tf-glass-card">
+        <div className="tf-flex tf-items-center tf-mb-4">
+          <div className="tf-icon-container">
+            <PenTool className="tf-icon" />
+          </div>
+          <div>
+            <h3 className="tf-heading-secondary">Electronic Signature</h3>
+            <p className="tf-text-subtitle">Complete your electronic signature and acknowledgements</p>
+          </div>
+        </div>
+
+        <div className="tf-grid tf-grid-cols-1 md:tf-grid-cols-2 tf-gap-6">
+          {/* Signature Input */}
+          <div className="tf-signature-input">
+            <div className="tf-form-group">
+              <label htmlFor="signature" className="tf-label">
+                <PenTool className="tf-label-icon" />
+                Your Full Name <span className="tf-label-required">*</span>
+              </label>
+              <input
                 id="signature"
                 type="text"
                 value={data.signature || ''}
                 onChange={(e) => handleChange("signature", e.target.value)}
                 placeholder="Type your full legal name"
-                className="bg-slate-800 text-white placeholder:text-slate-500 border-slate-700 focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                className="tf-input"
                 required
               />
               {errors.signature && (
-                <p className="text-sm text-red-500">{errors.signature}</p>
+                <p className="tf-error-message">{errors.signature}</p>
               )}
-              
+
               {/* Hidden field for agentName */}
-              <input 
-                type="hidden" 
-                id="agentName" 
-                value={data.agentName || ''} 
+              <input
+                type="hidden"
+                id="agentName"
+                value={data.agentName || ''}
               />
-              
-              <p className="text-xs text-slate-300 mt-1">
+
+              <p className="tf-help-text">
                 Your typed name above constitutes your electronic signature for this transaction.
               </p>
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="p-4 bg-[#102042]/70 rounded-lg border border-blue-700/50" data-override-contrast="true" style={{ "--sign-text-color": "white" } as React.CSSProperties}>
-              <h5 
-                className="text-white font-medium mb-4 acknowledgements-heading" 
-                style={{ 
-                  color: 'white !important',
-                  textShadow: '0 0 0 #fff'
-                }}
-                id="acknowledgements-heading"
-                data-signature-heading="true"
-              >
+          {/* Acknowledgements */}
+          <div className="tf-acknowledgements">
+            <div className="tf-glass-card-light">
+              <h4 className="tf-heading-tertiary tf-mb-4">
+                <CheckCircle className="tf-label-icon" />
                 Acknowledgements
-              </h5>
-              <div className="space-y-4" id="signature-checkbox-container" data-form-signature="true">
-                <div className="flex items-start space-x-3">
-                  <Checkbox
-                    id="termsAccepted"
-                    checked={data.termsAccepted || false}
-                    onCheckedChange={(checked) => 
-                      handleChange("termsAccepted", checked === true)}
-                    className="mt-1 border-slate-600 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-                  />
-                  <Label htmlFor="termsAccepted" className="text-white font-medium text-sm signature-label" style={{ color: 'white !important' }}>
-                    I accept the <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline mx-1">terms and conditions</a> and understand my legal obligations related to this transaction.
-                  </Label>
+              </h4>
+
+              <div className="tf-checkbox-group">
+                <Checkbox
+                  id="termsAccepted"
+                  checked={data.termsAccepted || false}
+                  onCheckedChange={(checked) =>
+                    handleChange("termsAccepted", checked === true)}
+                  className="tf-checkbox"
+                />
+                <div className="tf-checkbox-content">
+                  <label htmlFor="termsAccepted" className="tf-checkbox-label">
+                    I accept the <a href="/terms" target="_blank" rel="noopener noreferrer" className="tf-link">terms and conditions</a> and understand my legal obligations related to this transaction.
+                  </label>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <Checkbox
-                    id="infoConfirmed"
-                    checked={data.infoConfirmed || false}
-                    onCheckedChange={(checked) => 
-                      handleChange("infoConfirmed", checked === true)}
-                    className="mt-1 border-slate-600 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-                  />
-                  <Label htmlFor="infoConfirmed" className="text-white font-medium text-sm signature-label" style={{ color: 'white !important' }}>
+              </div>
+
+              <div className="tf-checkbox-group tf-mt-4">
+                <Checkbox
+                  id="infoConfirmed"
+                  checked={data.infoConfirmed || false}
+                  onCheckedChange={(checked) =>
+                    handleChange("infoConfirmed", checked === true)}
+                  className="tf-checkbox"
+                />
+                <div className="tf-checkbox-content">
+                  <label htmlFor="infoConfirmed" className="tf-checkbox-label">
                     I confirm all information provided in this transaction form is accurate, complete, and truthful to the best of my knowledge.
-                  </Label>
+                  </label>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   );
 }

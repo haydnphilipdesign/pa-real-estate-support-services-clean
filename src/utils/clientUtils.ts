@@ -4,7 +4,6 @@
  */
 import { CoverSheetOptions, CoverSheetResponse, EmailOptions } from '@/types/clientTypes';
 import { toast } from 'react-toastify';
-import './index.css';
 
 /**
  * Generate a cover sheet by calling the API instead of using server-side code directly

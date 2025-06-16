@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { ArrowLeft, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ResponsiveContainer, ResponsiveWizardContainer } from './ResponsiveContainer';
