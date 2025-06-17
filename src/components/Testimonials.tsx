@@ -86,32 +86,29 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section className="pt-32 pb-20 relative overflow-hidden max-w-full bg-gray-50" data-section="testimonials">
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,102,204,0.01)_100%)]" />
-        <div className="absolute inset-0 bg-grid-blue-500/[0.005] bg-[length:32px_32px]" />
-      </div>
-      
-      <div className="container mx-auto px-8 md:px-24 max-w-7xl relative z-10">
-        <PreloadedAnimationWrapper 
-          className="text-center mb-12"
-          preloadDelay={200}
-          bg="bg-transparent"
+    <section className="section bg-white" data-section="testimonials">
+      <div className="page-container">
+        <motion.div 
+          className="section-header"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-brand-blue mb-4">
+          <h2 className="heading-2">
             What Our Clients Say
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lead">
             Read about the experiences of real estate professionals who have worked with us
           </p>
-        </PreloadedAnimationWrapper>
+        </motion.div>
 
         <div className="relative mx-auto max-w-6xl">
           <div className="flex items-center justify-center gap-4 md:gap-8">
             {/* Left Navigation Button */}
             <button
               onClick={prevTestimonial}
-              className="flex-shrink-0 bg-white p-3 md:p-4 rounded-full shadow-lg text-brand-blue hover:bg-blue-50 transition-all duration-300 flex items-center justify-center border border-gray-200 hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+              className="btn btn-ghost p-3 md:p-4 rounded-full"
               aria-label="Previous testimonial"
             >
               <ArrowLeft size={18} className="md:w-5 md:h-5" />
@@ -119,14 +116,9 @@ const Testimonials = () => {
 
             {/* Testimonial Card */}
             <div className="flex-1 max-w-4xl">
-              <ContentCard
-                className="p-0 overflow-hidden shadow-xl"
-                withAnimation={true}
-                hoverEffect="none"
-                cardStyle="default"
-              >
-            <AnimatePresence mode="wait">
-              <motion.div
+              <div className="card card-elevated overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.div
                 key={testimonialData[currentIndex].id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -134,7 +126,7 @@ const Testimonials = () => {
                 transition={{ duration: 0.5 }}
                 className="flex flex-col md:flex-row overflow-hidden"
               >
-                <div className="md:w-1/3 flex justify-center items-center bg-gradient-to-br from-brand-blue to-brand-blue/90 p-6 md:p-8 relative overflow-hidden">
+                <div className="md:w-1/3 flex justify-center items-center bg-gradient-to-br from-primary-600 to-primary-700 p-6 md:p-8 relative overflow-hidden">
                   <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:24px_24px]" />
 
                   <motion.div
@@ -166,33 +158,36 @@ const Testimonials = () => {
 
                 <div className="md:w-2/3 p-6 md:p-8 flex flex-col justify-center bg-white">
                   <div className="mb-4">
-                    <h3 className="text-xl md:text-2xl font-bold text-brand-blue">
+                    <h3 className="heading-3 text-primary-600">
                       {testimonialData[currentIndex].name}
                     </h3>
-                    <p className="text-brand-blue/70 text-sm">
+                    <p className="text-primary-600/70 text-small">
                       {testimonialData[currentIndex].role}
                     </p>
                   </div>
 
                   <div className="relative">
-                    <div className="absolute top-0 left-0 text-6xl text-gray-100 -z-10 opacity-50 font-serif">"</div>
-                    <blockquote className="text-gray-700 mb-4 relative z-10 text-base leading-relaxed overflow-auto max-h-[240px] pr-4">
-                      <p className="leading-relaxed">
-                        {testimonialData[currentIndex].content}
-                      </p>
+                    <div className="absolute top-0 left-0 text-6xl text-neutral-100 -z-10 opacity-50 font-serif">"</div>
+                    <blockquote className="text-neutral-700 mb-4 relative z-10 leading-relaxed overflow-auto max-h-[240px] pr-4">
+                      <div className="text-body leading-relaxed mb-4">
+                        {testimonialData[currentIndex].content.split('.').slice(0, 2).join('.') + '.'}
+                      </div>
+                      <div className="text-lg font-semibold text-primary-600 italic">
+                        "{testimonialData[currentIndex].content.split('.').slice(2, 3).join('.') + '.'}"
+                      </div>
                     </blockquote>
-                    <div className="absolute bottom-0 right-4 text-6xl text-gray-100 -z-10 opacity-50 font-serif transform rotate-180">"</div>
+                    <div className="absolute bottom-0 right-4 text-6xl text-neutral-100 -z-10 opacity-50 font-serif transform rotate-180">"</div>
                   </div>
                 </div>
-              </motion.div>
-              </AnimatePresence>
-              </ContentCard>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
 
             {/* Right Navigation Button */}
             <button
               onClick={nextTestimonial}
-              className="flex-shrink-0 bg-white p-3 md:p-4 rounded-full shadow-lg text-brand-blue hover:bg-blue-50 transition-all duration-300 flex items-center justify-center border border-gray-200 hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+              className="btn btn-ghost p-3 md:p-4 rounded-full"
               aria-label="Next testimonial"
             >
               <ArrowRight size={18} className="md:w-5 md:h-5" />
@@ -204,10 +199,10 @@ const Testimonials = () => {
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`transition-all duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2 ${
+                className={`transition-all duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
                   currentIndex === index
-                    ? 'w-8 h-3 bg-brand-blue shadow-md'
-                    : 'w-3 h-3 bg-gray-300 hover:bg-brand-blue/50 hover:scale-110'
+                    ? 'w-8 h-3 bg-primary-600 shadow-md'
+                    : 'w-3 h-3 bg-neutral-300 hover:bg-primary-500/50 hover:scale-110'
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
                 aria-current={currentIndex === index ? 'true' : 'false'}
@@ -229,7 +224,7 @@ const Testimonials = () => {
           repeatType: "reverse"
         }}
       >
-        <div className="w-full h-full bg-brand-blue/15 rounded-full blur-xl" />
+        <div className="w-full h-full bg-primary-500/15 rounded-full blur-xl" />
       </motion.div>
 
       <motion.div
@@ -244,7 +239,7 @@ const Testimonials = () => {
           repeatType: "reverse"
         }}
       >
-        <div className="w-full h-full bg-[#FFB81C]/15 rounded-full blur-xl" />
+        <div className="w-full h-full bg-warning-500/15 rounded-full blur-xl" />
       </motion.div>
     </section>
   );

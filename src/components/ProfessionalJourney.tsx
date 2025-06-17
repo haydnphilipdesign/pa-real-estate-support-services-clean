@@ -47,22 +47,22 @@ const journeySteps = [
 
 const ProfessionalJourney: React.FC = () => {
   return (
-    <section className="py-24 relative overflow-hidden bg-gradient-to-br from-brand-blue to-brand-blue/90">
+    <section className="section hero-section">
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(255,255,255,0.03)_100%)]" />
         <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:32px_32px]" />
       </div>
 
-      <div className="container mx-auto px-4 relative">
+      <div className="hero-content">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="section-header"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Professional Journey</h2>
-          <p className="text-lg text-white/90 max-w-2xl mx-auto">
+          <h2 className="heading-1 text-white mb-6">Professional Journey</h2>
+          <p className="text-lead text-white/90 max-w-2xl mx-auto">
             Three decades of experience in real estate and administrative excellence
           </p>
         </motion.div>
@@ -77,18 +77,18 @@ const ProfessionalJourney: React.FC = () => {
               transition={{ delay: index * 0.1, duration: 0.5 }}
               className="group relative"
             >
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-gold to-white rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-300" />
-              <div className="relative bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col group-hover:bg-gray-50">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-warning-500 to-white rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-300" />
+              <div className="relative card card-elevated p-6 h-full flex flex-col group-hover:bg-neutral-50">
                 <div className="mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-brand-gold/20 to-brand-blue/20 rounded-full flex items-center justify-center">
-                    <Briefcase className="w-6 h-6 text-brand-gold" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-warning-500/20 to-primary-600/20 rounded-full flex items-center justify-center">
+                    <Briefcase className="w-6 h-6 text-warning-600" />
                   </div>
                 </div>
-                <div className="text-brand-gold font-semibold mb-2">{step.year}</div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2 min-h-[3rem] flex items-center group-hover:text-brand-blue">
+                <div className="text-warning-600 font-semibold mb-2">{step.year}</div>
+                <h3 className="heading-4 text-neutral-900 mb-2 min-h-[3rem] flex items-center group-hover:text-primary-600">
                   {step.title}
                 </h3>
-                <p className="text-gray-700 text-sm flex-grow group-hover:text-gray-900 font-medium">
+                <p className="text-neutral-700 text-small flex-grow group-hover:text-neutral-900 font-medium">
                   {step.description}
                 </p>
               </div>

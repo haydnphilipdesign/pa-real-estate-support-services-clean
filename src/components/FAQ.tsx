@@ -33,15 +33,24 @@ const FAQ: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="text-center mb-12 pt-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-          Frequently Asked Questions
-        </h2>
-        <p className="text-lg text-white/90 max-w-2xl mx-auto">
-          Find answers to common questions about my transaction coordination services
-        </p>
-      </div>
+    <section className="section bg-neutral-50">
+      <div className="page-container">
+        <motion.div
+          className="section-header"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="heading-2">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-lead">
+            Find answers to common questions about my transaction coordination services
+          </p>
+        </motion.div>
+
+        <div className="max-w-3xl mx-auto">
       {faqs.map((faq, index) => (
         <motion.div
           key={index}
@@ -52,21 +61,21 @@ const FAQ: React.FC = () => {
           className="mb-4 group"
         >
           <div className="relative">
-            <div className={`absolute -inset-0.5 bg-gradient-to-r from-brand-gold to-brand-blue rounded-xl blur opacity-0 transition duration-300 ${openIndex === index ? 'opacity-30' : 'group-hover:opacity-20'}`} />
+            <div className={`absolute -inset-0.5 bg-gradient-to-r from-warning-500 to-primary-600 rounded-xl blur opacity-0 transition duration-300 ${openIndex === index ? 'opacity-30' : 'group-hover:opacity-20'}`} />
             <button
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              className="w-full text-left bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none relative"
+              className="w-full text-left card card-elevated p-6 transition-all duration-300 focus:outline-none relative"
             >
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold text-gray-800 pr-8">
+                <h3 className="heading-4 text-neutral-800 pr-8">
                   {faq.question}
                 </h3>
                 <motion.div
                   animate={{ rotate: openIndex === index ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-gradient-to-br from-brand-gold/20 to-brand-blue/20 p-2 rounded-full flex items-center justify-center"
+                  className="bg-gradient-to-br from-warning-500/20 to-primary-600/20 p-2 rounded-full flex items-center justify-center"
                 >
-                  <ChevronDown className="w-5 h-5 text-brand-gold" />
+                  <ChevronDown className="w-5 h-5 text-warning-600" />
                 </motion.div>
               </div>
               <AnimatePresence>
@@ -78,7 +87,7 @@ const FAQ: React.FC = () => {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-gray-600 mt-4 pt-4 border-t border-gray-100 leading-relaxed">
+                    <p className="text-neutral-600 mt-4 pt-4 border-t border-neutral-100 leading-relaxed text-body">
                       {faq.answer}
                     </p>
                   </motion.div>
@@ -88,7 +97,9 @@ const FAQ: React.FC = () => {
           </div>
         </motion.div>
       ))}
-    </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

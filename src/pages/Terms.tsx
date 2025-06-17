@@ -46,28 +46,28 @@ const Terms: React.FC = () => {
         sideContent={sideContent}
       />
       
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-4xl">
+      <section className="section bg-white">
+        <div className="page-container max-w-4xl">
           <div className="prose max-w-none">
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">1. General Terms</h2>
-                <p className="text-gray-700">
+                <h2 className="heading-2 mb-4">1. General Terms</h2>
+                <p className="text-body">
                   By using the transaction coordination services provided by PA Real Estate Support Services, you agree to the following terms and conditions. These terms govern your use of my services and form a legally binding agreement between you and PA Real Estate Support Services.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Services</h2>
-                <p className="text-gray-700">
+                <h2 className="heading-2 mb-4">2. Services</h2>
+                <p className="text-body">
                   PA Real Estate Support Services provides transaction coordination services to real estate professionals. My services include document organization, deadline tracking, communication coordination, and other administrative support related to real estate transactions.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Client Responsibilities</h2>
-                <p className="text-gray-700 mb-4">As a client, you are responsible for:</p>
-                <ul className="list-disc pl-6 text-gray-700 space-y-2">
+                <h2 className="heading-2 mb-4">3. Client Responsibilities</h2>
+                <p className="text-body mb-4">As a client, you are responsible for:</p>
+                <ul className="list-disc pl-6 text-neutral-700 space-y-2">
                   <li>Providing accurate and complete information about each transaction</li>
                   <li>Responding promptly to requests for information or documents</li>
                   <li>Reviewing all documents before signing</li>
@@ -77,56 +77,56 @@ const Terms: React.FC = () => {
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Confidentiality</h2>
-                <p className="text-gray-700">
+                <h2 className="heading-2 mb-4">4. Confidentiality</h2>
+                <p className="text-body">
                   I understand the sensitive nature of real estate transactions and commit to maintaining the confidentiality of all client information. I will not share your information with third parties unless required for the successful completion of the transaction or as required by law.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Data Collection and Storage</h2>
-                <p className="text-gray-700">
+                <h2 className="heading-2 mb-4">5. Data Collection and Storage</h2>
+                <p className="text-body">
                   Information collected through my forms and services will be stored securely and used solely for the purpose of transaction coordination. I implement appropriate security measures to protect your data from unauthorized access or disclosure.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Limitation of Liability</h2>
-                <p className="text-gray-700">
+                <h2 className="heading-2 mb-4">6. Limitation of Liability</h2>
+                <p className="text-body">
                   PA Real Estate Support Services strives for accuracy and thoroughness in all services provided. However, we are not responsible for errors or omissions in documents or information provided by clients or third parties. Our liability is limited to the fees paid for our services.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Payment Terms</h2>
-                <p className="text-gray-700">
+                <h2 className="heading-2 mb-4">7. Payment Terms</h2>
+                <p className="text-body">
                   Payment for services is due according to the terms specified in your service agreement. I reserve the right to suspend services for accounts with outstanding balances.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Termination</h2>
-                <p className="text-gray-700">
+                <h2 className="heading-2 mb-4">8. Termination</h2>
+                <p className="text-body">
                   Either party may terminate the service agreement with written notice. If termination occurs mid-transaction, fees may still apply based on the work completed.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Changes to Terms</h2>
-                <p className="text-gray-700">
+                <h2 className="heading-2 mb-4">9. Changes to Terms</h2>
+                <p className="text-body">
                   I reserve the right to modify these terms and conditions at any time. Changes will be communicated via email or my website, and continued use of my services constitutes acceptance of the modified terms.
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Governing Law</h2>
-                <p className="text-gray-700">
+                <h2 className="heading-2 mb-4">10. Governing Law</h2>
+                <p className="text-body">
                   These terms and conditions are governed by the laws of the Commonwealth of Pennsylvania. Any disputes arising from these terms will be resolved through arbitration in Pennsylvania.
                 </p>
               </div>
 
               <div className="border-t pt-6">
-                <p className="text-sm text-gray-500">
+                <p className="text-small text-neutral-500">
                   Last updated: December 2024
                 </p>
               </div>

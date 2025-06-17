@@ -93,26 +93,26 @@ const process = [
   {
     id: 'process-1',
     icon: FileSearch,
-    title: 'Initial Review',
-    description: 'I begin by thoroughly reviewing the contract and gathering all necessary documentation.'
+    title: 'Gather Info',
+    description: 'Collect contracts, documents, and transaction details to build your complete file.'
   },
   {
     id: 'process-2',
     icon: Database,
-    title: 'Setup & Organization',
-    description: 'Creating a digital transaction file and establishing timelines and checklists.'
+    title: 'Build Your File',
+    description: 'Create digital organization with timelines, checklists, and milestone tracking.'
   },
   {
     id: 'process-3',
     icon: MessageCircle,
-    title: 'Coordination',
-    description: 'Managing communications and coordinating with all parties throughout the process.'
+    title: 'Manage Milestones',
+    description: 'Coordinate communications, schedule inspections, and track deadlines.'
   },
   {
     id: 'process-4',
     icon: Clock,
-    title: 'Closing',
-    description: 'Ensuring all requirements are met and coordinating a smooth closing process.'
+    title: 'Finalize & Deliver',
+    description: 'Ensure compliance requirements are met and coordinate seamless closing.'
   }
 ];
 
@@ -120,11 +120,13 @@ const Services: React.FC = () => {
   return (
     <div className="bg-neutral-50">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-b from-brand-blue to-brand-blue/90 text-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-h1 font-bold mb-6">Transaction Coordination Services</h1>
-            <p className="text-body-xl text-white/90">
+      <section className="section hero-section">
+        <div className="hero-content">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              Transaction Coordination Services
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
               Professional transaction coordination services designed to streamline your real estate deals from contract to closing.
             </p>
           </div>
@@ -132,25 +134,31 @@ const Services: React.FC = () => {
       </section>
 
       {/* Main Services */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => (
+      <section className="section bg-neutral-25">
+        <div className="page-container">
+          <div className="section-header">
+            <h2 className="heading-2">Complete Transaction Support</h2>
+            <p className="text-lead">Everything you need to manage real estate transactions efficiently</p>
+          </div>
+          <div className="features-grid">
+            {services.map((service, index) => (
               <motion.div
                 key={service.id}
-                className="glass-card glass-card-light hover:lift"
+                className="feature-card card card-elevated"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <service.icon className="w-12 h-12 text-brand-blue mb-4" />
-                <h3 className="text-h3 font-bold mb-3 text-neutral-900">{service.title}</h3>
-                <p className="text-body text-neutral-600 mb-4">{service.description}</p>
+                <div className="feature-icon">
+                  <service.icon className="w-6 h-6" />
+                </div>
+                <h3 className="heading-3">{service.title}</h3>
+                <p className="text-body mb-4">{service.description}</p>
                 <ul className="space-y-2">
-                  {service.features.map((feature, index) => (
-                    <li key={`${service.id}-feature-${index}`} className="flex items-start text-neutral-700">
-                      <span className="w-2 h-2 bg-brand-blue rounded-full mt-2 mr-2 flex-shrink-0"></span>
-                      <span className="flex-1 text-left">{feature}</span>
+                  {service.features.map((feature, featureIndex) => (
+                    <li key={`${service.id}-feature-${featureIndex}`} className="flex items-start text-neutral-700">
+                      <span className="w-2 h-2 bg-accent-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                      <span className="flex-1 text-left text-small">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -161,24 +169,27 @@ const Services: React.FC = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-h2 font-bold text-center mb-12 text-neutral-900">My Process</h2>
+      <section className="section bg-white">
+        <div className="page-container">
+          <div className="section-header">
+            <h2 className="heading-2">My Process</h2>
+            <p className="text-lead">A systematic approach to transaction coordination</p>
+          </div>
           <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {process.map((step) => (
+            <div className="process-grid">
+              {process.map((step, index) => (
                 <motion.div
                   key={step.id}
-                  className="text-center"
+                  className="process-step"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <div className="bg-brand-blue/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <step.icon className="w-8 h-8 text-brand-blue" />
+                  <div className="feature-icon mx-auto mb-4">
+                    <step.icon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-h3 font-semibold mb-2 text-neutral-900">{step.title}</h3>
-                  <p className="text-body text-neutral-600">{step.description}</p>
+                  <h3 className="heading-4">{step.title}</h3>
+                  <p className="text-body">{step.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -187,17 +198,17 @@ const Services: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-brand-blue text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-h2 font-bold mb-6">Ready to Streamline Your Transactions?</h2>
-          <p className="text-body-xl mb-8 text-white/90">
+      <section className="cta-section">
+        <div className="cta-content">
+          <h2 className="text-3xl sm:text-2xl lg:text-4xl font-bold leading-tight mb-6 text-white">Ready to Streamline Your Transactions?</h2>
+          <p className="text-lead text-white/90 mb-8">
             Let me handle the details while you focus on growing your business.
           </p>
           <Link
             to="/work-with-me"
-            className="btn btn-secondary btn-lg hover:lift"
+            className="btn btn-hero btn-xl"
           >
-            Get Started
+            Get Started Today
           </Link>
         </div>
       </section>

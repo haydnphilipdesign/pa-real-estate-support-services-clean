@@ -9,43 +9,46 @@ import { Link } from "react-router-dom";
  * Consolidated from 5 different button implementations
  */
 const buttonVariants = cva(
-  "btn inline-flex items-center justify-center gap-2 font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "btn inline-flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        // Primary actions - uses design system btn-primary
-        primary: "btn-primary btn-md",
+        // Primary actions - uses unified design system
+        primary: "btn-primary",
         
-        // Secondary actions - uses design system btn-secondary  
-        secondary: "btn-secondary btn-md",
+        // Secondary actions - uses unified design system  
+        secondary: "btn-secondary",
         
-        // Destructive actions
-        destructive: "bg-red-500 text-white hover:bg-red-600 focus-visible:ring-red-500 shadow-md hover:shadow-lg",
+        // Ghost variant - uses unified design system
+        ghost: "btn-ghost",
         
-        // Outline variants
-        outline: "border-2 border-primary-500 bg-transparent hover:bg-primary-500/10 text-primary-500 focus-visible:ring-primary-500",
+        // Success actions - uses unified design system
+        success: "btn-success",
         
-        // Ghost variant
-        ghost: "bg-transparent hover:bg-neutral-100 text-neutral-700 hover:text-neutral-900",
+        // Destructive/danger actions - uses unified design system
+        destructive: "btn-danger",
+        
+        // Accent variant - uses golden tan accent
+        accent: "btn-accent",
         
         // Link style
-        link: "underline-offset-4 hover:underline text-primary-500 hover:text-primary-600 p-0 h-auto shadow-none",
+        link: "underline-offset-4 hover:underline text-primary-500 hover:text-primary-600 p-0 h-auto shadow-none bg-transparent",
         
-        // Glass morphism effects
-        glass: "glass-card glass-card-light hover:transform hover:translateY(-2px)",
-        glassNavy: "glass-card glass-card-navy hover:transform hover:translateY(-2px)",
-        glassBlue: "glass-card glass-card-blue hover:transform hover:translateY(-2px)",
-        glassGold: "glass-card glass-card-gold hover:transform hover:translateY(-2px)",
+        // Premium card variant
+        premium: "card-premium text-neutral-700 hover:text-neutral-900 border-0 shadow-xl hover:shadow-2xl",
+        
+        // Glass morphism effects - enhanced
+        glass: "card-glass text-neutral-700 hover:text-neutral-900 border-0",
         
         // Hero variant (inverted contrast)
-        hero: "bg-white hover:bg-neutral-50 text-primary-500 shadow-lg hover:shadow-xl font-semibold",
+        hero: "bg-white hover:bg-neutral-50 text-primary-500 shadow-lg hover:shadow-xl font-semibold border-0",
       },
       size: {
-        sm: "btn-sm text-sm h-9 px-3",
-        md: "btn-md text-base h-10 px-4", 
-        lg: "btn-lg text-lg h-11 px-6",
-        xl: "text-xl h-12 px-8",
-        icon: "h-10 w-10 p-2",
+        sm: "btn-sm",
+        md: "text-base min-h-[2.75rem] px-6 py-3", 
+        lg: "btn-lg",
+        xl: "btn-xl",
+        icon: "btn-icon-only",
       },
       radius: {
         default: "rounded-lg",

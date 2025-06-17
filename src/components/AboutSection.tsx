@@ -7,12 +7,9 @@ import {
   MapPin, 
   Users, 
   TrendingUp,
-  CheckCircle,
-  Clock,
   Star,
   Building
 } from 'lucide-react';
-import ContentSection from './ContentSection';
 
 // Professional credentials and expertise data
 const credentials = [
@@ -45,36 +42,30 @@ const credentials = [
 const AboutSection: React.FC = () => {
   const { Link } = useNavigation();
   return (
-    <ContentSection dark={false} className="py-24 overflow-x-hidden max-w-full relative !bg-white">
-      {/* Professional background patterns */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(30,64,175,0.03)_100%)]" />
-        <div className="absolute inset-0 bg-grid-brand-blue/[0.015] bg-[length:32px_32px]" />
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10 max-w-7xl">
+    <section className="section bg-neutral-25">
+      <div className="page-container">
         {/* Professional Header */}
         <motion.div
-          className="text-center mb-16"
+          className="section-header"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="inline-flex items-center bg-brand-blue/10 rounded-full px-6 py-2 mb-6 border border-brand-blue/20">
-            <Building className="w-4 h-4 text-brand-blue mr-2" />
-            <span className="text-brand-blue text-sm font-medium">Professional Transaction Coordinator</span>
+          <div className="inline-flex items-center bg-primary-50 rounded-full px-6 py-2 mb-6 border border-primary-200">
+            <Building className="w-4 h-4 text-primary-600 mr-2" />
+            <span className="text-primary-600 text-sm font-medium">Professional Transaction Coordinator</span>
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
-            Transforming Complex Transactions into Seamless Success Stories
+          <h2 className="heading-2">
+            Complex Real Estate Transactions—Handled Seamlessly
           </h2>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
-            Three Decades of Excellence in the Pocono Mountains
+          <p className="text-lead">
+            Three decades of expertise serving Pocono Mountains realtors
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Professional Image with Credentials */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -83,25 +74,22 @@ const AboutSection: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="relative group">
-              <div className="absolute -inset-4 rounded-2xl bg-gradient-to-r from-brand-blue/20 to-brand-gold/20 blur-lg group-hover:blur-xl transition-all duration-300 opacity-50" />
-              <div className="relative">
-                <img
-                  src="/optimized/desk.jpg"
-                  alt="Professional real estate workspace"
-                  className="relative rounded-xl shadow-2xl w-full object-cover h-[400px] transform group-hover:scale-[1.02] transition-transform duration-300"
-                />
-                
-                {/* Professional Badge Overlay */}
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="glass-card-light p-4 text-center">
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                      <Star className="w-4 h-4 text-yellow-500" />
-                      <span className="font-bold text-neutral-900">Industry Leader</span>
-                      <Star className="w-4 h-4 text-yellow-500" />
-                    </div>
-                    <p className="text-sm text-neutral-600">Serving Pocono Mountains Realtors Since 1993</p>
+            <div className="card card-elevated overflow-hidden">
+              <img
+                src="/optimized/desk.jpg"
+                alt="Professional real estate workspace"
+                className="w-full object-cover h-[400px]"
+              />
+              
+              {/* Professional Badge Overlay */}
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="card-glass p-4 text-center">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <Star className="w-4 h-4 text-warning-500" />
+                    <span className="font-semibold text-neutral-900">Industry Leader</span>
+                    <Star className="w-4 h-4 text-warning-500" />
                   </div>
+                  <p className="text-sm text-neutral-600">Serving Pocono Mountains Realtors Since 1993</p>
                 </div>
               </div>
             </div>
@@ -117,14 +105,27 @@ const AboutSection: React.FC = () => {
           >
             {/* Main Story */}
             <div className="space-y-6">
-              <div className="space-y-4 text-neutral-700 leading-relaxed">
-                <p>
-                  At PA Real Estate Support Services, I specialize in turning complex real estate transactions into seamless experiences. With a deep understanding of the unique challenges in today's market, I provide comprehensive coordination services that empower real estate professionals to scale their business while maintaining exceptional client service.
-                </p>
-                <p>
-                  My extensive experience in the Pocono Mountains real estate market, combined with a commitment to cutting-edge technology and personalized service, ensures that every transaction is handled with precision and care. From contract to closing, I'm dedicated to being your trusted partner in success.
-                </p>
-              </div>
+              <div className="space-y-6">
+              <h3 className="heading-3 mb-4">What I Solve For You:</h3>
+              <ul className="space-y-3 text-body">
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-accent-500 rounded-full mt-3 mr-4 flex-shrink-0"></span>
+                  <span>Paperwork chaos and missed deadlines</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-accent-500 rounded-full mt-3 mr-4 flex-shrink-0"></span>
+                  <span>Time lost on coordination instead of client relationships</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-accent-500 rounded-full mt-3 mr-4 flex-shrink-0"></span>
+                  <span>Compliance risks and documentation errors</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-accent-500 rounded-full mt-3 mr-4 flex-shrink-0"></span>
+                  <span>Stress from managing multiple moving parts</span>
+                </li>
+              </ul>
+            </div>
             </div>
 
             {/* Professional Credentials Grid */}
@@ -136,17 +137,19 @@ const AboutSection: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.1 * index }}
-                  className="glass-card-light p-4 text-center hover:lift"
+                  className="card card-elevated text-center feature-card"
                 >
-                  <credential.icon className="w-8 h-8 text-brand-blue mx-auto mb-2" />
-                  <div className="text-lg font-bold text-neutral-900 mb-1">
+                  <div className="feature-icon mx-auto mb-3">
+                    <credential.icon className="w-6 h-6" />
+                  </div>
+                  <div className="heading-4 mb-2">
                     {credential.title}
                   </div>
-                  <div className="text-xs text-neutral-600 mb-2">
+                  <div className="text-small mb-3">
                     {credential.description}
                   </div>
-                  <div className="inline-flex items-center bg-brand-gold/20 rounded-full px-2 py-1">
-                    <span className="text-brand-blue text-xs font-semibold">{credential.highlight}</span>
+                  <div className="inline-flex items-center bg-primary-50 rounded-full px-3 py-1">
+                    <span className="text-primary-600 text-xs font-semibold">{credential.highlight}</span>
                   </div>
                 </motion.div>
               ))}
@@ -174,7 +177,7 @@ const AboutSection: React.FC = () => {
         </div>
 
       </div>
-    </ContentSection>
+    </section>
   );
 };
 
