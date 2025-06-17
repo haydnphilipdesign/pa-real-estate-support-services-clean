@@ -54,10 +54,10 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
       data-title={title || ''}
       style={{
         height: heroHeight,
-        marginTop: 0, // Remove all margin-top
-        paddingTop: NAV_HEIGHT, // Add padding-top to account for fixed header
+        marginTop: 0,
+        paddingTop: NAV_HEIGHT,
         paddingBottom: 0,
-        backgroundColor: solidBackground ? 'white' : 'transparent',
+        background: solidBackground ? 'white' : `linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%)`,
         position: 'relative',
         zIndex: 1,
         overflow: isTransactionPage ? 'hidden' : 'hidden',
@@ -89,15 +89,22 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
         <div className="absolute inset-0 bg-white z-0"></div>
       )}
 
-      {/* Dark overlay for better text contrast on persistent background */}
+      {/* Animated background elements and overlays */}
       {!solidBackground && (
         <>
-          {/* Base dark overlay */}
-          <div className={`absolute inset-0 ${overlayOpacity} z-0`} />
+          {/* Animated background elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
+            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
+            <div className="absolute top-40 left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
+          </div>
 
-          {/* Gradient overlay for enhanced visual depth */}
-          <div className={`absolute inset-0 bg-gradient-to-b ${overlayColor} z-10`}>
-            <div className="absolute inset-0 opacity-20 pattern-dots" />
+          {/* Subtle overlay pattern */}
+          <div className="absolute inset-0 opacity-10 z-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+              backgroundSize: '20px 20px'
+            }} />
           </div>
         </>
       )}

@@ -1,7 +1,5 @@
 import { Home, Users, UserCheck, User, Building, DollarSign, FileText, Check } from "lucide-react";
-import { Label } from "@/components/ui/label";
 import type { AgentRole } from '@/types/transaction';
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 interface RoleSelectionProps {
@@ -61,8 +59,6 @@ const roles = [
   }
 ];
 
-// Remove inline styles - now using unified CSS classes
-
 export function RoleSelection({ 
   selectedRole, 
   onRoleChange, 
@@ -85,74 +81,71 @@ export function RoleSelection({
   const actualShowValidation = showValidation || (touchedFields && Object.keys(touchedFields).length > 0);
 
   const selectedRoleObj = roles.find(role => role.id === actualSelectedRole);
-  const [isFocused, setIsFocused] = useState(false);
-
-  // Determine validation state for agent name
-  const agentNameValidationClass = actualShowValidation && actualErrors?.agentName
-    ? 'tf-field-error'
-    : actualAgentName && actualAgentName.trim().length > 0
-    ? 'tf-field-success'
-    : '';
-
-  // Determine validation state for role selection
-  const roleValidationClass = actualShowValidation && actualErrors?.selectedRole
-    ? 'tf-validation-error'
-    : actualSelectedRole
-    ? 'tf-validation-success'
-    : '';
 
   return (
-    <div className="tf-role-selection">
-      {/* Agent Name Input - simplified structure */}
-      <div className="tf-section">
-        <div className="tf-flex tf-items-center tf-mb-4">
-          <div className="tf-icon-container">
-            <User className="tf-icon" />
+    <div className="tf-field-group">
+      
+      {/* Agent Name Input */}
+      <div className="tf-card">
+        <div className="flex items-center mb-6">
+          <div className="tf-step-icon" style={{ width: '3rem', height: '3rem', marginBottom: '0', marginRight: 'var(--tf-space-4)' }}>
+            <User className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="tf-heading-secondary">Welcome Agent</h3>
-            <p className="tf-text-subtitle">Please enter your full name</p>
+            <h3 className="tf-section-title" style={{ marginBottom: 'var(--tf-space-1)' }}>Welcome Agent</h3>
+            <p className="tf-step-description">Please enter your full name to get started</p>
           </div>
         </div>
 
-        <div className="tf-form-group">
-          <Input
+        <div className="tf-field-group">
+          <label htmlFor="agent-name" className="tf-label tf-label--required">
+            Agent Name
+          </label>
+          <input
             id="agent-name"
+            type="text"
             placeholder="Enter your full name"
-            className={`tf-input ${agentNameValidationClass}`}
+            className={`tf-input ${actualShowValidation && actualErrors?.agentName ? 'tf-input--error' : ''}`}
             value={actualAgentName || ''}
-            onChange={(e) => actualOnAgentNameChange && actualOnAgentNameChange(e.target.value)}
-            onFocus={() => setIsFocused(true)}
+            onChange={(e) => {
+              actualOnAgentNameChange && actualOnAgentNameChange(e.target.value);
+              onFieldTouch && onFieldTouch('agentData.name');
+            }}
             aria-invalid={actualShowValidation && actualErrors?.agentName ? 'true' : 'false'}
-            aria-describedby={actualErrors?.agentName ? 'agent-name-error' : undefined}
-            onBlur={() => setIsFocused(false)}
+            aria-describedby={actualErrors?.agentName ? 'agent-name-error' : 'agent-name-help'}
           />
-          {showValidation && errors?.agentName && (
-            <div id="agent-name-error" className="tf-error-message" role="alert">
-              {errors.agentName}
+          <div id="agent-name-help" className="tf-help-text">
+            This will appear on all transaction documents
+          </div>
+          {actualShowValidation && actualErrors?.agentName && (
+            <div id="agent-name-error" className="tf-error-text" role="alert">
+              {actualErrors.agentName}
             </div>
           )}
         </div>
       </div>
 
-      {/* Role Selection Cards - simplified structure */}
-      <div className="tf-section">
-        <div className="tf-flex tf-items-center tf-mb-6">
-          <div className="tf-icon-container">
-            <Building className="tf-icon" />
+      {/* Role Selection */}
+      <div className="tf-card">
+        <div className="flex items-center mb-6">
+          <div className="tf-step-icon" style={{ width: '3rem', height: '3rem', marginBottom: '0', marginRight: 'var(--tf-space-4)' }}>
+            <Building className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="tf-heading-secondary">Select Your Role</h3>
-            <p className="tf-text-subtitle">Choose the role that best describes your position in this transaction</p>
+            <h3 className="tf-section-title" style={{ marginBottom: 'var(--tf-space-1)' }}>Select Your Role</h3>
+            <p className="tf-step-description">Choose how you are representing clients in this transaction</p>
           </div>
         </div>
 
-        <div className="tf-role-cards">
+        <div className="tf-radio-group">
           {roles.map(role => (
             <div
               key={role.id}
-              onClick={() => actualOnRoleChange && actualOnRoleChange(role.id)}
-              className={`tf-role-card ${actualSelectedRole === role.id ? 'selected' : ''} ${roleValidationClass}`}
+              onClick={() => {
+                actualOnRoleChange && actualOnRoleChange(role.id);
+                onFieldTouch && onFieldTouch('agentData.role');
+              }}
+              className={`tf-radio-item ${actualSelectedRole === role.id ? 'tf-radio-item--selected' : ''}`}
               role="button"
               tabIndex={0}
               aria-pressed={actualSelectedRole === role.id}
@@ -161,101 +154,74 @@ export function RoleSelection({
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
                   actualOnRoleChange && actualOnRoleChange(role.id);
+                  onFieldTouch && onFieldTouch('agentData.role');
                 }
               }}
-              onTouchStart={(e) => {
-                // Add touch feedback for mobile
-                e.currentTarget.style.transform = 'scale(0.98)';
-                e.currentTarget.style.transition = 'transform 0.1s ease';
-              }}
-              onTouchEnd={(e) => {
-                // Reset transform after touch
-                setTimeout(() => {
-                  e.currentTarget.style.transform = '';
-                }, 100);
-              }}
             >
-              {actualSelectedRole === role.id && (
-                <div className="tf-role-selected-indicator">
-                  <Check className="tf-icon" />
+              <input
+                type="radio"
+                name="agentRole"
+                value={role.id}
+                checked={actualSelectedRole === role.id}
+                onChange={() => {
+                  actualOnRoleChange && actualOnRoleChange(role.id);
+                  onFieldTouch && onFieldTouch('agentData.role');
+                }}
+                className="tf-radio-input"
+                aria-describedby={`role-${role.id}-description`}
+              />
+              
+              <div className="tf-radio-content">
+                <div className="flex items-center mb-3">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center mr-3 bg-gray-100">
+                    <role.icon className="w-5 h-5 text-gray-600" />
+                  </div>
+                  <h4 className="tf-radio-title">{role.title}</h4>
                 </div>
-              )}
+                
+                <p id={`role-${role.id}-description`} className="tf-radio-description mb-4">
+                  {role.description}
+                </p>
 
-              <div className="tf-role-card-header">
-                <div className="tf-icon-container">
-                  <role.icon className="tf-icon" />
-                </div>
-                <h4 className="tf-role-card-title">{role.title}</h4>
-              </div>
-
-              <p className="tf-role-card-description">{role.description}</p>
-
-              <div className="tf-role-features">
-                <ul>
+                <ul className="space-y-1">
                   {role.features.map((feature, idx) => (
-                    <li key={idx} className="tf-role-feature">
-                      <div className="tf-role-feature-bullet"></div>
+                    <li key={idx} className="flex items-start text-sm text-gray-600">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-1.5 mr-2 flex-shrink-0"></span>
                       {feature}
                     </li>
                   ))}
                 </ul>
               </div>
+
+              {actualSelectedRole === role.id && (
+                <div className="absolute top-4 right-4 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+              )}
             </div>
           ))}
         </div>
 
-        {showValidation && errors?.selectedRole && (
-          <div id="role-selection-error" className="tf-error-message" role="alert">
-            {errors.selectedRole}
+        {actualShowValidation && actualErrors?.selectedRole && (
+          <div id="role-selection-error" className="tf-error-text" role="alert">
+            {actualErrors.selectedRole}
           </div>
         )}
       </div>
 
-      {/* Selected Role Details - simplified structure */}
-      {actualSelectedRole && (
-        <div className="tf-section tf-selected-role-details">
-          <div className="tf-flex tf-items-center tf-mb-4">
-            <div className="tf-icon-container">
-              <FileText className="tf-icon" />
-            </div>
-            <div>
-              <h3 className="tf-heading-secondary">Role Selected: {selectedRoleObj?.title}</h3>
-              <p className="tf-text-subtitle">{selectedRoleObj?.description}</p>
-            </div>
+      {/* Role Selection Preview */}
+      {actualSelectedRole && selectedRoleObj && (
+        <div className="tf-alert tf-alert--success">
+          <div className="tf-alert-title">
+            Role Selected: {selectedRoleObj.title}
           </div>
-
-          <div className="tf-next-steps">
-            <h4 className="tf-heading-tertiary tf-flex tf-items-center">
-              <DollarSign className="tf-icon-sm tf-mr-2" style={{ color: 'var(--tf-primary-light)' }} />
-              What to expect next
-            </h4>
-            <p className="tf-text-description tf-mb-4">
-              As a {selectedRoleObj?.title.toLowerCase()}, you'll need to provide the following information to complete this transaction:
-            </p>
-            <div className="tf-grid tf-grid-cols-2 tf-gap-3">
-              <div className="tf-info-card">
-                <h5 className="tf-font-semibold tf-text-dark tf-mb-2">Property Details</h5>
-                <p className="tf-text-muted">Property address, MLS number, sale price, and status</p>
-              </div>
-              <div className="tf-info-card">
-                <h5 className="tf-font-semibold tf-text-dark tf-mb-2">Client Information</h5>
-                <p className="tf-text-muted">Client contact details and relationship information</p>
-              </div>
-              <div className="tf-info-card">
-                <h5 className="tf-font-semibold tf-text-dark tf-mb-2">Commission</h5>
-                <p className="tf-text-muted">Commission percentages, fees, and payment details</p>
-              </div>
-              <div className="tf-info-card">
-                <h5 className="tf-font-semibold tf-text-dark tf-mb-2">Documentation</h5>
-                <p className="tf-text-muted">Required documents and additional information</p>
-              </div>
-            </div>
-            <div className="tf-text-center tf-mt-4">
-              <p className="tf-text-muted tf-font-medium">Click the "Next Step" button below to continue</p>
-            </div>
-          </div>
+          <p className="mt-2">
+            {selectedRoleObj.description}. You'll complete information for property details, 
+            client information, commission structure, and required documentation.
+          </p>
         </div>
       )}
+      
     </div>
   );
 }

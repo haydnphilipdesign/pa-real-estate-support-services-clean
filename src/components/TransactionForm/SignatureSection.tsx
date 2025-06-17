@@ -101,10 +101,12 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
           {/* Acknowledgements */}
           <div className="tf-acknowledgements">
             <div className="tf-glass-card-light">
-              <h4 className="tf-heading-tertiary tf-mb-4">
-                <CheckCircle className="tf-label-icon" />
-                Acknowledgements
-              </h4>
+              <div className="tf-flex tf-items-center tf-mb-4">
+                <div className="tf-icon-container">
+                  <CheckCircle className="tf-icon" />
+                </div>
+                <h4 className="tf-heading-tertiary">Acknowledgements</h4>
+              </div>
 
               <div className="tf-checkbox-group">
                 <Checkbox

@@ -260,10 +260,12 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
 
             {/* Title Company Information */}
             <div className="tf-glass-card-light tf-mt-6">
-              <h4 className="tf-heading-tertiary tf-mb-4">
-                <Landmark className="tf-label-icon" />
-                Title Company
-              </h4>
+              <div className="tf-flex tf-items-center tf-mb-4">
+                <div className="tf-icon-container">
+                  <Landmark className="tf-icon" />
+                </div>
+                <h4 className="tf-heading-tertiary">Title Company</h4>
+              </div>
 
               <div className="tf-form-group">
                 <label htmlFor="titleCompany" className="tf-label">

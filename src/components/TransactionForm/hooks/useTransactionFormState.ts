@@ -7,6 +7,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { validateStepPermissive } from '@/utils/validation';
 import type { AgentRole, Client, PropertyData, CommissionData, PropertyDetailsData, TitleCompanyData, AdditionalInfoData, SignatureData, DocumentsData, AgentData } from '@/types/transaction';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -42,6 +43,8 @@ export interface TransactionFormData {
   isSubmitting: boolean;
   currentStep: number;
   validationErrors: Record<string, string>;
+  validationWarnings: Record<string, string>;
+  missingFields: string[];
   touchedFields: Set<string>;
 }
 
@@ -122,6 +125,8 @@ export const initialFormData: TransactionFormData = {
   isSubmitting: false,
   currentStep: 1,
   validationErrors: {},
+  validationWarnings: {},
+  missingFields: [],
   touchedFields: new Set(),
 };
 
@@ -295,45 +300,34 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
   }, []);
 
   const validateStep = useCallback((step: number, updateState = true): boolean => {
-    const errors: Record<string, string> = {};
+    // Transform form data to match validation function expectations
+    const validationData = {
+      agentData: formData.agentData,
+      propertyData: formData.propertyData,
+      clients: formData.clients,
+      commissionData: formData.commissionData,
+      propertyDetailsData: formData.propertyDetailsData,
+      titleData: formData.titleData,
+      additionalInfo: formData.additionalInfo,
+      signatureData: formData.signatureData,
+      documentsData: formData.documentsData
+    };
     
-    switch (step) {
-      case 1: // Role Selection
-        const roleError = validateField('agentData.role', formData.agentData.role);
-        const agentNameError = validateField('agentData.name', formData.agentData.name);
-        if (roleError) errors['agentData.role'] = roleError;
-        if (agentNameError) errors['agentData.name'] = agentNameError;
-        break;
-      
-      case 2: // Property Information
-        const mlsError = validateField('propertyData.mlsNumber', formData.propertyData.mlsNumber);
-        const addressError = validateField('propertyData.address', formData.propertyData.address);
-        const priceError = validateField('propertyData.salePrice', formData.propertyData.salePrice);
-        const countyError = validateField('propertyData.county', formData.propertyData.county);
-        const propertyTypeError = validateField('propertyData.propertyType', formData.propertyData.propertyType);
-        const closingDateError = validateField('propertyData.closingDate', formData.propertyData.closingDate);
-        
-        if (mlsError) errors['propertyData.mlsNumber'] = mlsError;
-        if (addressError) errors['propertyData.address'] = addressError;
-        if (priceError) errors['propertyData.salePrice'] = priceError;
-        if (countyError) errors['propertyData.county'] = countyError;
-        if (propertyTypeError) errors['propertyData.propertyType'] = propertyTypeError;
-        if (closingDateError) errors['propertyData.closingDate'] = closingDateError;
-        break;
-      
-      case 3: // Client Information
-        const clientsError = validateField('clients', formData.clients);
-        if (clientsError) errors.clients = clientsError;
-        break;
-      
-      // Add validation for other steps as needed
-    }
+    // Use the new permissive validation system
+    const validationResult = validateStepPermissive(step, validationData);
     
     if (updateState) {
-      setFormData(prev => ({ ...prev, validationErrors: errors }));
+      setFormData(prev => ({ 
+        ...prev, 
+        validationErrors: validationResult.errors, // Only blocking errors
+        validationWarnings: validationResult.warnings, // Non-blocking warnings
+        missingFields: validationResult.missingFields 
+      }));
     }
-    return Object.keys(errors).length === 0;
-  }, [formData, validateField]);
+    
+    // Return whether user can proceed (only blocked by critical errors)
+    return validationResult.canProceed;
+  }, [formData]);
 
   const setFieldTouched = useCallback((field: string) => {
     setFormData(prev => ({
@@ -453,7 +447,7 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
     currentStep: formData.currentStep,
     isFirstStep: formData.currentStep === 1,
     isLastStep: formData.currentStep === TOTAL_STEPS,
-    canGoNext: Object.keys(formData.validationErrors).length === 0,
+    canGoNext: Object.keys(formData.validationErrors).length === 0, // Only blocked by critical errors
     canGoPrevious: formData.currentStep > 1,
   };
 

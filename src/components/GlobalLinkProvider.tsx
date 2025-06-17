@@ -1,6 +1,5 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Link as RouterLink, LinkProps, useNavigate } from 'react-router-dom';
-import { useSlideshow } from '../context/GlobalSlideshowContext';
 
 // Create a context for the global link component
 export const GlobalLinkContext = createContext<React.ComponentType<LinkProps>>(RouterLink);
@@ -23,9 +22,20 @@ export const GlobalLinkProvider: React.FC<GlobalLinkProviderProps> = ({
   scrollDuration = 400,
   heroVisibilityDelay = 200,
 }) => {
+  // Track scroll position without slideshow context
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Create a custom Link component with smooth scrolling
   const SmoothLink: React.FC<LinkProps> = ({ to, onClick, ...rest }) => {
-    const { scrollPosition } = useSlideshow();
     const navigate = useNavigate();
 
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {

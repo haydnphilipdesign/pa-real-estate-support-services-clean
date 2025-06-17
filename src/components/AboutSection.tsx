@@ -67,10 +67,10 @@ const AboutSection: React.FC = () => {
           </div>
           
           <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
-            Your Success Is My Mission
+            Transforming Complex Transactions into Seamless Success Stories
           </h2>
           <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
-            Dedicated to helping real estate professionals achieve more by handling the details that matter most
+            Three Decades of Excellence in the Pocono Mountains
           </p>
         </motion.div>
 
@@ -117,15 +117,12 @@ const AboutSection: React.FC = () => {
           >
             {/* Main Story */}
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-neutral-900">
-                Three Decades of Transaction Excellence
-              </h3>
               <div className="space-y-4 text-neutral-700 leading-relaxed">
                 <p>
-                  Since 1993, I've been the trusted transaction coordinator for hundreds of real estate professionals throughout the Pocono Mountains. My deep understanding of Pennsylvania real estate law, combined with meticulous attention to detail, ensures your transactions close on time, every time.
+                  At PA Real Estate Support Services, I specialize in turning complex real estate transactions into seamless experiences. With a deep understanding of the unique challenges in today's market, I provide comprehensive coordination services that empower real estate professionals to scale their business while maintaining exceptional client service.
                 </p>
                 <p>
-                  I've built my reputation on one simple principle: your success is my success. By handling every aspect of transaction coordination—from contract to closing—I free you to focus on what you do best: building relationships and growing your business.
+                  My extensive experience in the Pocono Mountains real estate market, combined with a commitment to cutting-edge technology and personalized service, ensures that every transaction is handled with precision and care. From contract to closing, I'm dedicated to being your trusted partner in success.
                 </p>
               </div>
             </div>
@@ -176,45 +173,6 @@ const AboutSection: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Professional Results Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="glass-card-light p-8 text-center"
-        >
-          <h3 className="text-2xl font-bold text-neutral-900 mb-4">
-            Why Real Estate Professionals Choose Me
-          </h3>
-          <p className="text-neutral-600 mb-8 text-lg max-w-3xl mx-auto">
-            Proven expertise, reliable processes, and a commitment to your success that you can count on
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-green-600" />
-              </div>
-              <h4 className="text-lg font-bold text-neutral-900 mb-2">99.8% On-Time Closings</h4>
-              <p className="text-neutral-600">Consistent, reliable results you can depend on</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8 text-blue-600" />
-              </div>
-              <h4 className="text-lg font-bold text-neutral-900 mb-2">21-Day Average</h4>
-              <p className="text-neutral-600">Faster closings mean quicker commissions</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="w-8 h-8 text-purple-600" />
-              </div>
-              <h4 className="text-lg font-bold text-neutral-900 mb-2">5-Star Reviews</h4>
-              <p className="text-neutral-600">Consistently rated excellent by agents</p>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </ContentSection>
   );

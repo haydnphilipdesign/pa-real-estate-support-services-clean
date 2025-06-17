@@ -1,6 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { Link, LinkProps, useNavigate } from 'react-router-dom';
-import { useSlideshow } from '../context/GlobalSlideshowContext';
 import { smoothScrollTo } from '../utils/scrollAnimation';
 import { useScrollIndicator } from '../context/ScrollIndicatorContext';
 
@@ -65,8 +64,18 @@ const SmoothLink: React.FC<SmoothLinkProps> = ({
 }) => {
   const navigate = useNavigate();
   const [isNavigating, setIsNavigating] = useState(false);
-  const { scrollPosition } = useSlideshow();
+  const [scrollPosition, setScrollPosition] = useState(0);
   const { showScrollIndicator, hideScrollIndicator } = useScrollIndicator();
+
+  // Track scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Create cleanup function for navigation
   useEffect(() => {

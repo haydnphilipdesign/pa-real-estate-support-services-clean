@@ -86,7 +86,7 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section className="pt-32 pb-20 relative overflow-hidden max-w-full bg-gradient-to-b from-brand-blue/5 via-gray-50/50 to-gray-50" data-section="testimonials">
+    <section className="pt-32 pb-20 relative overflow-hidden max-w-full bg-gray-50" data-section="testimonials">
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,102,204,0.01)_100%)]" />
         <div className="absolute inset-0 bg-grid-blue-500/[0.005] bg-[length:32px_32px]" />

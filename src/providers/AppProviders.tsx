@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastProvider as Toast } from '../components/ui/toast';
 import { TransactionFormProvider } from '../context/TransactionFormContext';
-import { SlideshowProvider } from '../context/GlobalSlideshowContext';
 import SmoothNavigationProvider from '../providers/SmoothNavigationProvider';
 import { ScrollIndicatorProvider } from '../context/ScrollIndicatorContext';
 import { TooltipProvider } from '../components/ui/tooltip';
@@ -17,7 +16,6 @@ const AppProviders = ({ children }: AppProvidersProps) => {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <TransactionFormProvider>
-          <SlideshowProvider>
             <ScrollIndicatorProvider>
               <SmoothNavigationProvider
                 scrollDuration={400}
@@ -28,7 +26,6 @@ const AppProviders = ({ children }: AppProvidersProps) => {
                 <Toast>{children}</Toast>
               </SmoothNavigationProvider>
             </ScrollIndicatorProvider>
-          </SlideshowProvider>
         </TransactionFormProvider>
       </TooltipProvider>
     </QueryClientProvider>

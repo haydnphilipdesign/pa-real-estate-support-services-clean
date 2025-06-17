@@ -55,26 +55,26 @@ export const FormStep: React.FC<FormStepProps> = ({
       layout
     >
       {/* Step Header */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-3">
+      <div className="mb-6">
+        <div className="flex items-center gap-4 mb-2">
           {/* Step Number/Icon */}
-          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-white/30 to-white/10 shadow-md border border-white/20">
+          <div className="feature-icon">
             {icon || (
-              <span className="text-sm font-semibold text-white">
+              <span className="text-sm font-semibold">
                 {step}
               </span>
             )}
           </div>
           
           {/* Title */}
-          <h2 className="text-xl md:text-2xl font-semibold text-white">
+          <h2 className="heading-2" style={{ color: 'white' }}>
             {title}
           </h2>
         </div>
         
         {/* Description */}
         {description && (
-          <p className="text-white/80 text-sm md:text-base pl-11">
+          <p className="text-lead" style={{ color: 'rgba(255, 255, 255, 0.8)', marginLeft: 'var(--space-12)' }}>
             {description}
           </p>
         )}

@@ -40,12 +40,12 @@ const Contact: React.FC = () => {
     {
       id: 'faq-2',
       question: "How quickly do you respond to inquiries?",
-      answer: "We aim to respond to all inquiries within 1 business hour during normal business hours. For urgent matters, we're available by phone."
+      answer: "I aim to respond to all inquiries within 1 business hour during normal business hours. For urgent matters, I'm available by phone."
     },
     {
       id: 'faq-3',
       question: "What areas do you service?",
-      answer: "We primarily serve real estate agents in the Pocono Mountains region, working with Keller Williams agents and other brokerages in the area."
+      answer: "I primarily serve real estate agents in the Pocono Mountains region, working with Keller Williams agents and other brokerages in the area."
     }
   ];
 
@@ -57,7 +57,7 @@ const Contact: React.FC = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get in Touch</h1>
             <p className="text-xl text-white/90">
-              Let's discuss how we can help streamline your real estate transactions
+              Let's discuss how I can help streamline your real estate transactions
             </p>
           </div>
         </div>

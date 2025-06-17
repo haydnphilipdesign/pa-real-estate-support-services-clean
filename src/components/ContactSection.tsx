@@ -63,7 +63,7 @@ const ContactSection: React.FC = () => {
       title: "Direct Line",
       content: "(570) 588-4637",
       link: "tel:+5705884637",
-      subtext: ["Available Monday-Friday", "9:00 AM - 5:00 PM EST"],
+      subtext: ["Monday-Friday", "9:00 AM - 5:00 PM"],
       urgent: true
     },
     {
@@ -71,14 +71,14 @@ const ContactSection: React.FC = () => {
       title: "Email Support",
       content: "debbie@parealestatesupport.com",
       link: "mailto:debbie@parealestatesupport.com",
-      subtext: ["Quick response guaranteed", "within 24 hours"],
+      subtext: [],
       urgent: false
     },
     {
       icon: MapPin,
       title: "Service Area",
-      content: "Serving the Pocono Mountains",
-      subtext: ["Pennsylvania's Premier", "Transaction Coordinator"],
+      content: "Serving Realtors in the Pocono Mountains",
+      subtext: [],
       urgent: false
     }
   ];
@@ -98,69 +98,16 @@ const ContactSection: React.FC = () => {
           preloadDelay={200}
           bg="bg-transparent"
         >
-          <div className="inline-flex items-center bg-green-500/20 rounded-full px-6 py-2 mb-6 border border-green-500/30">
-            <CheckCircle2 className="w-4 h-4 text-green-300 mr-2" />
-            <span className="text-green-300 text-sm font-medium">Available for New Clients</span>
-          </div>
           
           <h2 className="text-4xl md:text-5xl text-white font-bold mb-6">
-            Ready to Scale Your Real Estate Business?
+            Let's Transform Your Business
           </h2>
           <p className="text-xl text-white/90 max-w-4xl mx-auto mb-8">
-            Stop spending 10+ hours per transaction on paperwork. Let a 30-year industry expert handle your coordination while you focus on what pays—closing more deals.
+            Ready to experience seamless transaction coordination? Connect with me to discuss how we can elevate your real estate business together.
           </p>
 
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center gap-6 mb-8">
-            {trustFactors.map((factor, index) => (
-              <div key={index} className="flex items-center text-white/90">
-                <factor.icon className="w-4 h-4 text-brand-gold mr-2" />
-                <span className="text-sm">
-                  <span className="font-semibold text-white">{factor.text}</span>
-                  <span className="mx-2">•</span>
-                  <span>{factor.metric}</span>
-                </span>
-              </div>
-            ))}
-          </div>
         </PreloadedAnimationWrapper>
 
-        {/* Lead Generation Benefits */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {leadGenBenefits.map((benefit, index) => (
-            <motion.div
-              key={benefit.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="glass-card-navy p-8 text-center hover:lift group"
-            >
-              {/* Highlight Badge */}
-              <div className="inline-flex items-center bg-brand-gold/20 rounded-full px-4 py-2 mb-4">
-                <span className="text-brand-gold text-sm font-semibold">{benefit.highlight}</span>
-              </div>
-
-              {/* Icon */}
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <benefit.icon className="w-8 h-8 text-brand-gold" />
-              </div>
-
-              {/* Content */}
-              <h3 className="text-xl font-bold text-white mb-4">{benefit.title}</h3>
-              <p className="text-white/90 mb-6 leading-relaxed">{benefit.description}</p>
-
-              {/* CTA Button */}
-              <Link
-                to="/work-with-me"
-                className="btn btn-secondary btn-sm w-full"
-              >
-                {benefit.cta}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </motion.div>
-          ))}
-        </div>
 
         {/* Direct Contact Information */}
         <motion.div
@@ -172,10 +119,10 @@ const ContactSection: React.FC = () => {
         >
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold text-white mb-4">
-              Let's Talk About Your Transaction Coordination Needs
+              Ready to streamline your transactions?
             </h3>
             <p className="text-white/90 text-lg max-w-3xl mx-auto">
-              Every agent's business is different. I'll create a custom coordination plan that fits your specific needs and transaction volume.
+              Let me handle the paperwork while you focus on growing your business.
             </p>
           </div>
 
@@ -194,11 +141,6 @@ const ContactSection: React.FC = () => {
                     : 'bg-white/5 border border-white/10'
                 }`}
               >
-                {item.urgent && (
-                  <div className="inline-flex items-center bg-green-500/30 rounded-full px-3 py-1 mb-4">
-                    <span className="text-green-300 text-xs font-semibold">FASTEST RESPONSE</span>
-                  </div>
-                )}
 
                 <div className="w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <item.icon className="w-6 h-6 text-brand-gold" />
@@ -230,10 +172,10 @@ const ContactSection: React.FC = () => {
           <div className="text-center mt-8 pt-8 border-t border-white/10">
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                to="/work-with-me"
+                to="/agent-portal"
                 className="btn btn-secondary btn-lg"
               >
-                Get Your Free Transaction Review
+                Start a Transaction
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
               

@@ -1,19 +1,56 @@
 import { TransactionFormData } from "@/types/transaction";
 import { formatAddress } from "@/utils/addressUtils";
 
-// Add a new function to allow flexible validation
+// Permissive validation - returns warnings instead of blocking errors for most fields
+export const validateStepPermissive = (
+  step: number,
+  data: TransactionFormData
+): { warnings: { [key: string]: string[] }, errors: { [key: string]: string[] }, missingFields: string[], canProceed: boolean } => {
+  // Get all validation results
+  const allValidationResults = validateStep(step, data);
+  
+  // Define truly required fields that must block progression
+  const criticalFields = new Set([
+    'role',           // Agent role (step 1)
+    'agentName',      // Agent name (step 9 - signature)
+    'signature',      // Digital signature (step 9)
+    'termsAccepted',  // Terms acceptance (step 9) 
+    'infoConfirmed'   // Info confirmation (step 9)
+  ]);
+  
+  // Separate critical errors from warnings
+  const errors: { [key: string]: string[] } = {};
+  const warnings: { [key: string]: string[] } = {};
+  
+  Object.keys(allValidationResults).forEach(field => {
+    if (criticalFields.has(field)) {
+      errors[field] = allValidationResults[field];
+    } else {
+      warnings[field] = allValidationResults[field];
+    }
+  });
+  
+  // Extract all missing fields for notification purposes
+  const missingFields = Object.keys(allValidationResults);
+  
+  // Can proceed if no critical errors exist
+  const canProceed = Object.keys(errors).length === 0;
+  
+  return { warnings, errors, missingFields, canProceed };
+};
+
+// Legacy function for backward compatibility - now returns flexible validation
 export const validateStepFlexible = (
   step: number,
   data: TransactionFormData
 ): { errors: { [key: string]: string[] }, missingFields: string[] } => {
-  // Get standard validation errors
-  const errors = validateStep(step, data);
+  // Use permissive validation but return in old format for compatibility
+  const { warnings, errors, missingFields } = validateStepPermissive(step, data);
   
-  // Extract the field names from the errors object
-  const missingFields = Object.keys(errors);
+  // Combine warnings and errors for backward compatibility
+  const combinedErrors = { ...warnings, ...errors };
   
-  // Return both the errors and the list of missing fields
-  return { errors, missingFields };
+  return { errors: combinedErrors, missingFields };
 };
 
 export const validateStep = (

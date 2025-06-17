@@ -25,14 +25,11 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
   className = '',
   minHeight = 'h-screen',
   overlayOpacity = 'bg-black/85',
-  overlayColor = 'from-blue-900/90 via-blue-900/80 to-blue-900/90',
+  overlayColor = 'from-slate-900 via-blue-900 to-indigo-900',
   title
 }) => {
   const location = useLocation();
   const heroRef = useRef<HTMLDivElement>(null);
-
-  // Note: Slideshow management removed - now handled by PersistentBackground component
-  // This component now focuses solely on content presentation
 
   return (
     <motion.section
@@ -44,24 +41,35 @@ const GlobalPageHero: React.FC<GlobalPageHeroProps> = ({
       animate="animate"
       exit="exit"
       style={{
-        marginTop: '0', // Remove gap - background should extend behind header
-        minHeight: '90vh', // Reduced height to ensure content fits
+        marginTop: '0',
+        minHeight: '90vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        background: 'transparent',
+        background: `linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%)`,
         zIndex: 0,
         pointerEvents: 'auto',
         userSelect: 'auto',
-        paddingTop: '7rem' // Account for header height + extra spacing for transaction pages
+        paddingTop: '7rem'
       }}
     >
-      {/* Note: Background slideshow removed - now handled by PersistentBackground component */}
+      {/* Primary gradient background */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${overlayColor} z-0`} />
+      
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
+        <div className="absolute top-40 left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
+      </div>
 
-      {/* Optional overlay for this specific hero section */}
-      <div className={`absolute inset-0 bg-gradient-to-b ${overlayColor} z-0`}>
-        <div className="absolute inset-0 opacity-20 pattern-dots" />
+      {/* Subtle overlay pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+          backgroundSize: '20px 20px'
+        }} />
       </div>
 
       {/* Animated dots in corner - decorative element */}

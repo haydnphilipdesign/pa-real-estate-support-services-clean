@@ -68,7 +68,7 @@ const TransactionHero: React.FC<TransactionHeroProps> = ({
         overflowX: 'hidden',
         position: 'relative',
         zIndex: 100,
-        backgroundColor: 'transparent',
+        background: `linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%)`,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-start'
@@ -78,6 +78,21 @@ const TransactionHero: React.FC<TransactionHeroProps> = ({
       animate="animate"
       exit="exit"
     >
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
+        <div className="absolute top-40 left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
+      </div>
+
+      {/* Subtle overlay pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+          backgroundSize: '20px 20px'
+        }} />
+      </div>
+
       {/* Content Container */}
       <div 
         className="relative z-20 w-full flex-grow flex flex-col justify-start" 

@@ -1,17 +1,14 @@
 /**
  * Unified Transaction Form
+ * Professional TurboTax-inspired transaction form with modern design system
  * 
- * Refactored transaction form that consolidates functionality from:
- * - TransactionForm.complete.tsx (1,457 lines)
- * - TransactionForm.tsx (557 lines) 
- * - PortalTransactionForm.tsx (716 lines)
- * 
- * Key improvements:
- * - Modular step-based architecture
- * - Centralized state management
- * - Consistent error handling
- * - Performance optimizations
- * - Clean separation of concerns
+ * Features:
+ * - Clean, trustworthy design with professional styling
+ * - Responsive grid layout with consistent spacing
+ * - WCAG 2.1 AA accessibility compliance
+ * - Smooth animations and micro-interactions
+ * - Progressive disclosure with clear step flow
+ * - Comprehensive validation with inline error messaging
  */
 
 import React, { useRef, useEffect } from 'react';
@@ -30,8 +27,12 @@ import {
   ArrowLeft,
   ArrowRight,
   Save,
-  RotateCcw
+  RotateCcw,
+  AlertTriangle
 } from 'lucide-react';
+
+// Import design system styles
+import '@/styles/transaction-form-design-system.css';
 
 // Import components
 import { RoleSelection } from './RoleSelection';
@@ -121,33 +122,30 @@ const FORM_STEPS = [
   }
 ];
 
-// CSS fix for dropdowns (consolidated from original components)
-const formStyles = `
-  .unified-transaction-form select,
-  .unified-transaction-form select option,
-  .unified-transaction-form .select__control,
-  .unified-transaction-form .select__menu,
-  .unified-transaction-form .select__option {
-    background-color: white !important;
-    color: #1e3a8a !important;
-    opacity: 1 !important;
-    -webkit-appearance: menulist !important;
-    appearance: menulist !important;
+// Animation variants for smooth step transitions
+const stepVariants = {
+  enter: {
+    opacity: 0,
+    x: 50,
+    scale: 0.95
+  },
+  center: {
+    opacity: 1,
+    x: 0,
+    scale: 1
+  },
+  exit: {
+    opacity: 0,
+    x: -50,
+    scale: 0.95
   }
-  
-  .unified-transaction-form input:not([type="radio"]):not([type="checkbox"]),
-  .unified-transaction-form textarea {
-    background-color: white !important;
-    color: #1e3a8a !important;
-    border: 1px solid rgba(59, 130, 246, 0.3) !important;
-    border-radius: 0.375rem !important;
-  }
-  
-  .unified-transaction-form label,
-  .unified-transaction-form .form-label {
-    color: white !important;
-  }
-`;
+};
+
+const progressVariants = {
+  initial: { scaleX: 0 },
+  animate: { scaleX: 1 },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
 
 export interface UnifiedTransactionFormProps {
   className?: string;
@@ -174,12 +172,29 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
   const currentStepConfig = FORM_STEPS.find(step => step.id === stepConfig.currentStep);
   const CurrentStepComponent = currentStepConfig?.component;
 
+  const scrollToTop = () => {
+    // Scroll to the top of the form container
+    if (formContainerRef.current) {
+      formContainerRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }
+    // Also scroll the window to ensure visibility
+    window.scrollTo({ 
+      top: 0, 
+      behavior: 'smooth' 
+    });
+  };
+
   const handleNext = () => {
     if (actions.validateStep(stepConfig.currentStep)) {
       if (stepConfig.isLastStep) {
         actions.submitForm();
       } else {
         actions.nextStep();
+        // Scroll to top after navigation
+        setTimeout(() => scrollToTop(), 100);
       }
     }
   };
@@ -187,167 +202,220 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
   const handlePrevious = () => {
     if (stepConfig.canGoPrevious) {
       actions.previousStep();
+      // Scroll to top after navigation
+      setTimeout(() => scrollToTop(), 100);
     }
   };
 
   return (
     <TooltipProvider>
-      {/* Transaction Form Fixes Component */}
-      <TransactionFormFixes />
-      
-      {/* Inject form styles */}
-      <style dangerouslySetInnerHTML={{ __html: formStyles }} />
-      
-      <div 
-        ref={formContainerRef}
-        className={`unified-transaction-form w-full h-auto ${className}`}
-      >
-        {/* Progress indicator */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between text-sm text-white/80 mb-2">
-            <span>Step {stepConfig.currentStep} of {stepConfig.totalSteps}</span>
-            <span>{Math.round((stepConfig.currentStep / stepConfig.totalSteps) * 100)}% Complete</span>
-          </div>
-          <div className="w-full bg-white/20 rounded-full h-2">
-            <motion.div 
-              className="bg-gradient-to-r from-blue-400 to-blue-300 h-2 rounded-full"
-              style={{ width: `${(stepConfig.currentStep / stepConfig.totalSteps) * 100}%` }}
-              initial={{ width: 0 }}
-              animate={{ width: `${(stepConfig.currentStep / stepConfig.totalSteps) * 100}%` }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            />
-          </div>
-        </div>
-
-        {/* Step content */}
-        <div className="min-h-[400px]">
-          <AnimatePresence mode="wait">
-            {currentStepConfig && CurrentStepComponent && (
-              <FormStep
-                key={stepConfig.currentStep}
-                step={stepConfig.currentStep}
-                title={currentStepConfig.title}
-                description={currentStepConfig.description}
-                icon={currentStepConfig.icon}
-                isActive={true}
-              >
-{currentStepConfig.id === 1 ? (
-                  // RoleSelection step - pass specific props
-                  <RoleSelection
-                    selectedRole={formData.agentData.role}
-                    onRoleChange={(role) => actions.updateField('agentData.role', role)}
-                    agentName={formData.agentData.name}
-                    onAgentNameChange={(name) => actions.updateField('agentData.name', name)}
-                    errors={{
-                      selectedRole: formData.validationErrors['agentData.role'],
-                      agentName: formData.validationErrors['agentData.name']
-                    }}
-                    showValidation={formData.touchedFields.size > 0}
-                  />
-                ) : currentStepConfig.id === 2 ? (
-                  // PropertyInformation step - pass correct props
-                  <PropertyInformation
-                    data={formData.propertyData}
-                    onChange={(field, value) => actions.updateField(`propertyData.${field}`, value)}
-                    role={formData.agentData.role}
-                  />
-                ) : (
-                  // Other steps - pass standard props
-                  <CurrentStepComponent
-                    formData={formData}
-                    onChange={actions.updateField}
-                    onClientChange={actions.updateClient}
-                    onAddClient={actions.addClient}
-                    onRemoveClient={actions.removeClient}
-                    validationErrors={formData.validationErrors}
-                    touchedFields={formData.touchedFields}
-                    onFieldTouch={actions.setFieldTouched}
-                  />
-                )}
-              </FormStep>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/20">
-          {/* Left side - Previous button */}
-          <div>
-            {stepConfig.canGoPrevious ? (
-              <Button
-                variant="ghost"
-                size="lg"
-                onClick={handlePrevious}
-                icon={<ArrowLeft className="w-4 h-4" />}
-                className="text-white hover:bg-white/10"
-              >
-                Previous
-              </Button>
-            ) : (
-              <div></div> // Placeholder for alignment
-            )}
-          </div>
-
-          {/* Center - Action buttons */}
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={actions.saveDraft}
-              icon={<Save className="w-4 h-4" />}
-              className="border-white/30 text-white hover:bg-white/10"
-            >
-              Save Draft
-            </Button>
+      <>
+        {/* Transaction Form Fixes Component */}
+        <TransactionFormFixes />
+        
+        <div className={`tf-container ${className}`}>
+          <div className="tf-form-wrapper" ref={formContainerRef}>
             
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={actions.resetForm}
-              icon={<RotateCcw className="w-4 h-4" />}
-              className="border-white/30 text-white hover:bg-white/10"
-            >
-              Reset
-            </Button>
-          </div>
+            {/* Progress Header */}
+            <header className="tf-progress-header" role="banner">
+              <div className="tf-progress-info">
+                <div>
+                  <h1 className="tf-progress-title">
+                    {currentStepConfig?.title || 'Transaction Form'}
+                  </h1>
+                  <p className="tf-progress-subtitle">
+                    {currentStepConfig?.description || 'Complete your real estate transaction'}
+                  </p>
+                </div>
+                <div className="tf-progress-stats">
+                  <span>Step {stepConfig.currentStep} of {stepConfig.totalSteps}</span>
+                  <span className="tf-progress-percent">
+                    {Math.round((stepConfig.currentStep / stepConfig.totalSteps) * 100)}% Complete
+                  </span>
+                </div>
+              </div>
+              
+              <div className="tf-progress-bar-container" role="progressbar" 
+                   aria-valuenow={stepConfig.currentStep} 
+                   aria-valuemin={1} 
+                   aria-valuemax={stepConfig.totalSteps}
+                   aria-label={`Step ${stepConfig.currentStep} of ${stepConfig.totalSteps}`}>
+                <motion.div 
+                  className="tf-progress-bar"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(stepConfig.currentStep / stepConfig.totalSteps) * 100}%` }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                />
+              </div>
+            </header>
 
-          {/* Right side - Next/Submit button */}
-          <div>
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={handleNext}
-              disabled={!stepConfig.canGoNext || formData.isSubmitting}
-              loading={formData.isSubmitting}
-              icon={stepConfig.isLastStep ? 
-                <CheckCircle className="w-4 h-4" /> : 
-                <ArrowRight className="w-4 h-4" />
-              }
-              iconPosition="right"
-            >
-              {stepConfig.isLastStep ? 'Submit Transaction' : 'Continue'}
-            </Button>
+            {/* Main Form Content */}
+            <main id="main-content" className="tf-content" role="main">
+              
+              {/* Step Header */}
+              <div className="tf-step-header">
+                <div className="tf-step-icon" aria-hidden="true">
+                  {currentStepConfig?.icon}
+                </div>
+                <h2 className="tf-step-title">
+                  {currentStepConfig?.title}
+                </h2>
+                <p className="tf-step-description">
+                  {currentStepConfig?.description}
+                </p>
+              </div>
+
+              {/* Form Step Content */}
+              <AnimatePresence mode="wait">
+                {currentStepConfig && CurrentStepComponent && (
+                  <motion.div
+                    key={stepConfig.currentStep}
+                    variants={stepVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  >
+                    {currentStepConfig.id === 1 ? (
+                      // RoleSelection step - pass specific props
+                      <RoleSelection
+                        selectedRole={formData.agentData.role}
+                        onRoleChange={(role) => actions.updateField('agentData.role', role)}
+                        agentName={formData.agentData.name}
+                        onAgentNameChange={(name) => actions.updateField('agentData.name', name)}
+                        errors={{
+                          selectedRole: formData.validationErrors['agentData.role'],
+                          agentName: formData.validationErrors['agentData.name']
+                        }}
+                        showValidation={formData.touchedFields.size > 0}
+                      />
+                    ) : currentStepConfig.id === 2 ? (
+                      // PropertyInformation step - pass correct props
+                      <PropertyInformation
+                        data={formData.propertyData}
+                        onChange={(field, value) => actions.updateField(`propertyData.${field}`, value)}
+                        role={formData.agentData.role}
+                      />
+                    ) : (
+                      // Other steps - pass standard props
+                      <CurrentStepComponent
+                        formData={formData}
+                        onChange={actions.updateField}
+                        onClientChange={actions.updateClient}
+                        onAddClient={actions.addClient}
+                        onRemoveClient={actions.removeClient}
+                        validationErrors={formData.validationErrors}
+                        touchedFields={formData.touchedFields}
+                        onFieldTouch={actions.setFieldTouched}
+                      />
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Validation Errors Summary */}
+              {Object.keys(formData.validationErrors).length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="tf-alert tf-alert--error"
+                  role="alert"
+                  aria-live="polite"
+                >
+                  <div className="tf-alert-title">
+                    <AlertTriangle className="inline w-4 h-4 mr-2" />
+                    Please correct the following errors:
+                  </div>
+                  <ul className="mt-2 space-y-1">
+                    {Object.entries(formData.validationErrors).map(([field, error]) => (
+                      <li key={field}>• {error}</li>
+                    ))}
+                  </ul>
+                </motion.div>
+              )}
+
+            </main>
+
+            {/* Navigation Footer */}
+            <footer className="tf-navigation" role="contentinfo">
+              
+              {/* Previous Button */}
+              <div className="tf-nav-section">
+                {stepConfig.canGoPrevious ? (
+                  <button
+                    onClick={handlePrevious}
+                    className="tf-button tf-button--secondary"
+                    aria-label={`Go to previous step: ${FORM_STEPS[stepConfig.currentStep - 2]?.title || 'Previous'}`}
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Previous
+                  </button>
+                ) : (
+                  <div></div>
+                )}
+              </div>
+
+              {/* Center Action Buttons */}
+              <div className="tf-nav-section">
+                <button
+                  onClick={actions.saveDraft}
+                  className="tf-button tf-button--ghost tf-button--sm"
+                  aria-label="Save current progress as draft"
+                >
+                  <Save className="w-4 h-4" />
+                  Save Draft
+                </button>
+                
+                <button
+                  onClick={actions.resetForm}
+                  className="tf-button tf-button--ghost tf-button--sm"
+                  aria-label="Reset form to initial state"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  Reset
+                </button>
+              </div>
+
+              {/* Next/Submit Button */}
+              <div className="tf-nav-section">
+                <button
+                  onClick={handleNext}
+                  disabled={!stepConfig.canGoNext || formData.isSubmitting}
+                  className="tf-button tf-button--primary tf-button--lg"
+                  aria-label={stepConfig.isLastStep ? 
+                    'Submit completed transaction form' : 
+                    `Continue to next step: ${FORM_STEPS[stepConfig.currentStep]?.title || 'Next'}`}
+                >
+                  {formData.isSubmitting ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                      />
+                      Submitting...
+                    </>
+                  ) : stepConfig.isLastStep ? (
+                    <>
+                      <CheckCircle className="w-4 h-4" />
+                      Submit Transaction
+                    </>
+                  ) : (
+                    <>
+                      Continue
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </div>
+              
+            </footer>
+
           </div>
         </div>
-
-        {/* Validation errors summary */}
-        {Object.keys(formData.validationErrors).length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-4 p-4 bg-red-500/20 border border-red-500/30 rounded-lg"
-          >
-            <h4 className="text-red-200 font-medium mb-2">Please correct the following errors:</h4>
-            <ul className="list-disc list-inside text-red-200 text-sm space-y-1">
-              {Object.entries(formData.validationErrors).map(([field, error]) => (
-                <li key={field}>{error}</li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </div>
-
-      <Toaster />
+      
+        <Toaster />
+      </>
     </TooltipProvider>
   );
 };

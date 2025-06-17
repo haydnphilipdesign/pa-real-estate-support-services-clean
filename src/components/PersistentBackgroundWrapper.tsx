@@ -1,19 +1,11 @@
 import React from 'react';
-import PersistentBackground from './PersistentBackground';
-import { useSlideshow } from '../context/GlobalSlideshowContext';
 
 /**
- * Safe wrapper for PersistentBackground that ensures provider is available
+ * PersistentBackgroundWrapper - No longer needed as slideshow has been removed
+ * All backgrounds are now handled by individual hero components with gradient backgrounds
  */
 const PersistentBackgroundWrapper: React.FC = () => {
-  try {
-    // Test if the provider is available
-    useSlideshow();
-    return <PersistentBackground />;
-  } catch (error) {
-    console.warn('SlideshowProvider not available, PersistentBackground will not render');
-    return null;
-  }
+  return null;
 };
 
 export default PersistentBackgroundWrapper;

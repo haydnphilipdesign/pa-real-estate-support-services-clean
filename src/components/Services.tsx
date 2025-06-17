@@ -19,7 +19,7 @@ const services = [
     id: 'service-1',
     icon: FileText,
     title: 'Document Management',
-    description: 'Comprehensive handling of all transaction paperwork including contract review, addendums, disclosures, and closing documents. We ensure all documentation is complete, accurate, and submitted on time.',
+    description: 'Comprehensive handling of all transaction paperwork including contract review, addendums, disclosures, and closing documents. I ensure all documentation is complete, accurate, and submitted on time.',
     features: [
       'Contract review and organization',
       'Digital document management',
@@ -31,7 +31,7 @@ const services = [
     id: 'service-2',
     icon: Calendar,
     title: 'Timeline Management',
-    description: 'Proactive management of your transaction timeline from contract to closing. We track all deadlines, coordinate inspections, and ensure smooth progress through each phase.',
+    description: 'Proactive management of your transaction timeline from contract to closing. I track all deadlines, coordinate inspections, and ensure smooth progress through each phase.',
     features: [
       'Inspection scheduling',
       'Deadline monitoring',
@@ -43,7 +43,7 @@ const services = [
     id: 'service-3',
     icon: Phone,
     title: 'Communication Coordination',
-    description: 'Seamless coordination between all parties including agents, buyers, sellers, title companies, lenders, and other vendors. We keep everyone informed and aligned throughout the process.',
+    description: 'Seamless coordination between all parties including agents, buyers, sellers, title companies, lenders, and other vendors. I keep everyone informed and aligned throughout the process.',
     features: [
       'Regular status updates',
       'Vendor coordination',
@@ -55,7 +55,7 @@ const services = [
     id: 'service-4',
     icon: Users,
     title: 'Client Support',
-    description: 'Dedicated assistance for agents and their clients throughout the entire transaction process. We handle inquiries, provide updates, and ensure a smooth experience for all parties.',
+    description: 'Dedicated assistance for agents and their clients throughout the entire transaction process. I handle inquiries, provide updates, and ensure a smooth experience for all parties.',
     features: [
       'Agent support',
       'Client assistance',
@@ -67,7 +67,7 @@ const services = [
     id: 'service-5',
     icon: CheckSquare,
     title: 'Compliance Management',
-    description: 'Ensure all transactions comply with state regulations and brokerage requirements. We maintain detailed checklists and verify all necessary documentation is properly executed.',
+    description: 'Ensure all transactions comply with state regulations and brokerage requirements. I maintain detailed checklists and verify all necessary documentation is properly executed.',
     features: [
       'Regulatory compliance',
       'Documentation verification',
@@ -79,7 +79,7 @@ const services = [
     id: 'service-6',
     icon: Shield,
     title: 'Risk Mitigation',
-    description: 'Proactive identification and resolution of potential issues before they become problems. We help protect your interests throughout the transaction process.',
+    description: 'Proactive identification and resolution of potential issues before they become problems. I help protect your interests throughout the transaction process.',
     features: [
       'Issue identification',
       'Problem resolution',
@@ -94,7 +94,7 @@ const process = [
     id: 'process-1',
     icon: FileSearch,
     title: 'Initial Review',
-    description: 'We begin by thoroughly reviewing the contract and gathering all necessary documentation.'
+    description: 'I begin by thoroughly reviewing the contract and gathering all necessary documentation.'
   },
   {
     id: 'process-2',
@@ -163,7 +163,7 @@ const Services: React.FC = () => {
       {/* Process Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-h2 font-bold text-center mb-12 text-neutral-900">Our Process</h2>
+          <h2 className="text-h2 font-bold text-center mb-12 text-neutral-900">My Process</h2>
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {process.map((step) => (
@@ -191,7 +191,7 @@ const Services: React.FC = () => {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-h2 font-bold mb-6">Ready to Streamline Your Transactions?</h2>
           <p className="text-body-xl mb-8 text-white/90">
-            Let us handle the details while you focus on growing your business.
+            Let me handle the details while you focus on growing your business.
           </p>
           <Link
             to="/work-with-me"
