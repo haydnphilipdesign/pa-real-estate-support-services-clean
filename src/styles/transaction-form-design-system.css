@@ -99,62 +99,105 @@
 }
 
 /* ================================
-   Base Form Container
+   Portal Container - Perfect Centering with Colored Background
    ================================ */
 
-.tf-container {
+.tf-portal-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--tf-gray-50) 0%, var(--tf-gray-100) 100%);
-  padding: var(--tf-space-6) var(--tf-space-4);
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(80px + var(--tf-space-6)) var(--tf-space-4) var(--tf-space-6) var(--tf-space-4);
+  background: linear-gradient(135deg, var(--color-primary-900, #1e3a8a) 0%, var(--color-primary-700, #1d4ed8) 100%);
+  position: relative;
+  overflow: hidden;
 }
 
-.tf-form-wrapper {
-  max-width: 56rem; /* 896px */
-  margin: 0 auto;
-  background: white;
-  border-radius: var(--tf-radius-xl);
-  box-shadow: var(--tf-shadow-xl);
-  overflow: hidden;
+/* Beautiful gradient overlays matching the main site design */
+.tf-portal-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tf-portal-wrapper {
   width: 100%;
+  max-width: 56rem; /* 896px optimal width */
+  margin: 0 auto;
+  position: relative;
+  z-index: 2; /* Ensure form sits above background overlays */
 }
 
 /* ================================
-   Progress Header
+   Form Card Container
    ================================ */
 
-.tf-progress-header {
+.tf-form-card {
   background: white;
-  border-bottom: 1px solid var(--tf-gray-200);
-  padding: var(--tf-space-6) var(--tf-space-8);
+  border-radius: var(--tf-radius-2xl); /* 16px rounded corners */
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: var(--tf-space-8);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-.tf-progress-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--tf-space-4);
+/* Subtle inner glow effect */
+.tf-form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tf-gray-200), transparent);
+  opacity: 0.6;
 }
 
-.tf-progress-title {
-  font-size: var(--tf-text-lg);
-  font-weight: var(--tf-font-semibold);
-  color: var(--tf-gray-900);
+/* Ensure form doesn't get too tall on very large screens */
+@media (min-height: 1000px) {
+  .tf-portal-container {
+    padding: calc(80px + var(--tf-space-20)) var(--tf-space-4) var(--tf-space-20) var(--tf-space-4);
+  }
 }
 
-.tf-progress-subtitle {
+/* ================================
+   Compact Progress Bar
+   ================================ */
+
+.tf-progress-compact {
+  margin-bottom: var(--tf-space-8);
+  padding: var(--tf-space-4);
+  background: var(--tf-gray-50);
+  border-radius: var(--tf-radius-lg);
+  border: 1px solid var(--tf-gray-200);
+}
+
+.tf-progress-text {
   font-size: var(--tf-text-sm);
   color: var(--tf-gray-600);
-  margin-top: var(--tf-space-1);
-}
-
-.tf-progress-stats {
-  font-size: var(--tf-text-sm);
-  color: var(--tf-gray-500);
+  text-align: center;
+  margin-bottom: var(--tf-space-3);
+  font-weight: var(--tf-font-medium);
 }
 
 .tf-progress-bar-container {
   position: relative;
-  height: 8px;
+  height: 6px;
   background: var(--tf-gray-200);
   border-radius: var(--tf-radius-lg);
   overflow: hidden;
@@ -168,18 +211,18 @@
 }
 
 /* ================================
-   Form Content Area
+   Form Content Area - Card Layout
    ================================ */
 
-.tf-content {
-  padding: var(--tf-space-8);
+.tf-content-direct {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-bottom: var(--tf-space-6);
 }
 
-.tf-content > * {
+.tf-content-direct > * {
   width: 100%;
   max-width: 100%;
 }
@@ -448,15 +491,15 @@
 }
 
 /* ================================
-   Navigation
+   Navigation - Direct Layout
    ================================ */
 
-.tf-navigation {
+.tf-navigation-direct {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--tf-space-6) var(--tf-space-8);
-  background: var(--tf-gray-50);
+  padding: var(--tf-space-6) 0;
+  margin-top: var(--tf-space-6);
   border-top: 1px solid var(--tf-gray-200);
 }
 
@@ -550,15 +593,18 @@
    ================================ */
 
 @media (max-width: 768px) {
-  .tf-container {
-    padding: var(--tf-space-4) var(--tf-space-2);
+  .tf-portal-container {
+    padding: calc(70px + var(--tf-space-4)) var(--tf-space-2) var(--tf-space-4) var(--tf-space-2);
+    align-items: flex-start;
+    justify-content: center;
   }
 
-  .tf-progress-header,
-  .tf-content,
-  .tf-navigation {
-    padding-left: var(--tf-space-4);
-    padding-right: var(--tf-space-4);
+  .tf-form-card {
+    padding: var(--tf-space-6);
+    border-radius: var(--tf-radius-xl);
+    box-shadow: 
+      0 10px 15px -3px rgb(0 0 0 / 0.1), 
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   .tf-field-row--two-cols,
@@ -570,9 +616,10 @@
     font-size: var(--tf-text-xl);
   }
 
-  .tf-navigation {
+  .tf-navigation-direct {
     flex-direction: column;
     gap: var(--tf-space-4);
+    padding: var(--tf-space-4) 0;
   }
 
   .tf-nav-section {
@@ -587,13 +634,20 @@
     margin-left: 0;
     margin-right: 0;
   }
+
+  .tf-progress-compact {
+    margin: var(--tf-space-4) 0 var(--tf-space-6) 0;
+  }
 }
 
 @media (max-width: 480px) {
-  .tf-progress-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--tf-space-2);
+  .tf-portal-container {
+    padding: calc(70px + var(--tf-space-2)) var(--tf-space-1) var(--tf-space-2) var(--tf-space-1);
+  }
+
+  .tf-form-card {
+    padding: var(--tf-space-4);
+    border-radius: var(--tf-radius-lg);
   }
 
   .tf-button {
@@ -602,6 +656,11 @@
 
   .tf-radio-item,
   .tf-checkbox-item {
+    padding: var(--tf-space-3);
+  }
+
+  .tf-progress-compact {
+    margin: var(--tf-space-2) 0 var(--tf-space-4) 0;
     padding: var(--tf-space-3);
   }
 }

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { TransactionFormWrapper } from "./TransactionFormWrapper";
 import { UnifiedTransactionForm } from "./UnifiedTransactionForm";
 
 export const CleanPortalTransactionForm: React.FC = () => {
@@ -24,25 +23,13 @@ export const CleanPortalTransactionForm: React.FC = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="hero-section"
-      style={{ 
-        minHeight: '100vh',
-        padding: 'var(--space-8)',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center'
-      }}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="tf-portal-container"
     >
-      <div className="hero-content" style={{ marginTop: '80px', width: '100%', maxWidth: '1200px' }}>
-        <TransactionFormWrapper
-          title="Transaction Coordination Form"
-          description="Complete your real estate transaction details. We'll handle the rest."
-        >
-          <UnifiedTransactionForm />
-        </TransactionFormWrapper>
+      <div className="tf-portal-wrapper">
+        <UnifiedTransactionForm />
       </div>
     </motion.div>
   );

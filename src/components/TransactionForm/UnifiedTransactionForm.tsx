@@ -213,44 +213,30 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
         {/* Transaction Form Fixes Component */}
         <TransactionFormFixes />
         
-        <div className={`tf-container ${className}`}>
-          <div className="tf-form-wrapper" ref={formContainerRef}>
-            
-            {/* Progress Header */}
-            <header className="tf-progress-header" role="banner">
-              <div className="tf-progress-info">
-                <div>
-                  <h1 className="tf-progress-title">
-                    {currentStepConfig?.title || 'Transaction Form'}
-                  </h1>
-                  <p className="tf-progress-subtitle">
-                    {currentStepConfig?.description || 'Complete your real estate transaction'}
-                  </p>
-                </div>
-                <div className="tf-progress-stats">
-                  <span>Step {stepConfig.currentStep} of {stepConfig.totalSteps}</span>
-                  <span className="tf-progress-percent">
-                    {Math.round((stepConfig.currentStep / stepConfig.totalSteps) * 100)}% Complete
-                  </span>
-                </div>
-              </div>
-              
-              <div className="tf-progress-bar-container" role="progressbar" 
-                   aria-valuenow={stepConfig.currentStep} 
-                   aria-valuemin={1} 
-                   aria-valuemax={stepConfig.totalSteps}
-                   aria-label={`Step ${stepConfig.currentStep} of ${stepConfig.totalSteps}`}>
-                <motion.div 
-                  className="tf-progress-bar"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(stepConfig.currentStep / stepConfig.totalSteps) * 100}%` }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                />
-              </div>
-            </header>
+        {/* Main Form Container - white card with shadow */}
+        <div className={`tf-form-card ${className}`} ref={formContainerRef}>
+          
+          {/* Compact Progress Bar */}
+          <div className="tf-progress-compact" role="progressbar" 
+               aria-valuenow={stepConfig.currentStep} 
+               aria-valuemin={1} 
+               aria-valuemax={stepConfig.totalSteps}
+               aria-label={`Step ${stepConfig.currentStep} of ${stepConfig.totalSteps}`}>
+            <div className="tf-progress-text">
+              Step {stepConfig.currentStep} of {stepConfig.totalSteps} • {Math.round((stepConfig.currentStep / stepConfig.totalSteps) * 100)}% Complete
+            </div>
+            <div className="tf-progress-bar-container">
+              <motion.div 
+                className="tf-progress-bar"
+                initial={{ width: 0 }}
+                animate={{ width: `${(stepConfig.currentStep / stepConfig.totalSteps) * 100}%` }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              />
+            </div>
+          </div>
 
-            {/* Main Form Content */}
-            <main id="main-content" className="tf-content" role="main">
+          {/* Main Form Content */}
+          <main className="tf-content-direct" role="main">
               
               {/* Step Header */}
               <div className="tf-step-header">
@@ -336,82 +322,81 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
 
             </main>
 
-            {/* Navigation Footer */}
-            <footer className="tf-navigation" role="contentinfo">
+          {/* Navigation Footer */}
+          <footer className="tf-navigation-direct" role="contentinfo">
+            
+            {/* Previous Button */}
+            <div className="tf-nav-section">
+              {stepConfig.canGoPrevious ? (
+                <button
+                  onClick={handlePrevious}
+                  className="tf-button tf-button--secondary"
+                  aria-label={`Go to previous step: ${FORM_STEPS[stepConfig.currentStep - 2]?.title || 'Previous'}`}
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Previous
+                </button>
+              ) : (
+                <div></div>
+              )}
+            </div>
+
+            {/* Center Action Buttons */}
+            <div className="tf-nav-section">
+              <button
+                onClick={actions.saveDraft}
+                className="tf-button tf-button--ghost tf-button--sm"
+                aria-label="Save current progress as draft"
+              >
+                <Save className="w-4 h-4" />
+                Save Draft
+              </button>
               
-              {/* Previous Button */}
-              <div className="tf-nav-section">
-                {stepConfig.canGoPrevious ? (
-                  <button
-                    onClick={handlePrevious}
-                    className="tf-button tf-button--secondary"
-                    aria-label={`Go to previous step: ${FORM_STEPS[stepConfig.currentStep - 2]?.title || 'Previous'}`}
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    Previous
-                  </button>
+              <button
+                onClick={actions.resetForm}
+                className="tf-button tf-button--ghost tf-button--sm"
+                aria-label="Reset form to initial state"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Reset
+              </button>
+            </div>
+
+            {/* Next/Submit Button */}
+            <div className="tf-nav-section">
+              <button
+                onClick={handleNext}
+                disabled={!stepConfig.canGoNext || formData.isSubmitting}
+                className="tf-button tf-button--primary tf-button--lg"
+                aria-label={stepConfig.isLastStep ? 
+                  'Submit completed transaction form' : 
+                  `Continue to next step: ${FORM_STEPS[stepConfig.currentStep]?.title || 'Next'}`}
+              >
+                {formData.isSubmitting ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                    />
+                    Submitting...
+                  </>
+                ) : stepConfig.isLastStep ? (
+                  <>
+                    <CheckCircle className="w-4 h-4" />
+                    Submit Transaction
+                  </>
                 ) : (
-                  <div></div>
+                  <>
+                    Continue
+                    <ArrowRight className="w-4 h-4" />
+                  </>
                 )}
-              </div>
+              </button>
+            </div>
+            
+          </footer>
 
-              {/* Center Action Buttons */}
-              <div className="tf-nav-section">
-                <button
-                  onClick={actions.saveDraft}
-                  className="tf-button tf-button--ghost tf-button--sm"
-                  aria-label="Save current progress as draft"
-                >
-                  <Save className="w-4 h-4" />
-                  Save Draft
-                </button>
-                
-                <button
-                  onClick={actions.resetForm}
-                  className="tf-button tf-button--ghost tf-button--sm"
-                  aria-label="Reset form to initial state"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  Reset
-                </button>
-              </div>
-
-              {/* Next/Submit Button */}
-              <div className="tf-nav-section">
-                <button
-                  onClick={handleNext}
-                  disabled={!stepConfig.canGoNext || formData.isSubmitting}
-                  className="tf-button tf-button--primary tf-button--lg"
-                  aria-label={stepConfig.isLastStep ? 
-                    'Submit completed transaction form' : 
-                    `Continue to next step: ${FORM_STEPS[stepConfig.currentStep]?.title || 'Next'}`}
-                >
-                  {formData.isSubmitting ? (
-                    <>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
-                      />
-                      Submitting...
-                    </>
-                  ) : stepConfig.isLastStep ? (
-                    <>
-                      <CheckCircle className="w-4 h-4" />
-                      Submit Transaction
-                    </>
-                  ) : (
-                    <>
-                      Continue
-                      <ArrowRight className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
-              </div>
-              
-            </footer>
-
-          </div>
         </div>
       
         <Toaster />
