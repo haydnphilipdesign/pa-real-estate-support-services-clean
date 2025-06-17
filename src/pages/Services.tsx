@@ -1,6 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero';
-import Services from '../components/Services';
+import ServicesSection from '../components/Services';
 import { Button } from '@/components/ui';
 import { ArrowRight, FileText, Shield, Clock, Users } from 'lucide-react';
 
@@ -58,7 +58,7 @@ const Services: React.FC = () => {
           Start Working Together
         </Button>
       </Hero>
-      <Services />
+      <ServicesSection />
     </div>
   );
 };
