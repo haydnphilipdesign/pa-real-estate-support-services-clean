@@ -119,7 +119,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         className={`bg-gray-200 flex items-center justify-center ${className}`}
         style={{ width, height }}
       >
-        <span className="text-gray-400">Failed to load image</span>
+        <span className="text-gray-600">Failed to load image</span>
       </div>
     );
   }

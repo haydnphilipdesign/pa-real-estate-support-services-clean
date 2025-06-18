@@ -1,6 +1,7 @@
-import React from 'react';
-import Hero from '../components/Hero';
-import { Shield, Users, HelpCircle, Download } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Shield, Users, HelpCircle, Download, ChevronDown, Database, Lock, Eye, FileCheck, Mail, Phone } from 'lucide-react';
+import { useNavigation } from '../providers/SmoothNavigationProvider';
 
 const Privacy: React.FC = () => {
   const sideContent = (
@@ -38,76 +39,327 @@ const Privacy: React.FC = () => {
     </div>
   );
 
+  const { Link } = useNavigation();
+  const [openSection, setOpenSection] = useState<number | null>(0);
+
+  const tableOfContents = [
+    { title: "Information I Collect", id: "collect" },
+    { title: "How I Use Your Information", id: "usage" },
+    { title: "Data Security", id: "security" },
+    { title: "Information Sharing", id: "sharing" },
+    { title: "Your Rights", id: "rights" },
+    { title: "Contact Information", id: "contact" }
+  ];
+
+  const sections = [
+    {
+      id: "collect",
+      title: "1. Information I Collect",
+      icon: Database,
+      content: "I collect information you provide directly to me when using my transaction coordination services, including:",
+      list: [
+        "Contact information (name, email, phone number)",
+        "Real estate transaction details and documentation", 
+        "Client and property information necessary for transaction coordination",
+        "Communication preferences and service requirements"
+      ]
+    },
+    {
+      id: "usage",
+      title: "2. How I Use Your Information",
+      icon: Eye,
+      content: "Information collected is used exclusively for:",
+      list: [
+        "Providing transaction coordination services",
+        "Communicating with you about your transactions",
+        "Maintaining accurate records for compliance purposes", 
+        "Improving our services and processes"
+      ]
+    },
+    {
+      id: "security",
+      title: "3. Data Security",
+      icon: Lock,
+      content: "I implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. Your data is stored securely and accessed only by authorized personnel necessary for providing my services."
+    },
+    {
+      id: "sharing",
+      title: "4. Information Sharing",
+      icon: Users,
+      content: "I do not sell, trade, or otherwise transfer your personal information to third parties except as necessary to complete your real estate transactions (such as with title companies, lenders, or other involved parties) or as required by law."
+    },
+    {
+      id: "rights",
+      title: "5. Your Rights",
+      icon: FileCheck,
+      content: "You have the right to:",
+      list: [
+        "Access and review your personal information",
+        "Request corrections to inaccurate information",
+        "Request deletion of your data (subject to legal requirements)",
+        "Opt-out of non-essential communications",
+        "Receive a copy of your data in a portable format"
+      ]
+    },
+    {
+      id: "contact",
+      title: "6. Contact Information",
+      icon: HelpCircle,
+      content: "If you have questions about this Privacy Policy or how I handle your information, please contact me using the information below."
+    }
+  ];
+
   return (
     <div>
-      <Hero
-        title="Privacy Policy"
-        subtitle="How I handle and protect your information"
-        sideContent={sideContent}
-      />
-      
-      <section className="section bg-white">
-        <div className="page-container max-w-4xl">
-          <div className="prose max-w-none">
-            <div className="space-y-8">
-              <div>
-                <h2 className="heading-2 mb-4">Information I Collect</h2>
-                <p className="text-body mb-4">
-                  I collect information you provide directly to me when using my transaction coordination services, including:
+      {/* Enhanced Hero Section */}
+      <section className="section hero-section">
+        <div className="hero-content">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Left Side - Content */}
+            <div className="text-left">
+              {/* Trust Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-8"
+              >
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-600/20 backdrop-blur-sm rounded-full px-5 py-2.5 border border-green-500/30">
+                  <Shield className="w-5 h-5 text-green-400" />
+                  <span className="text-green-100 text-sm font-semibold">Privacy Commitment</span>
+                </div>
+              </motion.div>
+            
+              {/* Main Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight"
+              >
+                Privacy
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">
+                  Policy
+                </span>
+              </motion.h1>
+              
+              {/* Enhanced Subtitle */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mb-8"
+              >
+                <p className="text-xl lg:text-2xl text-blue-100 mb-6">
+                  Your privacy is paramount. Here's how I protect and handle your information.
                 </p>
-                <ul className="list-disc pl-6 text-neutral-700 space-y-2">
-                  <li>Contact information (name, email, phone number)</li>
-                  <li>Real estate transaction details and documentation</li>
-                  <li>Client and property information necessary for transaction coordination</li>
-                  <li>Communication preferences and service requirements</li>
-                </ul>
-              </div>
+                
+                {/* Privacy Highlights */}
+                <div className="space-y-3">
+                  {[
+                    { icon: Shield, text: "Industry-standard security measures protect your data", color: "text-green-400" },
+                    { icon: Users, text: "I only collect information necessary to provide services", color: "text-blue-400" },
+                    { icon: HelpCircle, text: "Questions about your data? Contact me anytime", color: "text-yellow-400" },
+                    { icon: Download, text: "Last updated: December 2024", color: "text-purple-400" }
+                  ].map((item, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
+                      className="flex items-start gap-3"
+                    >
+                      <item.icon className={`w-5 h-5 ${item.color} mt-0.5 flex-shrink-0`} />
+                      <span className="text-white/90">{item.text}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
 
-              <div>
-                <h2 className="heading-2 mb-4">How I Use Your Information</h2>
-                <p className="text-body mb-4">
-                  Information collected is used exclusively for:
-                </p>
-                <ul className="list-disc pl-6 text-neutral-700 space-y-2">
-                  <li>Providing transaction coordination services</li>
-                  <li>Communicating with you about your transactions</li>
-                  <li>Maintaining accurate records for compliance purposes</li>
-                  <li>Improving our services and processes</li>
-                </ul>
-              </div>
-
-              <div>
-                <h2 className="heading-2 mb-4">Data Security</h2>
-                <p className="text-body">
-                  I implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. Your data is stored securely and accessed only by authorized personnel necessary for providing my services.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="heading-2 mb-4">Information Sharing</h2>
-                <p className="text-body">
-                  I do not sell, trade, or otherwise transfer your personal information to third parties except as necessary to complete your real estate transactions (such as with title companies, lenders, or other involved parties) or as required by law.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="heading-2 mb-4">Contact Us</h2>
-                <p className="text-body">
-                  If you have questions about this Privacy Policy or how I handle your information, please contact me at:
-                </p>
-                <div className="mt-4 p-4 card bg-neutral-50">
-                  <p className="text-body">
-                    <strong>PA Real Estate Support Services</strong><br />
-                    Email: debbie@parealestatesupport.com<br />
-                    Phone: (570) 588-4637
-                  </p>
+            {/* Right Side - Privacy Highlights */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="relative lg:block hidden"
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 to-blue-600/20 rounded-3xl blur-2xl" />
+                <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
+                  <h3 className="text-xl font-bold text-white mb-6">Privacy Commitment</h3>
+                  
+                  {/* Privacy Promises */}
+                  <div className="space-y-4 mb-6">
+                    {[
+                      { icon: Lock, title: "Secure Storage", desc: "Bank-level encryption" },
+                      { icon: Eye, title: "Limited Access", desc: "Need-to-know basis only" },
+                      { icon: FileCheck, title: "Your Rights", desc: "Access, modify, delete" }
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-center gap-4 p-3 bg-white/5 rounded-xl border border-white/10">
+                        <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-400 rounded-full flex items-center justify-center">
+                          <item.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <div className="text-white font-semibold text-sm">{item.title}</div>
+                          <div className="text-white/70 text-xs">{item.desc}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Contact for Privacy Questions */}
+                  <div className="bg-gradient-to-r from-green-500/20 to-green-600/20 rounded-xl p-4 border border-green-500/30">
+                    <div className="text-green-100 text-sm font-medium mb-2">Questions about privacy?</div>
+                    <div className="text-white/90 text-sm">Contact me directly anytime</div>
+                  </div>
                 </div>
               </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Main Content Section */}
+      <section className="py-20 bg-gradient-to-br from-neutral-50 via-white to-neutral-100 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(34,197,94,0.03)_0%,_transparent_50%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,_rgba(59,130,246,0.03)_0%,_transparent_50%)] pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="grid lg:grid-cols-4 gap-8">
+            
+            {/* Left Sidebar - Table of Contents */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-24">
+                <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-white/20">
+                  <h3 className="text-lg font-bold text-neutral-900 mb-4">Privacy Topics</h3>
+                  <div className="space-y-2">
+                    {tableOfContents.map((item, index) => (
+                      <a
+                        key={index}
+                        href={`#${item.id}`}
+                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-green-50 transition-colors group"
+                      >
+                        <span className="w-5 h-5 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold group-hover:bg-green-600 group-hover:text-white transition-colors">
+                          {index + 1}
+                        </span>
+                        <span className="text-neutral-700 group-hover:text-green-600 transition-colors text-sm">{item.title}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-              <div className="border-t pt-6">
-                <p className="text-small text-neutral-500">
-                  Last updated: December 2024
-                </p>
+            {/* Main Content */}
+            <div className="lg:col-span-3">
+              <div className="space-y-6">
+                {sections.map((section, index) => (
+                  <motion.div
+                    key={section.id}
+                    id={section.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden"
+                  >
+                    <button
+                      onClick={() => setOpenSection(openSection === index ? null : index)}
+                      className="w-full p-6 text-left hover:bg-white/50 transition-colors focus:outline-none"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <section.icon className="w-6 h-6 text-white" />
+                          </div>
+                          <h2 className="text-xl font-bold text-neutral-900">{section.title}</h2>
+                        </div>
+                        <motion.div
+                          animate={{ rotate: openSection === index ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="text-neutral-600"
+                        >
+                          <ChevronDown className="w-5 h-5" />
+                        </motion.div>
+                      </div>
+                    </button>
+                    
+                    <AnimatePresence>
+                      {openSection === index && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-6 pb-6">
+                            <div className="border-t border-neutral-200 pt-6">
+                              <p className="text-neutral-700 leading-relaxed mb-4">
+                                {section.content}
+                              </p>
+                              {section.list && (
+                                <ul className="space-y-3 mt-4">
+                                  {section.list.map((item, listIndex) => (
+                                    <li key={listIndex} className="flex items-start gap-3">
+                                      <Shield className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                                      <span className="text-neutral-700">{item}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                              
+                              {/* Special Contact Section */}
+                              {section.id === 'contact' && (
+                                <div className="mt-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6 border border-green-200/50">
+                                  <h4 className="font-semibold text-neutral-900 mb-4">Contact Information</h4>
+                                  <div className="space-y-3">
+                                    <div className="flex items-center gap-3">
+                                      <Mail className="w-5 h-5 text-green-600" />
+                                      <a href="mailto:debbie@parealestatesupport.com" className="text-green-600 hover:text-green-700 font-medium">
+                                        debbie@parealestatesupport.com
+                                      </a>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                      <Phone className="w-5 h-5 text-blue-600" />
+                                      <a href="tel:+5705884637" className="text-blue-600 hover:text-blue-700 font-medium">
+                                        (570) 588-4637
+                                      </a>
+                                    </div>
+                                    <div className="text-sm text-neutral-600 mt-3">
+                                      <strong>PA Real Estate Support Services</strong><br />
+                                      Serving the Pocono Mountains region
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                ))}
+
+                {/* Footer Note */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-6 border border-green-200/50"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <Download className="w-5 h-5 text-green-600" />
+                    <span className="font-semibold text-neutral-900">Privacy Policy Updates</span>
+                  </div>
+                  <p className="text-neutral-700">
+                    This privacy policy was last updated in December 2024. Any changes will be communicated to existing clients via email. Continued use of my services constitutes acceptance of any updates.
+                  </p>
+                </motion.div>
               </div>
             </div>
           </div>

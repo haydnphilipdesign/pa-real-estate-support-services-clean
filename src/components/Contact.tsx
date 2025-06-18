@@ -50,12 +50,16 @@ const Contact: React.FC = () => {
   ];
 
   return (
-    <div className="bg-gray-50">
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-b from-indigo-900 to-indigo-800">
-        <div className="container mx-auto px-4">
+    <div className="bg-neutral-50">
+      {/* Hero Section - Updated to match design system */}
+      <section className="py-20 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-700 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(59,130,246,0.1)_0%,_transparent_50%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,_rgba(239,68,68,0.1)_0%,_transparent_50%)] pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get in Touch</h1>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get in Touch</h2>
             <p className="text-xl text-white/90">
               Let's discuss how I can help streamline your real estate transactions
             </p>
@@ -65,88 +69,107 @@ const Contact: React.FC = () => {
 
       {/* Main Content */}
       <section className="py-20">
-        <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div className="space-y-12">
-              <div className="bg-white p-8 rounded-xl shadow-lg">
-                <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20"
+              >
+                <h2 className="text-2xl font-bold mb-6 text-neutral-900">Contact Information</h2>
                 <div className="space-y-6">
-                  <div className="flex items-center">
-                    <Phone className="w-6 h-6 text-indigo-600 mr-4" />
+                  <div className="flex items-center p-4 rounded-xl bg-gradient-to-r from-blue-50 to-blue-100/50 border border-blue-200/50">
+                    <Phone className="w-6 h-6 text-blue-600 mr-4 flex-shrink-0" />
                     <div>
-                      <p className="font-semibold">Phone</p>
-                      <a href="tel:+5705884637" className="text-gray-600 hover:text-indigo-600">
+                      <p className="font-semibold text-neutral-900">Phone</p>
+                      <a href="tel:+5705884637" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
                         (570) 588-4637
                       </a>
                     </div>
                   </div>
-                  <div className="flex items-center">
-                    <Mail className="w-6 h-6 text-indigo-600 mr-4" />
+                  <div className="flex items-center p-4 rounded-xl bg-gradient-to-r from-green-50 to-green-100/50 border border-green-200/50">
+                    <Mail className="w-6 h-6 text-green-600 mr-4 flex-shrink-0" />
                     <div>
-                      <p className="font-semibold">Email</p>
-                      <a href="mailto:debbie@parealestatesupport.com" className="text-gray-600 hover:text-indigo-600">
+                      <p className="font-semibold text-neutral-900">Email</p>
+                      <a href="mailto:debbie@parealestatesupport.com" className="text-green-600 hover:text-green-700 font-medium transition-colors break-all">
                         debbie@parealestatesupport.com
                       </a>
                     </div>
                   </div>
-                  <div className="flex items-center">
-                    <MapPin className="w-6 h-6 text-indigo-600 mr-4" />
+                  <div className="flex items-center p-4 rounded-xl bg-gradient-to-r from-purple-50 to-purple-100/50 border border-purple-200/50">
+                    <MapPin className="w-6 h-6 text-purple-600 mr-4 flex-shrink-0" />
                     <div>
-                      <p className="font-semibold">Location</p>
-                      <p className="text-gray-600">Pocono Mountains, PA</p>
+                      <p className="font-semibold text-neutral-900">Location</p>
+                      <p className="text-neutral-700">Pocono Mountains, PA</p>
                     </div>
                   </div>
-                  <div className="flex items-center">
-                    <Clock className="w-6 h-6 text-indigo-600 mr-4" />
+                  <div className="flex items-center p-4 rounded-xl bg-gradient-to-r from-amber-50 to-amber-100/50 border border-amber-200/50">
+                    <Clock className="w-6 h-6 text-amber-600 mr-4 flex-shrink-0" />
                     <div>
-                      <p className="font-semibold">Business Hours</p>
-                      <p className="text-gray-600">Monday - Friday: 9:00 AM - 5:00 PM</p>
-                      <p className="text-gray-600">Saturday: By Appointment</p>
-                      <p className="text-gray-600">Sunday: Closed</p>
+                      <p className="font-semibold text-neutral-900">Business Hours</p>
+                      <p className="text-neutral-700">Monday - Friday: 9:00 AM - 5:00 PM</p>
+                      <p className="text-neutral-700">Saturday: By Appointment</p>
+                      <p className="text-neutral-700">Sunday: Closed</p>
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* FAQ Section */}
-              <div className="bg-white p-8 rounded-xl shadow-lg">
-                <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20"
+              >
+                <h2 className="text-2xl font-bold mb-6 text-neutral-900">Frequently Asked Questions</h2>
                 <div className="space-y-6">
-                  {faqs.map((faq) => (
+                  {faqs.map((faq, index) => (
                     <motion.div
                       key={faq.id}
                       initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 }}
-                      className="border-b border-gray-200 pb-4 last:border-0"
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.1 * index }}
+                      className="border-b border-neutral-200 pb-4 last:border-0"
                     >
-                      <h3 className="font-semibold text-lg mb-2">{faq.question}</h3>
-                      <p className="text-gray-600">{faq.answer}</p>
+                      <h3 className="font-semibold text-lg mb-2 text-neutral-900">{faq.question}</h3>
+                      <p className="text-neutral-700 leading-relaxed">{faq.answer}</p>
                     </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Contact Form */}
-            <div className="bg-white p-8 rounded-xl shadow-lg">
-              <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20"
+            >
+              <h2 className="text-2xl font-bold mb-6 text-neutral-900">Send Us a Message</h2>
               {formStatus === 'success' ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center h-full text-center"
+                  className="flex flex-col items-center justify-center h-full text-center py-12"
                 >
                   <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
-                  <p className="text-gray-600">We'll get back to you as soon as possible.</p>
+                  <h3 className="text-xl font-semibold mb-2 text-neutral-900">Message Sent!</h3>
+                  <p className="text-neutral-700">We'll get back to you as soon as possible.</p>
                 </motion.div>
               ) : (
                 <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="from_firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="from_firstName" className="block text-sm font-medium text-neutral-700 mb-2">
                         First Name
                       </label>
                       <input
@@ -154,11 +177,11 @@ const Contact: React.FC = () => {
                         name="from_firstName"
                         type="text"
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-neutral-900 placeholder-neutral-500"
                       />
                     </div>
                     <div>
-                      <label htmlFor="from_lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="from_lastName" className="block text-sm font-medium text-neutral-700 mb-2">
                         Last Name
                       </label>
                       <input
@@ -166,12 +189,12 @@ const Contact: React.FC = () => {
                         name="from_lastName"
                         type="text"
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-neutral-900 placeholder-neutral-500"
                       />
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="from_email" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="from_email" className="block text-sm font-medium text-neutral-700 mb-2">
                       Email
                     </label>
                     <input
@@ -179,22 +202,22 @@ const Contact: React.FC = () => {
                       name="from_email"
                       type="email"
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-neutral-900 placeholder-neutral-500"
                     />
                   </div>
                   <div>
-                    <label htmlFor="from_phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="from_phone" className="block text-sm font-medium text-neutral-700 mb-2">
                       Phone
                     </label>
                     <input
                       id="from_phone"
                       name="from_phone"
                       type="tel"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-neutral-900 placeholder-neutral-500"
                     />
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-2">
                       Message
                     </label>
                     <textarea
@@ -202,19 +225,24 @@ const Contact: React.FC = () => {
                       name="message"
                       required
                       rows={4}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-neutral-900 placeholder-neutral-500 resize-vertical"
                     ></textarea>
                   </div>
                   {formStatus === 'error' && (
-                    <div className="text-red-500 text-sm">{errorMessage}</div>
+                    <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                      <p className="text-red-700 text-sm font-medium">{errorMessage}</p>
+                    </div>
                   )}
                   <button
                     type="submit"
                     disabled={formStatus === 'loading'}
-                    className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-indigo-700 transition-colors duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
                   >
                     {formStatus === 'loading' ? (
-                      'Sending...'
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                        Sending...
+                      </>
                     ) : (
                       <>
                         <Send className="w-5 h-5 mr-2" />
@@ -224,7 +252,7 @@ const Contact: React.FC = () => {
                   </button>
                 </form>
               )}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

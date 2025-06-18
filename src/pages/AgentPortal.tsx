@@ -218,7 +218,7 @@ const AgentPortal = (): JSX.Element => {
                       </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                          <Lock className="h-5 w-5 text-gray-400" />
+                          <Lock className="h-5 w-5 text-gray-600" />
                         </div>
                         <Input
                           id="password"
@@ -237,9 +237,9 @@ const AgentPortal = (): JSX.Element => {
                           className="absolute inset-y-0 right-0 flex items-center pr-3"
                         >
                           {showPassword ? (
-                            <EyeOff className="h-5 w-5 text-gray-400" />
+                            <EyeOff className="h-5 w-5 text-gray-600" />
                           ) : (
-                            <Eye className="h-5 w-5 text-gray-400" />
+                            <Eye className="h-5 w-5 text-gray-600" />
                           )}
                         </button>
                       </div>

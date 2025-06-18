@@ -30,7 +30,7 @@ export function ArtisticClientItem({
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="p-1 rounded-full text-gray-400 hover:text-gray-600"
+            className="p-1 rounded-full text-gray-600 hover:text-gray-800"
             onClick={() => onRemove(client.id)}
             aria-label="Remove client"
           >
@@ -39,7 +39,7 @@ export function ArtisticClientItem({
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="p-1 rounded-full text-gray-400 hover:text-gray-600"
+            className="p-1 rounded-full text-gray-600 hover:text-gray-800"
             aria-label="More options"
           >
             <MoreHorizontal className="h-5 w-5" />

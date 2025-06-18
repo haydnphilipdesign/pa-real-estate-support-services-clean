@@ -18,7 +18,7 @@ const Footer: React.FC<{ className?: string }> = ({ className }) => {
             <Link to="/" className="inline-block mb-6">
               <img src={Logo} alt="PA Real Estate Support Services" className="h-14 w-auto" />
             </Link>
-            <p className="text-gray-400 mb-6">
+            <p className="text-gray-300 mb-6">
               Your trusted partner in reliable transaction management, serving the Pocono Mountains and beyond.
             </p>
           </div>
@@ -29,25 +29,25 @@ const Footer: React.FC<{ className?: string }> = ({ className }) => {
               <h3 className="text-white font-semibold text-lg mb-4">Quick Links</h3>
               <ul className="space-y-3">
                 <li>
-                  <Link to="/about" className="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                  <Link to="/about" className="text-gray-300 hover:text-white transition-colors inline-flex items-center">
                     <span className="w-1 h-1 bg-[#eac87d] rounded-full mr-2"></span>
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link to="/services" className="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                  <Link to="/services" className="text-gray-300 hover:text-white transition-colors inline-flex items-center">
                     <span className="w-1 h-1 bg-[#eac87d] rounded-full mr-2"></span>
                     Services
                   </Link>
                 </li>
                 <li>
-                  <Link to="/work-with-me" className="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                  <Link to="/work-with-me" className="text-gray-300 hover:text-white transition-colors inline-flex items-center">
                     <span className="w-1 h-1 bg-[#eac87d] rounded-full mr-2"></span>
                     Work With Me
                   </Link>
                 </li>
                 <li>
-                  <Link to="/agent-portal" className="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                  <Link to="/agent-portal" className="text-gray-300 hover:text-white transition-colors inline-flex items-center">
                     <span className="w-1 h-1 bg-[#eac87d] rounded-full mr-2"></span>
                     Agent Portal
                   </Link>
@@ -60,25 +60,25 @@ const Footer: React.FC<{ className?: string }> = ({ className }) => {
               <h3 className="text-white font-semibold text-lg mb-4">Services</h3>
               <ul className="space-y-3">
                 <li>
-                  <Link to="/services#transaction" className="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                  <Link to="/services#transaction" className="text-gray-300 hover:text-white transition-colors inline-flex items-center">
                     <span className="w-1 h-1 bg-[#eac87d] rounded-full mr-2"></span>
                     Transaction Coordination
                   </Link>
                 </li>
                 <li>
-                  <Link to="/services#document" className="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                  <Link to="/services#document" className="text-gray-300 hover:text-white transition-colors inline-flex items-center">
                     <span className="w-1 h-1 bg-[#eac87d] rounded-full mr-2"></span>
                     Document Management
                   </Link>
                 </li>
                 <li>
-                  <Link to="/services#compliance" className="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                  <Link to="/services#compliance" className="text-gray-300 hover:text-white transition-colors inline-flex items-center">
                     <span className="w-1 h-1 bg-[#eac87d] rounded-full mr-2"></span>
                     Compliance Review
                   </Link>
                 </li>
                 <li>
-                  <Link to="/services#closing" className="text-gray-400 hover:text-white transition-colors inline-flex items-center">
+                  <Link to="/services#closing" className="text-gray-300 hover:text-white transition-colors inline-flex items-center">
                     <span className="w-1 h-1 bg-[#eac87d] rounded-full mr-2"></span>
                     Closing Coordination
                   </Link>
@@ -92,7 +92,7 @@ const Footer: React.FC<{ className?: string }> = ({ className }) => {
               <ul className="space-y-4">
                 <li className="flex items-start">
                   <Phone className="w-5 h-5 text-[#eac87d] mt-0.5 mr-3 flex-shrink-0" />
-                  <a href="tel:+5705884637" className="text-gray-400 hover:text-white transition-colors whitespace-nowrap">
+                  <a href="tel:+5705884637" className="text-gray-300 hover:text-white transition-colors whitespace-nowrap">
                     (570) 588-4637
                   </a>
                 </li>
@@ -100,20 +100,20 @@ const Footer: React.FC<{ className?: string }> = ({ className }) => {
                   <Mail className="w-5 h-5 text-[#eac87d] mt-0.5 mr-3 flex-shrink-0" />
                   <a
                     href="mailto:debbie@parealestatesupport.com"
-                    className="text-gray-400 hover:text-white transition-colors whitespace-nowrap"
+                    className="text-gray-300 hover:text-white transition-colors whitespace-nowrap"
                   >
                     debbie@parealestatesupport.com
                   </a>
                 </li>
                 <li className="flex items-start">
                   <MapPin className="w-5 h-5 text-[#eac87d] mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-gray-400 whitespace-nowrap">
+                  <span className="text-gray-300 whitespace-nowrap">
                     Pocono Mountains, PA
                   </span>
                 </li>
                 <li className="flex items-start">
                   <Clock className="w-5 h-5 text-[#eac87d] mt-0.5 mr-3 flex-shrink-0" />
-                  <span className="text-gray-400 whitespace-nowrap">
+                  <span className="text-gray-300 whitespace-nowrap">
                     Mon-Fri 9:00 AM - 5:00 PM
                   </span>
                 </li>
@@ -129,10 +129,10 @@ const Footer: React.FC<{ className?: string }> = ({ className }) => {
               &copy; {currentYear} PA Real Estate Support Services. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
-              <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">
+              <Link to="/privacy" className="text-gray-300 hover:text-white transition-colors text-sm">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">
+              <Link to="/terms" className="text-gray-300 hover:text-white transition-colors text-sm">
                 Terms of Service
               </Link>
             </div>

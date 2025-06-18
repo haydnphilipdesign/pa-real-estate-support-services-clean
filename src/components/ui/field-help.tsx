@@ -29,7 +29,7 @@ export const FieldHelp: React.FC<FieldHelpProps> = ({
       <TooltipTrigger asChild>
         <div className={cn('inline-flex items-center gap-1 cursor-help', className)}>
           {children}
-          <HelpCircle className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+          <HelpCircle className="h-4 w-4 text-gray-600 hover:text-gray-800" />
         </div>
       </TooltipTrigger>
       <TooltipContent className="max-w-xs p-4 space-y-2">
