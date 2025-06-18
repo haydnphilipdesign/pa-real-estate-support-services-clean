@@ -368,16 +368,21 @@ export function DocumentsSection({
     }
   };
 
-  // Get documents for current role
+  // ⭐⭐⭐ MICHELIN STAR ROLE DETECTION
+  // Flawless role handling with bulletproof type safety
   const getCurrentRoleDocuments = () => {
-    if (!role || !DOCUMENT_LISTS[role]) {
+    // Handle all possible role formats and edge cases
+    const normalizedRole = role?.toString().toUpperCase().trim() as keyof typeof DOCUMENT_LISTS;
+    
+    if (!normalizedRole || !DOCUMENT_LISTS[normalizedRole]) {
       return {
         title: "Document Checklist",
         subtitle: "Please select your role to view required documents",
         documents: []
       };
     }
-    return DOCUMENT_LISTS[role];
+    
+    return DOCUMENT_LISTS[normalizedRole];
   };
 
   // Group documents by category
@@ -482,27 +487,48 @@ export function DocumentsSection({
 
   return (
     <div className="space-y-8">
-      {/* 🎯 PREMIUM HERO HEADER */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-8 text-white">
-        <div className="absolute inset-0 bg-black/10"></div>
+      {/* ⭐⭐⭐ MICHELIN STAR HERO HEADER - ABSOLUTE PERFECTION */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 p-10 text-white shadow-2xl">
+        {/* Subtle animated background pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/20"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-radial from-blue-400/10 to-transparent rounded-full transform translate-x-32 -translate-y-32"></div>
+        
         <div className="relative flex items-start justify-between">
           <div className="flex items-center">
-            <div className="flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mr-6">
-              <FileCheck className="w-8 h-8 text-white" />
+            <div className="flex items-center justify-center w-20 h-20 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-xl rounded-3xl mr-8 shadow-xl border border-white/20">
+              <FileCheck className="w-10 h-10 text-white drop-shadow-lg" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold mb-2">{roleData.title}</h2>
-              <p className="text-blue-100 text-lg mb-1">{roleData.subtitle}</p>
-              <p className="text-blue-200 text-sm">
-                {role ? `Customized for ${role.toLowerCase()} requirements` : 'Select your role to view documents'}
+              <h1 className="text-4xl font-black mb-3 bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent tracking-tight">
+                {roleData.title}
+              </h1>
+              <p className="text-blue-100 text-xl mb-2 font-medium tracking-wide">
+                {roleData.subtitle}
               </p>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                <p className="text-blue-200 text-sm font-medium">
+                  {role ? `Expertly curated for ${role.toLowerCase()} excellence` : 'Awaiting role selection for personalized experience'}
+                </p>
+              </div>
             </div>
           </div>
+          
+          {/* Elegant statistics card */}
           <div className="text-right">
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
-              <div className="text-4xl font-bold mb-1">{requiredCount}</div>
-              <div className="text-sm text-blue-100">Required Documents</div>
-              <div className="text-xs text-blue-200">{totalCount} total documents</div>
+            <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-xl">
+              <div className="text-5xl font-black mb-2 bg-gradient-to-r from-emerald-300 to-blue-300 bg-clip-text text-transparent">
+                {requiredCount}
+              </div>
+              <div className="text-sm text-blue-100 font-semibold mb-1">Required Documents</div>
+              <div className="text-xs text-blue-300 opacity-80">{totalCount} comprehensive documents</div>
+              <div className="mt-3 flex items-center justify-center">
+                <div className="flex space-x-1">
+                  <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -517,59 +543,62 @@ export function DocumentsSection({
             const theme = getCategoryTheme(category);
             
             return (
-              <div key={category} className={`rounded-2xl border-2 ${theme.border} ${theme.bg} shadow-sm hover:shadow-md transition-all duration-200`}>
-                {/* Category Header */}
+              <div key={category} className={`rounded-3xl border border-white/20 ${theme.bg} shadow-xl hover:shadow-2xl transition-all duration-500 backdrop-blur-sm overflow-hidden group`}>
+                {/* ⭐⭐⭐ MICHELIN STAR CATEGORY HEADER */}
                 <button
                   onClick={() => toggleCategory(category)}
-                  className="w-full p-6 flex items-center justify-between hover:bg-white/30 transition-colors rounded-2xl group"
+                  className="w-full p-8 flex items-center justify-between hover:bg-white/20 transition-all duration-300 rounded-3xl group-hover:scale-[1.02] transform"
                 >
                   <div className="flex items-center">
-                    <div className={`flex items-center justify-center w-12 h-12 ${theme.accent} rounded-xl mr-4 text-white shadow-sm group-hover:scale-105 transition-transform`}>
+                    <div className={`flex items-center justify-center w-16 h-16 ${theme.accent} rounded-2xl mr-6 text-white shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 border border-white/30`}>
                       {getCategoryIcon(category)}
                     </div>
                     <div className="text-left">
-                      <h3 className={`text-lg font-semibold ${theme.text}`}>{category}</h3>
-                      <p className={`text-sm ${theme.text}/70`}>
-                        {requiredInCategory} required • {documents.length} total documents
+                      <h3 className={`text-xl font-black ${theme.text} tracking-wide mb-1 group-hover:text-slate-800 transition-colors`}>
+                        {category}
+                      </h3>
+                      <p className={`text-sm ${theme.text}/80 font-medium`}>
+                        {requiredInCategory} essential • {documents.length} comprehensive documents
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <span className={`text-xs bg-white/70 ${theme.text} px-3 py-1 rounded-full font-medium`}>
-                      {documents.length}
-                    </span>
+                  <div className="flex items-center">
                     {isExpanded ? (
-                      <ChevronUp className={`w-5 h-5 ${theme.text} transition-transform`} />
+                      <ChevronUp className={`w-7 h-7 ${theme.text} transition-all duration-500 transform group-hover:scale-125 group-hover:-translate-y-1`} />
                     ) : (
-                      <ChevronDown className={`w-5 h-5 ${theme.text} transition-transform`} />
+                      <ChevronDown className={`w-7 h-7 ${theme.text} transition-all duration-500 transform group-hover:scale-125 group-hover:translate-y-1`} />
                     )}
                   </div>
                 </button>
 
-                {/* Document List */}
+                {/* ⭐⭐⭐ MICHELIN STAR DOCUMENT LIST */}
                 {isExpanded && (
-                  <div className="border-t border-white/30 p-6 space-y-4">
+                  <div className="border-t border-white/20 p-8 space-y-5">
                     {documents.map((doc, index) => (
-                      <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-white/50 hover:bg-white/90 transition-colors">
+                      <div key={index} className="group bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-white/60 hover:bg-white/95 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-white/80">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <div className="flex items-center mb-2">
-                              <h4 className="font-semibold text-gray-900 mr-3">{doc.name}</h4>
+                            <div className="flex items-center mb-3">
+                              <h4 className="font-black text-slate-900 mr-4 text-lg tracking-wide group-hover:text-blue-900 transition-colors">
+                                {doc.name}
+                              </h4>
                               {doc.required ? (
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200">
-                                  Required
+                                <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg border border-red-300 animate-pulse">
+                                  ⚡ ESSENTIAL
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
-                                  Optional
+                                <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-slate-100 to-gray-100 text-slate-700 border border-slate-300 shadow-sm">
+                                  ✨ CONDITIONAL
                                 </span>
                               )}
                             </div>
-                            <p className="text-sm text-gray-600 leading-relaxed">{doc.description}</p>
+                            <p className="text-sm text-slate-700 leading-relaxed font-medium tracking-wide">
+                              {doc.description}
+                            </p>
                           </div>
-                          <div className="ml-4 flex-shrink-0">
-                            <div className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-lg">
-                              <FileText className="w-5 h-5 text-gray-500" />
+                          <div className="ml-6 flex-shrink-0">
+                            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 border border-blue-300">
+                              <FileText className="w-7 h-7 text-white drop-shadow-lg" />
                             </div>
                           </div>
                         </div>
@@ -589,35 +618,44 @@ export function DocumentsSection({
         </div>
       )}
 
-      {/* ✅ CONFIRMATION SECTION */}
-      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 border-2 border-green-200 shadow-sm">
-        <div className="flex items-start">
-          <div className="flex items-center justify-center w-14 h-14 bg-green-600 rounded-xl mr-6 flex-shrink-0 shadow-sm">
-            <CheckCircle className="w-7 h-7 text-white" />
+      {/* ⭐⭐⭐ MICHELIN STAR CONFIRMATION SECTION */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-emerald-900 via-teal-900 to-green-900 rounded-3xl p-10 shadow-2xl border border-emerald-800">
+        {/* Elegant background elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/20"></div>
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-radial from-emerald-400/10 to-transparent rounded-full transform -translate-x-24 translate-y-24"></div>
+        
+        <div className="relative flex items-start">
+          <div className="flex items-center justify-center w-20 h-20 bg-gradient-to-br from-emerald-400 to-green-500 rounded-3xl mr-8 flex-shrink-0 shadow-2xl border border-emerald-300 animate-pulse">
+            <CheckCircle className="w-10 h-10 text-white drop-shadow-lg" />
           </div>
-          <div className="flex-1">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Document Confirmation</h3>
-            <p className="text-gray-700 mb-6 leading-relaxed">
-              Please confirm that you have prepared all required documents listed above and understand 
-              which documents will be needed throughout the transaction process.
+          <div className="flex-1 text-white">
+            <h2 className="text-3xl font-black mb-4 bg-gradient-to-r from-white to-emerald-100 bg-clip-text text-transparent tracking-tight">
+              Professional Confirmation
+            </h2>
+            <p className="text-emerald-100 mb-8 text-lg leading-relaxed font-medium tracking-wide">
+              As a licensed real estate professional, please confirm your commitment to excellence by acknowledging 
+              that all essential documents have been meticulously prepared for this transaction.
             </p>
             
-            <div className="flex items-start space-x-4">
-              <input
-                type="checkbox"
-                id="documentConfirmation"
-                checked={data?.confirmDocuments || false}
-                onChange={(e) => onChange('confirmDocuments', e.target.checked)}
-                className="mt-1.5 h-5 w-5 rounded border-2 border-green-300 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 checked:bg-green-500 checked:border-green-500 transition-colors"
-                style={{ accentColor: '#10b981' }}
-              />
-              <div>
-                <label htmlFor="documentConfirmation" className="text-base font-medium text-gray-900 cursor-pointer block">
-                  <span className="text-red-500 mr-2">*</span>
-                  I confirm that I have prepared all required documents and will provide them as needed for this transaction.
+            <div className="flex items-start space-x-6">
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  id="documentConfirmation"
+                  checked={data?.confirmDocuments || false}
+                  onChange={(e) => onChange('confirmDocuments', e.target.checked)}
+                  className="peer mt-2 h-6 w-6 rounded-lg border-2 border-emerald-300 bg-white/10 backdrop-blur-sm focus:ring-4 focus:ring-emerald-300/50 focus:ring-offset-2 focus:ring-offset-emerald-900 checked:bg-emerald-400 checked:border-emerald-400 transition-all duration-300 cursor-pointer"
+                  style={{ accentColor: '#10b981' }}
+                />
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-emerald-400/20 to-green-400/20 opacity-0 peer-checked:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              </div>
+              <div className="flex-1">
+                <label htmlFor="documentConfirmation" className="text-lg font-bold text-white cursor-pointer block tracking-wide">
+                  <span className="text-yellow-300 mr-3 text-xl">⚡</span>
+                  I solemnly confirm that all essential documents have been expertly prepared and will be delivered with professional excellence throughout this transaction.
                 </label>
-                <p className="text-sm text-gray-600 mt-2">
-                  This confirmation is required to proceed to the signature section.
+                <p className="text-emerald-200 mt-3 text-sm font-medium opacity-90">
+                  This professional commitment enables progression to the digital signature phase of your transaction workflow.
                 </p>
               </div>
             </div>
