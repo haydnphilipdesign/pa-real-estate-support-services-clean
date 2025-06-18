@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button } from "@/components/ui";
-import { Users, UserPlus, Trash, User, UserCheck } from "lucide-react";
+import { Users, UserPlus, Trash, User, UserCheck, Contact, Building2 } from "lucide-react";
 import { ClientFormFields } from './client/ClientFormFields';
 import type { Client, AgentRole } from '@/types/transaction';
 import { v4 as uuidv4 } from 'uuid';
@@ -104,64 +104,83 @@ export const ClientInformation: React.FC<ClientInformationProps> = ({
   const Icon = getIcon();
 
   return (
-    <div className="tf-client-info">
-      <div className="tf-glass-card tf-no-hover">
-        <div className="tf-flex tf-items-center tf-mb-4">
-          <div className="tf-icon-container">
-            <Users className="tf-icon" />
-          </div>
-          <div>
-            <h3 className="tf-heading-secondary">Client Information</h3>
-            <p className="tf-text-subtitle">Manage {getClientTypeLabel().toLowerCase()} details for this transaction</p>
-          </div>
+    <div className="form-section">
+      {/* Enhanced Section Header */}
+      <div className="form-section-header">
+        <div className="form-section-icon">
+          <Contact className="w-5 h-5 text-white" />
         </div>
+        <div>
+          <h3 className="form-section-title">Client Information</h3>
+          <p className="form-section-description">
+            Manage {getClientTypeLabel().toLowerCase()} details for this transaction
+          </p>
+        </div>
+        {clients.length > 0 && (
+          <div className="ml-auto flex items-center gap-2 text-sm text-neutral-500">
+            <Users className="w-4 h-4" />
+            <span>{clients.length} {getClientTypeLabel().toLowerCase()}{clients.length !== 1 ? 's' : ''}</span>
+          </div>
+        )}
+      </div>
 
+      <div className="space-y-6">
         {clients.length === 0 ? (
-          <div className="tf-glass-card-light tf-text-center">
-            <div className="tf-icon-container tf-mx-auto tf-mb-4">
-              <Icon className="tf-icon-lg" />
+          <div className="form-empty-state">
+            <div className="form-empty-state-icon">
+              <Icon className="w-12 h-12" />
             </div>
-            <h3 className="tf-heading-tertiary tf-mb-2">No {getClientTypeLabel()}s Added Yet</h3>
-            <p className="tf-text-description tf-mb-4">Add information about the {getClientTypeLabel().toLowerCase()}(s) for this transaction.</p>
-            <button
-              onClick={handleAddClient}
-              className="tf-button tf-button-primary"
-            >
-              <UserPlus className="tf-button-icon" />
-              Add {getClientTypeLabel()}
-            </button>
+            <div className="form-empty-state-content">
+              <h3 className="form-empty-state-title">No {getClientTypeLabel()}s Added Yet</h3>
+              <p className="form-empty-state-description">
+                Add information about the {getClientTypeLabel().toLowerCase()}(s) for this transaction to get started.
+              </p>
+              <button
+                onClick={handleAddClient}
+                className="form-empty-state-button"
+              >
+                <UserPlus className="w-5 h-5 mr-2" />
+                Add First {getClientTypeLabel()}
+              </button>
+            </div>
           </div>
         ) : (
-          <div className="tf-client-list">
+          <div className="space-y-6">
             {clients.map((client, index) => (
               <div
                 key={client.id}
-                className="tf-glass-card-light tf-mb-4"
+                className="form-client-card"
               >
-                {/* Client header */}
-                <div className="tf-client-header">
-                  <div className="tf-flex tf-items-center tf-gap-3">
-                    <div className="tf-icon-container tf-icon-sm-container">
-                      <Icon className="tf-icon-sm" />
+                {/* Enhanced Client Header */}
+                <div className="form-client-header">
+                  <div className="flex items-center gap-3">
+                    <div className="form-client-header-icon">
+                      <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="tf-heading-tertiary">
-                      {getClientTypeLabel()} {clients.length > 1 ? `#${index + 1}` : ''}
-                    </h3>
+                    <div className="form-client-header-content">
+                      <h4 className="form-client-header-title">
+                        {getClientTypeLabel()} {clients.length > 1 ? `#${index + 1}` : ''}
+                      </h4>
+                      <p className="form-client-header-subtitle">
+                        {client.name || 'Unnamed client'} • {client.email || 'No email'}
+                      </p>
+                    </div>
                   </div>
 
                   {clients.length > 1 && (
                     <button
                       onClick={() => handleRemoveClient(client.id)}
-                      className="tf-button tf-button-secondary tf-button-danger"
+                      className="form-client-remove-button"
+                      title="Remove this client"
                     >
-                      <Trash className="tf-button-icon" />
-                      Remove
+                      <Trash className="w-4 h-4" />
+                      <span className="sr-only">Remove client</span>
                     </button>
                   )}
                 </div>
 
-                {/* Client form fields */}
-                <div className="tf-client-form-content">
+                {/* Enhanced Client Form Fields */}
+                <div className="form-client-content">
                   <ClientFormFields
                     client={client}
                     onClientChange={(field, value) => handleClientChange(client.id, field, value)}
@@ -171,14 +190,20 @@ export const ClientInformation: React.FC<ClientInformationProps> = ({
               </div>
             ))}
 
-            <button
-              type="button"
-              onClick={handleAddClient}
-              className="tf-button tf-button-secondary tf-button-dashed tf-w-full"
-            >
-              <UserPlus className="tf-button-icon" />
-              Add Another {getClientTypeLabel()}
-            </button>
+            {/* Enhanced Add Another Button */}
+            <div className="form-add-client-section">
+              <button
+                type="button"
+                onClick={handleAddClient}
+                className="form-add-client-button"
+              >
+                <UserPlus className="w-5 h-5 mr-2" />
+                Add Another {getClientTypeLabel()}
+                <span className="form-add-client-hint">
+                  Perfect for joint purchases or multiple parties
+                </span>
+              </button>
+            </div>
           </div>
         )}
       </div>

@@ -91,6 +91,7 @@ export const loadLayoutFixes = () => {
       attributes: true,
       attributeFilter: ['class', 'id', 'data-hero-content', 'data-hero-component']
     });
+    */
   };
 
   // Function to specifically fix hero text wherever it appears

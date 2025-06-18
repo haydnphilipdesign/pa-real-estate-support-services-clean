@@ -218,16 +218,6 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
       {/* Enhanced Glass Card with Wider Container - No Hover Effects */}
       <div className="tf-glass-card tf-no-hover">
         
-        {/* Section Header */}
-        <div className="tf-flex tf-items-center tf-mb-6">
-          <div className="tf-icon-container">
-            <DollarSign className="tf-icon" />
-          </div>
-          <div>
-            <h3 className="tf-heading-secondary">Commission Structure</h3>
-            <p className="tf-text-subtitle">Configure commission rates and distribution details</p>
-          </div>
-        </div>
 
         {/* Enhanced Responsive Layout */}
         <div className="space-y-8">

@@ -331,6 +331,50 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
                         onChange={(field, value) => actions.updateField(`commissionData.${field}`, value)}
                         role={formData.agentData.role}
                       />
+                    ) : currentStepConfig.id === 6 ? (
+                      // DocumentsSection step - pass specific props
+                      (() => {
+                        console.log('=== UnifiedTransactionForm Debug ===');
+                        console.log('Current step:', stepConfig.currentStep);
+                        console.log('Form data snapshot:', {
+                          agentData: formData.agentData,
+                          propertyData: formData.propertyData,
+                          propertyDetailsData: formData.propertyDetailsData,
+                          commissionData: formData.commissionData
+                        });
+                        console.log('Passing to DocumentsSection:', {
+                          role: formData.agentData.role,
+                          propertyData: formData.propertyData,
+                          propertyDetailsData: formData.propertyDetailsData,
+                          commissionData: formData.commissionData
+                        });
+                        return (
+                          <DocumentsSection
+                            data={formData.documentsData}
+                            onChange={(field, value) => actions.updateField(`documentsData.${field}`, value)}
+                            role={formData.agentData.role}
+                            propertyData={formData.propertyData}
+                            propertyDetailsData={formData.propertyDetailsData}
+                            commissionData={formData.commissionData}
+                          />
+                        );
+                      })()
+                    ) : currentStepConfig.id === 7 ? (
+                      // AdditionalInfoSection step - pass standard props
+                      <AdditionalInfoSection
+                        formData={formData}
+                        onChange={actions.updateField}
+                        validationErrors={formData.validationErrors}
+                        touchedFields={formData.touchedFields}
+                        onFieldTouch={actions.setFieldTouched}
+                      />
+                    ) : currentStepConfig.id === 8 ? (
+                      // SignatureSection step - pass specific props
+                      <SignatureSection
+                        data={formData.signatureData}
+                        onChange={(field, value) => actions.updateField(`signatureData.${field}`, value)}
+                        role={formData.agentData.role}
+                      />
                     ) : (
                       // Other steps - pass standard props
                       <CurrentStepComponent

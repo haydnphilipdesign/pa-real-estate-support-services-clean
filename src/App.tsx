@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange';
 
 // Pages
 import Home from './pages/Home';
@@ -18,6 +19,7 @@ import { CleanPortalTransactionForm } from './components/TransactionForm/CleanPo
 const App: React.FC = () => {
   return (
     <Layout>
+      <ScrollToTopOnRouteChange />
       <Header />
       
       <main>

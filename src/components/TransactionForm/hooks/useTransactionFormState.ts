@@ -205,6 +205,21 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
 
   // Field update handler - supports nested updates and real-time validation
   const updateField = useCallback((field: string, value: any) => {
+    // Debug logging for role field specifically
+    if (field === 'agentData.role' || field === 'role') {
+      console.log('=== Role Update Debug ===');
+      console.log('Field:', field);
+      console.log('Value:', value);
+      console.log('Value type:', typeof value);
+    }
+
+    // Debug logging for property data fields
+    if (field.startsWith('propertyData.') || field.startsWith('propertyDetailsData.')) {
+      console.log('=== Property Data Update Debug ===');
+      console.log('Field:', field);
+      console.log('Value:', value);
+    }
+
     setFormData(prev => {
       let updatedData: TransactionFormData;
       
@@ -226,6 +241,17 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
           [field]: value,
           touchedFields: new Set([...(prev.touchedFields || []), field])
         };
+      }
+      
+      // Debug logging after update
+      if (field === 'agentData.role' || field === 'role') {
+        console.log('Updated agentData.role:', updatedData.agentData.role);
+        console.log('Full agentData:', updatedData.agentData);
+      }
+
+      if (field.startsWith('propertyData.') || field.startsWith('propertyDetailsData.')) {
+        console.log('Updated propertyData:', updatedData.propertyData);
+        console.log('Updated propertyDetailsData:', updatedData.propertyDetailsData);
       }
       
       // Clear validation error if the field becomes valid
