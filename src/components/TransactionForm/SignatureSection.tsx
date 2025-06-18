@@ -53,7 +53,7 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
 
   return (
     <div className="tf-signature-section">
-      <div className="tf-glass-card">
+      <div className="tf-glass-card tf-no-hover">
         <div className="tf-flex tf-items-center tf-mb-4">
           <div className="tf-icon-container">
             <PenTool className="tf-icon" />

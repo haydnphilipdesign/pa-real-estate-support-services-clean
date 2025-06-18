@@ -1,4 +1,4 @@
-// final-layout-fixes.css is now included in the consolidated styles
+// All layout fixes disabled - using clean CSS approach
 
 import { useEffect } from 'react';
 
@@ -10,74 +10,23 @@ declare global {
 }
 
 /**
- * This module directly injects critical CSS fixes to ensure the site renders properly
+ * CSS injection DISABLED - was causing form hover transparency issues
  */
 export const loadLayoutFixes = () => {
-  // Force inject critical CSS as a style element directly into the document head
+  // DISABLED: This was injecting CSS that interfered with form functionality
   const injectCriticalCss = () => {
-    // Check if our critical styles are already in the document
-    if (document.getElementById('critical-css-injected')) {
-      return;
-    }
-
-    const styleElement = document.createElement('style');
-    styleElement.id = 'critical-css-injected';
-
-    // Critical CSS for base elements
-    styleElement.textContent = `
-      /* Critical layout fixes injected by LayoutFixes.tsx */
-      html, body, #root {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-      }
-
-      /* Direct hero text fixes with very high specificity */
-      #home-hero h1,
-      #home-hero h2,
-      .hero-section h1,
-      .hero-section h2,
-      [data-hero-content] h1,
-      [data-hero-content] h2,
-      [data-hero-component="true"] h1,
-      [data-hero-component="true"] h2,
-      div[class*="hero"] h1,
-      div[class*="hero"] h2,
-      section[class*="hero"] h1,
-      section[class*="hero"] h2 {
-        color: #FFFFFF !important;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;
-      }
-
-      #home-hero p,
-      .hero-section p,
-      [data-hero-content] p,
-      [data-hero-component="true"] p,
-      div[class*="hero"] p,
-      section[class*="hero"] p {
-        color: #FFFFFF !important;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
-      }
-
-      /* Glass card text color enforcement */
-      .glass-card-navy *,
-      .glass-card-blue *,
-      .glass-card-dark * {
-        color: #FFFFFF !important;
-      }
-
-      .glass-card-navy p,
-      .glass-card-blue p,
-      .glass-card-dark p {
-        color: rgba(255, 255, 255, 0.9) !important;
-      }
-    `;
-
-    document.head.appendChild(styleElement);
+    // CSS injection disabled to fix persistent form issues
+    console.log('CSS injection disabled to prevent form interference');
+    return;
   };
 
-  // Fix for dynamic content - set up a mutation observer to watch for any hero elements
+  // DISABLED: MutationObserver was causing CSS interference
   const setupHeroTextObserver = () => {
+    console.log('MutationObserver disabled to prevent CSS interference');
+    return;
+    
+    // DISABLED CODE BELOW - was causing issues
+    /*
     // Only set up once
     if (window.heroTextObserverActive) {
       return;

@@ -105,7 +105,7 @@ export const ClientInformation: React.FC<ClientInformationProps> = ({
 
   return (
     <div className="tf-client-info">
-      <div className="tf-glass-card">
+      <div className="tf-glass-card tf-no-hover">
         <div className="tf-flex tf-items-center tf-mb-4">
           <div className="tf-icon-container">
             <Users className="tf-icon" />

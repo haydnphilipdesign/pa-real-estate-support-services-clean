@@ -50,7 +50,7 @@ export interface TransactionFormData {
 
 export const initialFormData: TransactionFormData = {
   agentData: {
-    role: 'BUYERS AGENT',
+    role: '', // No default role - user must explicitly select
     name: '',
     email: '',
     phone: ''
@@ -172,13 +172,46 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
   const [formData, setFormData] = useState<TransactionFormData>(initialFormData);
   const { toast } = useToast();
 
-  // Field update handler - supports nested updates
+  // Helper function to validate a single field
+  const validateSingleField = useCallback((fieldName: string, value: any, formData: TransactionFormData): boolean => {
+    // Validation logic for specific fields
+    switch (fieldName) {
+      case 'role':
+      case 'agentData.role':
+        return !!(value && typeof value === 'string' && value.trim() !== '');
+      
+      case 'agentName':
+      case 'agentData.name':
+        return !!(value && typeof value === 'string' && value.trim() !== '');
+      
+      case 'propertyData.mlsNumber':
+        if (!value || value.trim() === '') return false;
+        return /^(PM-)?[0-9]{6}$/.test(value);
+      
+      case 'propertyData.address':
+        return !!(value && typeof value === 'string' && value.trim() !== '');
+      
+      case 'propertyData.county':
+        return !!(value && typeof value === 'string' && value.trim() !== '');
+      
+      case 'propertyData.salePrice':
+        return !!(value && typeof value === 'string' && value.trim() !== '' && /^[0-9]*\.?[0-9]*$/.test(value));
+      
+      default:
+        // For unknown fields, consider them valid if they have a value
+        return !!(value !== null && value !== undefined && value !== '');
+    }
+  }, []);
+
+  // Field update handler - supports nested updates and real-time validation
   const updateField = useCallback((field: string, value: any) => {
     setFormData(prev => {
+      let updatedData: TransactionFormData;
+      
       // Handle nested field updates like 'propertyData.mlsNumber'
       if (field.includes('.')) {
         const [section, subField] = field.split('.');
-        return {
+        updatedData = {
           ...prev,
           [section]: {
             ...prev[section as keyof TransactionFormData],
@@ -186,16 +219,28 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
           },
           touchedFields: new Set([...(prev.touchedFields || []), field])
         };
+      } else {
+        // Handle direct field updates
+        updatedData = {
+          ...prev,
+          [field]: value,
+          touchedFields: new Set([...(prev.touchedFields || []), field])
+        };
       }
       
-      // Handle direct field updates
-      return {
-        ...prev,
-        [field]: value,
-        touchedFields: new Set([...(prev.touchedFields || []), field])
-      };
+      // Clear validation error if the field becomes valid
+      const updatedErrors = { ...prev.validationErrors };
+      const fieldErrorKey = field === 'agentData.role' ? 'role' : 
+                           field === 'agentData.name' ? 'agentName' : field;
+      
+      if (validateSingleField(field, value, updatedData)) {
+        delete updatedErrors[fieldErrorKey];
+        updatedData.validationErrors = updatedErrors;
+      }
+      
+      return updatedData;
     });
-  }, []);
+  }, [validateSingleField]);
 
   // Client management
   const updateClient = useCallback((index: number, clientUpdate: Partial<Client>) => {
@@ -369,36 +414,131 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
     try {
       // Validate all steps before submission
       let isValid = true;
+      let hasWarnings = false;
+      
       for (let step = 1; step <= TOTAL_STEPS; step++) {
-        if (!validateStep(step)) {
+        const stepValidation = validateStep(step, false);
+        if (!stepValidation) {
           isValid = false;
           break;
+        }
+        // Check if there are any warnings
+        if (Object.keys(formData.validationWarnings).length > 0) {
+          hasWarnings = true;
         }
       }
       
       if (!isValid) {
         throw new Error('Please complete all required fields');
       }
-      
-      // TODO: Implement actual submission logic
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
-      
+
+      // Show progress notification
       toast({
-        title: 'Success!',
-        description: 'Transaction form submitted successfully',
+        title: 'Submitting Transaction',
+        description: 'Processing your submission...',
       });
+
+      // Transform data for submission
+      const { transformFormDataForAirtable, transformFormDataForCoverSheet } = await import('@/utils/formDataTransformer');
+      const { submitToAirtable } = await import('@/utils/airtable');
+      
+      const airtableData = transformFormDataForAirtable(formData);
+      const coverSheetData = transformFormDataForCoverSheet(formData);
+
+      // Step 1: Submit to Airtable
+      console.log('Submitting to Airtable...', airtableData);
+      const airtableResult = await submitToAirtable(airtableData);
+      console.log('Airtable submission successful:', airtableResult);
+      
+      // Step 2: Generate PDF Cover Sheet using the created record
+      console.log('Generating PDF cover sheet for record:', airtableResult.recordId);
+      
+      try {
+        const pdfResponse = await fetch('/api/generateCoverSheet', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            tableId: airtableResult.tableId,
+            recordId: airtableResult.recordId,
+            agentRole: formData.agentData.role,
+            sendEmail: true,
+            data: coverSheetData // Fallback data in case Airtable fetch fails
+          }),
+        });
+
+        if (!pdfResponse.ok) {
+          const errorData = await pdfResponse.json();
+          console.warn('PDF generation failed:', errorData);
+          // Don't fail the entire submission if PDF generation fails
+          toast({
+            title: 'PDF Generation Warning',
+            description: 'Data saved successfully, but PDF generation failed. Contact support if needed.',
+            variant: 'default',
+          });
+        } else {
+          const pdfResult = await pdfResponse.json();
+          console.log('PDF generated successfully:', pdfResult);
+          
+          // Enhanced success message with PDF info
+          toast({
+            title: 'Complete Success!',
+            description: hasWarnings 
+              ? 'Transaction submitted, PDF generated, and email sent! Some optional fields were incomplete but your submission is valid.'
+              : 'Transaction submitted successfully with complete information. PDF cover sheet generated and emailed.',
+          });
+          
+          // Save the PDF info for reference
+          localStorage.setItem('transaction-form-last-pdf', JSON.stringify({
+            filename: pdfResult.filename,
+            emailSent: pdfResult.emailSent,
+            timestamp: Date.now()
+          }));
+          
+          resetForm();
+          return; // Early return for complete success
+        }
+      } catch (pdfError) {
+        console.warn('PDF generation error:', pdfError);
+        // Don't fail the entire submission
+      }
+      
+      // Fallback success message (if PDF generation failed)
+      toast({
+        title: 'Partial Success',
+        description: hasWarnings 
+          ? 'Transaction data saved successfully! Some optional fields were incomplete. PDF generation failed - contact support if needed.'
+          : 'Transaction data saved successfully! PDF generation failed - contact support if needed.',
+      });
+
+      // Save success state to localStorage for recovery if needed
+      localStorage.setItem('transaction-form-last-success', JSON.stringify({
+        timestamp: Date.now(),
+        formData: formData,
+        agentRole: formData.agentData.role
+      }));
       
       resetForm();
     } catch (error) {
+      console.error('Submission error:', error);
+      
+      // Save current form state for recovery
+      localStorage.setItem('transaction-form-error-recovery', JSON.stringify({
+        timestamp: Date.now(),
+        formData: formData,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }));
+      
       toast({
         title: 'Submission Failed',
-        description: error instanceof Error ? error.message : 'An error occurred',
+        description: error instanceof Error ? error.message : 'An error occurred during submission',
         variant: 'destructive',
       });
     } finally {
       setFormData(prev => ({ ...prev, isSubmitting: false }));
     }
-  }, [validateStep, toast, resetForm]);
+  }, [validateStep, toast, resetForm, formData]);
 
   // Load draft on mount
   useEffect(() => {

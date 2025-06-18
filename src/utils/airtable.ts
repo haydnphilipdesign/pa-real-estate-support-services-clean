@@ -11,31 +11,38 @@ const CLIENTS_TABLE_ID = 'tblvdy7T9Hv4SasdI';
 const transactionsTable = airtableBase(TRANSACTIONS_TABLE_ID);
 const clientsTable = airtableBase(CLIENTS_TABLE_ID);
 
-// Updated field mappings based on CSV
+// Field mappings for fields that actually exist in Airtable (based on CSV)
 const transactionFieldMap = {
+  // Property Information
   address: 'fldypnfnHhplWYcCW',
-  agentName: 'fldFD4xHD0vxnSOHJ',
-  brokerEin: 'fld20VbKbWzdR4Sp7',
   mlsNumber: 'fld6O2FgIXQU5G27o',
-  referralParty: 'fldzVtmn8uylVxuTF',
-  buyerPaidPercentage: 'flddRltdGj05Clzpa',
-  buyersAgentPercentage: 'fld5KRrToAAt5kOLd',
-  listingAgentPercentage: 'flduuQQT7o6XAGlRe',
-  referralFee: 'fldewmjoaJVwiMF46',
-  totalCommissionPercentage: 'fldE8INzEorBtx2uN',
-  fixedCommissionAmount: 'fldNXNV9Yx2LwJPhN',
   salePrice: 'fldhHjBZJISmnP8SK',
-  sellersAssist: 'fldTvXx96Na0zRh6W',
-  totalCommission: 'fldsOqVJDGYKUjD8L',
-  agentRole: 'fldOVyoxz38rWwAFy',
   propertyStatus: 'fldV2eLxz6w0TpLFU',
-  isReferral: 'fldLVyXkhqppQ7WpC',
-  requiresFollowUp: 'fldIG7LFmo1Sro6Oz',
-  updateMls: 'fldw3GlfvKtyNfIAW',
   isWinterized: 'fldExdgBDgdB1i9jy',
+  updateMls: 'fldw3GlfvKtyNfIAW',
+  
+  // Agent Information
+  agentName: 'fldFD4xHD0vxnSOHJ',
+  agentRole: 'fldOVyoxz38rWwAFy',
+  
+  // Commission Data
+  totalCommissionPercentage: 'fldE8INzEorBtx2uN',
+  listingAgentPercentage: 'flduuQQT7o6XAGlRe',
+  buyersAgentPercentage: 'fld5KRrToAAt5kOLd',
+  buyerPaidPercentage: 'flddRltdGj05Clzpa',
+  sellersAssist: 'fldTvXx96Na0zRh6W',
+  isReferral: 'fldLVyXkhqppQ7WpC',
+  referralParty: 'fldzVtmn8uylVxuTF',
+  referralFee: 'fldewmjoaJVwiMF46',
+  brokerEin: 'fld20VbKbWzdR4Sp7',
+  fixedCommissionAmount: 'fldNXNV9Yx2LwJPhN',
+  totalCommission: 'fldsOqVJDGYKUjD8L',
+  
+  // Additional Information
   notes: 'fld30htJ7euVerCLW',
   specialInstructions: 'fldDWN8jU4kdCffzu',
-  urgentIssues: 'fldgW16aPdFMdspO6'
+  urgentIssues: 'fldgW16aPdFMdspO6',
+  requiresFollowUp: 'fldIG7LFmo1Sro6Oz'
 };
 
 const clientFieldMap = {
@@ -73,7 +80,14 @@ const formatFieldValue = (value: any, fieldName: string): any => {
     case 'requiresFollowUp':
     case 'updateMls':
     case 'isWinterized':
-      // Ensure YES/NO format
+    case 'isBuiltBefore1978':
+    case 'resaleCertRequired':
+    case 'coRequired':
+    case 'firstRightOfRefusal':
+    case 'attorneyRepresentation':
+    case 'homeWarranty':
+      // Ensure boolean format for YES/NO and boolean fields
+      if (typeof value === 'boolean') return value;
       return value?.toUpperCase() === 'YES' ? true : false;
     
     default:
@@ -102,12 +116,14 @@ export const submitToAirtable = async (data: TransactionFormData) => {
     // Create transaction record
     const transactionFields: Record<string, any> = {};
     
-    // Map agent role
-    if (data.agentData?.role) {
-      transactionFields[transactionFieldMap.agentRole] = data.agentData.role;
+    // Map agent data
+    if (data.agentData) {
+      if (data.agentData.role) {
+        transactionFields[transactionFieldMap.agentRole] = data.agentData.role;
+      }
     }
     
-    // Map property data
+    // Map property data (only fields that exist in Airtable)
     if (data.propertyData) {
       if (data.propertyData.mlsNumber) {
         transactionFields[transactionFieldMap.mlsNumber] = data.propertyData.mlsNumber;
@@ -129,19 +145,19 @@ export const submitToAirtable = async (data: TransactionFormData) => {
       }
     }
     
-    // Map commission data
+    // Map commission data (only fields that exist in Airtable)
     if (data.commissionData) {
-      if (data.commissionData.totalCommission) {
-        transactionFields[transactionFieldMap.totalCommissionPercentage] = formatFieldValue(data.commissionData.totalCommission, 'totalCommissionPercentage');
+      if (data.commissionData.totalCommissionPercentage) {
+        transactionFields[transactionFieldMap.totalCommissionPercentage] = formatFieldValue(data.commissionData.totalCommissionPercentage, 'totalCommissionPercentage');
       }
-      if (data.commissionData.listingAgentCommission) {
-        transactionFields[transactionFieldMap.listingAgentPercentage] = formatFieldValue(data.commissionData.listingAgentCommission, 'listingAgentPercentage');
+      if (data.commissionData.listingAgentPercentage) {
+        transactionFields[transactionFieldMap.listingAgentPercentage] = formatFieldValue(data.commissionData.listingAgentPercentage, 'listingAgentPercentage');
       }
-      if (data.commissionData.buyersAgentCommission) {
-        transactionFields[transactionFieldMap.buyersAgentPercentage] = formatFieldValue(data.commissionData.buyersAgentCommission, 'buyersAgentPercentage');
+      if (data.commissionData.buyersAgentPercentage) {
+        transactionFields[transactionFieldMap.buyersAgentPercentage] = formatFieldValue(data.commissionData.buyersAgentPercentage, 'buyersAgentPercentage');
       }
-      if (data.commissionData.buyerPaidCommission) {
-        transactionFields[transactionFieldMap.buyerPaidPercentage] = formatFieldValue(data.commissionData.buyerPaidCommission, 'buyerPaidPercentage');
+      if (data.commissionData.buyerPaidAmount) {
+        transactionFields[transactionFieldMap.buyerPaidPercentage] = formatFieldValue(data.commissionData.buyerPaidAmount, 'buyerPaidPercentage');
       }
       if (data.commissionData.sellersAssist) {
         transactionFields[transactionFieldMap.sellersAssist] = formatFieldValue(data.commissionData.sellersAssist, 'sellersAssist');
@@ -160,16 +176,16 @@ export const submitToAirtable = async (data: TransactionFormData) => {
       }
     }
     
-    // Map additional info
+    // Map additional info (notes, special instructions, urgent issues, and follow-up flag)
     if (data.additionalInfo) {
+      if (data.additionalInfo.notes) {
+        transactionFields[transactionFieldMap.notes] = data.additionalInfo.notes;
+      }
       if (data.additionalInfo.specialInstructions) {
         transactionFields[transactionFieldMap.specialInstructions] = data.additionalInfo.specialInstructions;
       }
       if (data.additionalInfo.urgentIssues) {
         transactionFields[transactionFieldMap.urgentIssues] = data.additionalInfo.urgentIssues;
-      }
-      if (data.additionalInfo.notes) {
-        transactionFields[transactionFieldMap.notes] = data.additionalInfo.notes;
       }
       if (data.additionalInfo.requiresFollowUp) {
         transactionFields[transactionFieldMap.requiresFollowUp] = formatFieldValue(data.additionalInfo.requiresFollowUp, 'requiresFollowUp');
@@ -185,9 +201,17 @@ export const submitToAirtable = async (data: TransactionFormData) => {
     transactionFields['fldmPyBwuOO1dgj1g'] = clientRecords;
 
     console.log("Creating transaction record with fields:", transactionFields);
-    await transactionsTable.create({ fields: transactionFields });
+    const transactionRecord = await transactionsTable.create({ fields: transactionFields });
+    const recordId = transactionRecord.getId();
+    
+    console.log("Transaction record created with ID:", recordId);
 
-    return { success: true };
+    return { 
+      success: true, 
+      recordId: recordId,
+      tableId: TRANSACTIONS_TABLE_ID,
+      clientRecords: clientRecords
+    };
   } catch (error) {
     console.error('Error submitting to Airtable:', error);
     throw error;

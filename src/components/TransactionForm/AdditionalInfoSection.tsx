@@ -26,7 +26,7 @@ export const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
 
   return (
     <div className="tf-additional-info">
-      <div className="tf-glass-card">
+      <div className="tf-glass-card tf-no-hover">
         <div className="tf-flex tf-items-center tf-mb-4">
           <div className="tf-icon-container">
             <FileText className="tf-icon" />

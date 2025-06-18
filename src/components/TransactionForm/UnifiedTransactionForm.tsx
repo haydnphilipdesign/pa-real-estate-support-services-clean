@@ -31,8 +31,7 @@ import {
   AlertTriangle
 } from 'lucide-react';
 
-// Import design system styles
-import '@/styles/transaction-form-design-system.css';
+// Design system styles now loaded from index-clean.css
 
 // Import components
 import { RoleSelection } from './RoleSelection';
@@ -213,8 +212,11 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
         {/* Transaction Form Fixes Component */}
         <TransactionFormFixes />
         
-        {/* Main Form Container - white card with shadow */}
-        <div className={`tf-form-card ${className}`} ref={formContainerRef}>
+        {/* Premium Portal Container with Sophisticated Background */}
+        <div className="tf-portal-container">
+          <div className="tf-portal-wrapper">
+            {/* Premium Form Card - Glass Morphism Perfection */}
+            <div className={`tf-form-card ${className}`} ref={formContainerRef}>
           
           {/* Compact Progress Bar */}
           <div className="tf-progress-compact" role="progressbar" 
@@ -251,6 +253,29 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
                 </p>
               </div>
 
+              {/* Warnings Display for Missing Non-Critical Fields */}
+              {Object.keys(formData.validationWarnings).length > 0 && stepConfig.currentStep > 1 && (
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+                  <div className="flex items-start">
+                    <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="text-sm font-semibold text-amber-800 mb-2">Optional Fields</h4>
+                      <p className="text-sm text-amber-700 mb-3">
+                        Some information is missing but you can still proceed. Consider completing these fields for a more comprehensive transaction record.
+                      </p>
+                      <ul className="text-sm text-amber-700 space-y-1">
+                        {Object.entries(formData.validationWarnings).map(([field, warnings]) => (
+                          <li key={field} className="flex items-start">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 mr-2 flex-shrink-0"></span>
+                            {Array.isArray(warnings) ? warnings.join(', ') : warnings}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Form Step Content */}
               <AnimatePresence mode="wait">
                 {currentStepConfig && CurrentStepComponent && (
@@ -270,8 +295,8 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
                         agentName={formData.agentData.name}
                         onAgentNameChange={(name) => actions.updateField('agentData.name', name)}
                         errors={{
-                          selectedRole: formData.validationErrors['agentData.role'],
-                          agentName: formData.validationErrors['agentData.name']
+                          selectedRole: formData.validationErrors['role'],
+                          agentName: formData.validationErrors['agentName']
                         }}
                         showValidation={formData.touchedFields.size > 0}
                       />
@@ -421,6 +446,8 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
             
           </footer>
 
+            </div>
+          </div>
         </div>
       
         <Toaster />

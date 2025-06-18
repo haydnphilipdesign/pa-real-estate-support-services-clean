@@ -129,7 +129,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
 
   return (
     <div className="tf-review-section">
-      <div className="tf-glass-card">
+      <div className="tf-glass-card tf-no-hover">
         <div className="tf-flex tf-items-center tf-mb-4">
           <div className="tf-icon-container">
             <CheckCircle className="tf-icon" />

@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
-// Import only the main CSS file - it includes the consolidated design system
-import './index.css';
+// Import clean CSS file - eliminates all form hover conflicts
+import './index-clean.css';
 
 import './utils/verify-changes.js'; // Verify changes are loaded
 import ErrorBoundary from './components/ErrorBoundary';

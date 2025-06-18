@@ -9,14 +9,14 @@ export const validateStepPermissive = (
   // Get all validation results
   const allValidationResults = validateStep(step, data);
   
-  // Define truly required fields that must block progression
-  const criticalFields = new Set([
-    'role',           // Agent role (step 1)
-    'agentName',      // Agent name (step 9 - signature)
-    'signature',      // Digital signature (step 9)
-    'termsAccepted',  // Terms acceptance (step 9) 
-    'infoConfirmed'   // Info confirmation (step 9)
-  ]);
+  // Define truly required fields that must block progression by step
+  const criticalFieldsByStep: { [step: number]: Set<string> } = {
+    1: new Set(['role', 'agentName']), // Step 1: Agent selection requires both role and name
+    9: new Set(['agentName', 'signature', 'termsAccepted', 'infoConfirmed']) // Step 9: Final submission
+  };
+  
+  // Get critical fields for current step (empty set for non-critical steps)
+  const criticalFields = criticalFieldsByStep[step] || new Set();
   
   // Separate critical errors from warnings
   const errors: { [key: string]: string[] } = {};
@@ -115,7 +115,7 @@ export const validateStep = (
     // Agent Information
     case 1:
       validateRequired(data.agentData?.role, "role", "Agent role");
-      // Agent name is not required at this step - it will be validated in the signature section
+      validateRequired(data.agentData?.name, "agentName", "Agent name");
       
       if (data.agentData?.email && !validateEmail(data.agentData.email)) {
         errors.email = ["Invalid email format"];

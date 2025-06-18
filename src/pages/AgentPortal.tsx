@@ -4,7 +4,7 @@ import { FileText, Shield, Clock, Lock, Eye, EyeOff, CheckCircle, RefreshCw, Che
 import { Button } from '@/components/ui';
 import { Input } from '../components/ui/input';
 import { toast } from '../components/ui/simple-toast';
-import TransactionForm from '../components/TransactionForm/TransactionForm';
+import CleanTransactionForm from '../components/TransactionForm/CleanTransactionForm';
 import useScrollToTop from '../hooks/useScrollToTop';
 import { useNavigation } from '../providers/SmoothNavigationProvider';
 
@@ -336,7 +336,7 @@ const AgentPortal = (): JSX.Element => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <TransactionForm />
+                <CleanTransactionForm />
               </motion.div>
             )}
           </motion.div>

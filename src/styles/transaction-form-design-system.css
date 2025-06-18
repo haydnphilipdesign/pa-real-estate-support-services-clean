@@ -1,106 +1,76 @@
 /**
- * Transaction Form Design System
- * TurboTax-inspired professional form styling
+ * =====================================================
+ * PA REAL ESTATE SUPPORT SERVICES - TRANSACTION FORM DESIGN SYSTEM
+ * =====================================================
  * 
- * Design Principles:
- * - Clean, modern, trustworthy aesthetic
- * - Generous whitespace and clear hierarchy
- * - Consistent spacing using 8px grid system
- * - Accessible color contrasts (WCAG 2.1 AA)
- * - Responsive design patterns
+ * Professional real estate transaction form styling that perfectly bridges
+ * the hero page aesthetic with functional form design. This creates a
+ * seamless, premium experience worthy of the brand's professional standards.
+ * 
+ * Design Philosophy:
+ * - Inherits main site's sophisticated glass morphism and gradient system
+ * - Maintains excellent usability with enhanced visual sophistication  
+ * - Creates trust through premium visual design and smooth interactions
+ * - Ensures accessibility while elevating the aesthetic experience
+ * 
+ * UPDATED: 2025-06-18 - Complete redesign for brand cohesion
  */
 
-/* ================================
-   CSS Custom Properties (Design Tokens)
-   ================================ */
+/* =====================================================
+   ENHANCED DESIGN TOKENS - SITE HARMONY
+   ===================================================== */
 
 :root {
-  /* Primary Brand Colors */
-  --tf-primary-50: #f0f9ff;
-  --tf-primary-100: #e0f2fe;
-  --tf-primary-500: #0ea5e9;
-  --tf-primary-600: #0284c7;
-  --tf-primary-700: #0369a1;
-  --tf-primary-900: #0c4a6e;
-
-  /* Neutral Colors */
-  --tf-gray-25: #fcfcfd;
-  --tf-gray-50: #f9fafb;
-  --tf-gray-100: #f3f4f6;
-  --tf-gray-200: #e5e7eb;
-  --tf-gray-300: #d1d5db;
-  --tf-gray-400: #9ca3af;
-  --tf-gray-500: #6b7280;
-  --tf-gray-600: #4b5563;
-  --tf-gray-700: #374151;
-  --tf-gray-800: #1f2937;
-  --tf-gray-900: #111827;
-
-  /* Semantic Colors */
-  --tf-success-50: #f0fdf4;
-  --tf-success-500: #22c55e;
-  --tf-success-600: #16a34a;
-  --tf-error-50: #fef2f2;
-  --tf-error-500: #ef4444;
-  --tf-error-600: #dc2626;
-  --tf-warning-50: #fffbeb;
-  --tf-warning-500: #f59e0b;
-  --tf-warning-600: #d97706;
-  --tf-info-50: #eff6ff;
-  --tf-info-500: #3b82f6;
-  --tf-info-600: #2563eb;
-
-  /* Typography Scale */
-  --tf-text-xs: 0.75rem;    /* 12px */
-  --tf-text-sm: 0.875rem;   /* 14px */
-  --tf-text-base: 1rem;     /* 16px */
-  --tf-text-lg: 1.125rem;   /* 18px */
-  --tf-text-xl: 1.25rem;    /* 20px */
-  --tf-text-2xl: 1.5rem;    /* 24px */
-  --tf-text-3xl: 1.875rem;  /* 30px */
-  --tf-text-4xl: 2.25rem;   /* 36px */
-
-  /* Font Weights */
-  --tf-font-normal: 400;
-  --tf-font-medium: 500;
-  --tf-font-semibold: 600;
-  --tf-font-bold: 700;
-
-  /* Spacing Scale (8px grid system) */
-  --tf-space-1: 0.25rem;    /* 4px */
-  --tf-space-2: 0.5rem;     /* 8px */
-  --tf-space-3: 0.75rem;    /* 12px */
-  --tf-space-4: 1rem;       /* 16px */
-  --tf-space-5: 1.25rem;    /* 20px */
-  --tf-space-6: 1.5rem;     /* 24px */
-  --tf-space-8: 2rem;       /* 32px */
-  --tf-space-10: 2.5rem;    /* 40px */
-  --tf-space-12: 3rem;      /* 48px */
-  --tf-space-16: 4rem;      /* 64px */
-  --tf-space-20: 5rem;      /* 80px */
-
-  /* Border Radius */
-  --tf-radius-sm: 0.25rem;  /* 4px */
-  --tf-radius-md: 0.375rem; /* 6px */
-  --tf-radius-lg: 0.5rem;   /* 8px */
-  --tf-radius-xl: 0.75rem;  /* 12px */
-  --tf-radius-2xl: 1rem;    /* 16px */
-
-  /* Shadows */
-  --tf-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --tf-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tf-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --tf-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-
-  /* Transitions */
-  --tf-transition-fast: 150ms ease-in-out;
-  --tf-transition-base: 300ms ease-in-out;
-  --tf-transition-slow: 500ms ease-in-out;
+  /* Inherit and enhance main site's sophisticated color system */
+  --tf-brand-primary-gradient: linear-gradient(135deg, #0a1628 0%, #1e40af 50%, #1e3a8a 100%);
+  --tf-brand-secondary-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+  --tf-brand-accent-gold: #f59e0b;
+  --tf-brand-accent-gold-light: #fbbf24;
+  
+  /* Advanced Glass Morphism System */
+  --tf-glass-primary: rgba(255, 255, 255, 0.08);
+  --tf-glass-secondary: rgba(255, 255, 255, 0.05);
+  --tf-glass-border: rgba(255, 255, 255, 0.12);
+  --tf-glass-border-strong: rgba(255, 255, 255, 0.18);
+  --tf-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --tf-glass-shadow-strong: 0 20px 40px rgba(0, 0, 0, 0.4);
+  
+  /* Premium Card System */
+  --tf-card-bg-primary: rgba(255, 255, 255, 0.95);
+  --tf-card-bg-secondary: rgba(255, 255, 255, 0.9);
+  --tf-card-shadow-primary: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --tf-card-shadow-hover: 0 35px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.15);
+  
+  /* Enhanced Typography Scale */
+  --tf-text-hero: clamp(2.5rem, 5vw, 3.5rem);
+  --tf-text-title: clamp(1.875rem, 3vw, 2.25rem);
+  --tf-text-subtitle: clamp(1.125rem, 2vw, 1.25rem);
+  --tf-text-body: 1rem;
+  --tf-text-small: 0.875rem;
+  --tf-text-micro: 0.75rem;
+  
+  /* Advanced Spacing System */
+  --tf-space-xs: 0.25rem;
+  --tf-space-sm: 0.5rem;
+  --tf-space-md: 0.75rem;
+  --tf-space-lg: 1rem;
+  --tf-space-xl: 1.5rem;
+  --tf-space-2xl: 2rem;
+  --tf-space-3xl: 3rem;
+  --tf-space-4xl: 4rem;
+  --tf-space-5xl: 6rem;
+  
+  /* Premium Animation System */
+  --tf-transition-micro: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --tf-transition-fast: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --tf-transition-base: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --tf-transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --tf-transition-entrance: 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ================================
-   Portal Container - Perfect Centering with Colored Background
-   ================================ */
+/* =====================================================
+   ENHANCED PORTAL CONTAINER - SOPHISTICATED BACKGROUND
+   ===================================================== */
 
 .tf-portal-container {
   min-height: 100vh;
@@ -108,13 +78,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: calc(80px + var(--tf-space-6)) var(--tf-space-4) var(--tf-space-6) var(--tf-space-4);
-  background: linear-gradient(135deg, var(--color-primary-900, #1e3a8a) 0%, var(--color-primary-700, #1d4ed8) 100%);
+  padding: calc(80px + var(--tf-space-xl)) var(--tf-space-lg) var(--tf-space-xl);
+  background: var(--tf-brand-primary-gradient);
   position: relative;
   overflow: hidden;
 }
 
-/* Beautiful gradient overlays matching the main site design */
+/* Multi-layered sophisticated background effects */
 .tf-portal-container::before {
   content: '';
   position: absolute;
@@ -123,503 +93,833 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 25% 85%, rgba(59, 130, 246, 0.4) 0%, transparent 60%),
+    radial-gradient(circle at 75% 15%, rgba(99, 102, 241, 0.3) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
 }
 
-.tf-portal-wrapper {
-  width: 100%;
-  max-width: 56rem; /* 896px optimal width */
-  margin: 0 auto;
-  position: relative;
-  z-index: 2; /* Ensure form sits above background overlays */
+/* Floating elements for premium feel */
+.tf-portal-container::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  right: 10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* ================================
-   Form Card Container
-   ================================ */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+.tf-portal-wrapper {
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* =====================================================
+   PREMIUM FORM CARD - GLASS MORPHISM PERFECTION
+   ===================================================== */
 
 .tf-form-card {
-  background: white;
-  border-radius: var(--tf-radius-2xl); /* 16px rounded corners */
-  box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  padding: var(--tf-space-8);
+  background: var(--tf-card-bg-primary);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-radius: 2rem;
+  border: 1px solid var(--tf-glass-border-strong);
+  box-shadow: var(--tf-card-shadow-primary);
+  padding: var(--tf-space-3xl);
   width: 100%;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  transition: all var(--tf-transition-base);
 }
 
-/* Subtle inner glow effect */
+/* Premium inner glow and gradient borders */
 .tf-form-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--tf-gray-200), transparent);
-  opacity: 0.6;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--tf-brand-accent-gold) 20%, 
+    var(--tf-brand-accent-gold-light) 50%, 
+    var(--tf-brand-accent-gold) 80%, 
+    transparent 100%
+  );
+  opacity: 0.8;
 }
 
-/* Ensure form doesn't get too tall on very large screens */
-@media (min-height: 1000px) {
-  .tf-portal-container {
-    padding: calc(80px + var(--tf-space-20)) var(--tf-space-4) var(--tf-space-20) var(--tf-space-4);
-  }
+/* Subtle floating animation for the entire form */
+.tf-form-card {
+  animation: cardFloat 8s ease-in-out infinite;
 }
 
-/* ================================
-   Compact Progress Bar
-   ================================ */
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+/* =====================================================
+   SOPHISTICATED PROGRESS SYSTEM
+   ===================================================== */
 
 .tf-progress-compact {
-  margin-bottom: var(--tf-space-8);
-  padding: var(--tf-space-4);
-  background: var(--tf-gray-50);
-  border-radius: var(--tf-radius-lg);
-  border: 1px solid var(--tf-gray-200);
+  margin-bottom: var(--tf-space-3xl);
+  padding: var(--tf-space-xl);
+  background: var(--tf-glass-secondary);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
+  border: 1px solid var(--tf-glass-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.tf-progress-compact::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
 
 .tf-progress-text {
-  font-size: var(--tf-text-sm);
-  color: var(--tf-gray-600);
+  font-size: var(--tf-text-small);
+  font-weight: 600;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: center;
-  margin-bottom: var(--tf-space-3);
-  font-weight: var(--tf-font-medium);
+  margin-bottom: var(--tf-space-md);
+  letter-spacing: 0.025em;
 }
 
 .tf-progress-bar-container {
   position: relative;
-  height: 6px;
-  background: var(--tf-gray-200);
-  border-radius: var(--tf-radius-lg);
+  height: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
   overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tf-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--tf-primary-500) 0%, var(--tf-primary-600) 100%);
-  border-radius: var(--tf-radius-lg);
-  transition: width var(--tf-transition-base);
+  background: linear-gradient(90deg, var(--tf-brand-accent-gold) 0%, var(--tf-brand-accent-gold-light) 100%);
+  border-radius: 1rem;
+  transition: width var(--tf-transition-slow);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+  position: relative;
 }
 
-/* ================================
-   Form Content Area - Card Layout
-   ================================ */
+.tf-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: 1rem 1rem 0 0;
+}
+
+/* =====================================================
+   ENHANCED CONTENT AREAS
+   ===================================================== */
 
 .tf-content-direct {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-bottom: var(--tf-space-6);
-}
-
-.tf-content-direct > * {
-  width: 100%;
-  max-width: 100%;
+  margin-bottom: var(--tf-space-2xl);
 }
 
 .tf-step-header {
   text-align: center;
-  margin-bottom: var(--tf-space-8);
+  margin-bottom: var(--tf-space-3xl);
+  position: relative;
 }
 
 .tf-step-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  background: var(--tf-primary-500);
+  width: 4rem;
+  height: 4rem;
+  background: var(--tf-brand-secondary-gradient);
   border-radius: 50%;
-  margin-bottom: var(--tf-space-4);
+  margin-bottom: var(--tf-space-xl);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.tf-step-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .tf-step-title {
-  font-size: var(--tf-text-2xl);
-  font-weight: var(--tf-font-semibold);
-  color: var(--tf-gray-900);
-  margin-bottom: var(--tf-space-2);
-  line-height: 1.3;
+  font-size: var(--tf-text-title);
+  font-weight: 700;
+  background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--tf-space-md);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
 .tf-step-description {
-  font-size: var(--tf-text-base);
-  color: var(--tf-gray-600);
-  line-height: 1.5;
+  font-size: var(--tf-text-subtitle);
+  color: #64748b;
+  line-height: 1.6;
+  max-width: 42rem;
+  margin: 0 auto;
 }
 
-/* ================================
-   Form Fields
-   ================================ */
+/* =====================================================
+   PREMIUM GLASS CARDS SYSTEM
+   ===================================================== */
+
+.tf-glass-card {
+  background: var(--tf-card-bg-secondary);
+  backdrop-filter: blur(15px) saturate(1.5);
+  -webkit-backdrop-filter: blur(15px) saturate(1.5);
+  border-radius: 1.5rem;
+  border: 1px solid var(--tf-glass-border);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  padding: var(--tf-space-2xl);
+  margin-bottom: var(--tf-space-xl);
+  position: relative;
+  overflow: hidden;
+  transition: none !important;
+  transform: none !important;
+}
+
+.tf-glass-card-light {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: var(--tf-space-xl);
+  margin-bottom: var(--tf-space-lg);
+  /* Removed hover effects for form sections */
+}
+
+/* =====================================================
+   COMPLETE HOVER EFFECTS ELIMINATION
+   ===================================================== */
+
+/* AGGRESSIVE: Remove ALL hover effects from entire transaction form */
+.tf-portal-container,
+.tf-portal-container *,
+.tf-form-card,
+.tf-form-card *,
+.tf-glass-card,
+.tf-glass-card *,
+.tf-glass-card-light,
+.tf-glass-card-light *,
+.tf-no-hover,
+.tf-no-hover *,
+.tf-field-group,
+.tf-field-group *,
+.tf-content-direct,
+.tf-content-direct * {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Force ALL hover states to do nothing */
+.tf-portal-container:hover,
+.tf-portal-container *:hover,
+.tf-portal-container *:focus:not(input):not(textarea):not(button),
+.tf-form-card:hover,
+.tf-form-card *:hover,
+.tf-glass-card:hover,
+.tf-glass-card *:hover,
+.tf-glass-card-light:hover,
+.tf-glass-card-light *:hover,
+.tf-no-hover:hover,
+.tf-no-hover *:hover,
+.tf-field-group:hover,
+.tf-field-group *:hover,
+.tf-content-direct:hover,
+.tf-content-direct *:hover {
+  transform: none !important;
+  box-shadow: inherit !important;
+  transition: none !important;
+  animation: none !important;
+  border-color: inherit !important;
+  background: inherit !important;
+  background-color: inherit !important;
+  scale: none !important;
+}
+
+/* Kill any remaining CSS that might cause hover effects */
+.tf-portal-container div,
+.tf-portal-container div:hover,
+.tf-portal-container span,
+.tf-portal-container span:hover,
+.tf-portal-container p,
+.tf-portal-container p:hover,
+.tf-portal-container h1,
+.tf-portal-container h1:hover,
+.tf-portal-container h2,
+.tf-portal-container h2:hover,
+.tf-portal-container h3,
+.tf-portal-container h3:hover {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+  box-shadow: inherit !important;
+}
+
+/* COMPLETELY disable hover effects on ALL form inputs and selects */
+.tf-portal-container input,
+.tf-portal-container input:hover,
+.tf-portal-container select,
+.tf-portal-container select:hover,
+.tf-portal-container textarea,
+.tf-portal-container textarea:hover,
+input:hover,
+select:hover,
+textarea:hover,
+[data-radix-select-trigger]:hover,
+[data-radix-select-content]:hover {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+  box-shadow: inherit !important;
+  background-color: inherit !important;
+  border-color: inherit !important;
+}
+
+/* Override any Tailwind hover classes on form elements */
+.tf-portal-container .hover\:bg-gray-50:hover,
+.tf-portal-container .hover\:border-gray-300:hover,
+.tf-portal-container .hover\:border-gray-400:hover,
+.tf-portal-container .hover\:shadow:hover,
+.tf-portal-container .hover\:shadow-sm:hover,
+.tf-portal-container .hover\:shadow-md:hover {
+  background-color: inherit !important;
+  border-color: inherit !important;
+  box-shadow: inherit !important;
+  transition: none !important;
+}
+
+/* =====================================================
+   CLEAN FORM CONTAINER - REMOVE ONLY HOVER TRANSITIONS
+   ===================================================== */
+
+/* Remove only transitions and transforms on hover, keep colors */
+.clean-form-container *:hover {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Specifically remove hover transitions from form inputs and prevent transparency */
+.clean-form-container input:hover,
+.clean-form-container select:hover,
+.clean-form-container textarea:hover {
+  transition: none !important;
+  transform: none !important;
+  background-color: rgb(255 255 255 / 0.7) !important; /* Keep original background */
+  opacity: 1 !important; /* Prevent transparency */
+}
+
+/* Fix dropdown/select components (Radix UI) */
+.clean-form-container [data-radix-select-trigger]:hover,
+.clean-form-container [role="combobox"]:hover,
+.clean-form-container [data-radix-select-content]:hover,
+.clean-form-container .select-trigger:hover,
+.clean-form-container button[role="combobox"]:hover {
+  transition: none !important;
+  transform: none !important;
+  background-color: rgb(255 255 255 / 0.7) !important; /* Keep original background */
+  opacity: 1 !important; /* Prevent transparency */
+}
+
+/* Target any element with select-related classes */
+.clean-form-container [class*="select"]:hover,
+.clean-form-container [class*="Select"]:hover {
+  transition: none !important;
+  transform: none !important;
+  background-color: rgb(255 255 255 / 0.7) !important;
+  opacity: 1 !important;
+}
+
+/* Normalize heights for all form inputs in clean form */
+.clean-form-container input,
+.clean-form-container select,
+.clean-form-container [data-radix-select-trigger],
+.clean-form-container [role="combobox"],
+.clean-form-container .tf-form-input {
+  height: 44px !important;
+  min-height: 44px !important;
+}
+
+/* Fix Switch and button component hover transparency */
+.clean-form-container [data-radix-switch-root]:hover,
+.clean-form-container [data-radix-switch-thumb]:hover,
+.clean-form-container [role="switch"]:hover,
+.clean-form-container button:not(.tf-button):hover,
+.clean-form-container .tf-enhanced-switch-group:hover,
+.clean-form-container .tf-enhanced-switch-group > div:hover {
+  transition: none !important;
+  transform: none !important;
+  background-color: inherit !important;
+  opacity: 1 !important;
+}
+
+/* Fix any containers that hold switches */
+.clean-form-container .flex:hover,
+.clean-form-container .items-center:hover,
+.clean-form-container .space-x-4:hover,
+.clean-form-container .p-4:hover,
+.clean-form-container .rounded-lg:hover {
+  transition: none !important;
+  transform: none !important;
+  background-color: inherit !important;
+  opacity: 1 !important;
+}
+
+/* =====================================================
+   NUCLEAR OPTION - OVERRIDE ALL GLOBAL CSS HOVER EFFECTS
+   ===================================================== */
+
+/* Override global .card hover effects from index.css */
+.clean-form-container .card:hover,
+.clean-form-container .card-elevated:hover,
+.clean-form-container .hero-content:hover {
+  transform: none !important;
+  box-shadow: inherit !important;
+  border-color: inherit !important;
+  transition: none !important;
+}
+
+/* Override ALL global transition/hover from index.css */
+.clean-form-container *,
+.clean-form-container *:hover,
+.clean-form-container *:focus:not(input):not(textarea):not(select):not(button) {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+  box-shadow: inherit !important;
+  background-color: inherit !important;
+  border-color: inherit !important;
+  opacity: 1 !important;
+}
+
+/* Force override any CSS variables being applied */
+.clean-form-container {
+  --transition-fast: none !important;
+  --transition-base: none !important;
+  --transition-slow: none !important;
+}
+
+/* Override Tailwind hover utilities with maximum specificity */
+.clean-form-container [class*="hover:"]:hover,
+.clean-form-container .hover\:bg-blue-50:hover,
+.clean-form-container .hover\:bg-gray-50:hover,
+.clean-form-container .hover\:shadow:hover,
+.clean-form-container .hover\:transform:hover,
+.clean-form-container .hover\:scale:hover {
+  background-color: inherit !important;
+  box-shadow: inherit !important;
+  transform: none !important;
+  scale: none !important;
+  transition: none !important;
+}
+
+/* =====================================================
+   SOPHISTICATED FORM ELEMENTS
+   ===================================================== */
 
 .tf-field-group {
-  margin-bottom: var(--tf-space-6);
+  margin-bottom: var(--tf-space-xl);
   width: 100%;
-  max-width: 48rem; /* 768px max width for better readability */
+  max-width: none; /* Removed narrow constraint */
   margin-left: auto;
   margin-right: auto;
 }
 
-.tf-field-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--tf-space-6);
-}
-
-.tf-field-row--two-cols {
-  grid-template-columns: 1fr 1fr;
-}
-
-.tf-field-row--three-cols {
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
 .tf-label {
   display: block;
-  font-size: var(--tf-text-sm);
-  font-weight: var(--tf-font-medium);
-  color: var(--tf-gray-700);
-  margin-bottom: var(--tf-space-2);
-  line-height: 1.4;
-}
-
-.tf-label--required::after {
-  content: " *";
-  color: var(--tf-error-500);
+  font-size: var(--tf-text-small);
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: var(--tf-space-sm);
+  line-height: 1.5;
+  letter-spacing: 0.025em;
 }
 
 .tf-input,
 .tf-textarea,
 .tf-select {
   width: 100%;
-  padding: var(--tf-space-3) var(--tf-space-4);
-  border: 1px solid var(--tf-gray-300);
-  border-radius: var(--tf-radius-md);
-  font-size: var(--tf-text-base);
-  color: var(--tf-gray-900);
-  background: white;
+  padding: var(--tf-space-md) var(--tf-space-lg);
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.875rem;
+  font-size: var(--tf-text-body);
+  color: #1f2937;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
   transition: all var(--tf-transition-fast);
   line-height: 1.5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .tf-input:focus,
 .tf-textarea:focus,
 .tf-select:focus {
   outline: none;
-  border-color: var(--tf-primary-500);
-  box-shadow: 0 0 0 3px var(--tf-primary-50);
+  border-color: var(--tf-brand-accent-gold);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 0 0 4px rgba(245, 158, 11, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
 
-.tf-input--error,
-.tf-textarea--error,
-.tf-select--error {
-  border-color: var(--tf-error-500);
-}
-
-.tf-input--error:focus,
-.tf-textarea--error:focus,
-.tf-select--error:focus {
-  box-shadow: 0 0 0 3px var(--tf-error-50);
-}
-
-.tf-textarea {
-  min-height: 6rem;
-  resize: vertical;
-}
-
-.tf-help-text {
-  font-size: var(--tf-text-sm);
-  color: var(--tf-gray-500);
-  margin-top: var(--tf-space-1);
-  line-height: 1.4;
-}
-
-.tf-error-text {
-  font-size: var(--tf-text-sm);
-  color: var(--tf-error-600);
-  margin-top: var(--tf-space-1);
-  line-height: 1.4;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--tf-space-1);
-}
-
-.tf-error-text::before {
-  content: "⚠";
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-/* ================================
-   Radio & Checkbox Groups
-   ================================ */
-
-.tf-radio-group,
-.tf-checkbox-group {
-  display: grid;
-  gap: var(--tf-space-3);
-}
-
-.tf-radio-item,
-.tf-checkbox-item {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--tf-space-3);
-  padding: var(--tf-space-4);
-  border: 1px solid var(--tf-gray-200);
-  border-radius: var(--tf-radius-lg);
-  cursor: pointer;
-  transition: all var(--tf-transition-fast);
-}
-
-.tf-radio-item:hover,
-.tf-checkbox-item:hover {
-  background: var(--tf-gray-50);
-  border-color: var(--tf-gray-300);
-}
-
-.tf-radio-item--selected,
-.tf-checkbox-item--selected {
-  background: var(--tf-primary-50);
-  border-color: var(--tf-primary-500);
-}
-
-.tf-radio-input,
-.tf-checkbox-input {
-  width: 1.25rem;
-  height: 1.25rem;
-  margin: 0;
-  flex-shrink: 0;
-  accent-color: var(--tf-primary-500);
-}
-
-.tf-radio-content,
-.tf-checkbox-content {
-  flex: 1;
-}
-
-.tf-radio-title,
-.tf-checkbox-title {
-  font-size: var(--tf-text-base);
-  font-weight: var(--tf-font-medium);
-  color: var(--tf-gray-900);
-  margin-bottom: var(--tf-space-1);
-}
-
-.tf-radio-description,
-.tf-checkbox-description {
-  font-size: var(--tf-text-sm);
-  color: var(--tf-gray-600);
-  line-height: 1.4;
-}
-
-/* ================================
-   Buttons
-   ================================ */
+/* =====================================================
+   PREMIUM BUTTON SYSTEM
+   ===================================================== */
 
 .tf-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--tf-space-2);
-  padding: var(--tf-space-3) var(--tf-space-6);
+  gap: var(--tf-space-sm);
+  padding: var(--tf-space-md) var(--tf-space-xl);
   border: none;
-  border-radius: var(--tf-radius-md);
-  font-size: var(--tf-text-base);
-  font-weight: var(--tf-font-medium);
+  border-radius: 0.875rem;
+  font-size: var(--tf-text-body);
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   transition: all var(--tf-transition-fast);
   line-height: 1;
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.025em;
 }
 
 .tf-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none !important;
 }
 
 .tf-button--primary {
-  background: var(--tf-primary-600);
+  background: var(--tf-brand-secondary-gradient);
   color: white;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
 }
 
 .tf-button--primary:hover:not(:disabled) {
-  background: var(--tf-primary-700);
-  transform: translateY(-1px);
-  box-shadow: var(--tf-shadow-md);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(59, 130, 246, 0.4);
+}
+
+.tf-button--primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent);
+  transition: opacity var(--tf-transition-fast);
 }
 
 .tf-button--secondary {
-  background: white;
-  color: var(--tf-gray-700);
-  border: 1px solid var(--tf-gray-300);
+  background: rgba(255, 255, 255, 0.9);
+  color: #374151;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 .tf-button--secondary:hover:not(:disabled) {
-  background: var(--tf-gray-50);
-  border-color: var(--tf-gray-400);
-}
-
-.tf-button--ghost {
-  background: transparent;
-  color: var(--tf-gray-600);
-}
-
-.tf-button--ghost:hover:not(:disabled) {
-  background: var(--tf-gray-100);
-  color: var(--tf-gray-700);
-}
-
-.tf-button--sm {
-  padding: var(--tf-space-2) var(--tf-space-4);
-  font-size: var(--tf-text-sm);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .tf-button--lg {
-  padding: var(--tf-space-4) var(--tf-space-8);
-  font-size: var(--tf-text-lg);
+  padding: var(--tf-space-lg) var(--tf-space-2xl);
+  font-size: var(--tf-text-subtitle);
+  border-radius: 1rem;
 }
 
-/* ================================
-   Navigation - Direct Layout
-   ================================ */
+.tf-button--sm {
+  padding: var(--tf-space-sm) var(--tf-space-lg);
+  font-size: var(--tf-text-small);
+  border-radius: 0.75rem;
+}
+
+/* =====================================================
+   ENHANCED NAVIGATION
+   ===================================================== */
 
 .tf-navigation-direct {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--tf-space-6) 0;
-  margin-top: var(--tf-space-6);
-  border-top: 1px solid var(--tf-gray-200);
+  padding: var(--tf-space-2xl) 0;
+  margin-top: var(--tf-space-xl);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.tf-navigation-direct::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tf-brand-accent-gold), transparent);
+  opacity: 0.5;
 }
 
 .tf-nav-section {
   display: flex;
   align-items: center;
-  gap: var(--tf-space-3);
+  gap: var(--tf-space-md);
 }
 
-/* ================================
-   Cards & Sections
-   ================================ */
+/* =====================================================
+   GLOBAL FORM CONTAINER WIDTH FIX
+   ===================================================== */
 
-.tf-card {
-  background: white;
-  border: 1px solid var(--tf-gray-200);
-  border-radius: var(--tf-radius-lg);
-  padding: var(--tf-space-6);
-  margin-bottom: var(--tf-space-6);
+/* Apply wider container width to ALL form sections */
+.tf-glass-card {
+  max-width: 75rem !important;
+  margin: 0 auto var(--tf-space-xl) auto !important;
+}
+
+/* Ensure consistent field groups use proper responsive layout */
+.tf-field-group {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* =====================================================
+   ENHANCED FORM FIELD SYSTEM
+   ===================================================== */
+
+.tf-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tf-space-sm);
   width: 100%;
-  max-width: 48rem; /* 768px max width for better readability */
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.tf-card--elevated {
-  box-shadow: var(--tf-shadow-md);
-  border: none;
+.tf-form-label {
+  display: flex;
+  align-items: center;
+  font-size: var(--tf-text-small);
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.5;
+  letter-spacing: 0.025em;
 }
 
-.tf-section-title {
-  font-size: var(--tf-text-xl);
-  font-weight: var(--tf-font-semibold);
-  color: var(--tf-gray-900);
-  margin-bottom: var(--tf-space-4);
+.tf-form-input {
+  width: 100%;
+  padding: var(--tf-space-md) var(--tf-space-lg);
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.875rem;
+  font-size: var(--tf-text-body);
+  color: #1f2937;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+  transition: all var(--tf-transition-fast);
+  line-height: 1.5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  height: 44px; /* Normalize height for all form inputs */
+  min-height: 44px;
+}
+
+.tf-form-input:focus {
+  outline: none;
+  border-color: var(--tf-brand-accent-gold);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 0 0 4px rgba(245, 158, 11, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.tf-form-hint {
+  font-size: var(--tf-text-micro);
+  color: #6b7280;
+  line-height: 1.4;
+  margin-top: var(--tf-space-xs);
+}
+
+.tf-form-error {
+  font-size: var(--tf-text-micro);
+  color: #dc2626;
+  line-height: 1.4;
+  margin-top: var(--tf-space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--tf-space-xs);
+}
+
+.tf-form-error::before {
+  content: "⚠";
+  flex-shrink: 0;
+}
+
+/* =====================================================
+   ENHANCED UTILITY CLASSES & RESPONSIVE GRIDS
+   ===================================================== */
+
+.tf-flex { display: flex; }
+.tf-items-center { align-items: center; }
+.tf-justify-center { justify-content: center; }
+.tf-gap-3 { gap: var(--tf-space-md); }
+.tf-mb-4 { margin-bottom: var(--tf-space-lg); }
+.tf-mb-6 { margin-bottom: var(--tf-space-xl); }
+.tf-text-center { text-align: center; }
+.tf-w-full { width: 100%; }
+
+/* Responsive Grid System for Form Layouts */
+.tf-responsive-grid {
+  display: grid;
+  gap: var(--tf-space-xl);
+  width: 100%;
+}
+
+/* 1 column on mobile, 2 on tablet, 3 on desktop */
+.tf-grid-responsive {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .tf-grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .tf-grid-responsive {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 2 column responsive grid */
+.tf-grid-responsive-2col {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .tf-grid-responsive-2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Auto-fit responsive grid that adapts to content */
+.tf-grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--tf-space-xl);
+}
+
+.tf-heading-secondary {
+  font-size: var(--tf-text-subtitle);
+  font-weight: 700;
+  color: #1f2937;
   line-height: 1.3;
+  letter-spacing: -0.025em;
 }
 
-.tf-divider {
-  height: 1px;
-  background: var(--tf-gray-200);
-  margin: var(--tf-space-8) 0;
+.tf-heading-tertiary {
+  font-size: var(--tf-text-body);
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.4;
 }
 
-/* ================================
-   Alert Messages
-   ================================ */
-
-.tf-alert {
-  padding: var(--tf-space-4);
-  border-radius: var(--tf-radius-md);
-  margin-bottom: var(--tf-space-6);
-  border-left: 4px solid;
-  width: 100%;
-  max-width: 48rem; /* 768px max width for better readability */
-  margin-left: auto;
-  margin-right: auto;
+.tf-text-subtitle {
+  font-size: var(--tf-text-small);
+  color: #64748b;
+  line-height: 1.6;
 }
 
-.tf-alert--success {
-  background: var(--tf-success-50);
-  border-color: var(--tf-success-500);
-  color: var(--tf-gray-700);
+.tf-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: var(--tf-brand-secondary-gradient);
+  border-radius: 0.75rem;
+  margin-right: var(--tf-space-md);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
 }
 
-.tf-alert--error {
-  background: var(--tf-error-50);
-  border-color: var(--tf-error-500);
-  color: var(--tf-gray-700);
+.tf-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: white;
 }
 
-.tf-alert--warning {
-  background: var(--tf-warning-50);
-  border-color: var(--tf-warning-500);
-  color: var(--tf-gray-700);
-}
-
-.tf-alert--info {
-  background: var(--tf-info-50);
-  border-color: var(--tf-info-500);
-  color: var(--tf-gray-700);
-}
-
-.tf-alert-title {
-  font-weight: var(--tf-font-medium);
-  margin-bottom: var(--tf-space-1);
-}
-
-/* ================================
-   Responsive Design
-   ================================ */
+/* =====================================================
+   RESPONSIVE EXCELLENCE
+   ===================================================== */
 
 @media (max-width: 768px) {
   .tf-portal-container {
-    padding: calc(70px + var(--tf-space-4)) var(--tf-space-2) var(--tf-space-4) var(--tf-space-2);
+    padding: calc(70px + var(--tf-space-lg)) var(--tf-space-md) var(--tf-space-lg);
     align-items: flex-start;
-    justify-content: center;
   }
 
   .tf-form-card {
-    padding: var(--tf-space-6);
-    border-radius: var(--tf-radius-xl);
-    box-shadow: 
-      0 10px 15px -3px rgb(0 0 0 / 0.1), 
-      0 4px 6px -4px rgb(0 0 0 / 0.1);
-  }
-
-  .tf-field-row--two-cols,
-  .tf-field-row--three-cols {
-    grid-template-columns: 1fr;
+    padding: var(--tf-space-2xl);
+    border-radius: 1.5rem;
   }
 
   .tf-step-title {
-    font-size: var(--tf-text-xl);
+    font-size: clamp(1.5rem, 4vw, 2rem);
   }
 
   .tf-navigation-direct {
     flex-direction: column;
-    gap: var(--tf-space-4);
-    padding: var(--tf-space-4) 0;
+    gap: var(--tf-space-lg);
+    padding: var(--tf-space-xl) 0;
   }
 
   .tf-nav-section {
@@ -627,82 +927,63 @@
     justify-content: center;
   }
 
-  .tf-field-group,
-  .tf-card,
-  .tf-alert {
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .tf-progress-compact {
-    margin: var(--tf-space-4) 0 var(--tf-space-6) 0;
+  .tf-button {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .tf-portal-container {
-    padding: calc(70px + var(--tf-space-2)) var(--tf-space-1) var(--tf-space-2) var(--tf-space-1);
+    padding: calc(70px + var(--tf-space-md)) var(--tf-space-sm) var(--tf-space-md);
   }
 
   .tf-form-card {
-    padding: var(--tf-space-4);
-    border-radius: var(--tf-radius-lg);
+    padding: var(--tf-space-xl);
+    border-radius: 1.25rem;
   }
 
-  .tf-button {
-    width: 100%;
+  .tf-glass-card {
+    padding: var(--tf-space-xl);
   }
 
-  .tf-radio-item,
-  .tf-checkbox-item {
-    padding: var(--tf-space-3);
-  }
-
-  .tf-progress-compact {
-    margin: var(--tf-space-2) 0 var(--tf-space-4) 0;
-    padding: var(--tf-space-3);
+  .tf-glass-card-light {
+    padding: var(--tf-space-lg);
   }
 }
 
-/* ================================
-   Accessibility Enhancements
-   ================================ */
+/* =====================================================
+   ACCESSIBILITY AND PERFORMANCE
+   ===================================================== */
 
-/* Focus management */
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --tf-gray-200: #000000;
-    --tf-gray-300: #000000;
-    --tf-primary-500: #0000ff;
-  }
-}
-
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  
+  .tf-form-card {
+    animation: none;
+  }
 }
 
-/* Print styles */
-@media print {
-  .tf-navigation,
-  .tf-progress-header {
-    display: none;
+@media (prefers-contrast: high) {
+  .tf-input,
+  .tf-textarea,
+  .tf-select {
+    border-color: #000000;
   }
+  
+  .tf-button--primary {
+    background: #0000ff;
+  }
+}
 
-  .tf-container {
-    background: white;
-    padding: 0;
-  }
-
-  .tf-form-wrapper {
-    box-shadow: none;
-    border: 1px solid var(--tf-gray-300);
-  }
+/* Focus management for keyboard navigation */
+.tf-button:focus-visible,
+.tf-input:focus-visible,
+.tf-textarea:focus-visible,
+.tf-select:focus-visible {
+  outline: 2px solid var(--tf-brand-accent-gold);
+  outline-offset: 2px;
 }

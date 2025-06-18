@@ -85,27 +85,28 @@ export function RoleSelection({
   return (
     <div className="tf-field-group">
       
-      {/* Agent Name Input */}
-      <div className="tf-card">
-        <div className="flex items-center mb-6">
-          <div className="tf-step-icon" style={{ width: '3rem', height: '3rem', marginBottom: '0', marginRight: 'var(--tf-space-4)' }}>
-            <User className="w-6 h-6 text-white" />
+      {/* Agent Name Input - Premium Glass Card */}
+      <div className="tf-glass-card tf-no-hover">
+        <div className="tf-flex tf-items-center tf-mb-6">
+          <div className="tf-icon-container">
+            <User className="tf-icon" />
           </div>
           <div>
-            <h3 className="tf-section-title" style={{ marginBottom: 'var(--tf-space-1)' }}>Welcome Agent</h3>
-            <p className="tf-step-description">Please enter your full name to get started</p>
+            <h3 className="tf-heading-secondary">Welcome Agent</h3>
+            <p className="tf-text-subtitle">Please enter your full name to get started</p>
           </div>
         </div>
 
         <div className="tf-field-group">
-          <label htmlFor="agent-name" className="tf-label tf-label--required">
+          <label htmlFor="agent-name" className="tf-label">
+            <span className="text-red-500 mr-1">*</span>
             Agent Name
           </label>
           <input
             id="agent-name"
             type="text"
             placeholder="Enter your full name"
-            className={`tf-input ${actualShowValidation && actualErrors?.agentName ? 'tf-input--error' : ''}`}
+            className={`tf-input ${actualShowValidation && actualErrors?.agentName ? 'border-red-500' : ''}`}
             value={actualAgentName || ''}
             onChange={(e) => {
               actualOnAgentNameChange && actualOnAgentNameChange(e.target.value);
@@ -114,30 +115,31 @@ export function RoleSelection({
             aria-invalid={actualShowValidation && actualErrors?.agentName ? 'true' : 'false'}
             aria-describedby={actualErrors?.agentName ? 'agent-name-error' : 'agent-name-help'}
           />
-          <div id="agent-name-help" className="tf-help-text">
+          <div id="agent-name-help" className="text-sm text-gray-500 mt-2">
             This will appear on all transaction documents
           </div>
           {actualShowValidation && actualErrors?.agentName && (
-            <div id="agent-name-error" className="tf-error-text" role="alert">
+            <div id="agent-name-error" className="text-sm text-red-600 mt-2 flex items-center" role="alert">
+              <span className="mr-1">⚠</span>
               {actualErrors.agentName}
             </div>
           )}
         </div>
       </div>
 
-      {/* Role Selection */}
-      <div className="tf-card">
-        <div className="flex items-center mb-6">
-          <div className="tf-step-icon" style={{ width: '3rem', height: '3rem', marginBottom: '0', marginRight: 'var(--tf-space-4)' }}>
-            <Building className="w-6 h-6 text-white" />
+      {/* Role Selection - Premium Glass Card */}
+      <div className="tf-glass-card tf-no-hover">
+        <div className="tf-flex tf-items-center tf-mb-6">
+          <div className="tf-icon-container">
+            <Building className="tf-icon" />
           </div>
           <div>
-            <h3 className="tf-section-title" style={{ marginBottom: 'var(--tf-space-1)' }}>Select Your Role</h3>
-            <p className="tf-step-description">Choose how you are representing clients in this transaction</p>
+            <h3 className="tf-heading-secondary">Select Your Role</h3>
+            <p className="tf-text-subtitle">Choose how you are representing clients in this transaction</p>
           </div>
         </div>
 
-        <div className="tf-radio-group">
+        <div className="grid gap-6">
           {roles.map(role => (
             <div
               key={role.id}
@@ -145,7 +147,11 @@ export function RoleSelection({
                 actualOnRoleChange && actualOnRoleChange(role.id);
                 onFieldTouch && onFieldTouch('agentData.role');
               }}
-              className={`tf-radio-item ${actualSelectedRole === role.id ? 'tf-radio-item--selected' : ''}`}
+              className={`relative p-6 rounded-xl border-2 cursor-pointer ${
+                actualSelectedRole === role.id 
+                  ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-lg' 
+                  : 'border-gray-200 bg-white'
+              }`}
               role="button"
               tabIndex={0}
               aria-pressed={actualSelectedRole === role.id}
@@ -167,58 +173,74 @@ export function RoleSelection({
                   actualOnRoleChange && actualOnRoleChange(role.id);
                   onFieldTouch && onFieldTouch('agentData.role');
                 }}
-                className="tf-radio-input"
+                className="sr-only"
                 aria-describedby={`role-${role.id}-description`}
               />
               
-              <div className="tf-radio-content">
-                <div className="flex items-center mb-3">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center mr-3 bg-gray-100">
-                    <role.icon className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <h4 className="tf-radio-title">{role.title}</h4>
+              <div className="flex items-start">
+                <div className={`flex items-center justify-center w-12 h-12 rounded-xl mr-4 flex-shrink-0 ${
+                  actualSelectedRole === role.id ? 'bg-blue-500' : 'bg-gray-100'
+                }`}>
+                  <role.icon className={`w-6 h-6 ${
+                    actualSelectedRole === role.id ? 'text-white' : 'text-gray-600'
+                  }`} />
                 </div>
                 
-                <p id={`role-${role.id}-description`} className="tf-radio-description mb-4">
-                  {role.description}
-                </p>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-lg font-semibold text-gray-900">{role.title}</h4>
+                    {actualSelectedRole === role.id && (
+                      <div className="flex items-center justify-center w-6 h-6 bg-green-500 rounded-full">
+                        <Check className="w-4 h-4 text-white" />
+                      </div>
+                    )}
+                  </div>
+                  
+                  <p id={`role-${role.id}-description`} className="text-gray-600 mb-4">
+                    {role.description}
+                  </p>
 
-                <ul className="space-y-1">
-                  {role.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start text-sm text-gray-600">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-1.5 mr-2 flex-shrink-0"></span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {actualSelectedRole === role.id && (
-                <div className="absolute top-4 right-4 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                  <Check className="w-4 h-4 text-white" />
+                  <ul className="space-y-2">
+                    {role.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start text-sm text-gray-600">
+                        <span className={`w-1.5 h-1.5 rounded-full mt-2 mr-3 flex-shrink-0 ${
+                          actualSelectedRole === role.id ? 'bg-blue-500' : 'bg-gray-400'
+                        }`}></span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              )}
+              </div>
             </div>
           ))}
         </div>
 
         {actualShowValidation && actualErrors?.selectedRole && (
-          <div id="role-selection-error" className="tf-error-text" role="alert">
+          <div id="role-selection-error" className="text-sm text-red-600 mt-4 flex items-center" role="alert">
+            <span className="mr-1">⚠</span>
             {actualErrors.selectedRole}
           </div>
         )}
       </div>
 
-      {/* Role Selection Preview */}
+      {/* Role Selection Preview - Premium Success Card */}
       {actualSelectedRole && selectedRoleObj && (
-        <div className="tf-alert tf-alert--success">
-          <div className="tf-alert-title">
-            Role Selected: {selectedRoleObj.title}
+        <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+          <div className="flex items-start">
+            <div className="flex items-center justify-center w-12 h-12 bg-green-500 rounded-xl mr-4 flex-shrink-0">
+              <Check className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                Role Selected: {selectedRoleObj.title}
+              </h4>
+              <p className="text-gray-600">
+                {selectedRoleObj.description}. You'll complete information for property details, 
+                client information, commission structure, and required documentation.
+              </p>
+            </div>
           </div>
-          <p className="mt-2">
-            {selectedRoleObj.description}. You'll complete information for property details, 
-            client information, commission structure, and required documentation.
-          </p>
         </div>
       )}
       

@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { DollarSign, Percent, Users, CircleDollarSign } from "lucide-react";
+import { DollarSign, Percent, Users, CircleDollarSign, Building } from "lucide-react";
 import type { CommissionData, AgentRole } from '@/types/transaction';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -215,231 +215,278 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
 
   return (
     <div className="tf-commission-section">
-      <div className="tf-glass-card">
-        <div className="tf-flex tf-items-center tf-mb-4">
+      {/* Enhanced Glass Card with Wider Container - No Hover Effects */}
+      <div className="tf-glass-card tf-no-hover">
+        
+        {/* Section Header */}
+        <div className="tf-flex tf-items-center tf-mb-6">
           <div className="tf-icon-container">
             <DollarSign className="tf-icon" />
           </div>
           <div>
-            <h3 className="tf-heading-secondary">Commission Details</h3>
-            <p className="tf-text-subtitle">Configure commission structure and fees</p>
+            <h3 className="tf-heading-secondary">Commission Structure</h3>
+            <p className="tf-text-subtitle">Configure commission rates and distribution details</p>
           </div>
         </div>
 
-        {/* Combined Commission Percentages and Fee Payments */}
-        <div className="tf-grid tf-grid-cols-1 md:tf-grid-cols-3 tf-gap-4 tf-mb-6">
-          {isListingOrDual && (
-            <>
-              <div className="tf-form-group">
-                <label htmlFor="totalCommissionPercentage" className="tf-label">
-                  <Percent className="tf-label-icon" />
-                  Total Commission <span className="tf-label-required">*</span>
-                </label>
-                <div className="tf-input-wrapper">
-                  <Input
-                    id="totalCommissionPercentage"
-                    value={data.totalCommissionPercentage}
-                    onChange={(e) => handleNumericChange('totalCommissionPercentage', e.target.value)}
-                    type="text"
-                    placeholder="e.g. 6.0"
-                    required
-                    className={`tf-input tf-input-percentage ${errors.totalCommissionPercentage ? 'tf-input-error' : ''}`}
-                  />
-                  <span className="tf-input-suffix">%</span>
-                </div>
-                {errors.totalCommissionPercentage && (
-                  <p className="tf-error-message">{errors.totalCommissionPercentage}</p>
-                )}
+        {/* Enhanced Responsive Layout */}
+        <div className="space-y-8">
+          
+          {/* Commission Percentages Section */}
+          <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+            <div className="flex items-center mb-6">
+              <div className="flex items-center justify-center w-10 h-10 bg-green-500 rounded-lg mr-3">
+                <Percent className="w-5 h-5 text-white" />
               </div>
-
-              <div className="tf-form-group">
-                <label htmlFor="listingAgentPercentage" className="tf-label">
-                  <Users className="tf-label-icon" />
-                  Listing Agent <span className="tf-label-required">*</span>
-                </label>
-                <div className="tf-input-wrapper">
-                  <Input
-                    id="listingAgentPercentage"
-                    value={data.listingAgentPercentage}
-                    onChange={(e) => handleNumericChange('listingAgentPercentage', e.target.value)}
-                    type="text"
-                    placeholder="e.g. 3.0"
-                    required
-                    className={`tf-input tf-input-percentage ${errors.listingAgentPercentage ? 'tf-input-error' : ''}`}
-                  />
-                  <span className="tf-input-suffix">%</span>
-                </div>
-                {errors.listingAgentPercentage && (
-                  <p className="tf-error-message">{errors.listingAgentPercentage}</p>
-                )}
-              </div>
-            </>
-          )}
-
-          <div className="tf-form-group">
-            <label htmlFor="buyersAgentPercentage" className="tf-label">
-              <Users className="tf-label-icon" />
-              Buyer's Agent <span className="tf-label-required">*</span>
-            </label>
-            <div className="tf-input-wrapper">
-              <Input
-                id="buyersAgentPercentage"
-                value={data.buyersAgentPercentage}
-                onChange={(e) => handleNumericChange('buyersAgentPercentage', e.target.value)}
-                type="text"
-                placeholder="e.g. 3.0"
-                required
-                className={`tf-input tf-input-percentage ${errors.buyersAgentPercentage ? 'tf-input-error' : ''}`}
-              />
-              <span className="tf-input-suffix">%</span>
+              <h4 className="text-lg font-semibold text-gray-900">Commission Percentages</h4>
             </div>
-            {errors.buyersAgentPercentage && (
-              <p className="tf-error-message">{errors.buyersAgentPercentage}</p>
-            )}
-          </div>
-        </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {isListingOrDual && (
+                <div className="tf-form-field">
+                  <label htmlFor="totalCommissionPercentage" className="tf-form-label">
+                    <Percent className="w-4 h-4 text-green-600 mr-2" />
+                    Total Commission
+                    <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <div className="relative">
+                    <Input
+                      id="totalCommissionPercentage"
+                      value={data.totalCommissionPercentage}
+                      onChange={(e) => handleNumericChange('totalCommissionPercentage', e.target.value)}
+                      type="text"
+                      placeholder="6.0"
+                      required
+                      className={`tf-form-input pr-8 ${errors.totalCommissionPercentage ? 'border-red-500' : ''}`}
+                    />
+                    <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">%</span>
+                  </div>
+                  <div className="tf-form-hint">Total commission percentage for the transaction</div>
+                  {errors.totalCommissionPercentage && (
+                    <div className="tf-form-error">{errors.totalCommissionPercentage}</div>
+                  )}
+                </div>
+              )}
 
-        {/* Fee Payment Percentages (now showing as percentages) */}
-        {role !== 'BUYERS AGENT' && (
-          <div className="tf-section-divider">
-            <div className="tf-grid tf-grid-cols-1 md:tf-grid-cols-2 tf-gap-4">
-              <div className="tf-form-group">
-                <label htmlFor="sellerPaidAmount" className="tf-label">
-                  <DollarSign className="tf-label-icon" />
-                  Seller Paid Percentage
+              {isListingOrDual && (
+                <div className="tf-form-field">
+                  <label htmlFor="listingAgentPercentage" className="tf-form-label">
+                    <Users className="w-4 h-4 text-green-600 mr-2" />
+                    Listing Agent
+                    <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <div className="relative">
+                    <Input
+                      id="listingAgentPercentage"
+                      value={data.listingAgentPercentage}
+                      onChange={(e) => handleNumericChange('listingAgentPercentage', e.target.value)}
+                      type="text"
+                      placeholder="3.0"
+                      required
+                      className={`tf-form-input pr-8 ${errors.listingAgentPercentage ? 'border-red-500' : ''}`}
+                    />
+                    <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">%</span>
+                  </div>
+                  <div className="tf-form-hint">Commission percentage for listing agent</div>
+                  {errors.listingAgentPercentage && (
+                    <div className="tf-form-error">{errors.listingAgentPercentage}</div>
+                  )}
+                </div>
+              )}
+
+              <div className="tf-form-field">
+                <label htmlFor="buyersAgentPercentage" className="tf-form-label">
+                  <Users className="w-4 h-4 text-green-600 mr-2" />
+                  Buyer's Agent
+                  <span className="text-red-500 ml-1">*</span>
                 </label>
-                <div className="tf-input-wrapper">
+                <div className="relative">
+                  <Input
+                    id="buyersAgentPercentage"
+                    value={data.buyersAgentPercentage}
+                    onChange={(e) => handleNumericChange('buyersAgentPercentage', e.target.value)}
+                    type="text"
+                    placeholder="3.0"
+                    required
+                    className={`tf-form-input pr-8 ${errors.buyersAgentPercentage ? 'border-red-500' : ''}`}
+                  />
+                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">%</span>
+                </div>
+                <div className="tf-form-hint">Commission percentage for buyer's agent</div>
+                {errors.buyersAgentPercentage && (
+                  <div className="tf-form-error">{errors.buyersAgentPercentage}</div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Fee Payment Distribution Section - Always Show */}
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+            <div className="flex items-center mb-6">
+              <div className="flex items-center justify-center w-10 h-10 bg-blue-500 rounded-lg mr-3">
+                <DollarSign className="w-5 h-5 text-white" />
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900">Commission Distribution</h4>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="tf-form-field">
+                <label htmlFor="sellerPaidAmount" className="tf-form-label">
+                  <DollarSign className="w-4 h-4 text-blue-600 mr-2" />
+                  Seller Paid Commission
+                </label>
+                <div className="relative">
                   <Input
                     id="sellerPaidAmount"
                     value={data.sellerPaidAmount || ""}
                     onChange={(e) => handleNumericChange('sellerPaidAmount', e.target.value)}
                     type="text"
-                    placeholder="e.g. 0.0"
-                    className="tf-input tf-input-percentage"
+                    placeholder="0.0"
+                    className="tf-form-input pr-8"
                   />
-                  <span className="tf-input-suffix">%</span>
+                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">%</span>
                 </div>
+                <div className="tf-form-hint">Percentage of commission paid by seller</div>
               </div>
 
-              <div className="tf-form-group">
-                <label htmlFor="buyerPaidAmount" className="tf-label">
-                  <DollarSign className="tf-label-icon" />
-                  Buyer Paid Percentage
+              <div className="tf-form-field">
+                <label htmlFor="buyerPaidAmount" className="tf-form-label">
+                  <DollarSign className="w-4 h-4 text-blue-600 mr-2" />
+                  Buyer Paid Commission
                 </label>
-                <div className="tf-input-wrapper">
+                <div className="relative">
                   <Input
                     id="buyerPaidAmount"
                     value={data.buyerPaidAmount || ""}
                     onChange={(e) => handleNumericChange('buyerPaidAmount', e.target.value)}
                     type="text"
-                    placeholder="e.g. 0.0"
-                    className="tf-input tf-input-percentage"
+                    placeholder="0.0"
+                    className="tf-form-input pr-8"
                   />
-                  <span className="tf-input-suffix">%</span>
+                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">%</span>
                 </div>
+                <div className="tf-form-hint">Percentage of commission paid by buyer</div>
               </div>
             </div>
           </div>
-        )}
 
-        {/* Coordinator Fee */}
-        <div className="tf-section-divider">
-          <div className="tf-form-group">
-            <label className="tf-label">
-              <CircleDollarSign className="tf-label-icon" />
-              Coordinator Fee Paid By <span className="tf-label-required">*</span>
-            </label>
-            <Select
-              value={data.coordinatorFeePaidBy}
-              onValueChange={(value: 'client' | 'agent') => handleChange('coordinatorFeePaidBy', value)}
-            >
-              <SelectTrigger className="tf-select tf-select-md">
-                <SelectValue placeholder="Select who pays..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="client">Client</SelectItem>
-                <SelectItem value="agent">Agent</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Seller's Assist */}
-        <div className="tf-section-divider">
-          <div className="tf-switch-group">
-            <Switch
-              id="hasSellersAssist"
-              checked={data.hasSellersAssist}
-              onCheckedChange={(checked) => handleChange('hasSellersAssist', checked)}
-            />
-            <label htmlFor="hasSellersAssist" className="tf-switch-label">
-              Include Seller's Assist
-            </label>
+          {/* Coordinator Fee Section */}
+          <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 border border-purple-200">
+            <div className="flex items-center mb-6">
+              <div className="flex items-center justify-center w-10 h-10 bg-purple-500 rounded-lg mr-3">
+                <CircleDollarSign className="w-5 h-5 text-white" />
+              </div>
+              <h4 className="text-lg font-semibold text-gray-900">Coordinator Fee</h4>
+            </div>
+            
+            <div className="tf-form-field max-w-md">
+              <label className="tf-form-label">
+                <CircleDollarSign className="w-4 h-4 text-purple-600 mr-2" />
+                Coordinator Fee Paid By
+                <span className="text-red-500 ml-1">*</span>
+              </label>
+              <Select
+                value={data.coordinatorFeePaidBy}
+                onValueChange={(value: 'client' | 'agent') => handleChange('coordinatorFeePaidBy', value)}
+              >
+                <SelectTrigger className="tf-form-input">
+                  <SelectValue placeholder="Select who pays coordinator fee" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="client">Client</SelectItem>
+                  <SelectItem value="agent">Agent</SelectItem>
+                </SelectContent>
+              </Select>
+              <div className="tf-form-hint">Who is responsible for paying the coordinator fee</div>
+            </div>
           </div>
 
-          {data.hasSellersAssist && (
-            <div className="tf-glass-card-light tf-mt-4">
-              <div className="tf-form-group">
-                <label htmlFor="sellersAssist" className="tf-label">
-                  <DollarSign className="tf-label-icon" />
-                  Seller's Assist Amount <span className="tf-label-required">*</span>
+          {/* Seller's Assist Section */}
+          <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl p-6 border border-amber-200">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center">
+                <div className="flex items-center justify-center w-10 h-10 bg-amber-500 rounded-lg mr-3">
+                  <DollarSign className="w-5 h-5 text-white" />
+                </div>
+                <h4 className="text-lg font-semibold text-gray-900">Seller's Assist</h4>
+              </div>
+              <Switch
+                id="hasSellersAssist"
+                checked={data.hasSellersAssist}
+                onCheckedChange={(checked) => handleChange('hasSellersAssist', checked)}
+              />
+            </div>
+            
+            {data.hasSellersAssist && (
+              <div className="tf-form-field max-w-md">
+                <label htmlFor="sellersAssist" className="tf-form-label">
+                  <DollarSign className="w-4 h-4 text-amber-600 mr-2" />
+                  Assist Amount
+                  <span className="text-red-500 ml-1">*</span>
                 </label>
-                <div className="tf-input-wrapper">
-                  <span className="tf-input-prefix">$</span>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">$</span>
                   <Input
                     id="sellersAssist"
                     value={data.sellersAssist}
                     onChange={(e) => handleNumericChange('sellersAssist', e.target.value)}
                     type="text"
-                    placeholder="Enter amount"
+                    placeholder="5000"
                     required
-                    className={`tf-input tf-input-currency ${errors.sellersAssist ? 'tf-input-error' : ''}`}
+                    className={`tf-form-input pl-8 ${errors.sellersAssist ? 'border-red-500' : ''}`}
                   />
                 </div>
+                <div className="tf-form-hint">Amount seller will assist buyer with closing costs</div>
                 {errors.sellersAssist && (
-                  <p className="tf-error-message">{errors.sellersAssist}</p>
+                  <div className="tf-form-error">{errors.sellersAssist}</div>
                 )}
               </div>
-            </div>
-          )}
-
-          {/* Referral toggle moved here */}
-          <div className="tf-switch-group tf-mt-4">
-            <Switch
-              id="isReferral"
-              checked={data.isReferral}
-              onCheckedChange={(checked) => handleChange('isReferral', checked)}
-            />
-            <label htmlFor="isReferral" className="tf-switch-label">
-              This is a referral
-            </label>
+            )}
           </div>
 
-          {data.isReferral && (
-            <div className="tf-glass-card-light tf-mt-4">
-              <div className="tf-grid tf-grid-cols-1 md:tf-grid-cols-3 tf-gap-4">
-                <div className="tf-form-group">
-                  <label htmlFor="referralParty" className="tf-label">
-                    <Users className="tf-label-icon" />
-                    Referral Party <span className="tf-label-required">*</span>
+          {/* Referral Section */}
+          <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 border border-teal-200">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center">
+                <div className="flex items-center justify-center w-10 h-10 bg-teal-500 rounded-lg mr-3">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                <h4 className="text-lg font-semibold text-gray-900">Referral Information</h4>
+              </div>
+              <Switch
+                id="isReferral"
+                checked={data.isReferral}
+                onCheckedChange={(checked) => handleChange('isReferral', checked)}
+              />
+            </div>
+
+            {data.isReferral && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="tf-form-field">
+                  <label htmlFor="referralParty" className="tf-form-label">
+                    <Users className="w-4 h-4 text-teal-600 mr-2" />
+                    Referral Party
+                    <span className="text-red-500 ml-1">*</span>
                   </label>
                   <Input
                     id="referralParty"
                     value={data.referralParty}
                     onChange={(e) => handleChange('referralParty', e.target.value)}
-                    placeholder="Enter name"
+                    placeholder="Enter referral agent/broker name"
                     required
-                    className={`tf-input ${errors.referralParty ? 'tf-input-error' : ''}`}
+                    className={`tf-form-input ${errors.referralParty ? 'border-red-500' : ''}`}
                   />
+                  <div className="tf-form-hint">Name of referring agent or broker</div>
                   {errors.referralParty && (
-                    <p className="tf-error-message">{errors.referralParty}</p>
+                    <div className="tf-form-error">{errors.referralParty}</div>
                   )}
                 </div>
 
-                <div className="tf-form-group">
-                  <label htmlFor="brokerEin" className="tf-label">
-                    <DollarSign className="tf-label-icon" />
-                    Broker EIN <span className="tf-label-required">*</span>
+                <div className="tf-form-field">
+                  <label htmlFor="brokerEin" className="tf-form-label">
+                    <Building className="w-4 h-4 text-teal-600 mr-2" />
+                    Broker EIN
+                    <span className="text-red-500 ml-1">*</span>
                   </label>
                   <Input
                     id="brokerEin"
@@ -447,37 +494,40 @@ export const CommissionSection: React.FC<CommissionSectionProps> = ({
                     onChange={(e) => handleChange('brokerEin', e.target.value)}
                     placeholder="XX-XXXXXXX"
                     required
-                    className={`tf-input ${errors.brokerEin ? 'tf-input-error' : ''}`}
+                    className={`tf-form-input ${errors.brokerEin ? 'border-red-500' : ''}`}
                   />
+                  <div className="tf-form-hint">Federal EIN in XX-XXXXXXX format</div>
                   {errors.brokerEin && (
-                    <p className="tf-error-message">{errors.brokerEin}</p>
+                    <div className="tf-form-error">{errors.brokerEin}</div>
                   )}
                 </div>
 
-                <div className="tf-form-group">
-                  <label htmlFor="referralFee" className="tf-label">
-                    <Percent className="tf-label-icon" />
-                    Referral Fee <span className="tf-label-required">*</span>
+                <div className="tf-form-field">
+                  <label htmlFor="referralFee" className="tf-form-label">
+                    <Percent className="w-4 h-4 text-teal-600 mr-2" />
+                    Referral Fee
+                    <span className="text-red-500 ml-1">*</span>
                   </label>
-                  <div className="tf-input-wrapper">
+                  <div className="relative">
                     <Input
                       id="referralFee"
                       value={data.referralFee}
                       onChange={(e) => handleNumericChange('referralFee', e.target.value)}
                       type="text"
-                      placeholder="Enter percentage"
+                      placeholder="25.0"
                       required
-                      className={`tf-input tf-input-percentage ${errors.referralFee ? 'tf-input-error' : ''}`}
+                      className={`tf-form-input pr-8 ${errors.referralFee ? 'border-red-500' : ''}`}
                     />
-                    <span className="tf-input-suffix">%</span>
+                    <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">%</span>
                   </div>
+                  <div className="tf-form-hint">Percentage of commission paid to referrer</div>
                   {errors.referralFee && (
-                    <p className="tf-error-message">{errors.referralFee}</p>
+                    <div className="tf-form-error">{errors.referralFee}</div>
                   )}
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
