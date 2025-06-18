@@ -56,7 +56,7 @@ const StatsSection: React.FC = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 mt-16 max-w-4xl mx-auto lg:max-w-5xl xl:max-w-6xl xl:grid-cols-4 xl:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-16 max-w-7xl mx-auto px-4">
           {statsData.map((stat, index) => {
             const IconComponent = stat.icon;
             return (
@@ -66,7 +66,7 @@ const StatsSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="w-full group min-w-[280px]"
+                className="w-full group"
               >
                 <div className="bg-white/95 backdrop-blur-sm p-8 lg:p-10 rounded-3xl shadow-xl hover:shadow-2xl border border-white/20 hover:transform hover:scale-105 transition-all duration-500 h-full relative overflow-hidden min-h-[280px] flex flex-col justify-center">
                   {/* Icon with gradient background */}
