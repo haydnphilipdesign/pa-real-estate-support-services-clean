@@ -56,7 +56,7 @@ const StatsSection: React.FC = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 lg:gap-10 mt-16 max-w-7xl mx-auto">
           {statsData.map((stat, index) => {
             const IconComponent = stat.icon;
             return (
@@ -68,24 +68,24 @@ const StatsSection: React.FC = () => {
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 className="w-full group"
               >
-                <div className="bg-white/95 backdrop-blur-sm p-8 rounded-3xl shadow-xl hover:shadow-2xl border border-white/20 hover:transform hover:scale-105 transition-all duration-500 h-full relative overflow-hidden">
+                <div className="bg-white/95 backdrop-blur-sm p-8 lg:p-10 rounded-3xl shadow-xl hover:shadow-2xl border border-white/20 hover:transform hover:scale-105 transition-all duration-500 h-full relative overflow-hidden min-h-[280px] flex flex-col justify-center">
                   {/* Icon with gradient background */}
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${stat.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className="w-8 h-8 text-white" />
+                  <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-r ${stat.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="w-10 h-10 text-white" />
                   </div>
                   
                   {/* Number */}
-                  <h3 className="text-4xl lg:text-5xl font-extrabold text-neutral-900 mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300">
+                  <h3 className="text-5xl lg:text-6xl font-extrabold text-neutral-900 mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300">
                     {stat.number}
                   </h3>
                   
                   {/* Label */}
-                  <div className="text-lg lg:text-xl font-semibold text-neutral-700 mb-3">
+                  <div className="text-xl lg:text-2xl font-semibold text-neutral-700 mb-4">
                     {stat.label}
                   </div>
                   
                   {/* Description */}
-                  <p className="text-neutral-600 leading-relaxed">
+                  <p className="text-neutral-600 leading-relaxed text-base lg:text-lg">
                     {stat.description}
                   </p>
                   
