@@ -18,7 +18,12 @@
       "Bash(npx tsc:*)",
       "Bash(sed:*)",
       "Bash(npx eslint:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(npm install)",
+      "Bash(curl:*)",
+      "Bash(npm install:*)",
+      "Bash(timeout 10 npm run dev:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": []
   }

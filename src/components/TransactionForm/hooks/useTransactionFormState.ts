@@ -117,6 +117,7 @@ export const initialFormData: TransactionFormData = {
   },
   signatureData: {
     agentName: '',
+    signature: '',
     dateSubmitted: '',
     signatures: {},
     termsAccepted: false,
@@ -205,12 +206,16 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
 
   // Field update handler - supports nested updates and real-time validation
   const updateField = useCallback((field: string, value: any) => {
+    console.log('🔧 updateField called:', { field, value, valueType: typeof value });
+    
     setFormData(prev => {
+      console.log('🔍 Previous formData:', prev);
       let updatedData: TransactionFormData;
       
       // Handle nested field updates like 'propertyData.mlsNumber'
       if (field.includes('.')) {
         const [section, subField] = field.split('.');
+        console.log('📝 Updating nested field:', { section, subField, value });
         updatedData = {
           ...prev,
           [section]: {
@@ -221,11 +226,17 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
         };
       } else {
         // Handle direct field updates
+        console.log('📝 Updating direct field:', { field, value });
         updatedData = {
           ...prev,
           [field]: value,
           touchedFields: new Set([...(prev.touchedFields || []), field])
         };
+      }
+      
+      console.log('✅ Updated formData:', updatedData);
+      if (field === 'agentData.role') {
+        console.log('🎭 Role update - new agentData:', updatedData.agentData);
       }
       
       // Clear validation error if the field becomes valid
@@ -548,11 +559,19 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
         const { data, timestamp } = JSON.parse(draft);
         const isExpired = Date.now() - timestamp > 24 * 60 * 60 * 1000; // 24 hours
         
-        if (!isExpired) {
+        if (!isExpired && data && typeof data === 'object') {
+          // Ensure touchedFields is properly handled
+          const touchedFieldsArray = data.touchedFields || [];
+          const touchedFieldsSet = Array.isArray(touchedFieldsArray) 
+            ? new Set(touchedFieldsArray)
+            : new Set();
+          
           setFormData({
-            ...data,
-            touchedFields: new Set(data.touchedFields || [])
+            ...initialFormData, // Start with clean initial data
+            ...data, // Apply saved data
+            touchedFields: touchedFieldsSet // Ensure Set is properly created
           });
+          
           toast({
             title: 'Draft Loaded',
             description: 'Your previous progress has been restored',
@@ -561,6 +580,8 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
       }
     } catch (error) {
       console.warn('Failed to load draft:', error);
+      // Clear corrupted draft
+      localStorage.removeItem('transaction-form-draft');
     }
   }, [toast]);
 

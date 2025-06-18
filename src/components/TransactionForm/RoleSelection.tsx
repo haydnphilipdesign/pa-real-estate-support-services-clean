@@ -144,8 +144,11 @@ export function RoleSelection({
             <div
               key={role.id}
               onClick={() => {
+                console.log('🎭 Role clicked:', role.id);
+                console.log('🔧 actualOnRoleChange function:', actualOnRoleChange);
                 actualOnRoleChange && actualOnRoleChange(role.id);
                 onFieldTouch && onFieldTouch('agentData.role');
+                console.log('✅ Role change called');
               }}
               className={`relative p-6 rounded-xl border-2 cursor-pointer ${
                 actualSelectedRole === role.id 

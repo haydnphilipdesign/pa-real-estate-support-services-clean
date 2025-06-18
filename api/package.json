@@ -6,6 +6,7 @@
   "dependencies": {
     "airtable": "^0.12.2",
     "nodemailer": "^6.9.10",
-    "pdf-lib": "^1.17.1"
+    "pdf-lib": "^1.17.1",
+    "node-fetch": "^2.6.7"
   }
 }

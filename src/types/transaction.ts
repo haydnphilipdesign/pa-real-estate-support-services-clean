@@ -87,7 +87,7 @@ export interface AdditionalInfoData {
 export type AgentRole = 'BUYERS AGENT' | 'LISTING AGENT' | 'DUAL AGENT';
 
 export interface AgentData {
-  role: AgentRole;
+  role: AgentRole | ''; // Allow empty string for initial state
   name: string;
   email: string;
   phone: string;

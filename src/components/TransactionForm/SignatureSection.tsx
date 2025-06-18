@@ -1,146 +1,198 @@
 import React, { useState, useEffect } from 'react';
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { SignatureData } from "@/types/transaction";
-import { PenTool, FileText, CheckCircle } from "lucide-react";
+import { PenTool, CheckCircle, FileText, Shield, Calendar } from "lucide-react";
 
 interface SignatureSectionProps {
-  data: SignatureData;
-  onChange: (field: keyof SignatureData, value: any) => void;
-  role?: string;
-  onSubmit?: () => void;
-  skippedFields?: string[];
-  onFieldFix?: (field: string) => void;
+  formData: {
+    signatureData: SignatureData;
+  };
+  onChange: (field: string, value: any) => void;
+  validationErrors?: Record<string, string>;
+  touchedFields?: Set<string>;
+  onFieldTouch?: (field: string) => void;
 }
 
 export const SignatureSection: React.FC<SignatureSectionProps> = ({
-  data,
-  onChange
+  formData,
+  onChange,
+  validationErrors = {},
+  touchedFields = new Set(),
+  onFieldTouch
 }: SignatureSectionProps) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleChange = (field: keyof SignatureData, value: any) => {
-    // Clear error when field is changed
-    if (errors[field]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
-    }
-    onChange(field, value);
-
-    // If signature field changes, also update agentName field
-    if (field === 'signature') {
-      onChange('agentName', value);
-    }
+  const handleFieldChange = (field: keyof SignatureData, value: any) => {
+    onChange(`signatureData.${field}`, value);
+    onFieldTouch?.(`signatureData.${field}`);
   };
 
-  // Set the date and sync agent name when the component loads
+  // Set the date when the component loads
   useEffect(() => {
-    if (!data.dateSubmitted) {
-      onChange('dateSubmitted', new Date().toISOString().split('T')[0]);
-    }
-
-    // If signature exists but agentName is not set, update it
-    if (data.signature && !data.agentName) {
-      onChange('agentName', data.signature);
+    if (!formData.signatureData.dateSubmitted) {
+      handleFieldChange('dateSubmitted', new Date().toISOString().split('T')[0]);
     }
   }, []);
 
-  // Removed unused functions
+  const currentDate = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 
   return (
-    <div className="tf-signature-section">
-      <div className="tf-glass-card tf-no-hover">
-        <div className="tf-flex tf-items-center tf-mb-4">
-          <div className="tf-icon-container">
-            <PenTool className="tf-icon" />
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 text-white">
+        <div className="flex items-center">
+          <div className="flex items-center justify-center w-16 h-16 bg-blue-600 rounded-xl mr-6">
+            <PenTool className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h3 className="tf-heading-secondary">Electronic Signature</h3>
-            <p className="tf-text-subtitle">Complete your electronic signature and acknowledgements</p>
+            <h2 className="text-3xl font-bold mb-2">Digital Signature</h2>
+            <p className="text-slate-300 text-lg">Complete your electronic signature and acknowledgements</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Signature Section */}
+      <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+        <div className="flex items-center mb-6">
+          <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mr-4">
+            <PenTool className="w-6 h-6 text-blue-600" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-gray-900">Electronic Signature</h3>
+            <p className="text-gray-600">Your typed name constitutes a legal electronic signature</p>
           </div>
         </div>
 
-        <div className="tf-grid tf-grid-cols-1 md:tf-grid-cols-2 tf-gap-6">
+        <div className="space-y-6">
           {/* Signature Input */}
-          <div className="tf-signature-input">
-            <div className="tf-form-group">
-              <label htmlFor="signature" className="tf-label">
-                <PenTool className="tf-label-icon" />
-                Your Full Name <span className="tf-label-required">*</span>
-              </label>
-              <input
-                id="signature"
-                type="text"
-                value={data.signature || ''}
-                onChange={(e) => handleChange("signature", e.target.value)}
-                placeholder="Type your full legal name"
-                className="tf-input"
-                required
-              />
-              {errors.signature && (
-                <p className="tf-error-message">{errors.signature}</p>
-              )}
-
-              {/* Hidden field for agentName */}
-              <input
-                type="hidden"
-                id="agentName"
-                value={data.agentName || ''}
-              />
-
-              <p className="tf-help-text">
-                Your typed name above constitutes your electronic signature for this transaction.
-              </p>
-            </div>
+          <div>
+            <label htmlFor="signature" className="block text-sm font-semibold text-gray-900 mb-2">
+              Full Legal Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="signature"
+              type="text"
+              value={formData.signatureData.signature || ''}
+              onChange={(e) => {
+                const value = e.target.value;
+                handleFieldChange("signature", value);
+                // Also update agentName to match signature
+                handleFieldChange("agentName", value);
+              }}
+              placeholder="Type your full legal name here"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg font-medium"
+              required
+            />
+            <p className="mt-2 text-sm text-gray-600">
+              By typing your name above, you are providing a legal electronic signature for this transaction.
+            </p>
           </div>
 
-          {/* Acknowledgements */}
-          <div className="tf-acknowledgements">
-            <div className="tf-glass-card-light">
-              <div className="tf-flex tf-items-center tf-mb-4">
-                <div className="tf-icon-container">
-                  <CheckCircle className="tf-icon" />
-                </div>
-                <h4 className="tf-heading-tertiary">Acknowledgements</h4>
-              </div>
-
-              <div className="tf-checkbox-group">
-                <Checkbox
-                  id="termsAccepted"
-                  checked={data.termsAccepted || false}
-                  onCheckedChange={(checked) =>
-                    handleChange("termsAccepted", checked === true)}
-                  className="tf-checkbox"
-                />
-                <div className="tf-checkbox-content">
-                  <label htmlFor="termsAccepted" className="tf-checkbox-label">
-                    I accept the <a href="/terms" target="_blank" rel="noopener noreferrer" className="tf-link">terms and conditions</a> and understand my legal obligations related to this transaction.
-                  </label>
-                </div>
-              </div>
-
-              <div className="tf-checkbox-group tf-mt-4">
-                <Checkbox
-                  id="infoConfirmed"
-                  checked={data.infoConfirmed || false}
-                  onCheckedChange={(checked) =>
-                    handleChange("infoConfirmed", checked === true)}
-                  className="tf-checkbox"
-                />
-                <div className="tf-checkbox-content">
-                  <label htmlFor="infoConfirmed" className="tf-checkbox-label">
-                    I confirm all information provided in this transaction form is accurate, complete, and truthful to the best of my knowledge.
-                  </label>
-                </div>
-              </div>
+          {/* Date Display */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="flex items-center">
+              <Calendar className="w-5 h-5 text-gray-500 mr-2" />
+              <span className="text-sm font-medium text-gray-700">Signature Date: </span>
+              <span className="text-sm text-gray-900 ml-1">{currentDate}</span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Terms and Acknowledgements */}
+      <div className="bg-gradient-to-br from-emerald-800 to-emerald-900 rounded-2xl p-8 text-white">
+        <div className="flex items-center mb-6">
+          <div className="flex items-center justify-center w-16 h-16 bg-emerald-600 rounded-xl mr-6">
+            <Shield className="w-8 h-8 text-white" />
+          </div>
+          <div>
+            <h3 className="text-2xl font-bold mb-2">Legal Acknowledgements</h3>
+            <p className="text-emerald-100">Please confirm your understanding and agreement</p>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          {/* Terms Acceptance */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+            <div className="flex items-start space-x-4">
+              <div className="relative mt-1">
+                <input
+                  type="checkbox"
+                  id="termsAccepted"
+                  checked={formData.signatureData.termsAccepted || false}
+                  onChange={(e) => handleFieldChange("termsAccepted", e.target.checked)}
+                  className="h-5 w-5 rounded border-2 border-emerald-300 bg-emerald-800/50 focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-emerald-800 checked:bg-emerald-500 checked:border-emerald-500"
+                />
+              </div>
+              <div className="flex-1">
+                <label htmlFor="termsAccepted" className="text-lg font-semibold text-white cursor-pointer block">
+                  Terms and Conditions Agreement
+                </label>
+                <p className="text-emerald-100 mt-2 leading-relaxed">
+                  I accept the terms and conditions and understand my legal obligations related to this real estate transaction. 
+                  I acknowledge that this electronic signature has the same legal effect as a handwritten signature.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Information Confirmation */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+            <div className="flex items-start space-x-4">
+              <div className="relative mt-1">
+                <input
+                  type="checkbox"
+                  id="infoConfirmed"
+                  checked={formData.signatureData.infoConfirmed || false}
+                  onChange={(e) => handleFieldChange("infoConfirmed", e.target.checked)}
+                  className="h-5 w-5 rounded border-2 border-emerald-300 bg-emerald-800/50 focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-emerald-800 checked:bg-emerald-500 checked:border-emerald-500"
+                />
+              </div>
+              <div className="flex-1">
+                <label htmlFor="infoConfirmed" className="text-lg font-semibold text-white cursor-pointer block">
+                  Information Accuracy Confirmation
+                </label>
+                <p className="text-emerald-100 mt-2 leading-relaxed">
+                  I confirm that all information provided in this transaction form is accurate, complete, and truthful 
+                  to the best of my knowledge. I understand that providing false information may have legal consequences.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Legal Notice */}
+        <div className="mt-8 bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
+          <div className="flex items-start">
+            <FileText className="w-5 h-5 text-emerald-300 mt-0.5 mr-3 flex-shrink-0" />
+            <div className="text-sm text-emerald-100 leading-relaxed">
+              <strong className="text-white">Legal Notice:</strong> This electronic signature is legally binding and equivalent to a handwritten signature. 
+              By completing this form, you are entering into a legal agreement. Please ensure all information is accurate before proceeding.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Signature Summary */}
+      {formData.signatureData.signature && (formData.signatureData.termsAccepted && formData.signatureData.infoConfirmed) && (
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-6">
+          <div className="flex items-center">
+            <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mr-4">
+              <CheckCircle className="w-6 h-6 text-green-600" />
+            </div>
+            <div>
+              <h4 className="text-lg font-bold text-green-900">Signature Complete</h4>
+              <p className="text-green-700">
+                Electronically signed by <strong>{formData.signatureData.signature}</strong> on {currentDate}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};

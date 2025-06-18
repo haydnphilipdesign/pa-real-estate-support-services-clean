@@ -11,15 +11,20 @@ const CLIENTS_TABLE_ID = 'tblvdy7T9Hv4SasdI';
 const transactionsTable = airtableBase(TRANSACTIONS_TABLE_ID);
 const clientsTable = airtableBase(CLIENTS_TABLE_ID);
 
-// Field mappings for fields that actually exist in Airtable (based on CSV)
+// Field mappings for fields that actually exist in Airtable (based on complete schema)
 const transactionFieldMap = {
   // Property Information
-  address: 'fldypnfnHhplWYcCW',
   mlsNumber: 'fld6O2FgIXQU5G27o',
-  salePrice: 'fldhHjBZJISmnP8SK',
+  address: 'fldypnfnHhplWYcCW',
   propertyStatus: 'fldV2eLxz6w0TpLFU',
+  salePrice: 'fldhHjBZJISmnP8SK',
   isWinterized: 'fldExdgBDgdB1i9jy',
   updateMls: 'fldw3GlfvKtyNfIAW',
+  propertyAccessType: 'fld7TTQpaC83ehY7H',
+  lockboxAccessCode: 'fldrh8eB5V8TjSZlR',
+  propertyType: 'fldzM4oyw2PyKt887',
+  isBuiltBefore1978: 'fldZmPfpsSJLOtcYr',
+  closingDate: 'fldacjkqtnbdTUUTx',
   
   // Agent Information
   agentName: 'fldFD4xHD0vxnSOHJ',
@@ -29,29 +34,41 @@ const transactionFieldMap = {
   totalCommissionPercentage: 'fldE8INzEorBtx2uN',
   listingAgentPercentage: 'flduuQQT7o6XAGlRe',
   buyersAgentPercentage: 'fld5KRrToAAt5kOLd',
-  buyerPaidPercentage: 'flddRltdGj05Clzpa',
+  sellerPaid: 'flddRltdGj05Clzpa',
+  buyerPaid: 'fldO6MAwuLTvuFjui',
   sellersAssist: 'fldTvXx96Na0zRh6W',
-  isReferral: 'fldLVyXkhqppQ7WpC',
   referralParty: 'fldzVtmn8uylVxuTF',
   referralFee: 'fldewmjoaJVwiMF46',
   brokerEin: 'fld20VbKbWzdR4Sp7',
-  fixedCommissionAmount: 'fldNXNV9Yx2LwJPhN',
-  totalCommission: 'fldsOqVJDGYKUjD8L',
+  coordinatorFeePaidBy: 'fldrplBqdhDcoy04S',
+  
+  // Property Details
+  hoaName: 'fld9oG6SMAkh4hvNL',
+  municipality: 'fld9Qw4mGeI9kk42F',
+  firstRightName: 'fldeHKiUreeDs5n4o',
+  attorneyName: 'fld4YZ0qKHvRLK4Xg',
+  warrantyCompany: 'fldRtNEH89tNNX52B',
+  warrantyCost: 'fldxH1pCpohty1e2b',
+  warrantyPaidBy: 'fld61RStU7sCDrG01',
+  titleCompany: 'fldqeArDeRkxiYz9u',
   
   // Additional Information
-  notes: 'fld30htJ7euVerCLW',
   specialInstructions: 'fldDWN8jU4kdCffzu',
   urgentIssues: 'fldgW16aPdFMdspO6',
-  requiresFollowUp: 'fldIG7LFmo1Sro6Oz'
+  notes: 'fld30htJ7euVerCLW',
+  
+  // Client Links
+  buyerLinks: 'fldjzz0RpVOvF7Dee',
+  sellerLinks: 'fldcPNXSa27EzCbOo'
 };
 
 const clientFieldMap = {
-  address: 'fldz1IpeR1256LhuC',
   name: 'fldSqxNOZ9B5PgSab',
   email: 'flddP6a8EG6qTJdIi',
+  phone: 'fldBnh8W6iGW014yY',
+  address: 'fldz1IpeR1256LhuC',
   type: 'fldSY6vbE1zAhJZqd',
-  maritalStatus: 'fldeK6mjSfxELU0MD',
-  phone: 'fldBnh8W6iGW014yY'
+  maritalStatus: 'fldeK6mjSfxELU0MD'
 };
 
 // Helper function to format data according to field types
@@ -76,17 +93,20 @@ const formatFieldValue = (value: any, fieldName: string): any => {
       // Format phone number
       return value?.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
     
-    case 'isReferral':
-    case 'requiresFollowUp':
     case 'updateMls':
     case 'isWinterized':
     case 'isBuiltBefore1978':
+      // For singleSelect fields, return the string value as-is
+      return value;
+    
+    case 'isReferral':
+    case 'requiresFollowUp':
     case 'resaleCertRequired':
     case 'coRequired':
     case 'firstRightOfRefusal':
     case 'attorneyRepresentation':
     case 'homeWarranty':
-      // Ensure boolean format for YES/NO and boolean fields
+      // For boolean/checkbox fields, keep boolean values
       if (typeof value === 'boolean') return value;
       return value?.toUpperCase() === 'YES' ? true : false;
     
@@ -121,6 +141,9 @@ export const submitToAirtable = async (data: TransactionFormData) => {
       if (data.agentData.role) {
         transactionFields[transactionFieldMap.agentRole] = data.agentData.role;
       }
+      if (data.agentData.name) {
+        transactionFields[transactionFieldMap.agentName] = data.agentData.name;
+      }
     }
     
     // Map property data (only fields that exist in Airtable)
@@ -143,6 +166,21 @@ export const submitToAirtable = async (data: TransactionFormData) => {
       if (data.propertyData.updateMls) {
         transactionFields[transactionFieldMap.updateMls] = formatFieldValue(data.propertyData.updateMls, 'updateMls');
       }
+      if (data.propertyData.propertyAccessType) {
+        transactionFields[transactionFieldMap.propertyAccessType] = data.propertyData.propertyAccessType;
+      }
+      if (data.propertyData.lockboxAccessCode) {
+        transactionFields[transactionFieldMap.lockboxAccessCode] = data.propertyData.lockboxAccessCode;
+      }
+      if (data.propertyData.propertyType) {
+        transactionFields[transactionFieldMap.propertyType] = data.propertyData.propertyType;
+      }
+      if (data.propertyData.isBuiltBefore1978) {
+        transactionFields[transactionFieldMap.isBuiltBefore1978] = data.propertyData.isBuiltBefore1978;
+      }
+      if (data.propertyData.closingDate) {
+        transactionFields[transactionFieldMap.closingDate] = data.propertyData.closingDate;
+      }
     }
     
     // Map commission data (only fields that exist in Airtable)
@@ -156,14 +194,17 @@ export const submitToAirtable = async (data: TransactionFormData) => {
       if (data.commissionData.buyersAgentPercentage) {
         transactionFields[transactionFieldMap.buyersAgentPercentage] = formatFieldValue(data.commissionData.buyersAgentPercentage, 'buyersAgentPercentage');
       }
+      if (data.commissionData.sellerPaidAmount) {
+        transactionFields[transactionFieldMap.sellerPaid] = formatFieldValue(data.commissionData.sellerPaidAmount, 'sellerPaid');
+      }
       if (data.commissionData.buyerPaidAmount) {
-        transactionFields[transactionFieldMap.buyerPaidPercentage] = formatFieldValue(data.commissionData.buyerPaidAmount, 'buyerPaidPercentage');
+        transactionFields[transactionFieldMap.buyerPaid] = formatFieldValue(data.commissionData.buyerPaidAmount, 'buyerPaid');
+      }
+      if (data.commissionData.coordinatorFeePaidBy) {
+        transactionFields[transactionFieldMap.coordinatorFeePaidBy] = data.commissionData.coordinatorFeePaidBy;
       }
       if (data.commissionData.sellersAssist) {
         transactionFields[transactionFieldMap.sellersAssist] = formatFieldValue(data.commissionData.sellersAssist, 'sellersAssist');
-      }
-      if (data.commissionData.isReferral) {
-        transactionFields[transactionFieldMap.isReferral] = formatFieldValue(data.commissionData.isReferral, 'isReferral');
       }
       if (data.commissionData.referralParty) {
         transactionFields[transactionFieldMap.referralParty] = data.commissionData.referralParty;
@@ -187,22 +228,76 @@ export const submitToAirtable = async (data: TransactionFormData) => {
       if (data.additionalInfo.urgentIssues) {
         transactionFields[transactionFieldMap.urgentIssues] = data.additionalInfo.urgentIssues;
       }
-      if (data.additionalInfo.requiresFollowUp) {
-        transactionFields[transactionFieldMap.requiresFollowUp] = formatFieldValue(data.additionalInfo.requiresFollowUp, 'requiresFollowUp');
-      }
     }
     
+    // Map property details data
+    if (data.propertyDetailsData) {
+      if (data.propertyDetailsData.hoaName) {
+        transactionFields[transactionFieldMap.hoaName] = data.propertyDetailsData.hoaName;
+      }
+      if (data.propertyDetailsData.municipality) {
+        transactionFields[transactionFieldMap.municipality] = data.propertyDetailsData.municipality;
+      }
+      if (data.propertyDetailsData.firstRightName) {
+        transactionFields[transactionFieldMap.firstRightName] = data.propertyDetailsData.firstRightName;
+      }
+      if (data.propertyDetailsData.attorneyName) {
+        transactionFields[transactionFieldMap.attorneyName] = data.propertyDetailsData.attorneyName;
+      }
+      if (data.propertyDetailsData.warrantyCompany) {
+        transactionFields[transactionFieldMap.warrantyCompany] = data.propertyDetailsData.warrantyCompany;
+      }
+      if (data.propertyDetailsData.warrantyCost) {
+        transactionFields[transactionFieldMap.warrantyCost] = formatFieldValue(data.propertyDetailsData.warrantyCost, 'warrantyCost');
+      }
+      if (data.propertyDetailsData.warrantyPaidBy) {
+        transactionFields[transactionFieldMap.warrantyPaidBy] = data.propertyDetailsData.warrantyPaidBy;
+      }
+    }
+
+    // Map title data
+    if (data.titleData?.titleCompany) {
+      transactionFields[transactionFieldMap.titleCompany] = data.titleData.titleCompany;
+    }
+
     // Map signature data
     if (data.signatureData?.agentName) {
       transactionFields[transactionFieldMap.agentName] = data.signatureData.agentName;
     }
 
-    // Add client links
-    transactionFields['fldmPyBwuOO1dgj1g'] = clientRecords;
+    // Add client links based on client types
+    const buyerRecords = clientRecords.filter((_, index) => data.clients?.[index]?.type === 'BUYER');
+    const sellerRecords = clientRecords.filter((_, index) => data.clients?.[index]?.type === 'SELLER');
+    
+    if (buyerRecords.length > 0) {
+      transactionFields[transactionFieldMap.buyerLinks] = buyerRecords;
+    }
+    if (sellerRecords.length > 0) {
+      transactionFields[transactionFieldMap.sellerLinks] = sellerRecords;
+    }
 
     console.log("Creating transaction record with fields:", transactionFields);
-    const transactionRecord = await transactionsTable.create({ fields: transactionFields });
-    const recordId = transactionRecord.getId();
+    
+    // Try direct API call since SDK might have issues
+    const response = await fetch(`https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${TRANSACTIONS_TABLE_ID}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${import.meta.env.VITE_AIRTABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fields: transactionFields
+      })
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Direct API call failed:', errorData);
+      throw new Error(`API Error: ${errorData.error?.message || response.statusText}`);
+    }
+    
+    const result = await response.json();
+    const recordId = result.id;
     
     console.log("Transaction record created with ID:", recordId);
 
