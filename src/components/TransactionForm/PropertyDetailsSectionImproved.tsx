@@ -158,12 +158,6 @@ export const PropertyDetailsSection: React.FC<PropertyDetailsSectionProps> = ({
             Configure property requirements, legal representation, and warranty information
           </p>
         </div>
-        <div className="ml-auto flex items-center gap-2 text-sm text-neutral-500">
-          <div className="flex items-center gap-1">
-            <CheckCircle className="w-4 h-4 text-green-500" />
-            <span>Professional Setup</span>
-          </div>
-        </div>
       </div>
 
       <div className="space-y-8">
