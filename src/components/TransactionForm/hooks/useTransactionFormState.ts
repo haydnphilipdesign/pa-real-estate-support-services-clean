@@ -119,7 +119,7 @@ export const initialFormData: TransactionFormData = {
     agentName: '',
     dateSubmitted: '',
     signatures: {},
-    termsAccepted: {},
+    termsAccepted: false,
     infoConfirmed: false
   },
   isSubmitting: false,
@@ -214,8 +214,8 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
       email: '',
       phone: '',
       address: '',
-      maritalStatus: 'Single',
-      designation: 'Buyer'
+      maritalStatus: 'SINGLE',
+      type: 'BUYER'
     };
     
     setFormData(prev => ({

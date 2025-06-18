@@ -170,7 +170,7 @@ const Header: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-1 ml-8">
             {navLinks.map((item) => (
               <Link
                 key={item.path}
@@ -178,10 +178,10 @@ const Header: React.FC = () => {
                 className={`relative px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 group ${
                   location.pathname === item.path
                     ? scrolled 
-                      ? 'text-red-600' 
+                      ? 'text-blue-600' 
                       : 'text-white'
                     : scrolled
-                      ? 'text-neutral-600 hover:text-red-600'
+                      ? 'text-neutral-600 hover:text-blue-600'
                       : 'text-white/80 hover:text-white'
                 }`}
               >
@@ -190,7 +190,7 @@ const Header: React.FC = () => {
                   <motion.div
                     layoutId="activeNav"
                     className={`absolute inset-0 rounded-lg ${
-                      scrolled ? 'bg-red-50' : 'bg-white/10'
+                      scrolled ? 'bg-blue-50' : 'bg-white/10'
                     }`}
                     transition={{ type: "spring", duration: 0.6 }}
                   />
@@ -210,26 +210,13 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
-            {/* Phone Number - Desktop Only */}
-            <a
-              href="tel:+5705884637"
-              className={`hidden lg:flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                scrolled
-                  ? 'text-neutral-700 hover:text-red-600 hover:bg-neutral-100'
-                  : 'text-white hover:bg-white/10'
-              }`}
-            >
-              <Phone className="w-4 h-4" />
-              <span className="text-sm font-medium">(570) 588-4637</span>
-            </a>
-
+          <div className="flex items-center">
             {/* CTA Button */}
             <Link
               to="/agent-portal"
               className={`hidden md:inline-flex items-center px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 transform hover:scale-105 ${
                 scrolled
-                  ? 'bg-red-600 text-white hover:bg-red-700 shadow-lg hover:shadow-xl'
+                  ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl'
                   : 'bg-white text-neutral-900 hover:bg-neutral-100'
               }`}
             >
@@ -240,7 +227,7 @@ const Header: React.FC = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`md:hidden p-2 rounded-lg transition-all duration-300 ${
+              className={`md:hidden p-2 rounded-lg transition-all duration-300 ml-4 ${
                 scrolled
                   ? 'text-neutral-700 hover:bg-neutral-100'
                   : 'text-white hover:bg-white/10'

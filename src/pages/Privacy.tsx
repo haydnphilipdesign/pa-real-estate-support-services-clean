@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Users, HelpCircle, Download, ChevronDown, Database, Lock, Eye, FileCheck, Mail, Phone } from 'lucide-react';
+import { Shield, Users, HelpCircle, Download, ChevronDown, Database, Lock, Eye, FileCheck, Mail, Phone, ArrowRight } from 'lucide-react';
 import { useNavigation } from '../providers/SmoothNavigationProvider';
 
 const Privacy: React.FC = () => {
+  const { Link } = useNavigation();
   const sideContent = (
     <div>
       <div className="flex items-center mb-4">
@@ -38,8 +39,6 @@ const Privacy: React.FC = () => {
       </div>
     </div>
   );
-
-  const { Link } = useNavigation();
   const [openSection, setOpenSection] = useState<number | null>(0);
 
   const tableOfContents = [
@@ -111,90 +110,93 @@ const Privacy: React.FC = () => {
 
   return (
     <div>
-      {/* Enhanced Hero Section */}
-      <section className="section hero-section">
-        <div className="hero-content">
+      {/* Beautiful 2-Column Hero Section */}
+      <section className="section hero-section relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Left Side - Content */}
-            <div className="text-left">
-              {/* Trust Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="mb-8"
-              >
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-600/20 backdrop-blur-sm rounded-full px-5 py-2.5 border border-green-500/30">
-                  <Shield className="w-5 h-5 text-green-400" />
-                  <span className="text-green-100 text-sm font-semibold">Privacy Commitment</span>
-                </div>
-              </motion.div>
-            
-              {/* Main Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight"
-              >
-                Privacy
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">
-                  Policy
-                </span>
-              </motion.h1>
-              
-              {/* Enhanced Subtitle */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mb-8"
-              >
-                <p className="text-xl lg:text-2xl text-blue-100 mb-6">
-                  Your privacy is paramount. Here's how I protect and handle your information.
-                </p>
-                
-                {/* Privacy Highlights */}
-                <div className="space-y-3">
-                  {[
-                    { icon: Shield, text: "Industry-standard security measures protect your data", color: "text-green-400" },
-                    { icon: Users, text: "I only collect information necessary to provide services", color: "text-blue-400" },
-                    { icon: HelpCircle, text: "Questions about your data? Contact me anytime", color: "text-yellow-400" },
-                    { icon: Download, text: "Last updated: December 2024", color: "text-purple-400" }
-                  ].map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
-                      className="flex items-start gap-3"
-                    >
-                      <item.icon className={`w-5 h-5 ${item.color} mt-0.5 flex-shrink-0`} />
-                      <span className="text-white/90">{item.text}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
+            {/* Left Column - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="space-y-8"
+            >
+              <div className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-6">
+                    <Shield className="w-5 h-5 mr-2 text-green-400" />
+                    <span className="text-white/90 text-sm font-medium">Privacy Commitment</span>
+                  </div>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    Privacy
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
+                      Policy
+                    </span>
+                  </h1>
+                  <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
+                    Your privacy is paramount. Here's how I protect and handle your information with care
+                  </p>
+                </motion.div>
 
-            {/* Right Side - Privacy Highlights */}
+                {/* Key Highlights */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="space-y-4"
+                >
+                  {[
+                    { icon: Shield, text: "Industry-standard security measures protect your data" },
+                    { icon: Users, text: "I only collect information necessary to provide services" },
+                    { icon: HelpCircle, text: "Questions about your data? Contact me anytime" }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <item.icon className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-white/90">{item.text}</span>
+                    </div>
+                  ))}
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="pt-4"
+                >
+                  <Link
+                    to="/"
+                    className="group inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 transform hover:scale-105"
+                  >
+                    Return Home
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Right Column - Data Protection Highlights */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="relative lg:block hidden"
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="relative flex justify-center"
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 to-blue-600/20 rounded-3xl blur-2xl" />
-                <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-                  <h3 className="text-xl font-bold text-white mb-6">Privacy Commitment</h3>
+                <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 max-w-sm w-full">
+                  <h3 className="text-xl font-bold text-white mb-6">Data Protection</h3>
                   
-                  {/* Privacy Promises */}
+                  {/* Privacy Protection Features */}
                   <div className="space-y-4 mb-6">
                     {[
                       { icon: Lock, title: "Secure Storage", desc: "Bank-level encryption" },
                       { icon: Eye, title: "Limited Access", desc: "Need-to-know basis only" },
+                      { icon: Shield, title: "Compliance", desc: "Industry standards met" },
                       { icon: FileCheck, title: "Your Rights", desc: "Access, modify, delete" }
                     ].map((item, index) => (
                       <div key={index} className="flex items-center gap-4 p-3 bg-white/5 rounded-xl border border-white/10">
@@ -211,8 +213,8 @@ const Privacy: React.FC = () => {
                   
                   {/* Contact for Privacy Questions */}
                   <div className="bg-gradient-to-r from-green-500/20 to-green-600/20 rounded-xl p-4 border border-green-500/30">
-                    <div className="text-green-100 text-sm font-medium mb-2">Questions about privacy?</div>
-                    <div className="text-white/90 text-sm">Contact me directly anytime</div>
+                    <div className="text-green-100 text-sm font-medium mb-2">Privacy Questions?</div>
+                    <div className="text-white/90 text-sm">Contact me anytime</div>
                   </div>
                 </div>
               </div>

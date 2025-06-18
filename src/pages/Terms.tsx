@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, CheckCircle, Shield, Download, ChevronDown, Scale, Users, Clock, Lock } from 'lucide-react';
+import { FileText, CheckCircle, Shield, Download, ChevronDown, Scale, Users, Clock, Lock, ArrowRight } from 'lucide-react';
 import { useNavigation } from '../providers/SmoothNavigationProvider';
 
 const Terms: React.FC = () => {
+  const { Link } = useNavigation();
   const sideContent = (
     <div>
       <div className="flex items-center mb-4">
@@ -39,7 +40,6 @@ const Terms: React.FC = () => {
     </div>
   );
 
-  const { Link } = useNavigation();
   const [openSection, setOpenSection] = useState<number | null>(0);
 
   const tableOfContents = [
@@ -127,97 +127,111 @@ const Terms: React.FC = () => {
 
   return (
     <div>
-      {/* Enhanced Hero Section */}
-      <section className="section hero-section">
-        <div className="hero-content">
+      {/* Beautiful 2-Column Hero Section */}
+      <section className="section hero-section relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Left Side - Content */}
-            <div className="text-left">
-              {/* Trust Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="mb-8"
-              >
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-600/20 backdrop-blur-sm rounded-full px-5 py-2.5 border border-green-500/30">
-                  <FileText className="w-5 h-5 text-green-400" />
-                  <span className="text-green-100 text-sm font-semibold">Terms of Service</span>
-                </div>
-              </motion.div>
-            
-              {/* Main Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight"
-              >
-                Terms of
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">
-                  Service
-                </span>
-              </motion.h1>
-              
-              {/* Enhanced Subtitle */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mb-8"
-              >
-                <p className="text-xl lg:text-2xl text-blue-100 mb-6">
-                  Clear guidelines for using my professional transaction coordination services.
-                </p>
-                
-                {/* Service Highlights */}
-                <div className="space-y-3">
-                  {[
-                    { icon: CheckCircle, text: "Clear service expectations and responsibilities", color: "text-green-400" },
-                    { icon: Shield, text: "Professional confidentiality and information handling", color: "text-blue-400" },
-                    { icon: FileText, text: "Documentation and intellectual property guidelines", color: "text-yellow-400" },
-                    { icon: Download, text: "Last updated: December 2024", color: "text-purple-400" }
-                  ].map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
-                      className="flex items-start gap-3"
-                    >
-                      <item.icon className={`w-5 h-5 ${item.color} mt-0.5 flex-shrink-0`} />
-                      <span className="text-white/90">{item.text}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
+            {/* Left Column - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="space-y-8"
+            >
+              <div className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-6">
+                    <FileText className="w-5 h-5 mr-2 text-blue-400" />
+                    <span className="text-white/90 text-sm font-medium">Terms of Service</span>
+                  </div>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    Terms of
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
+                      Service
+                    </span>
+                  </h1>
+                  <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
+                    Clear guidelines and expectations for using my professional transaction coordination services
+                  </p>
+                </motion.div>
 
-            {/* Right Side - Table of Contents */}
+                {/* Key Highlights */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="space-y-4"
+                >
+                  {[
+                    { icon: CheckCircle, text: "Clear service expectations and responsibilities" },
+                    { icon: Shield, text: "Professional confidentiality and information handling" },
+                    { icon: FileText, text: "Documentation and intellectual property guidelines" }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <item.icon className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-white/90">{item.text}</span>
+                    </div>
+                  ))}
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="pt-4"
+                >
+                  <Link
+                    to="/"
+                    className="group inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 transform hover:scale-105"
+                  >
+                    Return Home
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Right Column - Legal Highlights */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="relative lg:block hidden"
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="relative flex justify-center"
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-3xl blur-2xl" />
-                <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-                  <h3 className="text-xl font-bold text-white mb-6">Table of Contents</h3>
-                  <div className="space-y-3">
-                    {tableOfContents.map((item, index) => (
-                      <a
-                        key={index}
-                        href={`#${item.id}`}
-                        className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group"
-                      >
-                        <span className="w-6 h-6 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                          {index + 1}
-                        </span>
-                        <span className="text-white/90 group-hover:text-white transition-colors">{item.title}</span>
-                      </a>
+                <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 max-w-sm w-full">
+                  <h3 className="text-xl font-bold text-white mb-6">Service Agreement</h3>
+                  
+                  {/* Legal Protection Features */}
+                  <div className="space-y-4 mb-6">
+                    {[
+                      { icon: Shield, title: "Protected Services", desc: "Clear boundaries & expectations" },
+                      { icon: FileText, title: "Professional Standards", desc: "Industry-compliant practices" },
+                      { icon: Users, title: "Client Rights", desc: "Your protections outlined" },
+                      { icon: Scale, title: "Fair Terms", desc: "Balanced & transparent" }
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-center gap-4 p-3 bg-white/5 rounded-xl border border-white/10">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full flex items-center justify-center">
+                          <item.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <div className="text-white font-semibold text-sm">{item.title}</div>
+                          <div className="text-white/70 text-xs">{item.desc}</div>
+                        </div>
+                      </div>
                     ))}
+                  </div>
+                  
+                  {/* Last Updated Notice */}
+                  <div className="bg-gradient-to-r from-blue-500/20 to-blue-600/20 rounded-xl p-4 border border-blue-500/30">
+                    <div className="text-blue-100 text-sm font-medium mb-2">Last Updated</div>
+                    <div className="text-white/90 text-sm">December 2024</div>
                   </div>
                 </div>
               </div>
@@ -230,7 +244,7 @@ const Terms: React.FC = () => {
       <section className="py-20 bg-gradient-to-br from-neutral-50 via-white to-neutral-100 relative overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(59,130,246,0.03)_0%,_transparent_50%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,_rgba(239,68,68,0.03)_0%,_transparent_50%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,_rgba(59,130,246,0.03)_0%,_transparent_50%)] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-4 gap-8">

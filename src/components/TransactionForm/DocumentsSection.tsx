@@ -29,15 +29,8 @@ export function DocumentsSection({
 }: DocumentsSectionProps) {
   const [showValidationError, setShowValidationError] = useState(false);
 
-  // Handle document selection
-  const handleDocumentChange = (documentName: string, selected: boolean) => {
-    const updatedDocuments = data.documents.map(doc => 
-      doc.name === documentName 
-        ? { ...doc, selected }
-        : doc
-    );
-    onChange('documents', updatedDocuments);
-  };
+  // Document selection is now handled only by confirmation checkbox
+  // Individual document checkboxes removed
 
   // Handle confirmation checkbox
   const handleConfirmationChange = (checked: boolean) => {
@@ -118,21 +111,8 @@ export function DocumentsSection({
     }).filter(category => category.documents.length > 0);
   };
 
-  // Initialize documents from filtered categories if data.documents is empty
+  // Get filtered categories for display only
   const filteredCategories = getFilteredCategories();
-  const allDocuments = filteredCategories.flatMap(cat => cat.documents);
-  
-  // Initialize document selection state if needed
-  useEffect(() => {
-    if (data.documents.length === 0 && allDocuments.length > 0) {
-      // Initialize with unselected documents
-      const initialDocs = allDocuments.map(doc => ({
-        ...doc,
-        selected: false
-      }));
-      onChange('documents', initialDocs);
-    }
-  }, [role, allDocuments.length, data.documents.length]);
 
   return (
     <div className="tf-documents-section">
@@ -147,7 +127,7 @@ export function DocumentsSection({
           </div>
         </div>
 
-        {/* Document Categories */}
+        {/* Document Reference List */}
         <div className="tf-document-categories tf-mb-6">
           {filteredCategories.map((category, index) => (
             category.documents.length > 0 && (
@@ -162,35 +142,18 @@ export function DocumentsSection({
                   </div>
                 </div>
                 <div className="tf-document-list">
-                  {category.documents.map((doc) => {
-                    // Find the current document in data.documents to get its selected state
-                    const currentDoc = data.documents.find(d => d.name === doc.name);
-                    const isSelected = currentDoc?.selected || false;
-                    
-                    return (
-                      <div key={doc.name} className="tf-document-item">
-                        <Checkbox
-                          id={`doc-${doc.name.replace(/\s+/g, '-').toLowerCase()}`}
-                          checked={isSelected}
-                          onCheckedChange={(checked) => handleDocumentChange(doc.name, checked === true)}
-                          className="tf-checkbox"
-                        />
-                        <label 
-                          htmlFor={`doc-${doc.name.replace(/\s+/g, '-').toLowerCase()}`}
-                          className="tf-document-label"
-                        >
-                          <FileText className="tf-icon-sm" />
-                          <span className="tf-document-name">
-                            {doc.name}
-                            {doc.required && <span className="tf-label-required ml-1">*</span>}
-                          </span>
-                          {doc.required && (
-                            <span className="tf-required-badge">Required</span>
-                          )}
-                        </label>
-                      </div>
-                    );
-                  })}
+                  {category.documents.map((doc) => (
+                    <div key={doc.name} className="tf-document-item tf-document-reference">
+                      <FileText className="tf-icon-sm" />
+                      <span className="tf-document-name">
+                        {doc.name}
+                        {doc.required && <span className="tf-label-required ml-1">*</span>}
+                      </span>
+                      {doc.required && (
+                        <span className="tf-required-badge">Required</span>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
             )
@@ -221,7 +184,7 @@ export function DocumentsSection({
                 }`}
               >
                 <span className="tf-label-required">*</span>
-                I confirm that I have prepared all required documents and will upload them as required.
+                I confirm that I have prepared all required documents listed above and will provide them as needed for this transaction.
               </label>
               {showValidationError && !data.confirmDocuments && (
                 <div className="tf-error-message tf-flex tf-items-center">

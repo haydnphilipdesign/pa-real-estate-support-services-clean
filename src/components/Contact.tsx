@@ -112,8 +112,7 @@ const Contact: React.FC = () => {
                     <div>
                       <p className="font-semibold text-neutral-900">Business Hours</p>
                       <p className="text-neutral-700">Monday - Friday: 9:00 AM - 5:00 PM</p>
-                      <p className="text-neutral-700">Saturday: By Appointment</p>
-                      <p className="text-neutral-700">Sunday: Closed</p>
+                      <p className="text-neutral-700">Saturday - Sunday: Closed</p>
                     </div>
                   </div>
                 </div>
@@ -154,19 +153,19 @@ const Contact: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20"
             >
-              <h2 className="text-2xl font-bold mb-6 text-neutral-900">Send Us a Message</h2>
+              <h2 className="text-2xl font-bold mb-6 text-neutral-900">Send Me a Message</h2>
               {formStatus === 'success' ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center h-full text-center py-12"
+                  className="flex flex-col items-center justify-center h-full text-center py-8"
                 >
                   <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
                   <h3 className="text-xl font-semibold mb-2 text-neutral-900">Message Sent!</h3>
-                  <p className="text-neutral-700">We'll get back to you as soon as possible.</p>
+                  <p className="text-neutral-700">I'll get back to you as soon as possible.</p>
                 </motion.div>
               ) : (
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="from_firstName" className="block text-sm font-medium text-neutral-700 mb-2">
@@ -224,7 +223,7 @@ const Contact: React.FC = () => {
                       id="message"
                       name="message"
                       required
-                      rows={4}
+                      rows={3}
                       className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-neutral-900 placeholder-neutral-500 resize-vertical"
                     ></textarea>
                   </div>
@@ -236,7 +235,7 @@ const Contact: React.FC = () => {
                   <button
                     type="submit"
                     disabled={formStatus === 'loading'}
-                    className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
                   >
                     {formStatus === 'loading' ? (
                       <>

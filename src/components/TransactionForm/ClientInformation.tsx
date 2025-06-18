@@ -16,7 +16,7 @@ interface ClientInformationProps {
 }
 
 export const ClientInformation: React.FC<ClientInformationProps> = ({
-  clients,
+  clients = [],
   role,
   onClientChange,
   onAddClient,

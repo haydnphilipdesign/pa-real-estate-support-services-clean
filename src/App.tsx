@@ -12,6 +12,7 @@ import WorkWithMe from './pages/WorkWithMe';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Login from './pages/Login';
+import AgentPortal from './pages/AgentPortal';
 import { CleanPortalTransactionForm } from './components/TransactionForm/CleanPortalTransactionForm';
 
 const App: React.FC = () => {
@@ -28,7 +29,7 @@ const App: React.FC = () => {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/agent-portal" element={<Login />} />
+          <Route path="/agent-portal" element={<AgentPortal />} />
           <Route path="/agent-portal/transaction" element={<CleanPortalTransactionForm />} />
         </Routes>
       </main>

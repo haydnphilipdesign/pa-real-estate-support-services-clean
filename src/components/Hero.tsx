@@ -107,7 +107,7 @@ const HomeHeroContent: React.FC<{
             className="text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight"
           >
             Your Expert
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
               Transaction
             </span>
             <span className="block">Coordinator</span>
@@ -147,46 +147,20 @@ const HomeHeroContent: React.FC<{
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 mb-12"
+            className="mb-12"
           >
             <Link
               to="/work-with-me"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-red-600 to-red-700 rounded-xl overflow-hidden shadow-2xl hover:shadow-red-500/25 transition-all duration-300 transform hover:scale-105"
+              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl overflow-hidden shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative flex items-center gap-2">
                 Start Your First Transaction
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </Link>
-            
-            <a
-              href="tel:+5705884637"
-              className="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-xl hover:bg-white/20 hover:border-white/30 transition-all duration-300"
-            >
-              <Phone className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-              (570) 588-4637
-              <span className="ml-2 text-sm text-blue-200">Quick Response</span>
-            </a>
           </motion.div>
 
-          {/* Feature Pills */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap gap-3"
-          >
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10"
-              >
-                <feature.icon className={`w-4 h-4 ${feature.color}`} />
-                <span className="text-sm text-white/80">{feature.text}</span>
-              </div>
-            ))}
-          </motion.div>
         </div>
 
         {/* Right Side - Visual Impact */}
@@ -198,7 +172,7 @@ const HomeHeroContent: React.FC<{
         >
           {/* Main Stats Card */}
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-purple-600/20 rounded-3xl blur-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-3xl blur-2xl" />
             <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
               {/* Success Metrics */}
               <div className="grid grid-cols-2 gap-6 mb-8">
@@ -240,37 +214,6 @@ const HomeHeroContent: React.FC<{
               </div>
             </div>
             
-            {/* Floating Elements */}
-            <motion.div
-              animate={{ 
-                y: [-10, 10, -10],
-                rotate: [-5, 5, -5]
-              }}
-              transition={{ 
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="absolute -top-8 -right-8 bg-gradient-to-br from-yellow-400 to-orange-400 text-neutral-900 px-4 py-2 rounded-full text-sm font-bold shadow-xl"
-            >
-              30+ Years Experience
-            </motion.div>
-            
-            <motion.div
-              animate={{ 
-                x: [-10, 10, -10],
-                y: [5, -5, 5]
-              }}
-              transition={{ 
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="absolute -bottom-6 -left-6 bg-gradient-to-br from-blue-400 to-cyan-400 text-white px-4 py-2 rounded-full text-sm font-bold shadow-xl flex items-center gap-2"
-            >
-              <Clock className="w-4 h-4" />
-              Save 10+ Hours/Deal
-            </motion.div>
           </div>
         </motion.div>
       </div>

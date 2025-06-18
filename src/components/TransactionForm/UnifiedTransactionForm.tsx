@@ -282,6 +282,30 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
                         onChange={(field, value) => actions.updateField(`propertyData.${field}`, value)}
                         role={formData.agentData.role}
                       />
+                    ) : currentStepConfig.id === 3 ? (
+                      // ClientInformation step - pass specific props
+                      <ClientInformation
+                        clients={formData.clients}
+                        onChange={(clients) => actions.updateField('clients', clients)}
+                        onClientChange={actions.updateClient}
+                        onAddClient={actions.addClient}
+                        onRemoveClient={actions.removeClient}
+                        role={formData.agentData.role}
+                      />
+                    ) : currentStepConfig.id === 4 ? (
+                      // PropertyDetailsSection step - pass specific props
+                      <PropertyDetailsSection
+                        data={formData.propertyDetailsData}
+                        onChange={(field, value) => actions.updateField(`propertyDetailsData.${field}`, value)}
+                        role={formData.agentData.role}
+                      />
+                    ) : currentStepConfig.id === 5 ? (
+                      // CommissionSection step - pass specific props
+                      <CommissionSection
+                        data={formData.commissionData}
+                        onChange={(field, value) => actions.updateField(`commissionData.${field}`, value)}
+                        role={formData.agentData.role}
+                      />
                     ) : (
                       // Other steps - pass standard props
                       <CurrentStepComponent
