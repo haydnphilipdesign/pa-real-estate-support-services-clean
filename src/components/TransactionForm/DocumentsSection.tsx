@@ -371,8 +371,19 @@ export function DocumentsSection({
   // ⭐⭐⭐ MICHELIN STAR ROLE DETECTION
   // Flawless role handling with bulletproof type safety
   const getCurrentRoleDocuments = () => {
+    // DEBUG: Let's see what we're actually getting
+    console.log('DocumentsSection Debug:', {
+      role,
+      roleType: typeof role,
+      roleString: String(role),
+      availableRoles: Object.keys(DOCUMENT_LISTS)
+    });
+    
     // Handle all possible role formats and edge cases
     const normalizedRole = role?.toString().toUpperCase().trim() as keyof typeof DOCUMENT_LISTS;
+    
+    console.log('Normalized role:', normalizedRole);
+    console.log('Has role in list:', !!DOCUMENT_LISTS[normalizedRole]);
     
     if (!normalizedRole || !DOCUMENT_LISTS[normalizedRole]) {
       return {

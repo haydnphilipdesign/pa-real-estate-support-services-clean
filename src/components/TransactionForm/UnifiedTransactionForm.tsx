@@ -333,11 +333,18 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
                       />
                     ) : currentStepConfig.id === 6 ? (
                       // DocumentsSection step - simplified props
-                      <DocumentsSection
-                        data={formData.documentsData}
-                        onChange={(field, value) => actions.updateField(`documentsData.${field}`, value)}
-                        role={formData.agentData.role}
-                      />
+                      (() => {
+                        console.log('=== UnifiedTransactionForm Debug ===');
+                        console.log('Current formData.agentData:', formData.agentData);
+                        console.log('Role being passed to DocumentsSection:', formData.agentData.role);
+                        return (
+                          <DocumentsSection
+                            data={formData.documentsData}
+                            onChange={(field, value) => actions.updateField(`documentsData.${field}`, value)}
+                            role={formData.agentData.role}
+                          />
+                        );
+                      })()
                     ) : currentStepConfig.id === 7 ? (
                       // AdditionalInfoSection step - pass standard props
                       <AdditionalInfoSection
