@@ -5,12 +5,17 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange';
 
-// Pages (barrel imports via src/pages/index.tsx)
+// Pages (explicit .tsx import to avoid EISDIR on Vercel)
 import {
-  Home, AboutUs, Services,
-  WorkWithMe, Privacy, Terms,
-  Login, AgentPortal
-} from 'pages';
+  Home,
+  AboutUs,
+  Services,
+  WorkWithMe,
+  Privacy,
+  Terms,
+  Login,
+  AgentPortal
+} from './pages/index.tsx';
 
 import { CleanPortalTransactionForm } from './components/TransactionForm/CleanPortalTransactionForm';
 
