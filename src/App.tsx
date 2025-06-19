@@ -15,7 +15,7 @@ import {
   Terms, 
   Login, 
   AgentPortal 
-} from './pages';
+} from './pages/index';
 import { CleanPortalTransactionForm } from './components/TransactionForm/CleanPortalTransactionForm';
 
 const App: React.FC = () => {
