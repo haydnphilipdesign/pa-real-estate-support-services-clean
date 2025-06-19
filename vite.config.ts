@@ -22,6 +22,9 @@ export default defineConfig({
       filename: 'dist/stats.html',
     }),
   ],
+  define: {
+    global: 'globalThis',
+  },
   // Make sure Vite correctly handles assets
   publicDir: 'public',
   resolve: {

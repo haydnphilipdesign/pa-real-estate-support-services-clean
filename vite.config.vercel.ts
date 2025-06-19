@@ -11,12 +11,28 @@ export default defineConfig({
     react({ tsDecorators: true }),
     viteCompression({ algorithm: 'gzip', ext: '.gz' }),
   ],
+  define: {
+    global: 'globalThis',
+  },
+  optimizeDeps: {
+    include: ['stream-browserify', 'util', 'events', 'buffer', 'url', 'https-browserify', 'http-browserify', 'browserify-zlib', 'assert']
+  },
   publicDir: 'public',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
       // NEW — so you can do `import { Home… } from 'pages'`
       "pages": path.resolve(__dirname, "./src/pages"),
+      // Node.js polyfills for browser
+      "stream": "stream-browserify",
+      "util": "util",
+      "events": "events",
+      "buffer": "buffer",
+      "url": "url",
+      "https": "https-browserify",
+      "http": "http-browserify", 
+      "zlib": "browserify-zlib",
+      "assert": "assert",
     },
     // remove `extensions` — Vite handles .ts/.tsx by default
     preserveSymlinks: false,
