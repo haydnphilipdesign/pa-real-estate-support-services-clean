@@ -70,79 +70,108 @@ module.exports = async function handler(req, res) {
       apiKey: airtableApiKey
     }).base(airtableBaseId);
 
-    console.log('Processing Airtable submission with direct field mapping...');
+    console.log('Processing Airtable submission using old version field mapping...');
     
-    // Extract and map form data to Airtable fields
+    // Extract form data
     const { agentData, propertyData, clients, commissionData, propertyDetailsData, titleData } = formData;
     
+    // Helper function to format field values like the old version
+    function formatFieldValue(value, fieldType) {
+      switch (fieldType) {
+        case 'winterizedStatus':
+          if (typeof value === 'boolean') {
+            return value ? 'WINTERIZED' : 'NOT WINTERIZED';
+          } else if (value === 'YES') {
+            return 'WINTERIZED';
+          } else {
+            return 'NOT WINTERIZED';
+          }
+        case 'updateMls':
+        case 'builtBefore1978':
+          if (typeof value === 'boolean') {
+            return value ? 'YES' : 'NO';
+          }
+          return value || 'NO';
+        default:
+          return value;
+      }
+    }
+
+    // Step 1: Create client records first (following old version pattern)
+    const CLIENTS_TABLE_ID = 'tblvdy7T9Hv4SasdI';
+    const clientRecords = [];
+    
+    if (clients && clients.length > 0) {
+      console.log('Creating client records:', clients.length);
+      
+      for (const client of clients) {
+        const clientFields = {
+          'fldSqxNOZ9B5PgSab': client.name || '',           // name
+          'flddP6a8EG6qTJdIi': client.email || '',          // email  
+          'fldBnh8W6iGW014yY': client.phone || '',          // phone
+          'fldz1IpeR1256LhuC': client.address || '',        // clientAddress
+          'fldeK6mjSfxELU0MD': client.maritalStatus || 'SINGLE', // maritalStatus
+          'fldSY6vbE1zAhJZqd': client.type || 'BUYER'       // type
+        };
+        
+        try {
+          const clientRecord = await base(CLIENTS_TABLE_ID).create(clientFields);
+          clientRecords.push(clientRecord);
+          console.log('Created client record:', clientRecord.id);
+        } catch (clientError) {
+          console.error('Failed to create client record:', clientError);
+          // Continue with other clients
+        }
+      }
+    }
+
+    // Step 2: Create transaction record using exact field IDs from old version
     const airtableFields = {
-      'Agent Name': agentData?.name || '',
-      'Agent Email': agentData?.email || '',
-      'Agent Phone': agentData?.phone || '',
-      'Agent Role': agentData?.role || '',
-      'MLS Number': propertyData?.mlsNumber || '',
-      'Property Address': propertyData?.address || '',
-      'Sale Price': propertyData?.salePrice || '',
-      'Property Status': propertyData?.status || '',
-      'Property Type': propertyData?.propertyType || '',
-      'County': propertyData?.county || '',
-      'Closing Date': propertyData?.closingDate || '',
-      'Is Winterized': propertyData?.isWinterized || 'NO',
-      'Update MLS': propertyData?.updateMls || 'NO',
-      'Property Access Type': propertyData?.propertyAccessType || '',
-      'Lockbox Access Code': propertyData?.lockboxAccessCode || '',
-      'Is Built Before 1978': propertyData?.isBuiltBefore1978 || '',
-      'Total Commission Percentage': commissionData?.totalCommissionPercentage || '',
-      'Listing Agent Percentage': commissionData?.listingAgentPercentage || '',
-      'Buyers Agent Percentage': commissionData?.buyersAgentPercentage || '',
-      'Has Broker Fee': commissionData?.hasBrokerFee ? 'YES' : 'NO',
-      'Broker Fee Amount': commissionData?.brokerFeeAmount || '',
-      'Seller Paid Amount': commissionData?.sellerPaidAmount || '',
-      'Buyer Paid Amount': commissionData?.buyerPaidAmount || '',
-      'Has Sellers Assist': commissionData?.hasSellersAssist ? 'YES' : 'NO',
-      'Sellers Assist': commissionData?.sellersAssist || '',
-      'Is Referral': commissionData?.isReferral ? 'YES' : 'NO',
-      'Referral Party': commissionData?.referralParty || '',
-      'Broker EIN': commissionData?.brokerEin || '',
-      'Referral Fee': commissionData?.referralFee || '',
-      'Coordinator Fee Paid By': commissionData?.coordinatorFeePaidBy || 'client',
-      'Resale Cert Required': propertyDetailsData?.resaleCertRequired ? 'YES' : 'NO',
-      'HOA Name': propertyDetailsData?.hoaName || '',
-      'CO Required': propertyDetailsData?.coRequired ? 'YES' : 'NO',
-      'Municipality': propertyDetailsData?.municipality || '',
-      'First Right Of Refusal': propertyDetailsData?.firstRightOfRefusal ? 'YES' : 'NO',
-      'First Right Name': propertyDetailsData?.firstRightName || '',
-      'Attorney Representation': propertyDetailsData?.attorneyRepresentation ? 'YES' : 'NO',
-      'Attorney Name': propertyDetailsData?.attorneyName || '',
-      'Home Warranty': propertyDetailsData?.homeWarranty ? 'YES' : 'NO',
-      'Warranty Company': propertyDetailsData?.warrantyCompany || '',
-      'Warranty Cost': propertyDetailsData?.warrantyCost || '',
-      'Warranty Paid By': propertyDetailsData?.warrantyPaidBy || 'SELLER',
-      'Title Company': titleData?.titleCompany || '',
-      'Title Contact Name': titleData?.contactName || '',
-      'Title Contact Phone': titleData?.contactPhone || '',
-      'Title Contact Email': titleData?.contactEmail || '',
-      'Client Names': clients?.map(c => c.name).join(', ') || '',
-      'Client Emails': clients?.map(c => c.email).join(', ') || '',
-      'Client Phones': clients?.map(c => c.phone).join(', ') || '',
-      'Client Types': clients?.map(c => c.type).join(', ') || '',
-      'Submission Date': new Date().toISOString().split('T')[0]
+      // Agent information (using exact field IDs from old version)
+      'fldOVyoxz38rWwAFy': agentData?.role || '',                    // agentRole
+      'fldFD4xHD0vxnSOHJ': agentData?.name || '',                    // agentName
+      
+      // Property data
+      'fld6O2FgIXQU5G27o': propertyData?.mlsNumber || '',           // mlsNumber
+      'fldypnfnHhplWYcCW': propertyData?.address || '',             // propertyAddress
+      'fldhHjBZJISmnP8SK': propertyData?.salePrice || '',           // salePrice
+      'fldV2eLxz6w0TpLFU': propertyData?.status || '',              // propertyStatus
+      'fldExdgBDgdB1i9jy': formatFieldValue(propertyData?.isWinterized, 'winterizedStatus'), // winterizedStatus
+      'fldw3GlfvKtyNfIAW': formatFieldValue(propertyData?.updateMls, 'updateMls'), // updateMls
+      'fld7TTQpaC83ehY7H': propertyData?.propertyAccessType || '',  // propertyAccessType
+      'fldrh8eB5V8TjSZlR': propertyData?.lockboxAccessCode || '',   // lockboxAccessCode
+      'fldzM4oyw2PyKt887': propertyData?.propertyType || '',        // propertyType
+      'fldZmPfpsSJLOtcYr': formatFieldValue(propertyData?.isBuiltBefore1978, 'builtBefore1978'), // builtBefore1978
+      'fldacjkqtnbdTUUTx': propertyData?.closingDate || '',         // closingDate
+
+      // Commission data
+      'fldE8INzEorBtx2uN': commissionData?.totalCommissionPercentage || '', // totalCommissionPercentage
+      'flduuQQT7o6XAGlRe': commissionData?.listingAgentPercentage || '',    // listingAgentPercentage
+      'fld5KRrToAAt5kOLd': commissionData?.buyersAgentPercentage || '',     // buyersAgentPercentage
+      'flddRltdGj05Clzpa': commissionData?.sellerPaidAmount || '',          // sellerPaid
+      'fldO6MAwuLTvuFjui': commissionData?.buyerPaidAmount || '',           // buyerPaid
+      'fldTvXx96Na0zRh6W': commissionData?.sellersAssist || '',             // sellersAssist
+      'fldzVtmn8uylVxuTF': commissionData?.referralParty || '',             // referralParty
+      'fldewmjoaJVwiMF46': commissionData?.referralFee || '',               // referralFee
+      'fld20VbKbWzdR4Sp7': commissionData?.brokerEin || '',                 // brokerEin
+      'fldrplBqdhDcoy04S': commissionData?.coordinatorFeePaidBy || 'client', // coordinatorFeePaidBy
+      
+      // Client links (single field as in old version)
+      'fldmPyBwuOO1dgj1g': clientRecords.map(r => r.id)            // clients
     };
 
-    console.log('Mapped Airtable fields:', Object.keys(airtableFields).length, 'fields');
+    console.log('Mapped transaction fields using old version field IDs:', Object.keys(airtableFields).length, 'fields');
+    console.log('Client records linked:', clientRecords.length);
     
     try {
-      console.log('Submitting to Airtable with tableId:', tableId);
-      console.log('Sample of fields to submit:', Object.keys(airtableFields).slice(0, 5));
+      console.log('Submitting transaction to Airtable...');
       
-      const airtableResult = await base(tableId).create([{
-        fields: airtableFields
-      }]);
+      const airtableResult = await base(tableId).create(airtableFields);
       
       console.log('Airtable submission successful:', airtableResult);
       
-      const recordId = airtableResult[0].id;
-      console.log('Airtable record created successfully:', recordId);
+      const recordId = airtableResult.id;
+      console.log('Transaction record created successfully:', recordId);
 
     // Step 2: Generate PDF and process complete workflow
     console.log('Initiating PDF generation and processing workflow...');
