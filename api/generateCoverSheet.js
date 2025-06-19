@@ -59,10 +59,14 @@ async function fetchAirtableData(tableId, recordId) {
  * Generate PDF using pdf-lib
  */
 async function generatePdfDocument(data, agentRole) {
-    const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([612, 792]); // Standard letter size
-    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-    const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    try {
+        console.log('🔄 Creating PDF document...');
+        const pdfDoc = await PDFDocument.create();
+        const page = pdfDoc.addPage([612, 792]); // Standard letter size
+        
+        console.log('🔄 Embedding fonts...');
+        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
     const { width, height } = page.getSize();
     
@@ -231,7 +235,12 @@ async function generatePdfDocument(data, agentRole) {
         color: rgb(0.5, 0.5, 0.5),
     });
 
-    return await pdfDoc.save();
+        console.log('✅ PDF document creation completed');
+        return await pdfDoc.save();
+    } catch (error) {
+        console.error('❌ Error in generatePdfDocument:', error);
+        throw error;
+    }
 }
 
 /**
@@ -287,7 +296,16 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const { tableId, recordId, agentRole, sendEmail = false, data: fallbackData } = req.body;
+        const { tableId, recordId, agentRole, sendEmail = false, returnBase64 = false, data: fallbackData } = req.body;
+        
+        console.log('📄 generateCoverSheet called with:', {
+            tableId,
+            recordId, 
+            agentRole,
+            sendEmail,
+            hasData: !!fallbackData,
+            hasAirtableKeys: !!(AIRTABLE_API_KEY && AIRTABLE_BASE_ID)
+        });
 
         if (!agentRole) {
             return res.status(400).json({ error: 'Agent role is required' });
@@ -297,41 +315,61 @@ module.exports = async (req, res) => {
         let data = fallbackData;
         if (tableId && recordId && AIRTABLE_API_KEY) {
             try {
+                console.log('🔄 Attempting to fetch from Airtable...');
                 const airtableData = await fetchAirtableData(tableId, recordId);
-                console.log('Using Airtable data');
+                console.log('✅ Using Airtable data');
                 data = airtableData;
             } catch (error) {
-                console.warn('Failed to fetch from Airtable, using fallback data:', error.message);
+                console.warn('⚠️ Failed to fetch from Airtable, using fallback data:', error.message);
             }
+        } else {
+            console.log('⚠️ Missing Airtable credentials or IDs, using fallback data');
         }
 
         if (!data) {
+            console.error('❌ No data available for PDF generation');
             return res.status(400).json({ error: 'No data provided for PDF generation' });
         }
 
+        console.log('🔄 Starting PDF generation...');
+        
         // Generate PDF
         const pdfBuffer = await generatePdfDocument(data, agentRole);
         const filename = `${agentRole.replace(/\s+/g, '_')}_Transaction_${new Date().toISOString().replace(/[:.]/g, '-')}.pdf`;
+        
+        console.log('✅ PDF generated successfully');
 
         let emailResult = { success: false };
         
         // Send email if requested
         if (sendEmail) {
+            console.log('📧 Attempting to send email...');
             emailResult = await sendEmailWithPdf(pdfBuffer, data, agentRole);
+            console.log('📧 Email result:', emailResult);
         }
 
-        res.status(200).json({
+        // Return response with optional base64 data
+        const response = {
             success: true,
             filename,
             emailSent: emailResult.success,
             message: 'PDF generated successfully'
-        });
+        };
+
+        // Include base64 data if requested
+        if (returnBase64) {
+            response.base64Data = pdfBuffer.toString('base64');
+        }
+
+        res.status(200).json(response);
 
     } catch (error) {
-        console.error('PDF generation error:', error);
+        console.error('❌ PDF generation error:', error);
+        console.error('Error stack:', error.stack);
         res.status(500).json({
             error: 'PDF generation failed',
-            message: error.message
+            message: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
 };

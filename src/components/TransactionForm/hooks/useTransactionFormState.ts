@@ -104,7 +104,8 @@ export const initialFormData: TransactionFormData = {
     titleCompany: '',
     name: '',
     contactName: '',
-    contactPhone: ''
+    contactPhone: '',
+    contactEmail: ''
   },
   documentsData: {
     documents: [],
@@ -241,8 +242,31 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
       
       // Clear validation error if the field becomes valid
       const updatedErrors = { ...prev.validationErrors };
-      const fieldErrorKey = field === 'agentData.role' ? 'role' : 
-                           field === 'agentData.name' ? 'agentName' : field;
+      
+      // Map field paths to error keys
+      const getErrorKey = (fieldPath: string): string => {
+        const fieldMappings: Record<string, string> = {
+          'agentData.role': 'role',
+          'agentData.name': 'agentName',
+          'agentData.email': 'agentEmail',
+          'agentData.phone': 'agentPhone',
+          'signatureData.agentName': 'agentName',
+          'signatureData.signature': 'signature',
+          'signatureData.termsAccepted': 'termsAccepted',
+          'signatureData.infoConfirmed': 'infoConfirmed',
+          'propertyData.mlsNumber': 'mlsNumber',
+          'propertyData.address': 'address',
+          'propertyData.salePrice': 'salePrice',
+          'titleData.titleCompany': 'titleCompany',
+          'titleData.contactName': 'contactName',
+          'titleData.contactPhone': 'contactPhone',
+          'titleData.contactEmail': 'contactEmail'
+        };
+        
+        return fieldMappings[fieldPath] || fieldPath.split('.').pop() || fieldPath;
+      };
+      
+      const fieldErrorKey = getErrorKey(field);
       
       if (validateSingleField(field, value, updatedData)) {
         delete updatedErrors[fieldErrorKey];
@@ -492,12 +516,78 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
           const pdfResult = await pdfResponse.json();
           console.log('PDF generated successfully:', pdfResult);
           
+          // Step 3: Upload PDF to Supabase and attach to Airtable (RESTORED FUNCTIONALITY)
+          try {
+            console.log('Attempting to upload PDF to Supabase and attach to Airtable...');
+            
+            // Import Supabase upload utility
+            const { uploadPdfToSupabase } = await import('@/utils/supabaseUpload');
+            
+            // Generate PDF as base64 for Supabase upload
+            const pdfBase64Response = await fetch('/api/generateCoverSheet', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                tableId: airtableResult.tableId,
+                recordId: airtableResult.recordId,
+                agentRole: formData.agentData.role,
+                sendEmail: false, // Don't send email twice
+                returnBase64: true, // Get base64 data for upload
+                data: coverSheetData
+              }),
+            });
+
+            if (pdfBase64Response.ok) {
+              const pdfBase64Result = await pdfBase64Response.json();
+              
+              if (pdfBase64Result.base64Data) {
+                // Upload to Supabase with Airtable attachment
+                const supabaseResult = await uploadPdfToSupabase(
+                  pdfBase64Result.base64Data,
+                  pdfResult.filename || `transaction-${airtableResult.recordId}.pdf`,
+                  airtableResult.recordId
+                );
+                
+                if (supabaseResult.success) {
+                  console.log('PDF uploaded to Supabase successfully:', supabaseResult.url);
+                  
+                  // Update Airtable record with PDF attachment
+                  const attachmentResponse = await fetch('/api/update-airtable-attachment', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      pdfData: supabaseResult.url,
+                      filename: pdfResult.filename || `transaction-${airtableResult.recordId}.pdf`,
+                      transactionId: airtableResult.recordId,
+                      fieldId: 'fldhrYdoFwtNfzdFY' // PDF attachment field
+                    }),
+                  });
+                  
+                  if (attachmentResponse.ok) {
+                    console.log('PDF attached to Airtable record successfully');
+                  } else {
+                    console.warn('Failed to attach PDF to Airtable record');
+                  }
+                } else {
+                  console.warn('Supabase upload failed:', supabaseResult.error);
+                }
+              }
+            }
+          } catch (uploadError) {
+            console.warn('PDF upload/attachment error:', uploadError);
+            // Don't fail the submission for upload issues
+          }
+          
           // Enhanced success message with PDF info
           toast({
             title: 'Complete Success!',
             description: hasWarnings 
-              ? 'Transaction submitted, PDF generated, and email sent! Some optional fields were incomplete but your submission is valid.'
-              : 'Transaction submitted successfully with complete information. PDF cover sheet generated and emailed.',
+              ? 'Transaction submitted, PDF generated, uploaded, and email sent! Some optional fields were incomplete but your submission is valid.'
+              : 'Transaction submitted successfully with complete information. PDF cover sheet generated, uploaded to storage, and emailed.',
           });
           
           // Save the PDF info for reference

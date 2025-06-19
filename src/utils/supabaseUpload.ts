@@ -69,7 +69,7 @@ export const uploadPdfToSupabase = async (
     console.error('Error in uploadPdfToSupabase:', error);
     return {
       success: false,
-      error: error.message || 'An unexpected error occurred during upload'
+      error: error instanceof Error ? error.message : 'An unexpected error occurred during upload'
     };
   }
 };
