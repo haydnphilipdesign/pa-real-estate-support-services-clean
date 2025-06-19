@@ -20,10 +20,26 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
   onFieldTouch
 }: SignatureSectionProps) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
+  
+  // Combine global validation errors with local errors
+  const getAllErrors = (field: string) => {
+    const globalError = validationErrors?.[field] || validationErrors?.[`signatureData.${field}`];
+    const localError = errors[field];
+    return globalError || localError || '';
+  };
 
   const handleFieldChange = (field: keyof SignatureData, value: any) => {
     onChange(`signatureData.${field}`, value);
     onFieldTouch?.(`signatureData.${field}`);
+    
+    // Clear local error for this field when user provides input
+    if (value && value !== '') {
+      setErrors(prev => {
+        const updated = { ...prev };
+        delete updated[field];
+        return updated;
+      });
+    }
   };
 
   // Set the date when the component loads
@@ -84,9 +100,18 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
                 handleFieldChange("agentName", value);
               }}
               placeholder="Type your full legal name here"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg font-medium"
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 text-lg font-medium ${
+                getAllErrors('signature') 
+                  ? 'border-red-300 focus:ring-red-500 focus:border-red-500' 
+                  : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+              }`}
               required
             />
+            {getAllErrors('signature') && (
+              <p className="mt-1 text-sm text-red-600">
+                {getAllErrors('signature')}
+              </p>
+            )}
             <p className="mt-2 text-sm text-gray-600">
               By typing your name above, you are providing a legal electronic signature for this transaction.
             </p>
@@ -117,7 +142,9 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
 
         <div className="space-y-6">
           {/* Terms Acceptance */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+          <div className={`bg-white/10 backdrop-blur-sm rounded-xl p-6 border ${
+            getAllErrors('termsAccepted') ? 'border-red-300' : 'border-white/20'
+          }`}>
             <div className="flex items-start space-x-4">
               <div className="relative mt-1">
                 <input
@@ -125,13 +152,20 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({
                   id="termsAccepted"
                   checked={formData.signatureData.termsAccepted || false}
                   onChange={(e) => handleFieldChange("termsAccepted", e.target.checked)}
-                  className="h-5 w-5 rounded border-2 border-emerald-300 bg-emerald-800/50 focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-emerald-800 checked:bg-emerald-500 checked:border-emerald-500"
+                  className={`h-5 w-5 rounded border-2 bg-emerald-800/50 focus:ring-2 focus:ring-offset-2 focus:ring-offset-emerald-800 checked:bg-emerald-500 checked:border-emerald-500 ${
+                    getAllErrors('termsAccepted') 
+                      ? 'border-red-300 focus:ring-red-300' 
+                      : 'border-emerald-300 focus:ring-emerald-300'
+                  }`}
                 />
               </div>
               <div className="flex-1">
                 <label htmlFor="termsAccepted" className="text-lg font-semibold text-white cursor-pointer block">
-                  Terms and Conditions Agreement
+                  Terms and Conditions Agreement {getAllErrors('termsAccepted') && <span className="text-red-300">*</span>}
                 </label>
+                {getAllErrors('termsAccepted') && (
+                  <p className="text-red-300 text-sm mt-1">{getAllErrors('termsAccepted')}</p>
+                )}
                 <p className="text-emerald-100 mt-2 leading-relaxed">
                   I accept the terms and conditions and understand my legal obligations related to this real estate transaction. 
                   I acknowledge that this electronic signature has the same legal effect as a handwritten signature.

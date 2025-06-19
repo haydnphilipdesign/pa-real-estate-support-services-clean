@@ -45,6 +45,7 @@ import { SignatureSection } from './SignatureSection';
 import { ReviewSection } from './ReviewSection';
 import { FormStep } from './components/FormStep';
 import { Button } from '@/components/ui';
+import { TestingPanel } from '../TestingPanel';
 
 // Import hooks and utils
 import { useTransactionFormState } from './hooks/useTransactionFormState';
@@ -155,6 +156,7 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
 }) => {
   const { formData, actions, stepConfig } = useTransactionFormState();
   const formContainerRef = useRef<HTMLDivElement>(null);
+  const [showTestingPanel, setShowTestingPanel] = React.useState(false);
 
   // Auto-save draft periodically
   useEffect(() => {
@@ -360,9 +362,11 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
                     ) : currentStepConfig.id === 8 ? (
                       // SignatureSection step - pass specific props
                       <SignatureSection
-                        data={formData.signatureData}
-                        onChange={(field, value) => actions.updateField(`signatureData.${field}`, value)}
-                        role={formData.agentData.role}
+                        formData={formData}
+                        onChange={actions.updateField}
+                        validationErrors={formData.validationErrors}
+                        touchedFields={formData.touchedFields}
+                        onFieldTouch={actions.setFieldTouched}
                       />
                     ) : (
                       // Other steps - pass standard props
@@ -484,6 +488,17 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
         </div>
       
         <Toaster />
+        
+        {/* Testing Panel - Show in development or with ?test=true */}
+        {(process.env.NODE_ENV === 'development' || 
+          typeof window !== 'undefined' && window.location.search.includes('test=true')) && (
+          <TestingPanel
+            formActions={actions}
+            formData={formData}
+            isVisible={showTestingPanel}
+            onToggle={() => setShowTestingPanel(!showTestingPanel)}
+          />
+        )}
       </>
     </TooltipProvider>
   );

@@ -155,7 +155,10 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
       {
         title: 'TITLE COMPANY',
         data: [
-          { label: 'Title Company', value: getValue(data.titleData?.titleCompany) }
+          { label: 'Title Company', value: getValue(data.titleData?.titleCompany) },
+          { label: 'Contact Name', value: getValue(data.titleData?.contactName) },
+          { label: 'Contact Phone', value: getValue(data.titleData?.contactPhone) },
+          { label: 'Contact Email', value: getValue(data.titleData?.contactEmail) }
         ]
       },
       {

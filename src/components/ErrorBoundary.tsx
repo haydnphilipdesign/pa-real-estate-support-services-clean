@@ -298,13 +298,17 @@ export const ErrorPage: React.FC<{
   code?: '404' | '500' | string;
   title?: string;
   message?: string;
-  actions?: {
+  actions?: Array<{
     label: string;
     icon?: React.ReactNode;
-    onClick?: () => void;
-    href?: string;
     primary?: boolean;
-  }[];
+  } & ({
+    onClick: () => void;
+    href?: never;
+  } | {
+    href: string;
+    onClick?: never;
+  })>;
 }> = ({
   code = '404',
   title = "Page not found",

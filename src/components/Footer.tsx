@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, ArrowRight, Clock } from 'lucide-react';
-import Logo from '/logo-flat.png';
 import { useNavigation } from '../providers/SmoothNavigationProvider';
 
 const Footer: React.FC<{ className?: string }> = ({ className }) => {
@@ -16,7 +15,9 @@ const Footer: React.FC<{ className?: string }> = ({ className }) => {
         <div className="flex flex-col md:flex-row justify-between items-start mb-12 border-b border-gray-800 pb-12">
           <div className="mb-8 md:mb-0 md:max-w-sm">
             <Link to="/" className="inline-block mb-6">
-              <img src={Logo} alt="PA Real Estate Support Services" className="h-14 w-auto" />
+              <div className="h-14 flex items-center">
+                <h2 className="text-2xl font-bold text-white">PA Real Estate Support Services</h2>
+              </div>
             </Link>
             <p className="text-gray-300 mb-6">
               Your trusted partner in reliable transaction management, serving the Pocono Mountains and beyond.

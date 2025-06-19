@@ -5,12 +5,8 @@ import {
   Mail, 
   MapPin, 
   ArrowRight, 
-  CheckCircle2, 
-  Clock, 
   Shield,
   Star,
-  Users,
-  Calendar,
   FileText
 } from 'lucide-react';
 import { useNavigation } from '../providers/SmoothNavigationProvider';
@@ -19,31 +15,6 @@ import PreloadedAnimationWrapper from './PreloadedAnimationWrapper';
 const ContactSection: React.FC = () => {
   const { Link } = useNavigation();
 
-  const contactInfo = [
-    {
-      icon: Phone,
-      title: "Direct Line",
-      content: "(570) 588-4637",
-      link: "tel:+5705884637",
-      subtext: ["Monday-Friday", "9:00 AM - 5:00 PM"],
-      urgent: true
-    },
-    {
-      icon: Mail,
-      title: "Email Support",
-      content: "debbie@parealestatesupport.com",
-      link: "mailto:debbie@parealestatesupport.com",
-      subtext: [],
-      urgent: false
-    },
-    {
-      icon: MapPin,
-      title: "Service Area",
-      content: "Serving Realtors in the Pocono Mountains",
-      subtext: [],
-      urgent: false
-    }
-  ];
 
   return (
     <section className="section hero-section">

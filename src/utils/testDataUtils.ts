@@ -5,27 +5,20 @@ import {
   Client,
   CommissionData,
   PropertyDetailsData,
-  WarrantyData,
   TitleCompanyData,
-  AdditionalInfoData,
   SignatureData
 } from '../types/transaction';
 
-const testSignatureData = {
-  date: new Date().toISOString().split('T')[0],
+const testSignatureData: SignatureData = {
   agentName: "Jane Agent",
-  agentSignature: "",
-  listingAgent: "Jane Agent",
-  listingLicense: "RS123456",
-  listingBroker: "KW Brokerage",
-  listingCoAgent: "Co-listing Agent",
-  listingCoLicense: "RS789012",
-  buyersAgent: "John Agent",
-  buyersLicense: "RS345678",
-  buyersBroker: "KW Brokerage",
-  buyersCoAgent: "Co-buyers Agent",
-  buyersCoLicense: "RS901234",
-} satisfies SignatureData;
+  signature: "Test Signature",
+  dateSubmitted: new Date().toISOString().split('T')[0],
+  signatures: {
+    agent: "Jane Agent"
+  },
+  termsAccepted: true,
+  infoConfirmed: true,
+};
 
 const counties = ["Chester", "Montgomery", "Bucks", "Delaware", "Philadelphia"];
 const streets = ["Main St", "Oak Ave", "Maple Dr", "Cedar Ln", "Elm St", "Pine Rd"];
@@ -50,7 +43,7 @@ const generateAddress = () => {
 const generateClients = (role: AgentRole): Client[] => {
   const clients: Client[] = [];
   
-  if (role === "listingAgent" || role === "dualAgent") {
+  if (role === "LISTING AGENT" || role === "DUAL AGENT") {
     const sellerCount = randomInt(1, 2);
     for (let i = 0; i < sellerCount; i++) {
       clients.push({
@@ -59,13 +52,13 @@ const generateClients = (role: AgentRole): Client[] => {
         email: `seller${i + 1}${randomInt(1, 999)}@example.com`,
         phone: randomPhone(),
         address: generateAddress(),
-        maritalStatus: randomElement(["single", "married", "divorced", "widowed"]),
-        type: "seller",
+        maritalStatus: randomElement(["SINGLE", "MARRIED", "DIVORCED", "WIDOWED"]),
+        type: "SELLER",
       });
     }
   }
   
-  if (role === "buyersAgent" || role === "dualAgent") {
+  if (role === "BUYERS AGENT" || role === "DUAL AGENT") {
     const buyerCount = randomInt(1, 2);
     for (let i = 0; i < buyerCount; i++) {
       clients.push({
@@ -74,8 +67,8 @@ const generateClients = (role: AgentRole): Client[] => {
         email: `buyer${i + 1}${randomInt(1, 999)}@example.com`,
         phone: randomPhone(),
         address: generateAddress(),
-        maritalStatus: randomElement(["single", "married", "divorced", "widowed"]),
-        type: "buyer",
+        maritalStatus: randomElement(["SINGLE", "MARRIED", "DIVORCED", "WIDOWED"]),
+        type: "BUYER",
       });
     }
   }
@@ -90,13 +83,14 @@ export const generateTestData = (role: AgentRole) => {
     mlsNumber: randomMls(),
     address: generateAddress(),
     salePrice: randomPrice(),
-    status: randomBoolean() ? "Vacant" : "Occupied",
-    isWinterized: randomBoolean(),
-    updateMls: randomBoolean(),
+    status: randomBoolean() ? "VACANT" : "OCCUPIED",
+    isWinterized: randomBoolean() ? "YES" : "NO",
+    updateMls: randomBoolean() ? "YES" : "NO",
+    propertyAccessType: randomElement(['ELECTRONIC LOCKBOX', 'COMBO LOCKBOX', 'KEYPAD', 'APPOINTMENT ONLY']),
+    lockboxAccessCode: randomInt(1000, 9999).toString(),
     county: randomElement(counties),
-    isBuiltBefore1978: randomBoolean(),
-    propertyType: randomElement(["residential", "commercial", "land"]),
-    price: '',
+    isBuiltBefore1978: randomBoolean() ? "YES" : "NO",
+    propertyType: randomElement(["RESIDENTIAL", "COMMERCIAL", "LAND"]),
     closingDate: ''
   };
 
@@ -108,30 +102,33 @@ export const generateTestData = (role: AgentRole) => {
     firstRightOfRefusal: randomBoolean(),
     firstRightName: randomBoolean() ? "Previous Owner" : "",
     attorneyRepresentation: randomBoolean(),
-    attorneyName: randomBoolean() ? randomElement(attorneyNames) : ""
-  };
-
-  const testWarrantyData: WarrantyData = {
+    attorneyName: randomBoolean() ? randomElement(attorneyNames) : "",
     homeWarranty: randomBoolean(),
-    warrantyCompany: randomBoolean() ? randomElement(warrantyCompanies) : "",
-    warrantyCost: randomBoolean() ? `${randomInt(400, 800)}` : ""
+    warrantyCompany: randomBoolean() ? "American Home Shield" : "",
+    warrantyCost: randomBoolean() ? "450" : "",
+    warrantyPaidBy: randomElement(['SELLER', 'BUYER', 'AGENT', 'SPLIT'] as const)
   };
 
   const testTitleData: TitleCompanyData = {
-    titleCompanyName: randomElement(titleCompanies),
-    titleCompanyContact: `${randomElement(["John", "Jane", "Robert", "Mary"])} ${randomElement(["Smith", "Jones", "Davis", "Wilson"])}`,
-    titleCompanyPhone: randomPhone(),
-    titleCompanyEmail: `title${randomInt(1, 999)}@example.com`
+    titleCompany: randomElement(titleCompanies),
+    name: randomElement(titleCompanies),
+    contactName: `${randomElement(["John", "Jane", "Robert", "Mary"])} ${randomElement(["Smith", "Jones", "Davis", "Wilson"])}`,
+    contactPhone: randomPhone(),
+    contactEmail: `title${randomInt(1, 999)}@example.com`
   };
 
   const testCommissionData: CommissionData = {
-    totalCommission: randomPercentage(),
-    listingAgentCommission: randomPercentage(),
-    buyersAgentCommission: randomPercentage(),
-    brokerFee: randomBoolean() ? randomPercentage() : "0",
+    totalCommissionPercentage: randomPercentage(),
+    listingAgentPercentage: randomPercentage(),
+    buyersAgentPercentage: randomPercentage(),
+    hasBrokerFee: randomBoolean(),
+    brokerFeeAmount: randomBoolean() ? randomPercentage() : "0",
+    sellerPaidAmount: randomBoolean() ? `${randomInt(1, 6)}000` : "0",
+    buyerPaidAmount: randomBoolean() ? `${randomInt(1, 6)}000` : "0",
+    hasSellersAssist: randomBoolean(),
     sellersAssist: randomBoolean() ? `${randomInt(1, 6)}000` : "0",
     isReferral: randomBoolean(),
-    referralParty: randomBoolean() ? "External Agent" : "",
+    referralParty: randomBoolean() ? `${randomElement(["Smith", "Jones", "Wilson"])} Realty` : "",
     brokerEin: randomBoolean() ? `${randomInt(10, 99)}-${randomInt(1000000, 9999999)}` : "",
     referralFee: randomBoolean() ? randomPercentage() : "",
     coordinatorFeePaidBy: randomElement(["client", "agent"])
@@ -150,19 +147,15 @@ export const generateTestData = (role: AgentRole) => {
       ...testCommissionData,
     },
     propertyDetails: testPropertyDetails,
-    warrantyData: testWarrantyData,
+    warrantyData: testPropertyDetails,
     titleData: testTitleData,
     additionalInfo: {
-      specialConditions: testPropertyDetails.attorneyRepresentation ? "Handle with care" : "",
       specialInstructions: testPropertyDetails.attorneyRepresentation ? "Handle with care" : "",
       urgentIssues: testPropertyDetails.attorneyRepresentation ? "Need to close before end of month" : "",
       notes: testPropertyDetails.attorneyRepresentation ? "Seller is relocating for work" : "",
-      requiresFollowUp: testPropertyDetails.attorneyRepresentation,
-      additionalNotes: testPropertyDetails.attorneyRepresentation ? "Transaction is part of a relocation package." : "",
     },
     signatureData: {
       ...testSignatureData,
-      agentName: testSignatureData.listingAgent || testSignatureData.buyersAgent,
       agentSignature: "",
     },
     documents
@@ -182,7 +175,7 @@ const generateDocs = (role: AgentRole, propertyData: PropertyData, propertyDetai
   );
   
   // Listing Agent Documents
-  if (role === "listingAgent" || role === "dualAgent") {
+  if (role === "LISTING AGENT" || role === "DUAL AGENT") {
     documents.push(
       { id: uuidv4(), name: "Agreement of Sale and Addenda", status: "pending", required: true },
       { id: uuidv4(), name: "Seller's Property Disclosure", status: "pending", required: true },
@@ -199,7 +192,7 @@ const generateDocs = (role: AgentRole, propertyData: PropertyData, propertyDetai
   }
   
   // Buyer's Agent Documents
-  if (role === "buyersAgent" || role === "dualAgent") {
+  if (role === "BUYERS AGENT" || role === "DUAL AGENT") {
     documents.push(
       { id: uuidv4(), name: "Buyer Agency Contract", status: "pending", required: true },
       { id: uuidv4(), name: "Agreement of Sale & Addenda", status: "pending", required: true },
@@ -209,7 +202,7 @@ const generateDocs = (role: AgentRole, propertyData: PropertyData, propertyDetai
       { id: uuidv4(), name: "Cooperating Broker's Compensation", status: "pending", required: true }
     );
     
-    if (propertyData.propertyType === "residential") {
+    if (propertyData.propertyType === "RESIDENTIAL") {
       documents.push(
         { id: uuidv4(), name: "For Your Protection Notice", status: "pending", required: true }
       );
@@ -229,7 +222,7 @@ const generateDocs = (role: AgentRole, propertyData: PropertyData, propertyDetai
   }
   
   // Dual Agent specific documents
-  if (role === "dualAgent") {
+  if (role === "DUAL AGENT") {
     documents.push(
       { id: uuidv4(), name: "Dual Agency Disclosure", status: "pending", required: true }
     );

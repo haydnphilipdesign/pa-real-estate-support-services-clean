@@ -32,7 +32,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   bg = 'bg-white'
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [inView] = useInView({
+  const { ref: inViewRef, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
     rootMargin: '50px 0px'
@@ -90,10 +90,11 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
 
   return (
     <motion.div
+      ref={inViewRef}
       className={`${className} ${bg} relative z-10 overflow-hidden`}
       style={{ y: parallax ? y : 0 }}
       initial="hidden"
-      animate={inView && isLoaded ? "visible" : "hidden"}
+      animate={inView ? "visible" : "hidden"}
       variants={variants}
       transition={{...getTransitionConfig('tween'), delay} as any}
     >

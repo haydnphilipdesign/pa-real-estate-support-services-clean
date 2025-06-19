@@ -1,0 +1,90 @@
+# Build outputs
+dist
+build
+.next
+
+# Dependencies  
+node_modules
+
+# Development files
+*.log
+*.tsbuildinfo
+.env.local
+.env.development
+.env.test
+
+# Test files
+test-output/
+__tests__/
+tests/
+*.test.*
+*.spec.*
+
+# Screenshots and images
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# Large assets
+public/slideshow/
+public/optimized/
+public/generated-pdfs/
+*.pdf
+
+# Documentation
+*.md
+!README.md
+
+# Git
+.git/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Other
+temp/
+debug/
+server/
+api-disabled/
+scripts/
+utils/
+pages/
+*.html
+!index.html
+!templates/*.html
+
+# Build tools
+webpack.config.js
+vite.config.ts.timestamp*
+tsconfig.tsbuildinfo
+
+# Fonts
+*.ttf
+*.woff
+*.woff2
+
+# CSV files
+*.csv
+
+# Misc
+business_card.html
+outlook_signature*.html
+Untitled*
+*.lua
+*.vb
+force-deploy.sh
+redeploy.sh
+manual-deploy.js
+generate-utility-pdf.js
+build-server.js
+check-*.js
+package.json.new
+web.config

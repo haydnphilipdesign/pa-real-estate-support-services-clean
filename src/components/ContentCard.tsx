@@ -40,10 +40,6 @@ const ContentCard: React.FC<ContentCardProps> = ({
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1],
-      },
     },
   };
 
@@ -143,6 +139,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
           whileInView: 'visible',
           viewport: { once: true, margin: '-50px' },
           variants: cardVariants,
+          transition: { duration: 0.5, ease: "easeOut" },
         })}
         {...(withAnimation && hoverEffect !== 'none' && {
           whileHover: getHoverAnimation()

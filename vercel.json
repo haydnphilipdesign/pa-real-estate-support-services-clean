@@ -1,16 +1,15 @@
 {
     "version": 2,
-    "buildCommand": "npm run build:vercel",
     "functions": {
         "api/generateCoverSheet.js": {
             "memory": 1024,
             "maxDuration": 60
         },
-        "pages/api/update-airtable-attachment.js": {
+        "api/update-airtable-attachment.js": {
             "memory": 1024,
             "maxDuration": 60
         },
-        "pages/api/supabase-pdf-upload.js": {
+        "api/supabase-pdf-upload.js": {
             "memory": 1024,
             "maxDuration": 60
         }

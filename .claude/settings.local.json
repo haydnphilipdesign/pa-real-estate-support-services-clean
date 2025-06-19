@@ -23,7 +23,17 @@
       "Bash(curl:*)",
       "Bash(npm install:*)",
       "Bash(timeout 10 npm run dev:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(vercel:*)",
+      "Bash(npx vercel:*)",
+      "Bash(ls:*)",
+      "Bash(node:*)",
+      "Bash(npm run lint:*)",
+      "Bash(NODE_ENV=production npm run type-check)",
+      "Bash(npm --version)",
+      "Bash(npm ls:*)",
+      "Bash(npx vite build:*)",
+      "Bash(timeout 10s npm run dev:*)"
     ],
     "deny": []
   }

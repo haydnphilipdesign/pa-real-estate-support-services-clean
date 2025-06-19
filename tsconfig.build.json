@@ -1,0 +1,34 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "strict": false,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "__tests__/**/*",
+    "src/utils/test-*.ts",
+    "src/utils/serverPdfGenerator.ts",
+    "src/utils/coverSheetGenerator.ts",
+    "src/utils/mockData.ts",
+    "src/components/TestingPanel.tsx",
+    "src/pages/TestingPage.tsx",
+    "src/components/DataList.tsx",
+    "src/components/DiagnosticsHelper.tsx",
+    "src/components/Form.tsx",
+    "src/components/CoverSheetButton.tsx",
+    "src/utils/clientUtils.ts",
+    "src/components/GlassCard.tsx",
+    "src/components/GlobalAnimations.tsx",
+    "src/utils/airtable.transaction-first.ts",
+    "src/utils/formDataTransformer.ts",
+    "src/utils/formatters.ts",
+    "src/utils/monitoring.ts",
+    "src/utils/pdfService.ts",
+    "src/utils/performance.ts"
+  ]
+}

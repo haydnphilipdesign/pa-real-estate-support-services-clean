@@ -34,13 +34,11 @@ const transactionFieldMap = {
   totalCommissionPercentage: 'fldE8INzEorBtx2uN',
   listingAgentPercentage: 'flduuQQT7o6XAGlRe',
   buyersAgentPercentage: 'fld5KRrToAAt5kOLd',
-  sellerPaid: 'flddRltdGj05Clzpa',
-  buyerPaid: 'fldO6MAwuLTvuFjui',
+  buyerPaidPercentage: 'flddRltdGj05Clzpa',
   sellersAssist: 'fldTvXx96Na0zRh6W',
   referralParty: 'fldzVtmn8uylVxuTF',
   referralFee: 'fldewmjoaJVwiMF46',
   brokerEin: 'fld20VbKbWzdR4Sp7',
-  coordinatorFeePaidBy: 'fldrplBqdhDcoy04S',
   
   // Property Details
   hoaName: 'fld9oG6SMAkh4hvNL',
@@ -79,6 +77,7 @@ const formatFieldValue = (value: any, fieldName: string): any => {
     case 'totalCommission':
     case 'fixedCommissionAmount':
     case 'referralFee':
+    case 'warrantyCost':
       // Convert to number and ensure 2 decimal places
       return typeof value === 'string' ? parseFloat(value.replace(/[^0-9.-]+/g, '')) : value;
     
@@ -194,14 +193,8 @@ export const submitToAirtable = async (data: TransactionFormData) => {
       if (data.commissionData.buyersAgentPercentage) {
         transactionFields[transactionFieldMap.buyersAgentPercentage] = formatFieldValue(data.commissionData.buyersAgentPercentage, 'buyersAgentPercentage');
       }
-      if (data.commissionData.sellerPaidAmount) {
-        transactionFields[transactionFieldMap.sellerPaid] = formatFieldValue(data.commissionData.sellerPaidAmount, 'sellerPaid');
-      }
       if (data.commissionData.buyerPaidAmount) {
-        transactionFields[transactionFieldMap.buyerPaid] = formatFieldValue(data.commissionData.buyerPaidAmount, 'buyerPaid');
-      }
-      if (data.commissionData.coordinatorFeePaidBy) {
-        transactionFields[transactionFieldMap.coordinatorFeePaidBy] = data.commissionData.coordinatorFeePaidBy;
+        transactionFields[transactionFieldMap.buyerPaidPercentage] = formatFieldValue(data.commissionData.buyerPaidAmount, 'buyerPaidPercentage');
       }
       if (data.commissionData.sellersAssist) {
         transactionFields[transactionFieldMap.sellersAssist] = formatFieldValue(data.commissionData.sellersAssist, 'sellersAssist');
@@ -277,27 +270,8 @@ export const submitToAirtable = async (data: TransactionFormData) => {
     }
 
     console.log("Creating transaction record with fields:", transactionFields);
-    
-    // Try direct API call since SDK might have issues
-    const response = await fetch(`https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${TRANSACTIONS_TABLE_ID}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${import.meta.env.VITE_AIRTABLE_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        fields: transactionFields
-      })
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Direct API call failed:', errorData);
-      throw new Error(`API Error: ${errorData.error?.message || response.statusText}`);
-    }
-    
-    const result = await response.json();
-    const recordId = result.id;
+    const record = await transactionsTable.create({ fields: transactionFields });
+    const recordId = record.getId();
     
     console.log("Transaction record created with ID:", recordId);
 

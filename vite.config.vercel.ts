@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
@@ -15,14 +14,7 @@ export default defineConfig({
       algorithm: 'gzip',
       ext: '.gz',
     }),
-    visualizer({
-      open: false,
-      gzipSize: true,
-      brotliSize: true,
-      filename: 'dist/stats.html',
-    }),
   ],
-  // Make sure Vite correctly handles assets
   publicDir: 'public',
   resolve: {
     alias: {
@@ -49,13 +41,7 @@ export default defineConfig({
   },
   build: {
     sourcemap: false,
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    minify: 'esbuild',
     rollupOptions: {
       output: {
         manualChunks: {
@@ -79,10 +65,5 @@ export default defineConfig({
         },
       },
     },
-  },
-  server: {
-    port: 5173,
-    host: '0.0.0.0', // Bind to all network interfaces
-    strictPort: false,
   },
 });

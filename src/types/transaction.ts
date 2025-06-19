@@ -60,6 +60,7 @@ export interface TitleCompanyData {
   name: string;
   contactName: string;
   contactPhone: string;
+  contactEmail: string;
 }
 
 export interface DocumentData {
