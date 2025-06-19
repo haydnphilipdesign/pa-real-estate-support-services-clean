@@ -257,10 +257,10 @@ module.exports = async function handler(req, res) {
       // Title company info if available
       'fldqeArDeRkxiYz9u': titleData?.titleCompany || '',                        // Title Company (singleLineText)
       
-      // Additional info fields that map to richText fields
-      'fldDWN8jU4kdCffzu': formData?.additionalInfo?.specialInstructions || '', // Special Instructions (richText)
-      'fldgW16aPdFMdspO6': formData?.additionalInfo?.urgentIssues || '',         // Urgent Issues (richText)
-      'fld30htJ7euVerCLW': formData?.additionalInfo?.notes || ''                 // Additional Information (richText)
+      // Additional info fields that map to richText fields  
+      'fldDWN8jU4kdCffzu': (formData?.additionalInfo?.specialInstructions || '').toString(), // Special Instructions (richText)
+      'fldgW16aPdFMdspO6': (formData?.additionalInfo?.urgentIssues || '').toString(),         // Urgent Issues (richText)
+      'fld30htJ7euVerCLW': (formData?.additionalInfo?.notes || '').toString()                 // Additional Information (richText)
     };
 
     // Only include client links if we have any clients

@@ -473,14 +473,10 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
         description: 'Processing your submission...',
       });
 
-      // Transform data for submission
-      const { transformFormDataForAirtable, transformFormDataForCoverSheet } = await import('@/utils/formDataTransformer');
-      
-      const airtableData = transformFormDataForAirtable(formData);
-      const coverSheetData = transformFormDataForCoverSheet(formData);
-
       // Use the enhanced unified submission API
       console.log('Using enhanced transaction submission API...');
+      console.log('Submitting form data:', formData);
+      
       const submissionResponse = await fetch('/api/submit-transaction', {
         method: 'POST',
         headers: {
@@ -489,12 +485,7 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
         body: JSON.stringify({
           baseId: import.meta.env.VITE_AIRTABLE_BASE_ID,
           tableId: 'tblHyCJCpQSgjn0md',
-          formData: {
-            // Send the original form data structure
-            ...formData,
-            // Include cover sheet data for PDF generation
-            coverSheetData: coverSheetData
-          }
+          formData: formData // Send the original form data structure directly
         }),
       });
 
