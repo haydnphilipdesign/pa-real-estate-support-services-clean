@@ -95,10 +95,11 @@ module.exports = async function handler(req, res) {
     // Extract form data
     const { agentData, propertyData, clients, commissionData, propertyDetailsData, titleData } = formData;
     
-    // Helper function to format field values like the old version
+    // Helper function to format field values according to Airtable field types
     function formatFieldValue(value, fieldType) {
       switch (fieldType) {
         case 'winterizedStatus':
+          // singleSelect: YES, NO, WINTERIZED, NOT WINTERIZED
           if (typeof value === 'boolean') {
             return value ? 'WINTERIZED' : 'NOT WINTERIZED';
           } else if (value === 'YES') {
@@ -108,10 +109,62 @@ module.exports = async function handler(req, res) {
           }
         case 'updateMls':
         case 'builtBefore1978':
+          // singleSelect: YES, NO
           if (typeof value === 'boolean') {
             return value ? 'YES' : 'NO';
           }
           return value || 'NO';
+        case 'currency':
+          // Currency fields need numeric values, no $ signs
+          if (value === '' || value == null) return null;
+          const currencyValue = parseFloat(String(value).replace(/[^0-9.-]/g, ''));
+          return isNaN(currencyValue) ? null : currencyValue;
+        case 'number':
+          // Number fields need numeric values
+          if (value === '' || value == null) return null;
+          const numValue = parseFloat(String(value).replace(/[^0-9.-]/g, ''));
+          return isNaN(numValue) ? null : numValue;
+        case 'percentage':
+          // Convert percentage to decimal number (e.g., "5.5%" -> 5.5)
+          if (value === '' || value == null) return null;
+          const percentValue = parseFloat(String(value).replace(/[^0-9.-]/g, ''));
+          return isNaN(percentValue) ? null : percentValue;
+        case 'agentRole':
+          // singleSelect: BUYERS AGENT, DUAL AGENT, LISTING AGENT
+          const roleMap = {
+            'BUYERS_AGENT': 'BUYERS AGENT',
+            'LISTING_AGENT': 'LISTING AGENT', 
+            'DUAL_AGENT': 'DUAL AGENT'
+          };
+          return roleMap[value] || value;
+        case 'propertyType':
+          // singleSelect: COMMERCIAL, LAND, RESIDENTIAL
+          const typeMap = {
+            'COMMERCIAL': 'COMMERICAL', // Note: Airtable has typo "COMMERICAL"
+            'RESIDENTIAL': 'RESIDENTIAL',
+            'LAND': 'LAND'
+          };
+          return typeMap[value] || value;
+        case 'coordinatorFeePaidBy':
+          // singleSelect: AGENT, CLIENT, Agent, Client, agent, client
+          return value ? value.toLowerCase() : 'client';
+        case 'phone':
+          // phoneNumber field - format as (555) 555-5555
+          if (!value) return '';
+          const cleaned = String(value).replace(/\D/g, '');
+          if (cleaned.length === 10) {
+            return `(${cleaned.slice(0,3)}) ${cleaned.slice(3,6)}-${cleaned.slice(6)}`;
+          }
+          return value; // Return as-is if not 10 digits
+        case 'date':
+          // Date field - ensure proper date format
+          if (!value) return null;
+          try {
+            const date = new Date(value);
+            return date.toISOString().split('T')[0]; // YYYY-MM-DD format
+          } catch {
+            return null;
+          }
         default:
           return value;
       }
@@ -126,12 +179,12 @@ module.exports = async function handler(req, res) {
       
       for (const client of clients) {
         const clientFields = {
-          'fldSqxNOZ9B5PgSab': client.name || '',           // name
-          'flddP6a8EG6qTJdIi': client.email || '',          // email  
-          'fldBnh8W6iGW014yY': client.phone || '',          // phone
-          'fldz1IpeR1256LhuC': client.address || '',        // clientAddress
-          'fldeK6mjSfxELU0MD': client.maritalStatus || 'SINGLE', // maritalStatus
-          'fldSY6vbE1zAhJZqd': client.type || 'BUYER'       // type
+          'fldSqxNOZ9B5PgSab': client.name || '',                    // name (singleLineText)
+          'flddP6a8EG6qTJdIi': client.email || '',                   // email (email)  
+          'fldBnh8W6iGW014yY': formatFieldValue(client.phone, 'phone'), // phone (phoneNumber)
+          'fldz1IpeR1256LhuC': client.address || '',                 // clientAddress (singleLineText)
+          'fldeK6mjSfxELU0MD': client.maritalStatus || 'SINGLE',     // maritalStatus (singleSelect: SINGLE, MARRIED, DIVORCED, DIVORCE IN PROGRESS, WIDOWED)
+          'fldSY6vbE1zAhJZqd': client.type || 'BUYER'                // type (singleSelect: BUYER, SELLER)
         };
         
         try {
@@ -152,40 +205,63 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // Step 2: Create transaction record using exact field IDs from old version
+    // Step 2: Create transaction record using exact field IDs and proper data types
     const airtableFields = {
-      // Agent information (using exact field IDs from old version)
-      'fldOVyoxz38rWwAFy': agentData?.role || '',                    // agentRole
-      'fldFD4xHD0vxnSOHJ': agentData?.name || '',                    // agentName
+      // Agent information
+      'fldOVyoxz38rWwAFy': formatFieldValue(agentData?.role, 'agentRole'),        // agentRole (singleSelect: BUYERS AGENT, DUAL AGENT, LISTING AGENT)
+      'fldFD4xHD0vxnSOHJ': agentData?.name || '',                                 // agentName (singleLineText)
       
       // Property data
-      'fld6O2FgIXQU5G27o': propertyData?.mlsNumber || '',           // mlsNumber
-      'fldypnfnHhplWYcCW': propertyData?.address || '',             // propertyAddress
-      'fldhHjBZJISmnP8SK': propertyData?.salePrice || '',           // salePrice
-      'fldV2eLxz6w0TpLFU': propertyData?.status || '',              // propertyStatus
-      'fldExdgBDgdB1i9jy': formatFieldValue(propertyData?.isWinterized, 'winterizedStatus'), // winterizedStatus
-      'fldw3GlfvKtyNfIAW': formatFieldValue(propertyData?.updateMls, 'updateMls'), // updateMls
-      'fld7TTQpaC83ehY7H': propertyData?.propertyAccessType || '',  // propertyAccessType
-      'fldrh8eB5V8TjSZlR': propertyData?.lockboxAccessCode || '',   // lockboxAccessCode
-      'fldzM4oyw2PyKt887': propertyData?.propertyType || '',        // propertyType
-      'fldZmPfpsSJLOtcYr': formatFieldValue(propertyData?.isBuiltBefore1978, 'builtBefore1978'), // builtBefore1978
-      'fldacjkqtnbdTUUTx': propertyData?.closingDate || '',         // closingDate
+      'fld6O2FgIXQU5G27o': propertyData?.mlsNumber || '',                        // mlsNumber (singleLineText)
+      'fldypnfnHhplWYcCW': propertyData?.address || '',                          // propertyAddress (singleLineText)
+      'fldhHjBZJISmnP8SK': formatFieldValue(propertyData?.salePrice, 'currency'), // salePrice (currency)
+      'fldV2eLxz6w0TpLFU': propertyData?.status || '',                           // propertyStatus (singleSelect: OCCUPIED, VACANT)
+      'fldExdgBDgdB1i9jy': formatFieldValue(propertyData?.isWinterized, 'winterizedStatus'), // winterized (singleSelect: YES, NO, WINTERIZED, NOT WINTERIZED)
+      'fldw3GlfvKtyNfIAW': formatFieldValue(propertyData?.updateMls, 'updateMls'), // updateMls (singleSelect: YES, NO)
+      'fld7TTQpaC83ehY7H': propertyData?.propertyAccessType || '',               // propertyAccessType (singleSelect: ELECTRONIC LOCKBOX, COMBO LOCKBOX, KEYPAD, APPOINTMENT ONLY)
+      'fldrh8eB5V8TjSZlR': propertyData?.lockboxAccessCode || '',                // lockboxAccessCode (singleLineText)
+      'fldzM4oyw2PyKt887': formatFieldValue(propertyData?.propertyType, 'propertyType'), // propertyType (singleSelect: COMMERICAL, LAND, RESIDENTIAL)
+      'fldZmPfpsSJLOtcYr': formatFieldValue(propertyData?.isBuiltBefore1978, 'builtBefore1978'), // builtBefore1978 (singleSelect: YES, NO)
+      'fldacjkqtnbdTUUTx': formatFieldValue(propertyData?.closingDate, 'date'),  // closingDate (date)
 
       // Commission data
-      'fldE8INzEorBtx2uN': commissionData?.totalCommissionPercentage || '', // totalCommissionPercentage
-      'flduuQQT7o6XAGlRe': commissionData?.listingAgentPercentage || '',    // listingAgentPercentage
-      'fld5KRrToAAt5kOLd': commissionData?.buyersAgentPercentage || '',     // buyersAgentPercentage
-      'flddRltdGj05Clzpa': commissionData?.sellerPaidAmount || '',          // sellerPaid
-      'fldO6MAwuLTvuFjui': commissionData?.buyerPaidAmount || '',           // buyerPaid
-      'fldTvXx96Na0zRh6W': commissionData?.sellersAssist || '',             // sellersAssist
-      'fldzVtmn8uylVxuTF': commissionData?.referralParty || '',             // referralParty
-      'fldewmjoaJVwiMF46': commissionData?.referralFee || '',               // referralFee
-      'fld20VbKbWzdR4Sp7': commissionData?.brokerEin || '',                 // brokerEin
-      'fldrplBqdhDcoy04S': commissionData?.coordinatorFeePaidBy || 'client', // coordinatorFeePaidBy
+      'fldE8INzEorBtx2uN': formatFieldValue(commissionData?.totalCommissionPercentage, 'percentage'), // totalCommissionPercentage (number)
+      'flduuQQT7o6XAGlRe': formatFieldValue(commissionData?.listingAgentPercentage, 'percentage'),    // listingAgentPercentage (number)
+      'fld5KRrToAAt5kOLd': formatFieldValue(commissionData?.buyersAgentPercentage, 'percentage'),     // buyersAgentPercentage (number)
+      'flddRltdGj05Clzpa': formatFieldValue(commissionData?.sellerPaidAmount, 'number'),              // sellerPaid (number)
+      'fldO6MAwuLTvuFjui': formatFieldValue(commissionData?.buyerPaidAmount, 'number'),               // buyerPaid (number)
+      'fldTvXx96Na0zRh6W': formatFieldValue(commissionData?.sellersAssist, 'currency'),              // sellersAssist (currency)
+      'fldzVtmn8uylVxuTF': commissionData?.referralParty || '',                                       // referralParty (singleLineText)
+      'fldewmjoaJVwiMF46': formatFieldValue(commissionData?.referralFee, 'number'),                  // referralFee (number)
+      'fld20VbKbWzdR4Sp7': commissionData?.brokerEin || '',                                           // brokerEin (singleLineText)
+      'fldrplBqdhDcoy04S': formatFieldValue(commissionData?.coordinatorFeePaidBy, 'coordinatorFeePaidBy'), // coordinatorFeePaidBy (singleSelect)
       
-      // Client links (single field as in old version)
-      'fldmPyBwuOO1dgj1g': clientRecords.map(r => r.id)            // clients
+      // Additional property details if available
+      'fld9oG6SMAkh4hvNL': propertyDetailsData?.hoaName || '',                   // hoaName (singleLineText)
+      'fld9Qw4mGeI9kk42F': propertyDetailsData?.municipality || '',              // municipality (singleLineText)
+      'fldeHKiUreeDs5n4o': propertyDetailsData?.firstRightName || '',            // firstRightName (singleLineText)
+      'fld4YZ0qKHvRLK4Xg': propertyDetailsData?.attorneyName || '',              // attorneyName (singleLineText)
+      'fldRtNEH89tNNX52B': propertyDetailsData?.warrantyCompany || '',           // homeWarrantyCompany (singleLineText)
+      'fldxH1pCpohty1e2b': formatFieldValue(propertyDetailsData?.warrantyCost, 'currency'), // homeWarrantyCost (currency)
+      'fld61RStU7sCDrG01': propertyDetailsData?.warrantyPaidBy || '',            // homeWarrantyPayer (singleLineText)
+      
+      // Title company info if available
+      'fldqeArDeRkxiYz9u': titleData?.titleCompany || '',                        // titleCompany (singleLineText)
     };
+
+    // Only include client links if we have any clients
+    if (clientRecords.length > 0) {
+      // Note: Based on schema, we need to link to specific buyer/seller fields instead of single clients field
+      const buyers = clientRecords.filter((_, index) => clients[index]?.type === 'BUYER');
+      const sellers = clientRecords.filter((_, index) => clients[index]?.type === 'SELLER');
+      
+      if (buyers.length > 0) {
+        airtableFields['fldjzz0RpVOvF7Dee'] = buyers.map(r => r.id); // Buyer (multipleRecordLinks)
+      }
+      if (sellers.length > 0) {
+        airtableFields['fldcPNXSa27EzCbOo'] = sellers.map(r => r.id); // Seller (multipleRecordLinks)
+      }
+    }
 
     console.log('Mapped transaction fields using old version field IDs:', Object.keys(airtableFields).length, 'fields');
     console.log('Client records linked:', clientRecords.length);
