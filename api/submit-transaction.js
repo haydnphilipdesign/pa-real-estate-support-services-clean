@@ -187,12 +187,13 @@ module.exports = async function handler(req, res) {
       
       for (const client of clients) {
         const clientFields = {
-          'fldSqxNOZ9B5PgSab': client.name || '',                    // name (singleLineText)
-          'flddP6a8EG6qTJdIi': client.email || '',                   // email (email)  
-          'fldBnh8W6iGW014yY': formatFieldValue(client.phone, 'phone'), // phone (phoneNumber)
-          'fldz1IpeR1256LhuC': client.address || '',                 // clientAddress (singleLineText)
-          'fldeK6mjSfxELU0MD': client.maritalStatus || 'SINGLE',     // maritalStatus (singleSelect: SINGLE, MARRIED, DIVORCED, DIVORCE IN PROGRESS, WIDOWED)
-          'fldSY6vbE1zAhJZqd': client.type || 'BUYER'                // type (singleSelect: BUYER, SELLER)
+          'fldSqxNOZ9B5PgSab': client.name || '',                    // Client Name (singleLineText)
+          'flddP6a8EG6qTJdIi': client.email || '',                   // Client Email (email)  
+          'fldBnh8W6iGW014yY': formatFieldValue(client.phone, 'phone'), // Client Phone (phoneNumber)
+          'fldz1IpeR1256LhuC': client.address || '',                 // Client Address (singleLineText)
+          'fldeK6mjSfxELU0MD': client.maritalStatus || 'SINGLE',     // Marital Status (singleSelect: SINGLE, MARRIED, DIVORCED, DIVORCE IN PROGRESS, WIDOWED)
+          'fldSY6vbE1zAhJZqd': client.type || 'BUYER',               // Client Type (singleSelect: BUYER, SELLER)
+          'fldx7IEsPmHTJXDYS': propertyData?.address || ''           // Address (from property - to link records)
         };
         
         try {
@@ -245,16 +246,21 @@ module.exports = async function handler(req, res) {
       'fldrplBqdhDcoy04S': formatFieldValue(commissionData?.coordinatorFeePaidBy, 'coordinatorFeePaidBy'), // coordinatorFeePaidBy (singleSelect)
       
       // Additional property details if available
-      'fld9oG6SMAkh4hvNL': propertyDetailsData?.hoaName || '',                   // hoaName (singleLineText)
-      'fld9Qw4mGeI9kk42F': propertyDetailsData?.municipality || '',              // municipality (singleLineText)
-      'fldeHKiUreeDs5n4o': propertyDetailsData?.firstRightName || '',            // firstRightName (singleLineText)
-      'fld4YZ0qKHvRLK4Xg': propertyDetailsData?.attorneyName || '',              // attorneyName (singleLineText)
-      'fldRtNEH89tNNX52B': propertyDetailsData?.warrantyCompany || '',           // homeWarrantyCompany (singleLineText)
-      'fldxH1pCpohty1e2b': formatFieldValue(propertyDetailsData?.warrantyCost, 'currency'), // homeWarrantyCost (currency)
-      'fld61RStU7sCDrG01': propertyDetailsData?.warrantyPaidBy || '',            // homeWarrantyPayer (singleLineText)
+      'fld9oG6SMAkh4hvNL': propertyDetailsData?.hoaName || '',                   // HOA Name (singleLineText)
+      'fld9Qw4mGeI9kk42F': propertyDetailsData?.municipality || '',              // Municipality (singleLineText)
+      'fldeHKiUreeDs5n4o': propertyDetailsData?.firstRightName || '',            // First Right Name (singleLineText)
+      'fld4YZ0qKHvRLK4Xg': propertyDetailsData?.attorneyName || '',              // Attorney Name (singleLineText)
+      'fldRtNEH89tNNX52B': propertyDetailsData?.warrantyCompany || '',           // Home Warranty Company (singleLineText)
+      'fldxH1pCpohty1e2b': formatFieldValue(propertyDetailsData?.warrantyCost, 'currency'), // Home Warranty Cost (currency)
+      'fld61RStU7sCDrG01': propertyDetailsData?.warrantyPaidBy || '',            // Home Warranty Payer (singleLineText)
       
       // Title company info if available
-      'fldqeArDeRkxiYz9u': titleData?.titleCompany || '',                        // titleCompany (singleLineText)
+      'fldqeArDeRkxiYz9u': titleData?.titleCompany || '',                        // Title Company (singleLineText)
+      
+      // Additional info fields that map to richText fields
+      'fldDWN8jU4kdCffzu': formData?.additionalInfo?.specialInstructions || '', // Special Instructions (richText)
+      'fldgW16aPdFMdspO6': formData?.additionalInfo?.urgentIssues || '',         // Urgent Issues (richText)
+      'fld30htJ7euVerCLW': formData?.additionalInfo?.notes || ''                 // Additional Information (richText)
     };
 
     // Only include client links if we have any clients
