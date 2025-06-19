@@ -475,151 +475,80 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
 
       // Transform data for submission
       const { transformFormDataForAirtable, transformFormDataForCoverSheet } = await import('@/utils/formDataTransformer');
-      const { submitToAirtable } = await import('@/utils/airtable');
       
       const airtableData = transformFormDataForAirtable(formData);
       const coverSheetData = transformFormDataForCoverSheet(formData);
 
-      // Step 1: Submit to Airtable
-      console.log('Submitting to Airtable...', airtableData);
-      const airtableResult = await submitToAirtable(airtableData);
-      console.log('Airtable submission successful:', airtableResult);
-      
-      // Step 2: Generate PDF Cover Sheet using the created record
-      console.log('Generating PDF cover sheet for record:', airtableResult.recordId);
-      
-      try {
-        const pdfResponse = await fetch('/api/generateCoverSheet', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            tableId: airtableResult.tableId,
-            recordId: airtableResult.recordId,
-            agentRole: formData.agentData.role,
-            sendEmail: true,
-            data: coverSheetData // Fallback data in case Airtable fetch fails
-          }),
-        });
-
-        if (!pdfResponse.ok) {
-          const errorData = await pdfResponse.json();
-          console.warn('PDF generation failed:', errorData);
-          // Don't fail the entire submission if PDF generation fails
-          toast({
-            title: 'PDF Generation Warning',
-            description: 'Data saved successfully, but PDF generation failed. Contact support if needed.',
-            variant: 'default',
-          });
-        } else {
-          const pdfResult = await pdfResponse.json();
-          console.log('PDF generated successfully:', pdfResult);
-          
-          // Step 3: Upload PDF to Supabase and attach to Airtable (RESTORED FUNCTIONALITY)
-          try {
-            console.log('Attempting to upload PDF to Supabase and attach to Airtable...');
-            
-            // Import Supabase upload utility
-            const { uploadPdfToSupabase } = await import('@/utils/supabaseUpload');
-            
-            // Generate PDF as base64 for Supabase upload
-            const pdfBase64Response = await fetch('/api/generateCoverSheet', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                tableId: airtableResult.tableId,
-                recordId: airtableResult.recordId,
-                agentRole: formData.agentData.role,
-                sendEmail: false, // Don't send email twice
-                returnBase64: true, // Get base64 data for upload
-                data: coverSheetData
-              }),
-            });
-
-            if (pdfBase64Response.ok) {
-              const pdfBase64Result = await pdfBase64Response.json();
-              
-              if (pdfBase64Result.base64Data) {
-                // Upload to Supabase with Airtable attachment
-                const supabaseResult = await uploadPdfToSupabase(
-                  pdfBase64Result.base64Data,
-                  pdfResult.filename || `transaction-${airtableResult.recordId}.pdf`,
-                  airtableResult.recordId
-                );
-                
-                if (supabaseResult.success) {
-                  console.log('PDF uploaded to Supabase successfully:', supabaseResult.url);
-                  
-                  // Update Airtable record with PDF attachment
-                  const attachmentResponse = await fetch('/api/update-airtable-attachment', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      pdfData: supabaseResult.url,
-                      filename: pdfResult.filename || `transaction-${airtableResult.recordId}.pdf`,
-                      transactionId: airtableResult.recordId,
-                      fieldId: 'fldhrYdoFwtNfzdFY' // PDF attachment field
-                    }),
-                  });
-                  
-                  if (attachmentResponse.ok) {
-                    console.log('PDF attached to Airtable record successfully');
-                  } else {
-                    console.warn('Failed to attach PDF to Airtable record');
-                  }
-                } else {
-                  console.warn('Supabase upload failed:', supabaseResult.error);
-                }
-              }
-            }
-          } catch (uploadError) {
-            console.warn('PDF upload/attachment error:', uploadError);
-            // Don't fail the submission for upload issues
+      // Use the enhanced unified submission API
+      console.log('Using enhanced transaction submission API...');
+      const submissionResponse = await fetch('/api/submit-transaction', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          baseId: import.meta.env.VITE_AIRTABLE_BASE_ID,
+          tableId: 'tblHyCJCpQSgjn0md',
+          formData: {
+            ...airtableData,
+            // Include cover sheet data for PDF generation
+            coverSheetData: coverSheetData
           }
-          
-          // Enhanced success message with PDF info
-          toast({
-            title: 'Complete Success!',
-            description: hasWarnings 
-              ? 'Transaction submitted, PDF generated, uploaded, and email sent! Some optional fields were incomplete but your submission is valid.'
-              : 'Transaction submitted successfully with complete information. PDF cover sheet generated, uploaded to storage, and emailed.',
-          });
-          
-          // Save the PDF info for reference
-          localStorage.setItem('transaction-form-last-pdf', JSON.stringify({
-            filename: pdfResult.filename,
-            emailSent: pdfResult.emailSent,
-            timestamp: Date.now()
-          }));
-          
-          resetForm();
-          return; // Early return for complete success
-        }
-      } catch (pdfError) {
-        console.warn('PDF generation error:', pdfError);
-        // Don't fail the entire submission
-      }
-      
-      // Fallback success message (if PDF generation failed)
-      toast({
-        title: 'Partial Success',
-        description: hasWarnings 
-          ? 'Transaction data saved successfully! Some optional fields were incomplete. PDF generation failed - contact support if needed.'
-          : 'Transaction data saved successfully! PDF generation failed - contact support if needed.',
+        }),
       });
 
-      // Save success state to localStorage for recovery if needed
-      localStorage.setItem('transaction-form-last-success', JSON.stringify({
-        timestamp: Date.now(),
-        formData: formData,
-        agentRole: formData.agentData.role
-      }));
+      if (!submissionResponse.ok) {
+        const errorData = await submissionResponse.json();
+        throw new Error(errorData.message || 'Submission failed');
+      }
+
+      const submissionResult = await submissionResponse.json();
+      console.log('Enhanced submission completed:', submissionResult);
+
+      // Check if full workflow was successful
+      if (submissionResult.success && submissionResult.details) {
+        const { details } = submissionResult;
+        
+        // Enhanced success message based on what was completed
+        let successMessage = 'Transaction submitted successfully!';
+        if (details.pdfGenerated && details.emailSent && details.pdfUploaded) {
+          successMessage = hasWarnings 
+            ? 'Complete success! Transaction submitted, PDF generated and emailed, file uploaded to storage. Some optional fields were incomplete but your submission is valid.'
+            : 'Complete success! Transaction submitted with all data, PDF generated and emailed, file securely stored.';
+        } else if (details.pdfGenerated && details.emailSent) {
+          successMessage = 'Transaction submitted and PDF emailed successfully. File storage encountered issues but data is saved.';
+        } else if (details.pdfGenerated) {
+          successMessage = 'Transaction submitted and PDF generated. Email delivery encountered issues but data is saved.';
+        }
+
+        toast({
+          title: 'Submission Complete!',
+          description: successMessage,
+        });
+
+        // Store submission details for reference
+        localStorage.setItem('transaction-form-last-submission', JSON.stringify({
+          recordId: submissionResult.recordId,
+          pdfGenerated: details.pdfGenerated,
+          emailSent: details.emailSent,
+          pdfUploaded: details.pdfUploaded,
+          pdfUrl: details.pdfUrl,
+          timestamp: Date.now()
+        }));
+      } else {
+        // Partial success - data was saved but some workflow steps failed
+        toast({
+          title: 'Data Saved',
+          description: submissionResult.message || 'Transaction data saved but some processing steps encountered issues.',
+          variant: 'default',
+        });
+      }
+
+      // Clear any draft data since submission was successful
+      localStorage.removeItem('transaction-form-draft');
+      localStorage.removeItem('transaction-form-error-recovery');
       
+      // Reset form after successful submission
       resetForm();
     } catch (error) {
       console.error('Submission error:', error);

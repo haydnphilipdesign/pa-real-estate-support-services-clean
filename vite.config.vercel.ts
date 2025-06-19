@@ -1,63 +1,81 @@
-// vite.config.vercel.ts
+// vite.config.vercel.ts - Simplified for Vercel compatibility
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
   plugins: [
-    react({ tsDecorators: true }),
-    viteCompression({ algorithm: 'gzip', ext: '.gz' }),
+    react(),
+    viteCompression({
+      algorithm: 'gzip',
+      ext: '.gz',
+    }),
+    visualizer({
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+      filename: 'dist/stats.html',
+    }),
   ],
-  define: {
-    global: 'globalThis',
-  },
-  optimizeDeps: {
-    include: ['stream-browserify', 'util', 'events', 'buffer', 'url', 'https-browserify', 'http-browserify', 'browserify-zlib', 'assert']
-  },
   publicDir: 'public',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // NEW — so you can do `import { Home… } from 'pages'`
-      "pages": path.resolve(__dirname, "./src/pages"),
-      // Node.js polyfills for browser
-      "stream": "stream-browserify",
-      "util": "util",
-      "events": "events",
-      "buffer": "buffer",
-      "url": "url",
-      "https": "https-browserify",
-      "http": "http-browserify", 
-      "zlib": "browserify-zlib",
-      "assert": "assert",
     },
-    // remove `extensions` — Vite handles .ts/.tsx by default
-    preserveSymlinks: false,
-    mainFields: ['module','main'],
   },
   css: {
     postcss: {
-      plugins: [ tailwindcss({ config: './tailwind.config.cjs' }), autoprefixer ],
+      plugins: [
+        tailwindcss({ config: './tailwind.config.cjs' }),
+        autoprefixer,
+      ],
     },
-    modules: { localsConvention: 'camelCase' },
+    modules: {
+      localsConvention: 'camelCase',
+    },
     devSourcemap: true,
-  },
-  esbuild: {
-    target: 'es2020',
-    ignoreAnnotations: true,
-    logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
   build: {
     sourcemap: false,
-    minify: 'esbuild',
-    rollupOptions: {
-      output: {
-        manualChunks: { /* …your chunks… */ },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
       },
     },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-error-boundary'],
+          framer: ['framer-motion'],
+          router: ['react-router-dom'],
+          form: ['react-hook-form', '@hookform/resolvers', 'zod'],
+          ui: [
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-toast',
+            '@radix-ui/react-label',
+            '@radix-ui/react-select',
+            '@radix-ui/react-checkbox',
+            '@radix-ui/react-radio-group',
+            '@radix-ui/react-switch',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-tooltip',
+            'lucide-react',
+            'sonner',
+          ],
+        },
+      },
+    },
+  },
+  server: {
+    port: 5173,
+    host: true,
+    strictPort: false,
   },
 });
 

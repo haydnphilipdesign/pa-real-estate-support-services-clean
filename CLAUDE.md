@@ -15,6 +15,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run lint` - Run ESLint with TypeScript support and unused imports detection
 - `npm run type-check` - Run TypeScript compiler without emitting files
 
+### Testing
+- Tests are in `__tests__/`, `tests/`, and component `__tests__/` directories
+- Run integration tests: `node tests/test-pdf-integration.js`
+- Test PDF generation: `node tests/test-pdf-generation.js`
+- Test Supabase integration: `node tests/test-supabase-integration.js`
+
 ### Production
 - `npm run start:prod` - Start production server
 - `npm run server` - Start Express server in production mode
@@ -78,11 +84,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **real estate transaction support services application** that:
 
-1. **Generates PDF Cover Sheets**: Automated document generation from Airtable data
-2. **Manages Transaction Forms**: Multi-step forms for buyer/seller/dual agent transactions
-3. **Integrates with Airtable**: Full CRUD operations with field mapping for client data
-4. **Handles Email Automation**: PDF delivery via Make.com webhooks
-5. **Provides Professional UI**: Glass morphism design system with animations
+1. **Complete Transaction Workflow**: Unified 5-step process - Airtable submission → PDF generation → Email delivery → File storage → Record updates
+2. **Advanced Transaction Forms**: Multi-step wizard with 9 steps covering all transaction aspects
+3. **Comprehensive Airtable Integration**: Enhanced field mapping with proper data transformation and client relationship management
+4. **Automated PDF Generation**: Dynamic cover sheet creation with comprehensive form data mapping
+5. **Professional Email System**: HTML-formatted emails with PDF attachments and transaction details
+6. **Secure File Storage**: Supabase integration with automatic bucket management and attachment linking
+7. **Glass Morphism UI**: Modern design system with animations and accessibility compliance
 
 ### Critical Business Components
 
@@ -130,6 +138,26 @@ This is a **real estate transaction support services application** that:
 - **API Keys**: Airtable API key and base ID required for data operations
 - **Webhooks**: Make.com webhook URL for PDF attachment automation
 
+#### Required Environment Variables
+```bash
+# Airtable Integration
+VITE_AIRTABLE_API_KEY=<your_airtable_api_key>
+VITE_AIRTABLE_BASE_ID=<your_base_id>
+AIRTABLE_API_KEY=<server_side_key>
+AIRTABLE_BASE_ID=<server_side_base_id>
+
+# Email Configuration
+EMAIL_HOST=<smtp_host>
+EMAIL_PORT=<smtp_port>
+EMAIL_USER=<smtp_username>
+EMAIL_PASSWORD=<smtp_password>
+EMAIL_RECIPIENT=debbie@parealestatesupport.com
+
+# Supabase Integration
+SUPABASE_URL=<supabase_project_url>
+SUPABASE_ANON_KEY=<supabase_anon_key>
+```
+
 ## Important Airtable Field Mappings
 
 Key field IDs used throughout the application:
@@ -140,7 +168,38 @@ Key field IDs used throughout the application:
 - `flddP6a8EG6qTJdIi` - Client Email
 - `fldhrYdoFwtNfzdFY` - PDF Attachment (for Make.com integration)
 
+## Key API Endpoints
+
+### Core API Functions (in `/api/` directory)
+- `submit-transaction.js` - **Enhanced unified submission workflow**: Complete transaction processing including Airtable submission, PDF generation, email delivery, and file storage
+- `generate-pdf.js` - Comprehensive PDF generation using pdf-lib with complete form data mapping and email delivery
+- `generateCoverSheet.js` - Specialized cover sheet generation for quick PDF creation
+- `supabase-pdf-upload.js` - PDF upload to Supabase storage with automatic bucket management
+- `update-airtable-attachment.js` - Updates Airtable records with PDF attachments using field IDs
+- `sendEmail.js` - Email service for PDF delivery with formatted HTML templates
+
+## Utility Scripts
+
+### Development Scripts (in `/scripts/` directory)
+- `check-env.js` - Environment variable validation and debugging
+- `setup-email-config.js` - Interactive email configuration setup
+- `build.js` - Enhanced build process with MIME type fixes
+- `generate-pdf-from-templates.js` - Template-based PDF generation testing
+- `optimize-images.js` - Image optimization for web deployment
+- `prepare-api-for-vercel.js` - Vercel deployment preparation
+
 ## Common Development Tasks
+
+### Environment Setup
+1. Run `node scripts/check-env.js` to validate environment variables
+2. Run `node scripts/setup-email-config.js` for email configuration
+3. Test integration with `node tests/test-pdf-integration.js`
+
+### Deployment (Vercel)
+1. **Build Configuration**: Uses `npm run build` command with Vite production config
+2. **Import Structure**: Uses individual component imports (not barrel imports) for better build compatibility
+3. **API Configuration**: All API endpoints properly configured in `vercel.json` with memory and timeout settings
+4. **Environment Variables**: Configure required variables in Vercel dashboard
 
 ### Adding New Transaction Form Steps
 1. Create step component in `/src/components/TransactionForm/`

@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
   "functions": {
     "api/generateCoverSheet.js": {
       "memory": 1024,
@@ -24,6 +25,10 @@
     "api/sendEmail.js": {
       "memory": 1024,
       "maxDuration": 30
+    },
+    "api/generate-pdf.js": {
+      "memory": 1024,
+      "maxDuration": 60
     }
   },
   "headers": [
@@ -103,6 +108,9 @@
     { "source": "/api/submit-transaction", "destination": "/api/submit-transaction.js" },
     { "source": "/api/generatePdf", "destination": "/api/generatePdf.js" },
     { "source": "/api/sendEmail", "destination": "/api/sendEmail.js" },
+    { "source": "/api/generate-pdf", "destination": "/api/generate-pdf.js" },
+    { "source": "/api/supabase-pdf-upload", "destination": "/api/supabase-pdf-upload.js" },
+    { "source": "/api/update-airtable-attachment", "destination": "/api/update-airtable-attachment.js" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
