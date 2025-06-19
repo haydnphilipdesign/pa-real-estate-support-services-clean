@@ -5,17 +5,13 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange';
 
-// Pages
-import { 
-  Home, 
-  AboutUs, 
-  Services, 
-  WorkWithMe, 
-  Privacy, 
-  Terms, 
-  Login, 
-  AgentPortal 
-} from './pages/index';
+// Pages (barrel imports via src/pages/index.tsx)
+import {
+  Home, AboutUs, Services,
+  WorkWithMe, Privacy, Terms,
+  Login, AgentPortal
+} from 'pages';
+
 import { CleanPortalTransactionForm } from './components/TransactionForm/CleanPortalTransactionForm';
 
 const App: React.FC = () => {
@@ -34,7 +30,10 @@ const App: React.FC = () => {
           <Route path="/terms" element={<Terms />} />
           <Route path="/login" element={<Login />} />
           <Route path="/agent-portal" element={<AgentPortal />} />
-          <Route path="/agent-portal/transaction" element={<CleanPortalTransactionForm />} />
+          <Route
+            path="/agent-portal/transaction"
+            element={<CleanPortalTransactionForm />}
+          />
         </Routes>
       </main>
       
@@ -44,3 +43,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
