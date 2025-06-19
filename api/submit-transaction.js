@@ -40,14 +40,22 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    console.log('Form data structure:', {
+    console.log('Complete form data structure received:', JSON.stringify(formData, null, 2));
+    
+    console.log('Form data structure analysis:', {
       hasAgentData: !!formData.agentData,
       hasPropertyData: !!formData.propertyData,
       hasClients: !!formData.clients,
+      hasCommissionData: !!formData.commissionData,
+      hasPropertyDetailsData: !!formData.propertyDetailsData,
+      hasTitleData: !!formData.titleData,
+      hasAdditionalInfo: !!formData.additionalInfo,
+      hasSignatureData: !!formData.signatureData,
       clientsLength: formData.clients?.length || 0,
-      agentDataContent: formData.agentData,
-      propertyDataContent: formData.propertyData,
-      clientsContent: formData.clients
+      titleDataKeys: formData.titleData ? Object.keys(formData.titleData) : [],
+      titleDataContent: formData.titleData,
+      propertyDetailsKeys: formData.propertyDetailsData ? Object.keys(formData.propertyDetailsData) : [],
+      propertyDetailsContent: formData.propertyDetailsData
     });
 
     // Check environment variables with detailed logging
