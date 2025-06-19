@@ -127,8 +127,8 @@ export const submitToAirtable = async (data: TransactionFormData) => {
         }), {});
 
         console.log("Creating client record with fields:", fields);
-        const record = await clientsTable.create({ fields });
-        return record.getId();
+        const record = await clientsTable.create(fields);
+        return record.id;
       })
     );
 
@@ -259,8 +259,8 @@ export const submitToAirtable = async (data: TransactionFormData) => {
     }
 
     // Add client links based on client types
-    const buyerRecords = clientRecords.filter((_, index) => data.clients?.[index]?.type === 'BUYER');
-    const sellerRecords = clientRecords.filter((_, index) => data.clients?.[index]?.type === 'SELLER');
+    const buyerRecords = clientRecords.filter((_: any, index: number) => data.clients?.[index]?.type === 'BUYER');
+    const sellerRecords = clientRecords.filter((_: any, index: number) => data.clients?.[index]?.type === 'SELLER');
     
     if (buyerRecords.length > 0) {
       transactionFields[transactionFieldMap.buyerLinks] = buyerRecords;
@@ -270,8 +270,8 @@ export const submitToAirtable = async (data: TransactionFormData) => {
     }
 
     console.log("Creating transaction record with fields:", transactionFields);
-    const record = await transactionsTable.create({ fields: transactionFields });
-    const recordId = record.getId();
+    const record = await transactionsTable.create(transactionFields);
+    const recordId = record.id;
     
     console.log("Transaction record created with ID:", recordId);
 
