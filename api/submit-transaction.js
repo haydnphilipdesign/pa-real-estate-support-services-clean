@@ -44,24 +44,44 @@ module.exports = async function handler(req, res) {
       hasAgentData: !!formData.agentData,
       hasPropertyData: !!formData.propertyData,
       hasClients: !!formData.clients,
-      clientsLength: formData.clients?.length || 0
+      clientsLength: formData.clients?.length || 0,
+      agentDataContent: formData.agentData,
+      propertyDataContent: formData.propertyData,
+      clientsContent: formData.clients
     });
 
-    // Check environment variables
+    // Check environment variables with detailed logging
     const airtableApiKey = process.env.VITE_AIRTABLE_API_KEY || process.env.AIRTABLE_API_KEY;
     const airtableBaseId = baseId || process.env.VITE_AIRTABLE_BASE_ID || process.env.AIRTABLE_BASE_ID;
     
-    console.log('Environment check:', {
-      hasApiKey: !!airtableApiKey,
-      hasBaseId: !!airtableBaseId,
+    console.log('Environment variable details:', {
+      hasViteApiKey: !!process.env.VITE_AIRTABLE_API_KEY,
+      hasServerApiKey: !!process.env.AIRTABLE_API_KEY,
+      hasViteBaseId: !!process.env.VITE_AIRTABLE_BASE_ID,
+      hasServerBaseId: !!process.env.AIRTABLE_BASE_ID,
       receivedBaseId: !!baseId,
-      receivedTableId: !!tableId
+      receivedTableId: !!tableId,
+      finalApiKey: airtableApiKey ? airtableApiKey.substring(0, 10) + '...' : 'MISSING',
+      finalBaseId: airtableBaseId ? airtableBaseId.substring(0, 10) + '...' : 'MISSING'
     });
 
     if (!airtableApiKey || !airtableBaseId) {
+      console.error('Missing critical Airtable configuration');
       return res.status(500).json({
         success: false,
-        message: 'Missing Airtable configuration'
+        message: 'Missing Airtable configuration',
+        details: {
+          hasApiKey: !!airtableApiKey,
+          hasBaseId: !!airtableBaseId
+        }
+      });
+    }
+
+    if (!tableId) {
+      console.error('No table ID provided');
+      return res.status(400).json({
+        success: false,
+        message: 'Table ID is required'
       });
     }
 
@@ -115,12 +135,19 @@ module.exports = async function handler(req, res) {
         };
         
         try {
+          console.log('Attempting to create client record with fields:', JSON.stringify(clientFields, null, 2));
           const clientRecord = await base(CLIENTS_TABLE_ID).create(clientFields);
           clientRecords.push(clientRecord);
-          console.log('Created client record:', clientRecord.id);
+          console.log('Created client record successfully:', clientRecord.id);
         } catch (clientError) {
-          console.error('Failed to create client record:', clientError);
-          // Continue with other clients
+          console.error('Failed to create client record:', {
+            error: clientError.message,
+            stack: clientError.stack,
+            statusCode: clientError.statusCode,
+            details: clientError.error,
+            clientFields: clientFields
+          });
+          // Continue with other clients but log the failure
         }
       }
     }
@@ -165,6 +192,9 @@ module.exports = async function handler(req, res) {
     
     try {
       console.log('Submitting transaction to Airtable...');
+      console.log('Transaction fields to submit:', JSON.stringify(airtableFields, null, 2));
+      console.log('Using table ID:', tableId);
+      console.log('Using base ID:', airtableBaseId ? airtableBaseId.substring(0, 10) + '...' : 'MISSING');
       
       const airtableResult = await base(tableId).create(airtableFields);
       
@@ -238,15 +268,33 @@ module.exports = async function handler(req, res) {
       console.error('Airtable submission failed:', airtableError);
       console.error('Airtable error details:', {
         message: airtableError.message,
+        stack: airtableError.stack,
         statusCode: airtableError.statusCode,
-        error: airtableError.error
+        error: airtableError.error,
+        name: airtableError.name,
+        response: airtableError.response?.data || 'No response data',
+        config: {
+          apiKey: airtableApiKey ? airtableApiKey.substring(0, 10) + '...' : 'MISSING',
+          baseId: airtableBaseId ? airtableBaseId.substring(0, 10) + '...' : 'MISSING',
+          tableId: tableId
+        }
       });
+      
+      // Try to get more specific error information
+      if (airtableError.error) {
+        console.error('Airtable API error response:', JSON.stringify(airtableError.error, null, 2));
+      }
       
       return res.status(500).json({
         success: false,
         message: 'Failed to submit to Airtable',
         error: airtableError.message,
-        airtableError: true
+        airtableError: true,
+        details: process.env.NODE_ENV === 'development' ? {
+          statusCode: airtableError.statusCode,
+          apiError: airtableError.error,
+          stack: airtableError.stack
+        } : undefined
       });
     }
 
