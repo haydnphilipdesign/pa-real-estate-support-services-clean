@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange';
 
-// Pages (explicit .tsx import to avoid EISDIR on Vercel)
+// Pages (barrel import)
 import {
   Home,
   AboutUs,
@@ -15,7 +15,7 @@ import {
   Terms,
   Login,
   AgentPortal
-} from './pages/index.tsx';
+} from './pages';
 
 import { CleanPortalTransactionForm } from './components/TransactionForm/CleanPortalTransactionForm';
 
@@ -24,7 +24,7 @@ const App: React.FC = () => {
     <Layout>
       <ScrollToTopOnRouteChange />
       <Header />
-      
+
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -41,7 +41,7 @@ const App: React.FC = () => {
           />
         </Routes>
       </main>
-      
+
       <Footer />
     </Layout>
   );
