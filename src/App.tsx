@@ -6,14 +6,16 @@ import Footer from './components/Footer';
 import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange';
 
 // Pages
-import Home from './pages/Home';
-import AboutUs from './pages/AboutUs';
-import Services from './pages/Services';
-import WorkWithMe from './pages/WorkWithMe';
-import Privacy from './pages/Privacy';
-import Terms from './pages/Terms';
-import Login from './pages/Login';
-import AgentPortal from './pages/AgentPortal';
+import {
+  Home,
+  AboutUs,
+  Services,
+  WorkWithMe,
+  Privacy,
+  Terms,
+  Login,
+  AgentPortal
+} from './pages';
 import { CleanPortalTransactionForm } from './components/TransactionForm/CleanPortalTransactionForm';
 
 const App: React.FC = () => {

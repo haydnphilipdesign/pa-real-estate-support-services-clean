@@ -16,11 +16,17 @@ export default defineConfig({
     }),
   ],
   publicDir: 'public',
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+    exclude: [],
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    preserveSymlinks: false,
+    mainFields: ['module', 'main'],
   },
   css: {
     postcss: {
