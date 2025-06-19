@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange';
 
-// Pages (barrel import)
+// Pages (barrel import via @ alias)
 import {
   Home,
   AboutUs,
@@ -15,7 +15,7 @@ import {
   Terms,
   Login,
   AgentPortal
-} from './pages';
+} from '@/pages';
 
 import { CleanPortalTransactionForm } from './components/TransactionForm/CleanPortalTransactionForm';
 
