@@ -15,7 +15,7 @@ import {
   Terms,
   Login,
   AgentPortal
-} from '@/pages/index.tsx';
+} from './pages/index.tsx';
 
 import { CleanPortalTransactionForm } from './components/TransactionForm/CleanPortalTransactionForm';
 
