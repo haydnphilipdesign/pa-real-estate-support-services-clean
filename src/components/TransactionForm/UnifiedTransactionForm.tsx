@@ -157,6 +157,94 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
   const { formData, actions, stepConfig } = useTransactionFormState();
   const formContainerRef = useRef<HTMLDivElement>(null);
   const [showTestingPanel, setShowTestingPanel] = React.useState(false);
+  
+  // Test data for easy form population
+  const fillTestData = () => {
+    // Agent Data
+    actions.updateField('agentData.role', 'BUYERS_AGENT');
+    actions.updateField('agentData.name', 'John Smith');
+    actions.updateField('agentData.email', 'john.smith@realty.com');
+    actions.updateField('agentData.phone', '555-123-4567');
+    
+    // Property Data
+    actions.updateField('propertyData.mlsNumber', 'PM-123456');
+    actions.updateField('propertyData.address', '123 Main Street, Pittsburgh, PA 15213');
+    actions.updateField('propertyData.salePrice', '350000');
+    actions.updateField('propertyData.status', 'VACANT');
+    actions.updateField('propertyData.isWinterized', 'YES');
+    actions.updateField('propertyData.updateMls', 'YES');
+    actions.updateField('propertyData.propertyAccessType', 'ELECTRONIC LOCKBOX');
+    actions.updateField('propertyData.lockboxAccessCode', '5678');
+    actions.updateField('propertyData.county', 'Allegheny');
+    actions.updateField('propertyData.propertyType', 'RESIDENTIAL');
+    actions.updateField('propertyData.isBuiltBefore1978', 'NO');
+    actions.updateField('propertyData.closingDate', '2024-07-15');
+    
+    // Add test clients
+    actions.addClient();
+    actions.updateClient(0, {
+      name: 'Jane Doe',
+      email: 'jane.doe@email.com',
+      phone: '555-987-6543',
+      address: '456 Oak Avenue, Pittsburgh, PA 15232',
+      maritalStatus: 'MARRIED',
+      type: 'BUYER'
+    });
+    
+    actions.addClient();
+    actions.updateClient(1, {
+      name: 'Bob Johnson',
+      email: 'bob.johnson@email.com',
+      phone: '555-456-7890',
+      address: '789 Pine Street, Pittsburgh, PA 15222',
+      maritalStatus: 'SINGLE',
+      type: 'SELLER'
+    });
+    
+    // Commission Data
+    actions.updateField('commissionData.totalCommissionPercentage', '6');
+    actions.updateField('commissionData.listingAgentPercentage', '3');
+    actions.updateField('commissionData.buyersAgentPercentage', '3');
+    actions.updateField('commissionData.sellerPaidAmount', '21000');
+    actions.updateField('commissionData.buyerPaidAmount', '0');
+    actions.updateField('commissionData.sellersAssist', '2500');
+    actions.updateField('commissionData.isReferral', true);
+    actions.updateField('commissionData.referralParty', 'XYZ Realty Network');
+    actions.updateField('commissionData.referralFee', '500');
+    actions.updateField('commissionData.brokerEin', '12-3456789');
+    actions.updateField('commissionData.coordinatorFeePaidBy', 'client');
+    
+    // Property Details
+    actions.updateField('propertyDetailsData.resaleCertRequired', true);
+    actions.updateField('propertyDetailsData.hoaName', 'Riverside HOA');
+    actions.updateField('propertyDetailsData.coRequired', true);
+    actions.updateField('propertyDetailsData.municipality', 'Pittsburgh');
+    actions.updateField('propertyDetailsData.firstRightOfRefusal', false);
+    actions.updateField('propertyDetailsData.attorneyRepresentation', true);
+    actions.updateField('propertyDetailsData.attorneyName', 'Smith & Associates Law');
+    actions.updateField('propertyDetailsData.homeWarranty', true);
+    actions.updateField('propertyDetailsData.warrantyCompany', 'American Home Shield');
+    actions.updateField('propertyDetailsData.warrantyCost', '450');
+    actions.updateField('propertyDetailsData.warrantyPaidBy', 'SELLER');
+    
+    // Title Company
+    actions.updateField('titleData.titleCompany', 'First National Title Company');
+    actions.updateField('titleData.contactName', 'Sarah Wilson');
+    actions.updateField('titleData.contactPhone', '555-321-9876');
+    actions.updateField('titleData.contactEmail', 'sarah.wilson@firstnationaltitle.com');
+    
+    // Additional Info
+    actions.updateField('additionalInfo.specialInstructions', 'Property requires 24-hour notice for showings. Key in lockbox by front door.');
+    actions.updateField('additionalInfo.urgentIssues', 'HVAC system needs inspection before closing.');
+    actions.updateField('additionalInfo.notes', 'Buyer is pre-approved up to $400k. Motivated seller, flexible on closing date.');
+    
+    // Signature Data
+    actions.updateField('signatureData.agentName', 'John Smith');
+    actions.updateField('signatureData.termsAccepted', true);
+    actions.updateField('signatureData.infoConfirmed', true);
+    
+    console.log('Test data filled successfully!');
+  };
 
   // Auto-save draft periodically
   useEffect(() => {
@@ -437,6 +525,20 @@ export const UnifiedTransactionForm: React.FC<UnifiedTransactionFormProps> = ({
                 <Save className="w-4 h-4" />
                 Save Draft
               </button>
+              
+              {/* Development/Testing: Fill Test Data Button */}
+              {(process.env.NODE_ENV === 'development' || 
+                typeof window !== 'undefined' && window.location.search.includes('test=true')) && (
+                <button
+                  onClick={fillTestData}
+                  className="tf-button tf-button--ghost tf-button--sm"
+                  style={{ backgroundColor: '#10b981', color: 'white' }}
+                  aria-label="Fill form with test data for testing"
+                >
+                  <FileText className="w-4 h-4" />
+                  Fill Test Data
+                </button>
+              )}
               
               <button
                 onClick={actions.resetForm}
