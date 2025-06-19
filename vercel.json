@@ -1,26 +1,18 @@
 {
     "version": 2,
-    "buildCommand": "npm run vercel-build",
+    "buildCommand": "npm run build:vercel",
     "functions": {
-        "api/generate-pdf.js": {
-            "memory": 1024,
-            "maxDuration": 60
-        },
         "api/generateCoverSheet.js": {
             "memory": 1024,
             "maxDuration": 60
         },
-        "api/supabase-pdf-upload.js": {
+        "pages/api/update-airtable-attachment.js": {
             "memory": 1024,
             "maxDuration": 60
         },
-        "api/update-airtable-attachment.js": {
+        "pages/api/supabase-pdf-upload.js": {
             "memory": 1024,
             "maxDuration": 60
-        },
-        "api/pdf-test.js": {
-            "memory": 1024,
-            "maxDuration": 30
         }
     },
     "headers": [{
@@ -85,11 +77,7 @@
         }
     ],
     "rewrites": [
-        { "source": "/api/generate-pdf", "destination": "/api/generate-pdf.js" },
         { "source": "/api/generateCoverSheet", "destination": "/api/generateCoverSheet.js" },
-        { "source": "/api/supabase-pdf-upload", "destination": "/api/supabase-pdf-upload.js" },
-        { "source": "/api/update-airtable-attachment", "destination": "/api/update-airtable-attachment.js" },
-        { "source": "/api/pdf-test", "destination": "/api/pdf-test.js" },
         { "source": "/(.*)", "destination": "/index.html" }
     ]
 }
