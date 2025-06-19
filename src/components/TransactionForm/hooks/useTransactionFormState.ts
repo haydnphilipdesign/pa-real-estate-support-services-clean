@@ -490,7 +490,8 @@ export function useTransactionFormState(): UseTransactionFormStateResult {
           baseId: import.meta.env.VITE_AIRTABLE_BASE_ID,
           tableId: 'tblHyCJCpQSgjn0md',
           formData: {
-            ...airtableData,
+            // Send the original form data structure
+            ...formData,
             // Include cover sheet data for PDF generation
             coverSheetData: coverSheetData
           }

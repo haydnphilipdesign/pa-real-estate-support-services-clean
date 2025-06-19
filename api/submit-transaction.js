@@ -25,75 +25,118 @@ module.exports = async function handler(req, res) {
 
   try {
     console.log('Starting comprehensive transaction submission...');
+    console.log('Request body keys:', Object.keys(req.body || {}));
+    
     const { baseId, tableId, formData } = req.body;
 
     if (!formData) {
+      console.error('No form data provided in request');
       return res.status(400).json({
         success: false,
         message: 'No form data provided'
       });
     }
 
-    // Configure Airtable
-    const base = new Airtable({
-      apiKey: process.env.VITE_AIRTABLE_API_KEY || process.env.AIRTABLE_API_KEY
-    }).base(baseId || process.env.VITE_AIRTABLE_BASE_ID || process.env.AIRTABLE_BASE_ID);
-
-    // Enhanced field mapping with proper Airtable field IDs
-    const airtableData = {
-      // Core transaction data
-      [process.env.FIELD_AGENT_ROLE || 'fldOVyoxz38rWwAFy']: formData.agentData?.role || formData.agentData?.agentRole || '',
-      [process.env.FIELD_PROPERTY_ADDRESS || 'fldypnfnHhplWYcCW']: formData.propertyData?.address || '',
-      [process.env.FIELD_MLS_NUMBER || 'fld6O2FgIXQU5G27o']: formData.propertyData?.mlsNumber || '',
-      [process.env.FIELD_SALE_PRICE || 'fldhHjBZJISmnP8SK']: formData.propertyData?.salePrice || '',
-      [process.env.FIELD_CLOSING_DATE || 'fldSY6vbE1zAhJZqd']: formData.propertyData?.closingDate || '',
-      
-      // Agent information
-      [process.env.FIELD_AGENT_NAME || 'fldSqxNOZ9B5PgSab']: formData.agentData?.name || formData.agentData?.agentName || '',
-      [process.env.FIELD_AGENT_EMAIL || 'flddP6a8EG6qTJdIi']: formData.agentData?.email || '',
-      [process.env.FIELD_AGENT_PHONE || 'fldBnh8W6iGW014yY']: formData.agentData?.phone || '',
-      
-      // Commission data
-      [process.env.FIELD_TOTAL_COMMISSION || 'fldE8INzEorBtx2uN']: formData.commissionData?.totalCommission || '',
-      [process.env.FIELD_LISTING_AGENT_COMMISSION || 'flduuQQT7o6XAGlRe']: formData.commissionData?.listingAgentCommission || '',
-      [process.env.FIELD_BUYERS_AGENT_COMMISSION || 'fld5KRrToAAt5kOLd']: formData.commissionData?.buyersAgentCommission || '',
-      
-      // Client information (combined for display)
-      "Clients": formData.clients?.map((client) => client.name).join(", ") || '',
-      
-      // Property details
-      "County": formData.propertyData?.county || '',
-      "Property Type": formData.propertyData?.propertyType || '',
-      "Property Status": formData.propertyData?.status || '',
-      
-      // Additional fields
-      "Municipality": formData.propertyDetails?.municipality || '',
-      "HOA Name": formData.propertyDetails?.hoaName || '',
-      "Title Company": formData.titleData?.titleCompany || '',
-      
-      // Submission metadata
-      "Submission Date": new Date().toISOString(),
-      "Form Version": "2.0"
-    };
-
-    // Remove empty fields to avoid Airtable errors
-    Object.keys(airtableData).forEach(key => {
-      if (!airtableData[key] || airtableData[key] === '') {
-        delete airtableData[key];
-      }
+    console.log('Form data structure:', {
+      hasAgentData: !!formData.agentData,
+      hasPropertyData: !!formData.propertyData,
+      hasClients: !!formData.clients,
+      clientsLength: formData.clients?.length || 0
     });
 
-    console.log('Creating Airtable record with enhanced field mapping...');
+    // Check environment variables
+    const airtableApiKey = process.env.VITE_AIRTABLE_API_KEY || process.env.AIRTABLE_API_KEY;
+    const airtableBaseId = baseId || process.env.VITE_AIRTABLE_BASE_ID || process.env.AIRTABLE_BASE_ID;
     
-    // Create record in Airtable
-    const record = await base(tableId || 'Transactions').create([
-      {
-        fields: airtableData
-      }
-    ]);
+    console.log('Environment check:', {
+      hasApiKey: !!airtableApiKey,
+      hasBaseId: !!airtableBaseId,
+      receivedBaseId: !!baseId,
+      receivedTableId: !!tableId
+    });
 
-    const recordId = record[0].getId();
-    console.log('Airtable record created successfully:', recordId);
+    if (!airtableApiKey || !airtableBaseId) {
+      return res.status(500).json({
+        success: false,
+        message: 'Missing Airtable configuration'
+      });
+    }
+
+    // Configure Airtable
+    const base = new Airtable({
+      apiKey: airtableApiKey
+    }).base(airtableBaseId);
+
+    console.log('Processing Airtable submission with direct field mapping...');
+    
+    // Extract and map form data to Airtable fields
+    const { agentData, propertyData, clients, commissionData, propertyDetailsData, titleData } = formData;
+    
+    const airtableFields = {
+      'Agent Name': agentData?.name || '',
+      'Agent Email': agentData?.email || '',
+      'Agent Phone': agentData?.phone || '',
+      'Agent Role': agentData?.role || '',
+      'MLS Number': propertyData?.mlsNumber || '',
+      'Property Address': propertyData?.address || '',
+      'Sale Price': propertyData?.salePrice || '',
+      'Property Status': propertyData?.status || '',
+      'Property Type': propertyData?.propertyType || '',
+      'County': propertyData?.county || '',
+      'Closing Date': propertyData?.closingDate || '',
+      'Is Winterized': propertyData?.isWinterized || 'NO',
+      'Update MLS': propertyData?.updateMls || 'NO',
+      'Property Access Type': propertyData?.propertyAccessType || '',
+      'Lockbox Access Code': propertyData?.lockboxAccessCode || '',
+      'Is Built Before 1978': propertyData?.isBuiltBefore1978 || '',
+      'Total Commission Percentage': commissionData?.totalCommissionPercentage || '',
+      'Listing Agent Percentage': commissionData?.listingAgentPercentage || '',
+      'Buyers Agent Percentage': commissionData?.buyersAgentPercentage || '',
+      'Has Broker Fee': commissionData?.hasBrokerFee ? 'YES' : 'NO',
+      'Broker Fee Amount': commissionData?.brokerFeeAmount || '',
+      'Seller Paid Amount': commissionData?.sellerPaidAmount || '',
+      'Buyer Paid Amount': commissionData?.buyerPaidAmount || '',
+      'Has Sellers Assist': commissionData?.hasSellersAssist ? 'YES' : 'NO',
+      'Sellers Assist': commissionData?.sellersAssist || '',
+      'Is Referral': commissionData?.isReferral ? 'YES' : 'NO',
+      'Referral Party': commissionData?.referralParty || '',
+      'Broker EIN': commissionData?.brokerEin || '',
+      'Referral Fee': commissionData?.referralFee || '',
+      'Coordinator Fee Paid By': commissionData?.coordinatorFeePaidBy || 'client',
+      'Resale Cert Required': propertyDetailsData?.resaleCertRequired ? 'YES' : 'NO',
+      'HOA Name': propertyDetailsData?.hoaName || '',
+      'CO Required': propertyDetailsData?.coRequired ? 'YES' : 'NO',
+      'Municipality': propertyDetailsData?.municipality || '',
+      'First Right Of Refusal': propertyDetailsData?.firstRightOfRefusal ? 'YES' : 'NO',
+      'First Right Name': propertyDetailsData?.firstRightName || '',
+      'Attorney Representation': propertyDetailsData?.attorneyRepresentation ? 'YES' : 'NO',
+      'Attorney Name': propertyDetailsData?.attorneyName || '',
+      'Home Warranty': propertyDetailsData?.homeWarranty ? 'YES' : 'NO',
+      'Warranty Company': propertyDetailsData?.warrantyCompany || '',
+      'Warranty Cost': propertyDetailsData?.warrantyCost || '',
+      'Warranty Paid By': propertyDetailsData?.warrantyPaidBy || 'SELLER',
+      'Title Company': titleData?.titleCompany || '',
+      'Title Contact Name': titleData?.contactName || '',
+      'Title Contact Phone': titleData?.contactPhone || '',
+      'Title Contact Email': titleData?.contactEmail || '',
+      'Client Names': clients?.map(c => c.name).join(', ') || '',
+      'Client Emails': clients?.map(c => c.email).join(', ') || '',
+      'Client Phones': clients?.map(c => c.phone).join(', ') || '',
+      'Client Types': clients?.map(c => c.type).join(', ') || '',
+      'Submission Date': new Date().toISOString().split('T')[0]
+    };
+
+    console.log('Mapped Airtable fields:', Object.keys(airtableFields).length, 'fields');
+    
+    try {
+      const airtableResult = await base(tableId).create([{
+        fields: airtableFields
+      }]);
+      
+      console.log('Airtable submission successful:', airtableResult);
+      
+      const recordId = airtableResult[0].id;
+      console.log('Airtable record created successfully:', recordId);
 
     // Step 2: Generate PDF and process complete workflow
     console.log('Initiating PDF generation and processing workflow...');
