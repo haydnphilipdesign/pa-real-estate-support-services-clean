@@ -25,9 +25,12 @@ module.exports = async function handler(req, res) {
 
   try {
     console.log('Starting comprehensive transaction submission...');
+    console.log('Request method:', req.method);
+    console.log('Request headers:', JSON.stringify(req.headers, null, 2));
+    console.log('Raw request body:', typeof req.body, req.body);
     console.log('Request body keys:', Object.keys(req.body || {}));
     
-    const { baseId, tableId, formData } = req.body;
+    const { baseId, tableId, formData } = req.body || {};
 
     if (!formData) {
       console.error('No form data provided in request');
@@ -129,6 +132,9 @@ module.exports = async function handler(req, res) {
     console.log('Mapped Airtable fields:', Object.keys(airtableFields).length, 'fields');
     
     try {
+      console.log('Submitting to Airtable with tableId:', tableId);
+      console.log('Sample of fields to submit:', Object.keys(airtableFields).slice(0, 5));
+      
       const airtableResult = await base(tableId).create([{
         fields: airtableFields
       }]);
@@ -199,12 +205,37 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    } catch (airtableError) {
+      console.error('Airtable submission failed:', airtableError);
+      console.error('Airtable error details:', {
+        message: airtableError.message,
+        statusCode: airtableError.statusCode,
+        error: airtableError.error
+      });
+      
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to submit to Airtable',
+        error: airtableError.message,
+        airtableError: true
+      });
+    }
+
   } catch (error) {
     console.error('Transaction submission error:', error);
+    console.error('Error stack:', error.stack);
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      code: error.code,
+      status: error.status
+    });
+    
     return res.status(500).json({
       success: false,
       message: 'Failed to submit transaction',
-      error: error.message
+      error: error.message,
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 };
